@@ -138,6 +138,16 @@ const ClimateDataPage: React.FC = () => {
         return map
     }, [jobIdByDatasetId, jobResults])
 
+    const hasActiveJob = useMemo(
+        () =>
+            jobIds.some((jobId) => {
+                const result = jobResults.find((r) => r.jobId === jobId)
+                return !result?.job || isActiveJobStatus(result.job.status)
+            }),
+        [jobIds, jobResults]
+    )
+    const mutationsDisabled = climateReadOnly || hasActiveJob
+
     const handleCloseCreateModal = () => {
         setShowCreateModal(false)
         setSearchParams(
@@ -199,7 +209,7 @@ const ClimateDataPage: React.FC = () => {
                         primary
                         icon={<IconAdd16 />}
                         onClick={handleOpenCreateModal}
-                        disabled={climateReadOnly}
+                        disabled={mutationsDisabled}
                     >
                         {i18n.t('New dataset')}
                     </Button>
@@ -273,7 +283,7 @@ const ClimateDataPage: React.FC = () => {
                         }}
                         onCancelJob={handleCancelJob}
                         cancelJobPending={cancelJobMutation.isPending}
-                        mutationsDisabled={climateReadOnly}
+                        mutationsDisabled={mutationsDisabled}
                     />
                 )}
 
