@@ -1,0 +1,6 @@
+/* Full-width content inside <main>; horizontal inset comes from App.module.css .main */
+.pageRoot {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}

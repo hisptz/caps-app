@@ -1,0 +1,175 @@
+/* Add schedule modal — cron breakdown, presets, JSON payload */
+
+.subtitle {
+    margin: 0 0 4px;
+    font-size: 13px;
+    color: var(--colors-grey600, #6e7a8a);
+    line-height: 1.45;
+}
+
+.modalBody {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 4px 0 8px;
+}
+
+.cronCard {
+    border: 1px solid var(--colors-grey200, #e8edf2);
+    border-radius: 4px;
+    background: var(--colors-grey025, #fbfcfd);
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.chunkGrid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+}
+.chunk {
+    background: var(--colors-white, #ffffff);
+    border: 1px solid var(--colors-grey300, #d5dde5);
+    border-radius: 3px;
+    padding: 6px 8px;
+    text-align: center;
+}
+.chunk.invalid {
+    border-color: var(--colors-red700, #c1374b);
+    background: var(--colors-red050, #fff1f3);
+}
+.chunkLabel {
+    font-size: 11px;
+    color: var(--colors-grey600, #6e7a8a);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.chunkValue {
+    font-family: 'Roboto Mono', Menlo, Consolas, monospace;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--colors-grey900, #212934);
+}
+
+.presets {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.presetsLabel {
+    font-size: 12px;
+    color: var(--colors-grey600, #6e7a8a);
+    margin-right: 4px;
+}
+.preset {
+    border: 1px solid var(--colors-grey300, #d5dde5);
+    background: var(--colors-white, #ffffff);
+    color: var(--colors-grey800, #4a5768);
+    border-radius: 12px;
+    padding: 3px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: inherit;
+}
+.preset:hover {
+    background: var(--colors-grey025, #fbfcfd);
+}
+.preset.active {
+    background: var(--colors-blue050, #e8f0fc);
+    color: var(--colors-blue700, #1565c0);
+    border-color: var(--colors-blue200, #b3c6de);
+}
+
+.readout {
+    border-top: 1px solid var(--colors-grey200, #e8edf2);
+    padding-top: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+@media (max-width: 640px) {
+    .readout {
+        grid-template-columns: 1fr;
+    }
+}
+.readoutLabel {
+    font-size: 12px;
+    color: var(--colors-grey600, #6e7a8a);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+}
+.readoutValue {
+    font-size: 14px;
+    color: var(--colors-grey900, #212934);
+}
+.runsList {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 13px;
+    color: var(--colors-grey800, #4a5768);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.runsList .mono {
+    font-family: 'Roboto Mono', Menlo, Consolas, monospace;
+}
+
+.jsonShell {
+    border: 1px solid var(--colors-grey300, #d5dde5);
+    border-radius: 3px;
+    background: #fafbfc;
+    overflow: hidden;
+}
+.jsonHeader {
+    background: var(--colors-grey100, #ebeef2);
+    padding: 6px 12px;
+    font-size: 11px;
+    color: var(--colors-grey600, #6e7a8a);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.jsonHeader.invalid {
+    color: var(--colors-red700, #c1374b);
+}
+.jsonTextarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 0;
+    outline: none;
+    background: transparent;
+    padding: 12px;
+    font-family: 'Roboto Mono', Menlo, Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--colors-grey900, #212934);
+    resize: vertical;
+    min-height: 96px;
+}
+
+.jsonFieldLabel {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: var(--colors-grey800, #4a5768);
+}
+
+.jsonHelp {
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--colors-grey600, #6e7a8a);
+}
+
+.jsonHelpError {
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--colors-red700, #c1374b);
+}

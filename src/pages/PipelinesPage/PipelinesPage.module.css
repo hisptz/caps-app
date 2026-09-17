@@ -1,0 +1,22 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.header h2 {
+    margin: 0;
+}
+
+.pagination {
+    margin-top: 16px;
+}
+
+.formGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    min-width: min(100%, 420px);
+}

@@ -1,0 +1,10 @@
+{
+    "version": 1,
+    "skills": {
+        "dhis2-app-development": {
+            "source": "devotta-labs/dhis2-app-skills",
+            "sourceType": "github",
+            "computedHash": "2557fc7ad8351a87b264653a9caafd4666410940dc74199ae3436fbd2a697ed4"
+        }
+    }
+}

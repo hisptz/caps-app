@@ -1,0 +1,23 @@
+.header {
+    margin-bottom: 8px;
+}
+
+.header h2 {
+    margin: 0;
+}
+
+.filters {
+    display: flex;
+    gap: 16px;
+    align-items: flex-end;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.filterField {
+    min-width: min(100%, 200px);
+}
+
+.pagination {
+    margin-top: 16px;
+}

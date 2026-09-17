@@ -1,0 +1,37 @@
+.header {
+    margin-bottom: 8px;
+}
+
+.header h2 {
+    margin: 0;
+}
+
+.filters {
+    display: flex;
+    gap: 16px;
+    align-items: flex-end;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.filterField {
+    min-width: min(100%, 200px);
+}
+
+.message {
+    cursor: help;
+    font-size: var(--caps-font-caption, 0.8125rem);
+}
+
+.metaCode {
+    font-size: 0.6875rem;
+    color: var(--caps-color-text-muted, #4a5568);
+}
+
+.muted {
+    color: var(--caps-color-text-subtle, #a0aec0);
+}
+
+.pagination {
+    margin-top: 16px;
+}

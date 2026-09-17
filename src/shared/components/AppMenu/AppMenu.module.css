@@ -1,0 +1,48 @@
+.root {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 12px 20px;
+}
+
+.appTitle {
+    margin: 0 4px 12px;
+    padding: 0 4px 14px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--caps-color-text, #1a202c);
+    border-bottom: 1px solid var(--caps-sidebar-border, #e4e8ed);
+}
+
+/* Menu rail: flat on shell bg; active row = muted panel + left accent (portal nav pattern) */
+.root nav ul.menuList > li {
+    background-color: transparent;
+    border-radius: 2px;
+}
+
+.root nav ul.menuList > li:hover {
+    background-color: var(--caps-sidebar-nav-hover, rgba(0, 0, 0, 0.04));
+}
+
+.root nav ul.menuList > li:global(.active) {
+    background-color: var(--caps-sidebar-nav-active-bg, #d1d9e0);
+    box-shadow: inset var(--caps-sidebar-nav-indicator-width, 4px) 0 0
+        var(--caps-sidebar-nav-indicator, rgb(44, 102, 147));
+    font-weight: 600;
+}
+
+/* DHIS2 MenuItem uses anchor for menuitem role; cover button for href-based items */
+.root nav ul.menuList > li:global(.active) :global(a),
+.root nav ul.menuList > li:global(.active) :global(button) {
+    font-weight: 600;
+}
+
+.root nav ul.menuList > li:global(.active):hover {
+    background-color: var(--caps-sidebar-nav-active-bg, #d1d9e0);
+}
+
+.root nav ul.menuList > li:global(.disabled):hover {
+    background-color: transparent;
+}

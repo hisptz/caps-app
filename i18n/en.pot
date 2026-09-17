@@ -1,0 +1,1880 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"POT-Creation-Date: 2026-09-14T09:49:36.917Z\n"
+"PO-Revision-Date: 2026-09-14T09:49:36.918Z\n"
+
+msgid "Enter a valid HTTP or HTTPS URL."
+msgstr "Enter a valid HTTP or HTTPS URL."
+
+msgid "CAPS API"
+msgstr "CAPS API"
+
+msgid "Proxy target for the CAPS monitoring API"
+msgstr "Proxy target for the CAPS monitoring API"
+
+msgid "DHIS2 periods"
+msgstr "DHIS2 periods"
+
+msgid "The climate API is unavailable."
+msgstr "The climate API is unavailable."
+
+msgid "Climate data"
+msgstr "Climate data"
+
+msgid "New dataset"
+msgstr "New dataset"
+
+msgid "Open Climate Service is read-only"
+msgstr "Open Climate Service is read-only"
+
+msgid "This Open Climate Service instance does not accept ingestions or syncs."
+msgstr "This Open Climate Service instance does not accept ingestions or syncs."
+
+msgid "Could not load climate datasets"
+msgstr "Could not load climate datasets"
+
+msgid "Check CAPS settings"
+msgstr "Check CAPS settings"
+
+msgid "No datasets yet"
+msgstr "No datasets yet"
+
+msgid "Create a managed dataset from a template to get started."
+msgstr "Create a managed dataset from a template to get started."
+
+msgid "Could not load details"
+msgstr "Could not load details"
+
+msgid "Dataset metadata is unavailable."
+msgstr "Dataset metadata is unavailable."
+
+msgid "Dataset ID"
+msgstr "Dataset ID"
+
+msgid "Template"
+msgstr "Template"
+
+msgid "Variable"
+msgstr "Variable"
+
+msgid "Period type"
+msgstr "Period type"
+
+msgid "Temporal extent"
+msgstr "Temporal extent"
+
+msgid "Last updated"
+msgstr "Last updated"
+
+msgid "Catalogue"
+msgstr "Catalogue"
+
+msgid "Listed in the climate catalogue"
+msgstr "Listed in the climate catalogue"
+
+msgid "Not listed in the climate catalogue"
+msgstr "Not listed in the climate catalogue"
+
+msgid "Versions"
+msgstr "Versions"
+
+msgid "Close"
+msgstr "Close"
+
+msgid "Climate datasets"
+msgstr "Climate datasets"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Syncing"
+msgstr "Syncing"
+
+msgid "View details"
+msgstr "View details"
+
+msgid "Sync"
+msgstr "Sync"
+
+msgid "Cancel job"
+msgstr "Cancel job"
+
+msgid "Queued"
+msgstr "Queued"
+
+msgid "Retrying"
+msgstr "Retrying"
+
+msgid "Running"
+msgstr "Running"
+
+msgid "Job progress"
+msgstr "Job progress"
+
+msgid "Estimating…"
+msgstr "Estimating…"
+
+msgid "Climate job · {{dataset}}"
+msgstr "Climate job · {{dataset}}"
+
+msgid "Climate job"
+msgstr "Climate job"
+
+msgid "Checking job status…"
+msgstr "Checking job status…"
+
+msgid "Dismiss"
+msgstr "Dismiss"
+
+msgid "Finished successfully."
+msgstr "Finished successfully."
+
+msgid "The dataset operation failed. Try again."
+msgstr "The dataset operation failed. Try again."
+
+msgid "The dataset operation was cancelled."
+msgstr "The dataset operation was cancelled."
+
+msgid "Cancelling…"
+msgstr "Cancelling…"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Create a managed dataset by ingesting data from a template."
+msgstr "Create a managed dataset by ingesting data from a template."
+
+msgid "Could not start ingestion"
+msgstr "Could not start ingestion"
+
+msgid "Dataset template"
+msgstr "Dataset template"
+
+msgid "This forecast template starts from now. Period selection is not required."
+msgstr "This forecast template starts from now. Period selection is not required."
+
+msgid "Overwrite existing dataset"
+msgstr "Overwrite existing dataset"
+
+msgid "Start ingestion"
+msgstr "Start ingestion"
+
+msgid "Present"
+msgstr "Present"
+
+msgid "Start period"
+msgstr "Start period"
+
+msgid "End period"
+msgstr "End period"
+
+msgid "Leave empty to ingest just the start period."
+msgstr "Leave empty to ingest just the start period."
+
+msgid "Sync dataset"
+msgstr "Sync dataset"
+
+msgid "Sync \"{{name}}\" forward from its latest time step."
+msgstr "Sync \"{{name}}\" forward from its latest time step."
+
+msgid "Sync plan unavailable"
+msgstr "Sync plan unavailable"
+
+msgid "The sync plan could not be loaded. You can still start the sync."
+msgstr "The sync plan could not be loaded. You can still start the sync."
+
+msgid "Planned action"
+msgstr "Planned action"
+
+msgid "Summary"
+msgstr "Summary"
+
+msgid "Could not start sync"
+msgstr "Could not start sync"
+
+msgid "Start sync"
+msgstr "Start sync"
+
+msgid "Sync anyway"
+msgstr "Sync anyway"
+
+msgid "The climate API request failed. Try again."
+msgstr "The climate API request failed. Try again."
+
+msgid "Select a dataset template"
+msgstr "Select a dataset template"
+
+msgid "Select a period"
+msgstr "Select a period"
+
+msgid "Select at least one period"
+msgstr "Select at least one period"
+
+msgid "n/a"
+msgstr "n/a"
+
+msgid "Could not retry the step. Try again."
+msgstr "Could not retry the step. Try again."
+
+msgid "e.g. Download ERA5 Data"
+msgstr "e.g. Download ERA5 Data"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Reliability"
+msgstr "Reliability"
+
+msgid "Retry policy and queue placement."
+msgstr "Retry policy and queue placement."
+
+msgid "Max retries"
+msgstr "Max retries"
+
+msgid "Attempts after the first failure."
+msgstr "Attempts after the first failure."
+
+msgid "Retry delay (ms)"
+msgstr "Retry delay (ms)"
+
+msgid "Wait before each retry."
+msgstr "Wait before each retry."
+
+msgid "Pick a handler first to configure it."
+msgstr "Pick a handler first to configure it."
+
+msgid "Handler configuration has errors"
+msgstr "Handler configuration has errors"
+
+msgid "Every hour"
+msgstr "Every hour"
+
+msgid "Weekly Mon"
+msgstr "Weekly Mon"
+
+msgid "Monthly 1st"
+msgstr "Monthly 1st"
+
+msgid "Minute"
+msgstr "Minute"
+
+msgid "Hour"
+msgstr "Hour"
+
+msgid "Day"
+msgstr "Day"
+
+msgid "Month"
+msgstr "Month"
+
+msgid "Weekday"
+msgstr "Weekday"
+
+msgid "Cron expression"
+msgstr "Cron expression"
+
+msgid "Expected 5 fields."
+msgstr "Expected 5 fields."
+
+msgid "Reads as"
+msgstr "Reads as"
+
+msgid "Next 3 runs"
+msgstr "Next 3 runs"
+
+msgid "—"
+msgstr "—"
+
+msgid "Presets"
+msgstr "Presets"
+
+msgid "Loading handlers"
+msgstr "Loading handlers"
+
+msgid "Fetching handler catalog from CAPS…"
+msgstr "Fetching handler catalog from CAPS…"
+
+msgid "Could not load handlers"
+msgstr "Could not load handlers"
+
+msgid "Search handlers"
+msgstr "Search handlers"
+
+msgid "Search handlers..."
+msgstr "Search handlers..."
+
+msgid "Handler cannot be changed after the step is created."
+msgstr "Handler cannot be changed after the step is created."
+
+msgid "Handler catalog"
+msgstr "Handler catalog"
+
+msgid "No handlers available."
+msgstr "No handlers available."
+
+msgid "No handlers match “{{query}}”."
+msgstr "No handlers match “{{query}}”."
+
+msgid "Could not add schedule."
+msgstr "Could not add schedule."
+
+msgid "Add schedule"
+msgstr "Add schedule"
+
+msgid "Pipeline"
+msgstr "Pipeline"
+
+msgid "Could not add schedule"
+msgstr "Could not add schedule"
+
+msgid "Add step"
+msgstr "Add step"
+
+msgid "Could not add step"
+msgstr "Could not add step"
+
+msgid "Next"
+msgstr "Next"
+
+msgid "Adding…"
+msgstr "Adding…"
+
+msgid "Could not update schedule. Try again."
+msgstr "Could not update schedule. Try again."
+
+msgid "Edit schedule"
+msgstr "Edit schedule"
+
+msgid "Could not update schedule"
+msgstr "Could not update schedule"
+
+msgid "Save changes"
+msgstr "Save changes"
+
+msgid "Edit step"
+msgstr "Edit step"
+
+msgid "Could not update step"
+msgstr "Could not update step"
+
+msgid "Saving…"
+msgstr "Saving…"
+
+msgid "Input context"
+msgstr "Input context"
+
+msgid "Optional overrides applied when this pipeline runs"
+msgstr "Optional overrides applied when this pipeline runs"
+
+msgid "No runtime context"
+msgstr "No runtime context"
+
+msgid "No steps in this pipeline accept per-run context overrides."
+msgstr "No steps in this pipeline accept per-run context overrides."
+
+msgid "Could not trigger pipeline."
+msgstr "Could not trigger pipeline."
+
+msgid "Trigger with context"
+msgstr "Trigger with context"
+
+msgid "Could not trigger"
+msgstr "Could not trigger"
+
+msgid "Runtime context"
+msgstr "Runtime context"
+
+msgid "Overrides merged onto each step handler config for this run"
+msgstr "Overrides merged onto each step handler config for this run"
+
+msgid "Trigger"
+msgstr "Trigger"
+
+msgid "Identification"
+msgstr "Identification"
+
+msgid "e.g. Daily 2AM"
+msgstr "e.g. Daily 2AM"
+
+msgid "When this schedule fires the pipeline"
+msgstr "When this schedule fires the pipeline"
+
+msgid "Step {{order}} — {{name}}"
+msgstr "Step {{order}} — {{name}}"
+
+msgid "Basics"
+msgstr "Basics"
+
+msgid "Handler"
+msgstr "Handler"
+
+msgid "Configuration"
+msgstr "Configuration"
+
+msgid "Name and describe this step."
+msgstr "Name and describe this step."
+
+msgid "Pick the CAPS worker handler that runs when this step executes."
+msgstr "Pick the CAPS worker handler that runs when this step executes."
+
+msgid "Settings passed to the selected handler at run time."
+msgstr "Settings passed to the selected handler at run time."
+
+msgid "Step setup"
+msgstr "Step setup"
+
+msgid "Step handler"
+msgstr "Step handler"
+
+msgid "of"
+msgstr "of"
+
+msgid "Back"
+msgstr "Back"
+
+msgid "Pipeline has active executions and cannot be deleted."
+msgstr "Pipeline has active executions and cannot be deleted."
+
+msgid "Could not delete pipeline. Try again."
+msgstr "Could not delete pipeline. Try again."
+
+msgid "Could not pause schedule. Try again."
+msgstr "Could not pause schedule. Try again."
+
+msgid "Could not resume schedule. Try again."
+msgstr "Could not resume schedule. Try again."
+
+msgid "Could not delete schedule. Try again."
+msgstr "Could not delete schedule. Try again."
+
+msgid "Could not delete step. Try again."
+msgstr "Could not delete step. Try again."
+
+msgid "Could not reorder steps. Try again."
+msgstr "Could not reorder steps. Try again."
+
+msgid "Could not trigger pipeline. Try again."
+msgstr "Could not trigger pipeline. Try again."
+
+msgid "Name is required"
+msgstr "Name is required"
+
+msgid "Cron expression is required"
+msgstr "Cron expression is required"
+
+msgid "Handler key is required"
+msgstr "Handler key is required"
+
+msgid "Unknown handler key"
+msgstr "Unknown handler key"
+
+msgid "Handler configuration is required"
+msgstr "Handler configuration is required"
+
+msgid "in the past"
+msgstr "in the past"
+
+msgid "Invalid cron expression"
+msgstr "Invalid cron expression"
+
+msgid "Next run {{local}} ({{tz}})"
+msgstr "Next run {{local}} ({{tz}})"
+
+msgid "Could not parse cron expression"
+msgstr "Could not parse cron expression"
+
+msgid "Step order {{order}} is already taken for this pipeline."
+msgstr "Step order {{order}} is already taken for this pipeline."
+
+msgid "Could not create step. Try again."
+msgstr "Could not create step. Try again."
+
+msgid "Could not update step. Try again."
+msgstr "Could not update step. Try again."
+
+msgid "Pipeline created successfully"
+msgstr "Pipeline created successfully"
+
+msgid "Failed to create pipeline"
+msgstr "Failed to create pipeline"
+
+msgid "New pipeline"
+msgstr "New pipeline"
+
+msgid "Define a workflow of steps that can be triggered on demand or on a schedule."
+msgstr "Define a workflow of steps that can be triggered on demand or on a schedule."
+
+msgid "Could not create pipeline"
+msgstr "Could not create pipeline"
+
+msgid "e.g. ERA5 Daily Climate Pipeline"
+msgstr "e.g. ERA5 Daily Climate Pipeline"
+
+msgid "Creating…"
+msgstr "Creating…"
+
+msgid "Create pipeline"
+msgstr "Create pipeline"
+
+msgid "Pipeline updated successfully"
+msgstr "Pipeline updated successfully"
+
+msgid "Failed to update pipeline"
+msgstr "Failed to update pipeline"
+
+msgid "Edit pipeline"
+msgstr "Edit pipeline"
+
+msgid ""
+"Update identification or execution behaviour. Steps and schedules are "
+"managed from the pipeline detail page."
+msgstr ""
+"Update identification or execution behaviour. Steps and schedules are "
+"managed from the pipeline detail page."
+
+msgid "Could not update pipeline"
+msgstr "Could not update pipeline"
+
+msgid "Human-readable name shown across CAPS."
+msgstr "Human-readable name shown across CAPS."
+
+msgid "Execution behaviour"
+msgstr "Execution behaviour"
+
+msgid "How runs are scheduled & overlap"
+msgstr "How runs are scheduled & overlap"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Active"
+msgstr "Active"
+
+msgid "Inactive"
+msgstr "Inactive"
+
+msgid "This pipeline runs automatically at its scheduled times."
+msgstr "This pipeline runs automatically at its scheduled times."
+
+msgid "Scheduled runs are paused until this pipeline is set to active."
+msgstr "Scheduled runs are paused until this pipeline is set to active."
+
+msgid "Concurrency policy"
+msgstr "Concurrency policy"
+
+msgid "What to do when a new run is triggered while another is still running."
+msgstr "What to do when a new run is triggered while another is still running."
+
+msgid "Trigger pipeline"
+msgstr "Trigger pipeline"
+
+msgid "Delete pipeline"
+msgstr "Delete pipeline"
+
+msgid "Allow"
+msgstr "Allow"
+
+msgid "Start anyway. Runs execute in parallel."
+msgstr "Start anyway. Runs execute in parallel."
+
+msgid "Skip"
+msgstr "Skip"
+
+msgid "Drop the new trigger if one is already running."
+msgstr "Drop the new trigger if one is already running."
+
+msgid "Replace"
+msgstr "Replace"
+
+msgid "Cancel the running one and start fresh."
+msgstr "Cancel the running one and start fresh."
+
+msgid "A pipeline with this name already exists"
+msgstr "A pipeline with this name already exists"
+
+msgid "Could not create pipeline. Try again."
+msgstr "Could not create pipeline. Try again."
+
+msgid "Could not update pipeline. Try again."
+msgstr "Could not update pipeline. Try again."
+
+msgid "Pipeline triggered successfully"
+msgstr "Pipeline triggered successfully"
+
+msgid "Could not trigger pipeline"
+msgstr "Could not trigger pipeline"
+
+msgid "Unknown error"
+msgstr "Unknown error"
+
+msgid "DHIS2 instance"
+msgstr "DHIS2 instance"
+
+msgid "proxies to"
+msgstr "proxies to"
+
+msgid "CAPS service"
+msgstr "CAPS service"
+
+msgid "CAPS route saved."
+msgstr "CAPS route saved."
+
+msgid "Could not save route."
+msgstr "Could not save route."
+
+msgid "Settings"
+msgstr "Settings"
+
+msgid "Manage how this DHIS2 app connects to the CAPS monitoring service."
+msgstr "Manage how this DHIS2 app connects to the CAPS monitoring service."
+
+msgid "CAPS backend connection"
+msgstr "CAPS backend connection"
+
+msgid "Backend connection"
+msgstr "Backend connection"
+
+msgid ""
+"The base URL of the CAPS API this app forwards requests to, via a DHIS2 "
+"route."
+msgstr ""
+"The base URL of the CAPS API this app forwards requests to, via a DHIS2 "
+"route."
+
+msgid "Connected"
+msgstr "Connected"
+
+msgid "Not configured"
+msgstr "Not configured"
+
+msgid "CAPS backend base URL"
+msgstr "CAPS backend base URL"
+
+msgid "Save"
+msgstr "Save"
+
+msgid "First-time setup"
+msgstr "First-time setup"
+
+msgid ""
+"Once the route is saved, CAPS pipelines and executions become available "
+"across the app."
+msgstr ""
+"Once the route is saved, CAPS pipelines and executions become available "
+"across the app."
+
+msgid "Mean"
+msgstr "Mean"
+
+msgid "SD"
+msgstr "SD"
+
+msgid "Median"
+msgstr "Median"
+
+msgid "Mean + 2 SD"
+msgstr "Mean + 2 SD"
+
+msgid "Mean + SD"
+msgstr "Mean + SD"
+
+msgid "C-SUM"
+msgstr "C-SUM"
+
+msgid "C-SUM SD"
+msgstr "C-SUM SD"
+
+msgid "C-SUM + 1.96 SD"
+msgstr "C-SUM + 1.96 SD"
+
+msgid "75th percentile"
+msgstr "75th percentile"
+
+msgid "25th percentile"
+msgstr "25th percentile"
+
+msgid "Monthly"
+msgstr "Monthly"
+
+msgid "Weekly"
+msgstr "Weekly"
+
+msgid "Quarterly"
+msgstr "Quarterly"
+
+msgid "Bi-monthly"
+msgstr "Bi-monthly"
+
+msgid "Six-monthly"
+msgstr "Six-monthly"
+
+msgid "Welcome to CAPS"
+msgstr "Welcome to CAPS"
+
+msgid ""
+"Climate Automation & Prediction Scheduler (CAPS) is the operational face of "
+"the CAPS platform in DHIS2."
+msgstr ""
+"Climate Automation & Prediction Scheduler (CAPS) is the operational face of "
+"the CAPS platform in DHIS2."
+
+msgid ""
+"This application is a pipeline operations console for monitoring scheduled "
+"jobs, executions, failures, analytics, and dead-letter events."
+msgstr ""
+"This application is a pipeline operations console for monitoring scheduled "
+"jobs, executions, failures, analytics, and dead-letter events."
+
+msgid "Save and continue"
+msgstr "Save and continue"
+
+msgid "Analytics"
+msgstr "Analytics"
+
+msgid "Time range"
+msgstr "Time range"
+
+msgid "Last 7 days"
+msgstr "Last 7 days"
+
+msgid "Last 14 days"
+msgstr "Last 14 days"
+
+msgid "Last 30 days"
+msgstr "Last 30 days"
+
+msgid "Last 90 days"
+msgstr "Last 90 days"
+
+msgid "Could not load analytics"
+msgstr "Could not load analytics"
+
+msgid "Top Failing Steps"
+msgstr "Top Failing Steps"
+
+msgid "Pipeline Durations"
+msgstr "Pipeline Durations"
+
+msgid "Top Errors"
+msgstr "Top Errors"
+
+msgid "Execution Trends"
+msgstr "Execution Trends"
+
+msgid "Execution trends summary table"
+msgstr "Execution trends summary table"
+
+msgid "Date"
+msgstr "Date"
+
+msgid "Completed"
+msgstr "Completed"
+
+msgid "Failed"
+msgstr "Failed"
+
+msgid "Success Rate"
+msgstr "Success Rate"
+
+msgid "{{rate}} percent success rate"
+msgstr "{{rate}} percent success rate"
+
+msgid "An unexpected error occurred."
+msgstr "An unexpected error occurred."
+
+msgid "Could not load dashboard"
+msgstr "Could not load dashboard"
+
+msgid "Dashboard"
+msgstr "Dashboard"
+
+msgid "Refresh"
+msgstr "Refresh"
+
+msgid "Total Runs (24h)"
+msgstr "Total Runs (24h)"
+
+msgid "Running / Awaiting"
+msgstr "Running / Awaiting"
+
+msgid "Recent Failures"
+msgstr "Recent Failures"
+
+msgid "No recent failures"
+msgstr "No recent failures"
+
+msgid "No pipeline failures in the last 24 hours."
+msgstr "No pipeline failures in the last 24 hours."
+
+msgid "Recent failures table"
+msgstr "Recent failures table"
+
+msgid "Execution ID"
+msgstr "Execution ID"
+
+msgid "Failed At"
+msgstr "Failed At"
+
+msgid "Triggered By"
+msgstr "Triggered By"
+
+msgid "View"
+msgstr "View"
+
+msgid "Stuck Executions"
+msgstr "Stuck Executions"
+
+msgid "No stuck executions"
+msgstr "No stuck executions"
+
+msgid "All pipeline executions are progressing normally."
+msgstr "All pipeline executions are progressing normally."
+
+msgid "Stuck executions table"
+msgstr "Stuck executions table"
+
+msgid "Started At"
+msgstr "Started At"
+
+msgid "Dead Letters"
+msgstr "Dead Letters"
+
+msgid "All pipelines"
+msgstr "All pipelines"
+
+msgid "Could not load dead letters"
+msgstr "Could not load dead letters"
+
+msgid "No dead letters"
+msgstr "No dead letters"
+
+msgid "No dead-letter events for the selected pipeline."
+msgstr "No dead-letter events for the selected pipeline."
+
+msgid "There are no dead-letter events to show."
+msgstr "There are no dead-letter events to show."
+
+msgid "Dead letters table"
+msgstr "Dead letters table"
+
+msgid "Level"
+msgstr "Level"
+
+msgid "Message"
+msgstr "Message"
+
+msgid "Metadata"
+msgstr "Metadata"
+
+msgid "Logged At"
+msgstr "Logged At"
+
+msgid "Replay"
+msgstr "Replay"
+
+msgid "Step retry started"
+msgstr "Step retry started"
+
+msgid "Invalid execution"
+msgstr "Invalid execution"
+
+msgid "The execution link is not a valid identifier."
+msgstr "The execution link is not a valid identifier."
+
+msgid "Back to executions"
+msgstr "Back to executions"
+
+msgid "Could not load execution"
+msgstr "Could not load execution"
+
+msgid "Step retry accepted"
+msgstr "Step retry accepted"
+
+msgid "Context"
+msgstr "Context"
+
+msgid "Cancel execution?"
+msgstr "Cancel execution?"
+
+msgid ""
+"The run will stop after the current step where possible. This action cannot "
+"be undone from the UI alone."
+msgstr ""
+"The run will stop after the current step where possible. This action cannot "
+"be undone from the UI alone."
+
+msgid "Keep running"
+msgstr "Keep running"
+
+msgid "Confirm cancel"
+msgstr "Confirm cancel"
+
+msgid "Execution Logs"
+msgstr "Execution Logs"
+
+msgid "No logs"
+msgstr "No logs"
+
+msgid "No log lines recorded for this execution yet."
+msgstr "No log lines recorded for this execution yet."
+
+msgid "Execution logs table"
+msgstr "Execution logs table"
+
+msgid "Time"
+msgstr "Time"
+
+msgid "Attempt {{n}}"
+msgstr "Attempt {{n}}"
+
+msgid "Retry step"
+msgstr "Retry step"
+
+msgid "Step failed"
+msgstr "Step failed"
+
+msgid "Step Executions"
+msgstr "Step Executions"
+
+msgid "No step executions yet."
+msgstr "No step executions yet."
+
+msgid "Executions"
+msgstr "Executions"
+
+msgid "Finished At"
+msgstr "Finished At"
+
+msgid "Duration"
+msgstr "Duration"
+
+msgid "Current Step"
+msgstr "Current Step"
+
+msgid "Pause"
+msgstr "Pause"
+
+msgid "Resume"
+msgstr "Resume"
+
+msgid ""
+"This execution failed. Use Retry step on the failed attempt below to "
+"continue from that step."
+msgstr ""
+"This execution failed. Use Retry step on the failed attempt below to "
+"continue from that step."
+
+msgid "This execution has finished; pause, resume, and cancel are not available."
+msgstr "This execution has finished; pause, resume, and cancel are not available."
+
+msgid "Input"
+msgstr "Input"
+
+msgid "Output"
+msgstr "Output"
+
+msgid "Retry step?"
+msgstr "Retry step?"
+
+msgid ""
+"Retry \"{{name}}\" (attempt {{n}}) on this same execution. Prior attempts "
+"and logs are kept. Downstream steps resume only after this attempt succeeds."
+msgstr ""
+"Retry \"{{name}}\" (attempt {{n}}) on this same execution. Prior attempts "
+"and logs are kept. Downstream steps resume only after this attempt succeeds."
+
+msgid "Could not retry step"
+msgstr "Could not retry step"
+
+msgid "Task error — {{name}}"
+msgstr "Task error — {{name}}"
+
+msgid "Error message"
+msgstr "Error message"
+
+msgid "Stack trace"
+msgstr "Stack trace"
+
+msgid "Task Executions"
+msgstr "Task Executions"
+
+msgid "Task executions for step"
+msgstr "Task executions for step"
+
+msgid "Task failed"
+msgstr "Task failed"
+
+msgid "View error"
+msgstr "View error"
+
+msgid "Could not load executions"
+msgstr "Could not load executions"
+
+msgid "No executions match"
+msgstr "No executions match"
+
+msgid "Try changing the pipeline or status filters."
+msgstr "Try changing the pipeline or status filters."
+
+msgid "No executions are available yet."
+msgstr "No executions are available yet."
+
+msgid "All statuses"
+msgstr "All statuses"
+
+msgid "Pending"
+msgstr "Pending"
+
+msgid "Awaiting Step"
+msgstr "Awaiting Step"
+
+msgid "Cancelled"
+msgstr "Cancelled"
+
+msgid "Paused"
+msgstr "Paused"
+
+msgid "Executions table"
+msgstr "Executions table"
+
+msgid "Invalid pipeline"
+msgstr "Invalid pipeline"
+
+msgid "The pipeline link is not a valid identifier."
+msgstr "The pipeline link is not a valid identifier."
+
+msgid "Back to pipelines"
+msgstr "Back to pipelines"
+
+msgid "Could not load pipeline"
+msgstr "Could not load pipeline"
+
+msgid "Overview"
+msgstr "Overview"
+
+msgid "Delete pipeline?"
+msgstr "Delete pipeline?"
+
+msgid "Could not delete pipeline"
+msgstr "Could not delete pipeline"
+
+msgid "This will remove \"{{name}}\" and cannot be undone."
+msgstr "This will remove \"{{name}}\" and cannot be undone."
+
+msgid "Deleting…"
+msgstr "Deleting…"
+
+msgid "Delete"
+msgstr "Delete"
+
+msgid "Delete schedule?"
+msgstr "Delete schedule?"
+
+msgid "Could not delete schedule"
+msgstr "Could not delete schedule"
+
+msgid "Delete step?"
+msgstr "Delete step?"
+
+msgid "Could not delete step"
+msgstr "Could not delete step"
+
+msgid "Pipelines"
+msgstr "Pipelines"
+
+msgid "Trigger with context…"
+msgstr "Trigger with context…"
+
+msgid "Edit"
+msgstr "Edit"
+
+msgid "Could not start a run"
+msgstr "Could not start a run"
+
+msgid "Filter by status"
+msgstr "Filter by status"
+
+msgid "No executions"
+msgstr "No executions"
+
+msgid "No runs match the selected status."
+msgstr "No runs match the selected status."
+
+msgid "This pipeline has not been executed yet."
+msgstr "This pipeline has not been executed yet."
+
+msgid "Pipeline executions table"
+msgstr "Pipeline executions table"
+
+msgid "Concurrency Policy"
+msgstr "Concurrency Policy"
+
+msgid "Total Executions"
+msgstr "Total Executions"
+
+msgid "Created At"
+msgstr "Created At"
+
+msgid "Updated At"
+msgstr "Updated At"
+
+msgid "Add Schedule"
+msgstr "Add Schedule"
+
+msgid "Schedule action failed"
+msgstr "Schedule action failed"
+
+msgid "No schedules"
+msgstr "No schedules"
+
+msgid "Add a schedule to run this pipeline automatically."
+msgstr "Add a schedule to run this pipeline automatically."
+
+msgid "Pipeline schedules table"
+msgstr "Pipeline schedules table"
+
+msgid "Expression"
+msgstr "Expression"
+
+msgid "Last Run"
+msgstr "Last Run"
+
+msgid "Next Run"
+msgstr "Next Run"
+
+msgid "Pause schedule"
+msgstr "Pause schedule"
+
+msgid "Resume schedule"
+msgstr "Resume schedule"
+
+msgid "Delete schedule"
+msgstr "Delete schedule"
+
+msgid "Add Step"
+msgstr "Add Step"
+
+msgid "Could not reorder steps"
+msgstr "Could not reorder steps"
+
+msgid "No steps"
+msgstr "No steps"
+
+msgid "Add a step to define this pipeline."
+msgstr "Add a step to define this pipeline."
+
+msgid "Pipeline steps table"
+msgstr "Pipeline steps table"
+
+msgid "Order"
+msgstr "Order"
+
+msgid "Queue"
+msgstr "Queue"
+
+msgid "Max Retries"
+msgstr "Max Retries"
+
+msgid "inline"
+msgstr "inline"
+
+msgid "Delete step"
+msgstr "Delete step"
+
+msgid "New Pipeline"
+msgstr "New Pipeline"
+
+msgid "Could not load pipelines"
+msgstr "Could not load pipelines"
+
+msgid "No pipelines yet"
+msgstr "No pipelines yet"
+
+msgid "Create a pipeline to start scheduling work."
+msgstr "Create a pipeline to start scheduling work."
+
+msgid "1 step"
+msgstr "1 step"
+
+msgid "1 schedule"
+msgstr "1 schedule"
+
+msgid "1 execution and its logs"
+msgstr "1 execution and its logs"
+
+msgid "Pipeline deleted successfully"
+msgstr "Pipeline deleted successfully"
+
+msgid "This also deletes"
+msgstr "This also deletes"
+
+msgid "Pipelines table"
+msgstr "Pipelines table"
+
+msgid "Concurrency"
+msgstr "Concurrency"
+
+msgid "Steps"
+msgstr "Steps"
+
+msgid "Schedules"
+msgstr "Schedules"
+
+msgid "About CAPS"
+msgstr "About CAPS"
+
+msgid ""
+"CAPS provides an automation and scheduling layer for climate-informed "
+"disease prediction, connecting analytical and operational workflows inside "
+"DHIS2."
+msgstr ""
+"CAPS provides an automation and scheduling layer for climate-informed "
+"disease prediction, connecting analytical and operational workflows inside "
+"DHIS2."
+
+msgid "What you can do here"
+msgstr "What you can do here"
+
+msgid "Review dashboards for run volume and stuck executions."
+msgstr "Review dashboards for run volume and stuck executions."
+
+msgid "Inspect pipelines, steps, schedules, and recent runs."
+msgstr "Inspect pipelines, steps, schedules, and recent runs."
+
+msgid "Explore analytics for trends, top errors, and step durations."
+msgstr "Explore analytics for trends, top errors, and step durations."
+
+msgid ""
+"Drill into execution detail, logs, dead-letter events, and step-level "
+"outcomes."
+msgstr ""
+"Drill into execution detail, logs, dead-letter events, and step-level "
+"outcomes."
+
+msgid "Not connected"
+msgstr "Not connected"
+
+msgid "Core version"
+msgstr "Core version"
+
+msgid "Python"
+msgstr "Python"
+
+msgid "Revision"
+msgstr "Revision"
+
+msgid "Server time"
+msgstr "Server time"
+
+msgid "Time zone"
+msgstr "Time zone"
+
+msgid "Auth required"
+msgstr "Auth required"
+
+msgid "Yes"
+msgstr "Yes"
+
+msgid "No"
+msgstr "No"
+
+msgid "DHIS2 version"
+msgstr "DHIS2 version"
+
+msgid "System name"
+msgstr "System name"
+
+msgid "Base URL"
+msgstr "Base URL"
+
+msgid "API version"
+msgstr "API version"
+
+msgid "Mode"
+msgstr "Mode"
+
+msgid "Read-only"
+msgstr "Read-only"
+
+msgid "Read/write"
+msgstr "Read/write"
+
+msgid "Version"
+msgstr "Version"
+
+msgid "Build"
+msgstr "Build"
+
+msgid "dev · local"
+msgstr "dev · local"
+
+msgid "Endpoint"
+msgstr "Endpoint"
+
+msgid "in-process"
+msgstr "in-process"
+
+msgid "Central orchestration service"
+msgstr "Central orchestration service"
+
+msgid "CHAP"
+msgstr "CHAP"
+
+msgid "Climate & Health Analytics Platform"
+msgstr "Climate & Health Analytics Platform"
+
+msgid "DHIS2"
+msgstr "DHIS2"
+
+msgid "Host instance · platform API"
+msgstr "Host instance · platform API"
+
+msgid "Open Climate Service"
+msgstr "Open Climate Service"
+
+msgid "Climate data source · openEO API"
+msgstr "Climate data source · openEO API"
+
+msgid "Connected systems"
+msgstr "Connected systems"
+
+msgid ""
+"Services CAPS depends on. Health probes run every 5 minutes; versions and "
+"revisions are reported by each system at handshake."
+msgstr ""
+"Services CAPS depends on. Health probes run every 5 minutes; versions and "
+"revisions are reported by each system at handshake."
+
+msgid "{{healthy}} of {{total}} healthy"
+msgstr "{{healthy}} of {{total}} healthy"
+
+msgid "refreshed {{when}}"
+msgstr "refreshed {{when}}"
+
+msgid "Could not load system information"
+msgstr "Could not load system information"
+
+msgid "No additional details available."
+msgstr "No additional details available."
+
+msgid "Last checked {{when}}"
+msgstr "Last checked {{when}}"
+
+msgid "Response time {{ms}} milliseconds"
+msgstr "Response time {{ms}} milliseconds"
+
+msgid "{{ms}} ms"
+msgstr "{{ms}} ms"
+
+msgid "No pipeline duration data for this period."
+msgstr "No pipeline duration data for this period."
+
+msgid "Avg Duration"
+msgstr "Avg Duration"
+
+msgid "P95 Duration"
+msgstr "P95 Duration"
+
+msgid "Run Count"
+msgstr "Run Count"
+
+msgid "No duration data."
+msgstr "No duration data."
+
+msgid "No error data for this period."
+msgstr "No error data for this period."
+
+msgid "Occurrences"
+msgstr "Occurrences"
+
+msgid "No error data."
+msgstr "No error data."
+
+msgid "Error Message"
+msgstr "Error Message"
+
+msgid "No failing step data for this period."
+msgstr "No failing step data for this period."
+
+msgid "Failure Count"
+msgstr "Failure Count"
+
+msgid "No failing step data."
+msgstr "No failing step data."
+
+msgid "Top failing steps"
+msgstr "Top failing steps"
+
+msgid "Step Name"
+msgstr "Step Name"
+
+msgid "Avg Attempts"
+msgstr "Avg Attempts"
+
+msgid "CAPS"
+msgstr "CAPS"
+
+msgid "Main navigation"
+msgstr "Main navigation"
+
+msgid "About"
+msgstr "About"
+
+msgid "Could not load route configuration"
+msgstr "Could not load route configuration"
+
+msgid "Retry"
+msgstr "Retry"
+
+msgid "No trend data for this period."
+msgstr "No trend data for this period."
+
+msgid ""
+"Trend from {{start}} to {{end}} — completed runs {{completed}}, failed runs "
+"{{failed}}."
+msgstr ""
+"Trend from {{start}} to {{end}} — completed runs {{completed}}, failed runs "
+"{{failed}}."
+
+msgid "No data to chart for this range."
+msgstr "No data to chart for this range."
+
+msgid "Skip aggregate"
+msgstr "Skip aggregate"
+
+msgid "Skip enrollment"
+msgstr "Skip enrollment"
+
+msgid "Skip events"
+msgstr "Skip events"
+
+msgid "Skip organisation unit ownership"
+msgstr "Skip organisation unit ownership"
+
+msgid "Skip outliers"
+msgstr "Skip outliers"
+
+msgid "Skip resource tables"
+msgstr "Skip resource tables"
+
+msgid "Skip tracked entities"
+msgstr "Skip tracked entities"
+
+msgid "Skip validation results"
+msgstr "Skip validation results"
+
+msgid "Aggregation type"
+msgstr "Aggregation type"
+
+msgid "Sum"
+msgstr "Sum"
+
+msgid "Average"
+msgstr "Average"
+
+msgid "Organisation units"
+msgstr "Organisation units"
+
+msgid "Periods"
+msgstr "Periods"
+
+msgid "Threshold data element"
+msgstr "Threshold data element"
+
+msgid "Aggregate threshold value fetched from DHIS2 for comparison."
+msgstr "Aggregate threshold value fetched from DHIS2 for comparison."
+
+msgid "Prediction quantile data elements"
+msgstr "Prediction quantile data elements"
+
+msgid ""
+"Map each row to a prediction quantile data element (same UIDs as the "
+"prediction-data-download step). An alert is created when any listed "
+"element’s aggregate value meets or exceeds the threshold for the period."
+msgstr ""
+"Map each row to a prediction quantile data element (same UIDs as the "
+"prediction-data-download step). An alert is created when any listed "
+"element’s aggregate value meets or exceeds the threshold for the period."
+
+msgid "Quantile data element"
+msgstr "Quantile data element"
+
+msgid "Add quantile data element"
+msgstr "Add quantile data element"
+
+msgid "Min"
+msgstr "Min"
+
+msgid "Max"
+msgstr "Max"
+
+msgid "Dataset"
+msgstr "Dataset"
+
+msgid "Managed climate dataset from the Open Climate Service"
+msgstr "Managed climate dataset from the Open Climate Service"
+
+msgid "Climate variable → DHIS2 data element"
+msgstr "Climate variable → DHIS2 data element"
+
+msgid "Data element"
+msgstr "Data element"
+
+msgid "Aggregation"
+msgstr "Aggregation"
+
+msgid "Aggregation method"
+msgstr "Aggregation method"
+
+msgid "How values are aggregated across the period and org units."
+msgstr "How values are aggregated across the period and org units."
+
+msgid "Period"
+msgstr "Period"
+
+msgid "At least one of levels / ids"
+msgstr "At least one of levels / ids"
+
+msgid "Climate dataset"
+msgstr "Climate dataset"
+
+msgid "Could not load dataset coverage"
+msgstr "Could not load dataset coverage"
+
+msgid "Select a dataset to configure the period within its available coverage."
+msgstr "Select a dataset to configure the period within its available coverage."
+
+msgid "Unsupported period type"
+msgstr "Unsupported period type"
+
+msgid "This dataset uses a period type that is not supported for pipeline steps."
+msgstr "This dataset uses a period type that is not supported for pipeline steps."
+
+msgid "Derived from the selected dataset"
+msgstr "Derived from the selected dataset"
+
+msgid "Optional. Leave empty to run just the start period."
+msgstr "Optional. Leave empty to run just the start period."
+
+msgid "Search periods"
+msgstr "Search periods"
+
+msgid "No periods match"
+msgstr "No periods match"
+
+msgid "Clear"
+msgstr "Clear"
+
+msgid "Add"
+msgstr "Add"
+
+msgid "No matching data elements found"
+msgstr "No matching data elements found"
+
+msgid "Run options"
+msgstr "Run options"
+
+msgid ""
+"These options are passed as query parameters to DHIS2 analytics table "
+"generation."
+msgstr ""
+"These options are passed as query parameters to DHIS2 analytics table "
+"generation."
+
+msgid "Last years"
+msgstr "Last years"
+
+msgid ""
+"Limit analytics generation to the most recent N years. Leave blank for "
+"default DHIS2 behavior."
+msgstr ""
+"Limit analytics generation to the most recent N years. Leave blank for "
+"default DHIS2 behavior."
+
+msgid "Hide advanced options"
+msgstr "Hide advanced options"
+
+msgid "Show advanced options"
+msgstr "Show advanced options"
+
+msgid "Polling"
+msgstr "Polling"
+
+msgid "Controls how CAPS waits for DHIS2 task completion."
+msgstr "Controls how CAPS waits for DHIS2 task completion."
+
+msgid "By level"
+msgstr "By level"
+
+msgid "By org unit"
+msgstr "By org unit"
+
+msgid "Organisation unit mode"
+msgstr "Organisation unit mode"
+
+msgid ""
+"Choose whether to target org units by level or by picking them from the "
+"hierarchy."
+msgstr ""
+"Choose whether to target org units by level or by picking them from the "
+"hierarchy."
+
+msgid "Organisation unit levels"
+msgstr "Organisation unit levels"
+
+msgid "Select one or more organisation unit levels from your DHIS2 instance."
+msgstr "Select one or more organisation unit levels from your DHIS2 instance."
+
+msgid "Select one or more organisation units from the hierarchy."
+msgstr "Select one or more organisation units from the hierarchy."
+
+msgid "Search organisation unit levels"
+msgstr "Search organisation unit levels"
+
+msgid "No matching organisation unit levels found"
+msgstr "No matching organisation unit levels found"
+
+msgid "Poll interval (ms)"
+msgstr "Poll interval (ms)"
+
+msgid "Time between status checks. Minimum 250ms."
+msgstr "Time between status checks. Minimum 250ms."
+
+msgid "Max attempts"
+msgstr "Max attempts"
+
+msgid "Maximum number of polling attempts before the step fails."
+msgstr "Maximum number of polling attempts before the step fails."
+
+msgid "Quantile mapping"
+msgstr "Quantile mapping"
+
+msgid ""
+"Map each CHAP prediction quantile to a DHIS2 data element. At least one row "
+"is required. Quantiles not listed here are dropped during download."
+msgstr ""
+"Map each CHAP prediction quantile to a DHIS2 data element. At least one row "
+"is required. Quantiles not listed here are dropped during download."
+
+msgid "Data element ids"
+msgstr "Data element ids"
+
+msgid "key → value mapping"
+msgstr "key → value mapping"
+
+msgid "Quantile"
+msgstr "Quantile"
+
+msgid "DHIS2 UID"
+msgstr "DHIS2 UID"
+
+msgid "e.g. low, median, high"
+msgstr "e.g. low, median, high"
+
+msgid "Remove mapping"
+msgstr "Remove mapping"
+
+msgid "Add mapping"
+msgstr "Add mapping"
+
+msgid "At least one mapping is required."
+msgstr "At least one mapping is required."
+
+msgid "No mappings yet. Add one below."
+msgstr "No mappings yet. Add one below."
+
+msgid "{{name}} (target)"
+msgstr "{{name}} (target)"
+
+msgid "Select a model to configure covariates"
+msgstr "Select a model to configure covariates"
+
+msgid "Covariate (CHAP)"
+msgstr "Covariate (CHAP)"
+
+msgid "DHIS2 data element"
+msgstr "DHIS2 data element"
+
+msgid "This model does not declare any covariates."
+msgstr "This model does not declare any covariates."
+
+msgid "Period offset"
+msgstr "Period offset"
+
+msgid "Periods to shift from today’s period. 0 = current."
+msgstr "Periods to shift from today’s period. 0 = current."
+
+msgid "Number of previous years to include"
+msgstr "Number of previous years to include"
+
+msgid "History window for the model."
+msgstr "History window for the model."
+
+msgid "Number of periods to generate"
+msgstr "Number of periods to generate"
+
+msgid "Forecast horizon."
+msgstr "Forecast horizon."
+
+msgid "Data sources"
+msgstr "Data sources"
+
+msgid "Model"
+msgstr "Model"
+
+msgid "Identifies the job in CHAP."
+msgstr "Identifies the job in CHAP."
+
+msgid "No entries yet. Add one below."
+msgstr "No entries yet. Add one below."
+
+msgid "Remove {{label}}"
+msgstr "Remove {{label}}"
+
+msgid "Period type, history window, and explicit years"
+msgstr "Period type, history window, and explicit years"
+
+msgid "Source data elements"
+msgstr "Source data elements"
+
+msgid "Input data elements"
+msgstr "Input data elements"
+
+msgid "Add data element"
+msgstr "Add data element"
+
+msgid "Pick simple OR advanced"
+msgstr "Pick simple OR advanced"
+
+msgid "Single output"
+msgstr "Single output"
+
+msgid "Multiple outputs"
+msgstr "Multiple outputs"
+
+msgid "Output configuration"
+msgstr "Output configuration"
+
+msgid "Calculation method"
+msgstr "Calculation method"
+
+msgid "Default is mean + 2SD."
+msgstr "Default is mean + 2SD."
+
+msgid "Output data element"
+msgstr "Output data element"
+
+msgid "Maps to calculationMethod and outputDataElementId on the handler config."
+msgstr "Maps to calculationMethod and outputDataElementId on the handler config."
+
+msgid "Duplicate calculation methods"
+msgstr "Duplicate calculation methods"
+
+msgid ""
+"Each calculation method may only be used once. Change or remove duplicate "
+"rows."
+msgstr ""
+"Each calculation method may only be used once. Change or remove duplicate "
+"rows."
+
+msgid "Remove output"
+msgstr "Remove output"
+
+msgid "Add output"
+msgstr "Add output"
+
+msgid "Methods must be unique."
+msgstr "Methods must be unique."
+
+msgid "Years to include"
+msgstr "Years to include"
+
+msgid "Sliding history window used per calculation."
+msgstr "Sliding history window used per calculation."
+
+msgid "Years"
+msgstr "Years"
+
+msgid "Year"
+msgstr "Year"
+
+msgid "Add year"
+msgstr "Add year"
+
+msgid "Years to generate thresholds for."
+msgstr "Years to generate thresholds for."
+
+msgid "Override reporting periods for this run"
+msgstr "Override reporting periods for this run"
+
+msgid "Period IDs"
+msgstr "Period IDs"
+
+msgid "Period ID"
+msgstr "Period ID"
+
+msgid "Add period"
+msgstr "Add period"
+
+msgid "Daily"
+msgstr "Daily"
+
+msgid "Override org units for this run"
+msgstr "Override org units for this run"
+
+msgid "just now"
+msgstr "just now"
+
+msgid "Debug"
+msgstr "Debug"
+
+msgid "Info"
+msgstr "Info"
+
+msgid "Warn"
+msgstr "Warn"
+
+msgid "Error"
+msgstr "Error"
+
+msgid "ALLOW — run in parallel"
+msgstr "ALLOW — run in parallel"
+
+msgid "SKIP — skip if already running"
+msgstr "SKIP — skip if already running"
+
+msgid "REPLACE — cancel old, start new"
+msgstr "REPLACE — cancel old, start new"
+
+msgid "Already up to date - nothing to sync"
+msgstr "Already up to date - nothing to sync"
+
+msgid "Add new periods"
+msgstr "Add new periods"
+
+msgid "Rebuild dataset with newer data"
+msgstr "Rebuild dataset with newer data"
+
+msgid "Static dataset - cannot be synced"
+msgstr "Static dataset - cannot be synced"
+
+msgid "Succeeded"
+msgstr "Succeeded"
+
+msgid "Timed out"
+msgstr "Timed out"
+
+msgid "Skipped"
+msgstr "Skipped"
+
+msgctxt "URL configuration."
+msgid "Check CLIMATE_API_BASE"
+msgstr "Check CLIMATE_API_BASE_URL configuration."

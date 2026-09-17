@@ -1,0 +1,88 @@
+.group {
+    display: grid;
+    gap: 8px;
+}
+.group.cols2 {
+    grid-template-columns: 1fr 1fr;
+}
+.group.cols3 {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.card {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 10px 12px;
+    border: 1px solid var(--colors-grey300, #d5dde5);
+    background: var(--colors-white, #ffffff);
+    border-radius: 4px;
+    cursor: pointer;
+    transition:
+        border-color 0.12s,
+        background 0.12s,
+        box-shadow 0.12s;
+}
+.card:hover {
+    border-color: var(--colors-blue200, #b3c6de);
+    background: var(--colors-grey025, #fbfcfd);
+}
+.card.checked {
+    border-color: var(--colors-blue700, #1565c0);
+    background: var(--colors-blue050, #e8f0fc);
+    box-shadow: 0 0 0 2px rgba(21, 101, 192, 0.12);
+}
+.card.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid var(--colors-grey400, #c4ced9);
+    background: var(--colors-white, #ffffff);
+    flex: none;
+    margin-top: 2px;
+    display: grid;
+    place-items: center;
+}
+.card.checked .dot {
+    border-color: var(--colors-blue700, #1565c0);
+    background: var(--colors-blue700, #1565c0);
+}
+.card.checked .dot::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--colors-white, #ffffff);
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    flex: 1;
+    min-width: 0;
+}
+.titleRow {
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--colors-grey900, #212934);
+}
+.desc {
+    font-size: 12px;
+    color: var(--colors-grey600, #6e7a8a);
+    line-height: 1.4;
+}
+
+@media (max-width: 640px) {
+    .group.cols2,
+    .group.cols3 {
+        grid-template-columns: 1fr;
+    }
+}

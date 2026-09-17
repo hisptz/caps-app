@@ -1,0 +1,86 @@
+.tagContent {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.glyph {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    color: inherit;
+}
+
+/* Outline icons: uniform 16px box (StatusTag, breadcrumb, dashboard stats). */
+.glyph :global(svg),
+.icon16 :global(svg) {
+    display: block;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    color: inherit;
+}
+
+.glyph > span {
+    display: inline-flex;
+    align-items: center;
+    line-height: 0;
+    color: inherit;
+}
+
+.icon16 {
+    display: inline-flex;
+    align-items: center;
+    line-height: 0;
+    color: inherit;
+}
+
+.spin {
+    animation: statusSpin 1s linear infinite;
+}
+
+.pulse {
+    animation: statusPulse 1.2s ease-in-out infinite;
+}
+
+.wiggle {
+    animation: statusWiggle 0.9s ease-in-out infinite;
+}
+
+@keyframes statusSpin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes statusPulse {
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.65;
+        transform: scale(0.92);
+    }
+}
+
+@keyframes statusWiggle {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-2px);
+    }
+
+    75% {
+        transform: translateX(2px);
+    }
+}

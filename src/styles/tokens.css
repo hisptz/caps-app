@@ -1,0 +1,42 @@
+/* Semantic tokens — align surfaces with DHIS2-style neutrals; swap values in one place. */
+:root {
+    --caps-color-text: #2d3748;
+    --caps-color-text-muted: #4a5568;
+    --caps-color-text-caption: #718096;
+    --caps-color-text-subtle: #a0aec0;
+    --caps-color-border: #e2e8f0;
+    --caps-color-border-strong: #e0e4e8;
+    --caps-color-surface: #ffffff;
+    --caps-color-surface-muted: #f7fafc;
+    /* App shell — sidebar + main share one flat cool grey (portal-style chrome) */
+    --caps-app-shell-bg: #ffffff;
+    --caps-app-side-nav-bg: #f4f5f7;
+    --caps-color-surface-sidebar: #f4f5f7;
+    --caps-sidebar-bg-top: var(--caps-app-shell-bg);
+    --caps-sidebar-bg-mid: var(--caps-app-shell-bg);
+    --caps-sidebar-bg-bottom: var(--caps-app-shell-bg);
+    --caps-sidebar-border: #e4e8ed;
+    --caps-sidebar-border-inner: transparent;
+    --caps-sidebar-accent: transparent;
+    /* Nav rail — hover / active blocks */
+    --caps-sidebar-nav-hover: rgba(0, 0, 0, 0.04);
+    --caps-sidebar-nav-active-bg: #d1d9e0;
+    --caps-sidebar-nav-active: var(--caps-sidebar-nav-active-bg);
+    --caps-sidebar-nav-indicator: rgb(44, 102, 147);
+    --caps-sidebar-nav-indicator-width: 4px;
+    --caps-color-footer-bg: rgb(44, 102, 147);
+    --caps-color-accent-success: #48bb78;
+    --caps-color-accent-error: #f56565;
+    --caps-color-accent-running: #4299e1;
+    --caps-color-accent-neutral: #a0aec0;
+    --caps-color-stat-border: #e0e0e0;
+    --caps-font-caption: 0.8125rem;
+    --caps-font-micro: 0.6875rem;
+    --caps-transition-fast: 150ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --caps-transition-fast: 0.01ms;
+    }
+}

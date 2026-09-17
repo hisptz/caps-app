@@ -1,0 +1,45 @@
+.root {
+    margin-bottom: 0;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.chartWrap {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    max-height: min(420px, 70vh);
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.chartWrap :global(.highcharts-container) {
+    font-family: inherit !important;
+}
+
+.chartWrap :global(.highcharts-background) {
+    fill: transparent;
+}
+
+.srOnly {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.empty {
+    margin: 0;
+    padding: 24px;
+    text-align: center;
+    color: var(--caps-color-text-caption, #718096);
+    border: 2px dashed var(--caps-color-border, #e2e8f0);
+    border-radius: 4px;
+    background: var(--caps-color-surface-muted, #f7fafc);
+}

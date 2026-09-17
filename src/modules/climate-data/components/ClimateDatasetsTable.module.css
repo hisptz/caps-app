@@ -1,0 +1,10 @@
+.actionsCell {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.nameCell {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}

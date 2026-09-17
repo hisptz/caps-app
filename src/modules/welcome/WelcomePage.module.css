@@ -1,0 +1,77 @@
+/* Centered column: match Settings comfortable measure */
+.layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 42rem;
+    margin: 0 auto;
+    padding-bottom: var(--spacers-dp32, 32px);
+    box-sizing: border-box;
+}
+
+.pageHeader {
+    width: 100%;
+    margin-bottom: var(--spacers-dp24, 24px);
+    text-align: center;
+}
+
+.title {
+    margin: 0 0 var(--spacers-dp12, 12px);
+    font-size: 1.375rem;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--colors-grey900, #1a1a1a);
+    text-align: center;
+}
+
+.lead {
+    margin: 0 auto var(--spacers-dp12, 12px);
+    max-width: 52ch;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--colors-grey700, #4a5568);
+    text-align: center;
+}
+
+.lead:last-of-type {
+    margin-bottom: var(--spacers-dp24, 24px);
+}
+
+.fieldset {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.visuallyHidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Form stays left-aligned for label + field scanning; block is full width of column */
+.layout form {
+    width: 100%;
+    text-align: left;
+}
+
+.divider {
+    margin: var(--spacers-dp24, 24px) 0;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacers-dp12, 12px);
+}

@@ -1,0 +1,11 @@
+---
+description: Keep README, CONTRIBUTING, GETTING_STARTED, and GitHub templates in sync with source
+globs: src/**/*.{ts,tsx},package.json,d2.config.js,.env.example,playwright.config.ts,jest.config.js,.github/workflows/*
+alwaysApply: false
+---
+
+# Keep community docs updated
+
+When you change source in this repo, in the same turn follow **update-community-docs**: patch `README.md`, `docs/GETTING_STARTED.md`, `CONTRIBUTING.md`, `SECURITY.md`, and `.github` templates if scripts, proxy URL, env, routes, or CI changed.
+
+Skip CODE_OF_CONDUCT unless the contact or project name changed. Never edit LICENSE. Do not invent emails or env vars.

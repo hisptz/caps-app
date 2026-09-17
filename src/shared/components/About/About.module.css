@@ -1,0 +1,307 @@
+.title {
+    margin: 0 0 12px;
+    font-size: 1.5rem;
+    color: var(--caps-color-text, #2d3748);
+}
+
+.lead {
+    margin: 0 0 16px;
+    max-width: 65ch;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--caps-color-text-muted, #4a5568);
+}
+
+.lead:last-of-type {
+    margin-bottom: 24px;
+}
+
+.section {
+    margin-bottom: 24px;
+    max-width: 65ch;
+}
+
+.sectionTitle {
+    margin: 0 0 8px;
+    font-size: 1.0625rem;
+    color: var(--caps-color-text, #2d3748);
+}
+
+.list {
+    margin: 0;
+    max-width: 65ch;
+    padding-left: 1.25rem;
+    line-height: 1.6;
+    color: var(--caps-color-text-muted, #4a5568);
+}
+
+.list li {
+    margin-bottom: 8px;
+}
+
+/* --- Connected systems --- */
+
+.connectedSystemsSection {
+    margin-bottom: 24px;
+    max-width: 56rem;
+}
+
+.connectedSystemsHeader {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.connectedSystemsHeaderText {
+    flex: 1 1 280px;
+    min-width: 0;
+}
+
+.connectedSystemsTitle {
+    margin: 0 0 6px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--caps-color-text, #2d3748);
+}
+
+.connectedSystemsSubtitle {
+    margin: 0;
+    max-width: 52ch;
+    font-size: var(--caps-font-caption, 0.8125rem);
+    line-height: 1.5;
+    color: var(--caps-color-text-caption, #718096);
+}
+
+.connectedSystemsToolbar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.toolbarStatus {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    text-align: right;
+}
+
+.healthSummaryOk {
+    font-size: var(--caps-font-caption, 0.8125rem);
+    font-weight: 500;
+    color: var(--caps-color-accent-success, #48bb78);
+}
+
+.healthSummaryWarn {
+    font-size: var(--caps-font-caption, 0.8125rem);
+    font-weight: 500;
+    color: var(--caps-color-accent-error, #f56565);
+}
+
+.refreshedAt {
+    font-size: var(--caps-font-micro, 0.6875rem);
+    color: var(--caps-color-text-caption, #718096);
+}
+
+.refreshWrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.systemLoader {
+    padding: 16px 0;
+}
+
+.systemGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+@media (min-width: 640px) {
+    .systemGrid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.systemCard {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--caps-color-border, #e2e8f0);
+    border-radius: 4px;
+    background: var(--caps-color-surface, #fff);
+    overflow: hidden;
+}
+
+.systemCardHeaderBlock {
+    padding: 14px 16px 12px;
+    border-bottom: 1px solid var(--caps-color-border, #e2e8f0);
+}
+
+.systemCardHeaderMain {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.systemAvatar {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.systemAvatar_blue {
+    color: #2b6cb0;
+    background: #ebf8ff;
+}
+
+.systemAvatar_green {
+    color: #276749;
+    background: #f0fff4;
+}
+
+.systemAvatar_orange {
+    color: #c05621;
+    background: #fffaf0;
+}
+
+.systemCardHeaderText {
+    min-width: 0;
+    flex: 1;
+}
+
+.systemCardTitleRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.systemCardTitle {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--caps-color-text, #2d3748);
+}
+
+.systemCardDescription {
+    margin: 0;
+    font-size: var(--caps-font-caption, 0.8125rem);
+    line-height: 1.45;
+    color: var(--caps-color-text-caption, #718096);
+}
+
+.connectedBadge,
+.disconnectedBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: var(--caps-font-micro, 0.6875rem);
+    font-weight: 500;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+.connectedBadge {
+    color: #22543d;
+    background: #f0fff4;
+    border: 1px solid #9ae6b4;
+}
+
+.disconnectedBadge {
+    color: #742a2a;
+    background: #fff5f5;
+    border: 1px solid #feb2b2;
+}
+
+.badgeDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.connectedBadge .badgeDot {
+    background: var(--caps-color-accent-success, #48bb78);
+}
+
+.systemCardBody {
+    padding: 12px 16px;
+    flex: 1;
+}
+
+.systemCardFooter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 16px;
+    border-top: 1px solid var(--caps-color-border, #e2e8f0);
+    background: var(--caps-color-surface-muted, #f7fafc);
+    font-size: var(--caps-font-caption, 0.8125rem);
+    color: var(--caps-color-text-caption, #718096);
+}
+
+.footerChecked {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+}
+
+.footerChecked svg {
+    flex-shrink: 0;
+}
+
+.footerLatency {
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+    color: var(--caps-color-text-muted, #4a5568);
+}
+
+.systemMuted {
+    margin: 0;
+    font-size: var(--caps-font-caption, 0.8125rem);
+    color: var(--caps-color-text-caption, #718096);
+}
+
+.infoRows {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 6px 16px;
+    margin: 0;
+    font-size: var(--caps-font-caption, 0.8125rem);
+}
+
+.infoLabel {
+    margin: 0;
+    font-weight: 500;
+    color: var(--caps-color-text-muted, #4a5568);
+}
+
+.infoValue {
+    margin: 0;
+    text-align: right;
+    font-family:
+        ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    word-break: break-word;
+    color: var(--caps-color-text, #2d3748);
+}

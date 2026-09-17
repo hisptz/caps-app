@@ -1,0 +1,38 @@
+.header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    gap: 16px;
+    flex-wrap: wrap;
+    min-width: 0;
+}
+
+.header h2 {
+    margin: 0;
+}
+
+.rangeSelect {
+    min-width: 160px;
+    max-width: 100%;
+}
+
+.section {
+    margin-bottom: 40px;
+}
+
+.section h3 {
+    margin-bottom: 12px;
+}
+
+.srOnly {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}

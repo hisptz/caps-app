@@ -1,0 +1,22 @@
+.wrap {
+    overflow-x: auto;
+    margin-bottom: 8px;
+    max-width: 100%;
+    border-radius: 4px;
+    outline: none;
+    transition: box-shadow var(--caps-transition-fast, 150ms ease-out);
+}
+
+.wrap:focus-visible {
+    box-shadow: 0 0 0 2px var(--caps-color-accent-running, #4299e1);
+}
+
+.inner {
+    min-width: min(100%, 720px);
+}
+
+@media (min-width: 768px) {
+    .inner {
+        min-width: 0;
+    }
+}

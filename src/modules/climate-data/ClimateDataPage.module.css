@@ -1,0 +1,22 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacers-dp16, 16px);
+    gap: var(--spacers-dp12, 12px);
+    flex-wrap: wrap;
+}
+
+.header h2 {
+    margin: 0;
+}
+
+.loaderWrap {
+    display: flex;
+    justify-content: center;
+    padding: var(--spacers-dp32, 32px);
+}
+
+.banner {
+    margin-bottom: var(--spacers-dp16, 16px);
+}

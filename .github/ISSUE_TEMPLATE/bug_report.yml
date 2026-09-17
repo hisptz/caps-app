@@ -1,0 +1,58 @@
+name: Bug report
+description: Something in the CAPS DHIS2 app is broken
+title: '[bug] '
+labels: ['bug']
+body:
+    - type: markdown
+      attributes:
+          value: |
+              Use this for the **DHIS2 app**. For API/worker/scheduler, open the issue on [hisptz/caps-engine](https://github.com/hisptz/caps-engine).
+              Security issues: [SECURITY.md](https://github.com/hisptz/caps-app/blob/main/SECURITY.md) — do not use this form.
+    - type: textarea
+      id: what-happened
+      attributes:
+          label: What happened
+          description: Expected vs actual. Include the hash route (e.g. `#/pipelines`).
+      validations:
+          required: true
+    - type: textarea
+      id: reproduce
+      attributes:
+          label: Steps to reproduce
+          placeholder: |
+              1. pnpm start / open the app on DHIS2
+              2. Open #/pipelines
+              3. …
+      validations:
+          required: true
+    - type: dropdown
+      id: screen
+      attributes:
+          label: Screen
+          options:
+              - Dashboard
+              - Pipelines
+              - Pipeline detail
+              - Executions
+              - Analytics
+              - Dead letters
+              - Climate data
+              - Settings / welcome (Route setup)
+              - Unsure
+      validations:
+          required: true
+    - type: input
+      id: version
+      attributes:
+          label: App version
+          description: package.json version or GitHub release tag (e.g. 1.19.2).
+    - type: input
+      id: dhis2
+      attributes:
+          label: DHIS2 version
+          placeholder: e.g. 2.43
+    - type: textarea
+      id: extra
+      attributes:
+          label: Browser / extra context
+          description: Do not paste passwords or session cookies.

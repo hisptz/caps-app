@@ -1,0 +1,40 @@
+.tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 6px;
+    height: 23px;
+    border-radius: 3px;
+    font-size: 13px;
+    background-color: var(--colors-grey300, #e8edf2);
+    color: var(--colors-grey900, #212934);
+}
+
+.blue {
+    background-color: var(--colors-blue100, #e3f2fd);
+    color: var(--colors-blue900, #093371);
+}
+
+.green {
+    background-color: var(--colors-green100, #e8f5e9);
+    color: var(--colors-green900, #103713);
+}
+
+.purple {
+    background-color: #ede7f6;
+    color: #4527a0;
+}
+
+.red {
+    background-color: var(--colors-red100, #ffe5e8);
+    color: var(--colors-red900, #330202);
+}
+
+.yellow {
+    background-color: var(--colors-yellow100, #ffecb3);
+    color: var(--colors-yellow900, #6f3205);
+}
+
+.neutral {
+    background-color: var(--colors-grey300, #e8edf2);
+    color: var(--colors-grey900, #212934);
+}
