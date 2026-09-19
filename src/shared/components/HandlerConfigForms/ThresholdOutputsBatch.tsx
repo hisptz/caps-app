@@ -71,6 +71,15 @@ export function ThresholdOutputsBatch(): React.ReactElement {
 
     const duplicateMethods = hasDuplicateOutputMethods(outputsForDupCheck)
 
+    const usedMethods = useMemo(
+        () => new Set(outputsForDupCheck.map((row) => row.calculationMethod)),
+        [outputsForDupCheck]
+    )
+
+    const nextAvailableMethod = CALCULATION_METHOD_VALUES.find(
+        (method) => !usedMethods.has(method)
+    )
+
     return (
         <>
             <div
@@ -102,29 +111,37 @@ export function ThresholdOutputsBatch(): React.ReactElement {
                             `handlerConfig.outputs.${index}.calculationMethod` as const
                         }
                         control={control}
-                        render={({ field, fieldState }) => (
-                            <SingleSelectField
-                                selected={
-                                    typeof field.value === 'string'
-                                        ? field.value
-                                        : DEFAULT_CALCULATION_METHOD
-                                }
-                                onChange={({ selected }) =>
-                                    field.onChange(selected)
-                                }
-                                onBlur={field.onBlur}
-                                error={Boolean(fieldState.error)}
-                                validationText={fieldState.error?.message}
-                            >
-                                {CALCULATION_METHOD_VALUES.map((method) => (
-                                    <SingleSelectOption
-                                        key={method}
-                                        value={method}
-                                        label={calculationMethodLabel(method)}
-                                    />
-                                ))}
-                            </SingleSelectField>
-                        )}
+                        render={({ field, fieldState }) => {
+                            const selected =
+                                typeof field.value === 'string'
+                                    ? field.value
+                                    : DEFAULT_CALCULATION_METHOD
+                            return (
+                                <SingleSelectField
+                                    selected={selected}
+                                    onChange={({ selected: next }) =>
+                                        field.onChange(next)
+                                    }
+                                    onBlur={field.onBlur}
+                                    error={Boolean(fieldState.error)}
+                                    validationText={fieldState.error?.message}
+                                >
+                                    {CALCULATION_METHOD_VALUES.map((method) => (
+                                        <SingleSelectOption
+                                            key={method}
+                                            value={method}
+                                            label={calculationMethodLabel(
+                                                method
+                                            )}
+                                            disabled={
+                                                method !== selected &&
+                                                usedMethods.has(method)
+                                            }
+                                        />
+                                    ))}
+                                </SingleSelectField>
+                            )
+                        }}
                     />
                     <DataElementSelector
                         name={`handlerConfig.outputs.${index}.outputDataElementId`}
@@ -145,7 +162,15 @@ export function ThresholdOutputsBatch(): React.ReactElement {
                 <Button
                     secondary
                     small
-                    onClick={() => append({ ...DEFAULT_BATCH_OUTPUT })}
+                    disabled={!nextAvailableMethod}
+                    onClick={() =>
+                        append({
+                            ...DEFAULT_BATCH_OUTPUT,
+                            calculationMethod:
+                                nextAvailableMethod ??
+                                DEFAULT_BATCH_OUTPUT.calculationMethod,
+                        })
+                    }
                 >
                     {i18n.t('Add output')}
                 </Button>
