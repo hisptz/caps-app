@@ -166,14 +166,15 @@ export function ThresholdGenerationConfig({
             </FormSection>
 
             <FormSection
-                title={i18n.t('Source data elements')}
-                description={i18n.t('Input data elements')}
+                title={i18n.t('Source data items')}
+                description={i18n.t('Input data items')}
                 tight
             >
                 <ThresholdDataElementIdsList
-                    sectionLabel={i18n.t('Data element')}
-                    itemLabel={i18n.t('Data element')}
-                    addLabel={i18n.t('Add data element')}
+                    sectionLabel={i18n.t('Data item')}
+                    itemLabel={i18n.t('Data item')}
+                    addLabel={i18n.t('Add data item')}
+                    allowIndicators
                 />
             </FormSection>
 
