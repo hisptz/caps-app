@@ -19,7 +19,7 @@ export function HandlerPanel({
     handlersLoading?: boolean
     handlersError?: Error | null
 }): React.ReactElement {
-    const { setValue, watch } =
+    const { setValue, watch, unregister } =
         useFormContext<PipelineStepFormWithHandlerValues>()
     const currentKey = watch('handlerKey')
     const [query, setQuery] = useState('')
@@ -45,6 +45,7 @@ export function HandlerPanel({
         if (selectionDisabled) {
             return
         }
+        unregister('handlerConfig')
         setValue('handlerKey', descriptor.key, {
             shouldDirty: true,
             shouldTouch: true,

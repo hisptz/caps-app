@@ -84,6 +84,7 @@ export function PipelineEditStepModal({
 
     useEffect(() => {
         if (open && step) {
+            form.unregister('handlerConfig')
             form.reset(pipelineStepToFormValues(step))
             form.clearErrors()
             setActive(initialPanel)
