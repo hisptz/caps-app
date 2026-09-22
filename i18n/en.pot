@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-09-14T09:49:36.917Z\n"
-"PO-Revision-Date: 2026-09-14T09:49:36.918Z\n"
+"POT-Creation-Date: 2026-09-21T14:34:34.732Z\n"
+"PO-Revision-Date: 2026-09-21T14:34:34.734Z\n"
 
 msgid "Enter a valid HTTP or HTTPS URL."
 msgstr "Enter a valid HTTP or HTTPS URL."
@@ -1486,8 +1486,8 @@ msgstr "Organisation units"
 msgid "Periods"
 msgstr "Periods"
 
-msgid "Threshold data element"
-msgstr "Threshold data element"
+msgid "Threshold data item"
+msgstr "Threshold data item"
 
 msgid "Aggregate threshold value fetched from DHIS2 for comparison."
 msgstr "Aggregate threshold value fetched from DHIS2 for comparison."
@@ -1575,6 +1575,9 @@ msgstr "Clear"
 
 msgid "Add"
 msgstr "Add"
+
+msgid "No matching data items found"
+msgstr "No matching data items found"
 
 msgid "No matching data elements found"
 msgstr "No matching data elements found"
@@ -1700,8 +1703,8 @@ msgstr "Select a model to configure covariates"
 msgid "Covariate (CHAP)"
 msgstr "Covariate (CHAP)"
 
-msgid "DHIS2 data element"
-msgstr "DHIS2 data element"
+msgid "DHIS2 data item"
+msgstr "DHIS2 data item"
 
 msgid "This model does not declare any covariates."
 msgstr "This model does not declare any covariates."
@@ -1742,14 +1745,17 @@ msgstr "Remove {{label}}"
 msgid "Period type, history window, and explicit years"
 msgstr "Period type, history window, and explicit years"
 
-msgid "Source data elements"
-msgstr "Source data elements"
+msgid "Source data items"
+msgstr "Source data items"
 
-msgid "Input data elements"
-msgstr "Input data elements"
+msgid "Input data items"
+msgstr "Input data items"
 
-msgid "Add data element"
-msgstr "Add data element"
+msgid "Data item"
+msgstr "Data item"
+
+msgid "Add data item"
+msgstr "Add data item"
 
 msgid "Pick simple OR advanced"
 msgstr "Pick simple OR advanced"
@@ -1878,3 +1884,11 @@ msgstr "Skipped"
 msgctxt "URL configuration."
 msgid "Check CLIMATE_API_BASE"
 msgstr "Check CLIMATE_API_BASE_URL configuration."
+
+msgctxt "Application title"
+msgid "__MANIFEST_APP_TITLE"
+msgstr "CAPS"
+
+msgctxt "Application description"
+msgid "__MANIFEST_APP_DESCRIPTION"
+msgstr ""

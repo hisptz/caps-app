@@ -71,7 +71,7 @@ export function PredictionDataSourcesTable(): React.ReactElement {
 
     return (
         <ConfigMappingTable
-            columns={[i18n.t('Covariate (CHAP)'), i18n.t('DHIS2 data element')]}
+            columns={[i18n.t('Covariate (CHAP)'), i18n.t('DHIS2 data item')]}
             gridTemplateColumns={DATA_SOURCE_GRID}
             rowCount={features.length}
             renderRow={(index) => (
@@ -89,6 +89,7 @@ export function PredictionDataSourcesTable(): React.ReactElement {
                         dense
                         name={`handlerConfig.dataSources[${index}].dataElementId`}
                         label=""
+                        allowIndicators
                     />
                 </>
             )}
