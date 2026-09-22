@@ -1,6 +1,6 @@
 import i18n from '@dhis2/d2-i18n'
 import { InputField, SingleSelectField, SingleSelectOption } from '@dhis2/ui'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import classes from './ThresholdGenerationConfig.module.css'
 import { ThresholdRepeatableFieldList } from './ThresholdRepeatableFieldList'
@@ -27,8 +27,18 @@ function clampYearsToInclude(value: unknown): number {
     return DEFAULT_YEARS_TO_INCLUDE
 }
 
+const YEAR_OPTIONS_COUNT = 20
+
 export function ThresholdPeriodFields(): React.ReactElement {
     const { control } = useFormContext<PipelineStepFormWithHandlerValues>()
+
+    const yearOptions = useMemo(() => {
+        const currentYear = new Date().getFullYear()
+        return Array.from({ length: YEAR_OPTIONS_COUNT }, (_, i) => {
+            const year = String(currentYear - i)
+            return { label: year, value: year }
+        })
+    }, [])
 
     return (
         <>
@@ -104,8 +114,7 @@ export function ThresholdPeriodFields(): React.ReactElement {
                     itemLabel={i18n.t('Year')}
                     addLabel={i18n.t('Add year')}
                     helpText={i18n.t('Years to generate thresholds for.')}
-                    type="number"
-                    defaultAppend=""
+                    options={yearOptions}
                 />
             </div>
         </>

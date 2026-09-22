@@ -16,6 +16,8 @@ export interface ThresholdDataElementIdsListProps {
     itemLabel: string
     addLabel: string
     helpText?: string
+    /** Widen the lookup to analytics `dx:` item types (indicators included). */
+    allowIndicators?: boolean
 }
 
 export function ThresholdDataElementIdsList({
@@ -24,6 +26,7 @@ export function ThresholdDataElementIdsList({
     itemLabel,
     addLabel,
     helpText,
+    allowIndicators = false,
 }: ThresholdDataElementIdsListProps): React.ReactElement {
     const { control } = useFormContext<PipelineStepFormWithHandlerValues>()
     const { fields, append, remove } = useFieldArray({
@@ -46,6 +49,7 @@ export function ThresholdDataElementIdsList({
                         <DataElementSelector
                             name={`${arrayPath}.${index}`}
                             label={index === 0 ? sectionLabel : itemLabel}
+                            allowIndicators={allowIndicators}
                         />
                         <Button
                             className={classes.removeBtn}

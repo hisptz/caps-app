@@ -91,7 +91,7 @@ export function AlertGenerationConfig({
             </FormSection>
 
             <FormSection
-                title={i18n.t('Threshold data element')}
+                title={i18n.t('Threshold data item')}
                 description={i18n.t(
                     'Aggregate threshold value fetched from DHIS2 for comparison.'
                 )}
@@ -99,7 +99,8 @@ export function AlertGenerationConfig({
             >
                 <DataElementSelector
                     name="handlerConfig.thresholdDataElementId"
-                    label={i18n.t('Threshold data element')}
+                    label={i18n.t('Threshold data item')}
+                    allowIndicators
                 />
             </FormSection>
             <FormSection
