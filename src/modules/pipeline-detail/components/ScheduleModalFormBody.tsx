@@ -73,6 +73,7 @@ export function ScheduleModalFormBody({
                 steps={steps}
                 handlers={handlers}
                 handlersLoading={handlersLoading}
+                mode="schedule"
             />
         </>
     )

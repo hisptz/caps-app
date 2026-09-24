@@ -1,16 +1,37 @@
-export interface ConfiguredModel {
-    id: string
+/** A CHAP evaluation (backtest). `predictionSetupId` is null until one is created in CHAP. */
+export interface Evaluation {
+    id: number
     name: string
-    displayName: string
-    covariates: Array<{
-        name: string
-        displayName: string
-    }>
-    target?: {
-        name: string
-        displayName: string
-    }
-    supportedPeriodType: 'month' | 'week'
+    modelId: string
+    modelDisplayName: string
+    datasetName: string
+    periodType: string | null
+    created: string | null
+    predictionSetupId: number | null
+}
+
+export interface CovariateSource {
+    covariate: string
+    dataElementId: string
+}
+
+export interface QuantileTarget {
+    quantile: string
+    dataElementId: string
+}
+export interface PredictionSetup {
+    id: number
+    name: string
+    created: string | null
+    backtestId: number
+    configuredModel: { id: number; name: string }
+    startPeriod: string | null
+    orgUnits: string[]
+    covariateSources: CovariateSource[]
+    periodType: string | null
+    scheduleCronExpression: string | null
+    scheduleEnabled: boolean
+    quantileTargets: QuantileTarget[]
 }
 
 export type ConcurrencyPolicy = 'ALLOW' | 'SKIP' | 'REPLACE'
@@ -32,8 +53,6 @@ export type StepExecutionStatus =
     | 'SKIPPED'
 export type TaskExecutionStatus = 'PENDING' | 'RUNNING' | 'SUCCEEDED' | 'FAILED'
 export type LogLevel = 'DEBUG' | 'INFO' | 'WARN' | 'ERROR'
-
-/** Pipeline row embedded in execution responses (may be name-only from list APIs). */
 export type EmbeddedPipeline = { name: string } & Partial<Pipeline>
 
 export interface Pipeline {

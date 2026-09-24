@@ -6,6 +6,7 @@ import { StepContextBlock } from './StepContextBlock'
 import type { HandlerDescriptor } from '@/capsApi/types'
 import { getContextCapableSteps } from '@/modules/handlers/utils/contextCapableSteps'
 import type { PipelineContextFormValues } from '@/modules/pipeline-detail/schemas/pipelineContextFormSchema'
+import type { RunContextMode } from '@/shared/components/HandlerContextForms/HandlerContextForm'
 import { FormSection } from '@/shared/components/ui/FormPrimitives'
 import type { PipelineStep } from '@/shared/types/caps'
 
@@ -16,6 +17,7 @@ type Props = {
     sectionNum?: number
     sectionTitle?: string
     sectionDescription?: string
+    mode?: RunContextMode
 }
 
 export function PipelineRunContextSection({
@@ -27,6 +29,7 @@ export function PipelineRunContextSection({
     sectionDescription = i18n.t(
         'Optional overrides applied when this pipeline runs'
     ),
+    mode = 'run',
 }: Props): React.ReactElement | null {
     const { control } = useFormContext<PipelineContextFormValues>()
     const contextSteps = useMemo(
@@ -65,6 +68,7 @@ export function PipelineRunContextSection({
                     handlers={handlers}
                     control={control}
                     showStepHeader={!singleStep}
+                    mode={mode}
                 />
             ))}
         </FormSection>

@@ -12,7 +12,10 @@ export const capsKeys = {
 
     systemInfo: () => [...capsKeys.all, 'system-info'] as const,
 
-    models: () => [...capsKeys.all, 'models'] as const,
+    evaluations: () => [...capsKeys.all, 'evaluations'] as const,
+
+    predictionSetup: (id: number | undefined) =>
+        [...capsKeys.all, 'prediction-setup', id] as const,
 
     handlers: {
         all: () => [...capsKeys.all, 'handlers'] as const,

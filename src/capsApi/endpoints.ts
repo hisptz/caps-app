@@ -21,8 +21,9 @@ import {
     DurationsResponse,
     ExecutionDetailResponse,
     ListExecutionsResponse,
+    GetPredictionSetupResponse,
+    ListEvaluationsResponse,
     ListHandlersResponse,
-    ListModelsResponse,
     ListPipelinesResponse,
     PipelineDetailResponse,
     SystemInfoResponse,
@@ -323,8 +324,15 @@ export function listHandlers(engine: CapsDataEngine) {
     return capsFetchJson<ListHandlersResponse>(engine, '/handlers')
 }
 
-export function listModels(engine: CapsDataEngine) {
-    return capsFetchJson<ListModelsResponse>(engine, '/models')
+export function listEvaluations(engine: CapsDataEngine) {
+    return capsFetchJson<ListEvaluationsResponse>(engine, '/evaluations')
+}
+
+export function getPredictionSetup(engine: CapsDataEngine, id: number) {
+    return capsFetchJson<GetPredictionSetupResponse>(
+        engine,
+        `/prediction-setups/${id}`
+    )
 }
 
 export function listClimateDatasets(engine: CapsDataEngine) {
@@ -345,16 +353,6 @@ export function listClimateDatasetTemplates(engine: CapsDataEngine) {
     return capsFetchJson<ClimateDatasetTemplate[]>(
         engine,
         '/climate/dataset-templates/'
-    )
-}
-
-export function getClimateDatasetTemplate(
-    engine: CapsDataEngine,
-    templateId: string
-) {
-    return capsFetchJson<ClimateDatasetTemplate>(
-        engine,
-        `/climate/dataset-templates/${templateId}`
     )
 }
 
