@@ -1,3 +1,9 @@
+# [1.1.0](https://github.com/hisptz/caps-app/compare/v1.0.0...v1.1.0) (2026-09-24)
+
+### Features
+
+- add prediction setup support ([0ae2c95](https://github.com/hisptz/caps-app/commit/0ae2c9547821340cde398816e7046e8129f6c715))
+
 # 1.0.0 (2026-09-22)
 
 ### Bug Fixes
