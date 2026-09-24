@@ -1,10 +1,13 @@
+import { z } from 'zod'
+import type { HandlerDescriptor } from '@/capsApi/types'
 import {
+    buildScheduleFormDefaults,
     createScheduleFormSchema,
     scheduleFormValuesToCreateBody,
     scheduleFormValuesToUpdateBody,
     scheduleToFormValues,
 } from '@/modules/pipeline-detail/schemas/scheduleFormSchema'
-import type { PipelineSchedule } from '@/shared/types/caps'
+import type { PipelineSchedule, PipelineStep } from '@/shared/types/caps'
 
 const baseSchedule: PipelineSchedule = {
     id: 'sched-1',
@@ -91,5 +94,54 @@ describe('createScheduleFormSchema', () => {
             stepContexts: {},
         })
         expect(result.success).toBe(true)
+    })
+})
+
+describe('buildScheduleFormDefaults', () => {
+    const predictionHandler: HandlerDescriptor = {
+        key: 'prediction-trigger',
+        displayName: 'Prediction Trigger',
+        description: '',
+        tags: [],
+        queueName: 'step.prediction-trigger',
+        schemas: {
+            context: z.toJSONSchema(
+                z.object({
+                    period: z.object({
+                        endPeriod: z.string().optional(),
+                        periodOffset: z.number().int().optional(),
+                        numberOfPeriodsToGenerate: z.number().default(3),
+                    }),
+                }),
+                { target: 'draft-2020-12' }
+            ) as Record<string, unknown>,
+        },
+    }
+    const predictionStep: PipelineStep = {
+        id: 'step-p',
+        pipelineId: 'pipe-1',
+        name: 'Predict',
+        description: null,
+        handlerKey: 'prediction-trigger',
+        stepOrder: 0,
+        maxRetries: 0,
+        retryDelayMs: 0,
+        inputSchema: null,
+        handlerConfig: {
+            backtestId: 2,
+            predictionSetupId: 3,
+            name: 'run',
+            period: { endPeriod: '202604', numberOfPeriodsToGenerate: 6 },
+        },
+    }
+
+    it("starts a prediction step on the latest period instead of the step's fixed one", () => {
+        const defaults = buildScheduleFormDefaults(
+            [predictionStep],
+            [predictionHandler]
+        )
+        expect(defaults.stepContexts?.['step-p']).toEqual({
+            period: { periodOffset: 1, numberOfPeriodsToGenerate: 6 },
+        })
     })
 })

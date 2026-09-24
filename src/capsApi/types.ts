@@ -1,6 +1,7 @@
 import type {
     AnalyticsTrend,
-    ConfiguredModel,
+    Evaluation,
+    PredictionSetup,
     ExecutionLog,
     Pipeline,
     PipelineDuration,
@@ -189,9 +190,17 @@ export type ListHandlersResponse = {
     handlers: HandlerDescriptor[]
 }
 
-export interface ListModelsResponse {
-    models: ConfiguredModel[]
+export interface ListEvaluationsResponse {
+    evaluations: Evaluation[]
     error?: string
+    code?: string
+}
+
+/** `setup` is null when the evaluation has no prediction setup in CHAP yet. */
+export interface GetPredictionSetupResponse {
+    setup: PredictionSetup | null
+    error?: string
+    code?: string
 }
 
 export function paginationToPageCount(p: CapsPagination): number {
