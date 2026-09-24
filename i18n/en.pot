@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-09-21T14:34:34.732Z\n"
-"PO-Revision-Date: 2026-09-21T14:34:34.734Z\n"
+"POT-Creation-Date: 2026-09-24T06:04:43.064Z\n"
+"PO-Revision-Date: 2026-09-24T06:04:43.066Z\n"
 
 msgid "Enter a valid HTTP or HTTPS URL."
 msgstr "Enter a valid HTTP or HTTPS URL."
@@ -1661,11 +1661,28 @@ msgid "Quantile mapping"
 msgstr "Quantile mapping"
 
 msgid ""
-"Map each CHAP prediction quantile to a DHIS2 data element. At least one row "
-"is required. Quantiles not listed here are dropped during download."
+"Each forecast is written where prediction setup “{{name}}” says. Change it "
+"in the Modeling app."
 msgstr ""
-"Map each CHAP prediction quantile to a DHIS2 data element. At least one row "
-"is required. Quantiles not listed here are dropped during download."
+"Each forecast is written where prediction setup “{{name}}” says. Change it "
+"in the Modeling app."
+
+msgid ""
+"This pipeline’s prediction step does not use a CHAP prediction setup yet, "
+"so the mapping is entered here. Pick an evaluation in that step and these "
+"outputs come from the setup instead. Quantiles not listed here are not "
+"downloaded."
+msgstr ""
+"This pipeline’s prediction step does not use a CHAP prediction setup yet, "
+"so the mapping is entered here. Pick an evaluation in that step and these "
+"outputs come from the setup instead. Quantiles not listed here are not "
+"downloaded."
+
+msgid "Forecast outputs"
+msgstr "Forecast outputs"
+
+msgid "From the prediction setup"
+msgstr "From the prediction setup"
 
 msgid "Data element ids"
 msgstr "Data element ids"
@@ -1679,8 +1696,8 @@ msgstr "Quantile"
 msgid "DHIS2 UID"
 msgstr "DHIS2 UID"
 
-msgid "e.g. low, median, high"
-msgstr "e.g. low, median, high"
+msgid "e.g. 0.1, 0.5, 0.9"
+msgstr "e.g. 0.1, 0.5, 0.9"
 
 msgid "Remove mapping"
 msgstr "Remove mapping"
@@ -1694,11 +1711,24 @@ msgstr "At least one mapping is required."
 msgid "No mappings yet. Add one below."
 msgstr "No mappings yet. Add one below."
 
-msgid "{{name}} (target)"
-msgstr "{{name}} (target)"
+msgid ""
+"The CHAP Modeling app is not installed on this instance; ask an "
+"administrator to install it."
+msgstr ""
+"The CHAP Modeling app is not installed on this instance; ask an "
+"administrator to install it."
 
-msgid "Select a model to configure covariates"
-msgstr "Select a model to configure covariates"
+msgid "Open Modeling app"
+msgstr "Open Modeling app"
+
+msgid "Evaluations"
+msgstr "Evaluations"
+
+msgid "Choose the evaluation to use for this prediction."
+msgstr "Choose the evaluation to use for this prediction."
+
+msgid "Data sources"
+msgstr "Data sources"
 
 msgid "Covariate (CHAP)"
 msgstr "Covariate (CHAP)"
@@ -1706,20 +1736,77 @@ msgstr "Covariate (CHAP)"
 msgid "DHIS2 data item"
 msgstr "DHIS2 data item"
 
-msgid "This model does not declare any covariates."
-msgstr "This model does not declare any covariates."
+msgid "This setup does not declare any covariates."
+msgstr "This setup does not declare any covariates."
 
-msgid "Period offset"
-msgstr "Period offset"
+msgid "No evaluations found"
+msgstr "No evaluations found"
 
-msgid "Periods to shift from today’s period. 0 = current."
-msgstr "Periods to shift from today’s period. 0 = current."
+msgid ""
+"Evaluate a model in CHAP first, then create a prediction setup from that "
+"evaluation."
+msgstr ""
+"Evaluate a model in CHAP first, then create a prediction setup from that "
+"evaluation."
 
-msgid "Number of previous years to include"
-msgstr "Number of previous years to include"
+msgid "This evaluation has no prediction setup"
+msgstr "This evaluation has no prediction setup"
 
-msgid "History window for the model."
-msgstr "History window for the model."
+msgid ""
+"Create a prediction setup from this evaluation in CHAP, then refresh. The "
+"setup supplies the model, org units and covariates this step runs with."
+msgstr ""
+"Create a prediction setup from this evaluation in CHAP, then refresh. The "
+"setup supplies the model, org units and covariates this step runs with."
+
+msgid "Prediction setup name"
+msgstr "Prediction setup name"
+
+msgid "Name of the prediction setup."
+msgstr "Name of the prediction setup."
+
+msgid "Job name"
+msgstr "Job name"
+
+msgid "Identifies the job in CHAP."
+msgstr "Identifies the job in CHAP."
+
+msgid "Training period"
+msgstr "Training period"
+
+msgid "Level {{level}}"
+msgstr "Level {{level}}"
+
+msgid "Organisation unit level"
+msgstr "Organisation unit level"
+
+msgid "{{period}} (latest)"
+msgstr "{{period}} (latest)"
+
+msgid "Last period of the training data."
+msgstr "Last period of the training data."
+
+msgid "Moves with each run. A run today trains up to {{period}}."
+msgstr "Moves with each run. A run today trains up to {{period}}."
+
+msgid ""
+"Every run trains up to this period. Pick {{latest}} to move forward with "
+"each run."
+msgstr ""
+"Every run trains up to this period. Pick {{latest}} to move forward with "
+"each run."
+
+msgid "From"
+msgstr "From"
+
+msgid "First period of the training data."
+msgstr "First period of the training data."
+
+msgid "Year"
+msgstr "Year"
+
+msgid "To"
+msgstr "To"
 
 msgid "Number of periods to generate"
 msgstr "Number of periods to generate"
@@ -1727,14 +1814,21 @@ msgstr "Number of periods to generate"
 msgid "Forecast horizon."
 msgstr "Forecast horizon."
 
-msgid "Data sources"
-msgstr "Data sources"
+msgid ""
+"Prediction setup “{{name}}” has no quantile targets. Add them in the "
+"Modeling app."
+msgstr ""
+"Prediction setup “{{name}}” has no quantile targets. Add them in the "
+"Modeling app."
 
-msgid "Model"
-msgstr "Model"
+msgid "Forecast"
+msgstr "Forecast"
 
-msgid "Identifies the job in CHAP."
-msgstr "Identifies the job in CHAP."
+msgid "Written to"
+msgstr "Written to"
+
+msgid "Loading…"
+msgstr "Loading…"
 
 msgid "No entries yet. Add one below."
 msgstr "No entries yet. Add one below."
@@ -1809,9 +1903,6 @@ msgstr "Sliding history window used per calculation."
 msgid "Years"
 msgstr "Years"
 
-msgid "Year"
-msgstr "Year"
-
 msgid "Add year"
 msgstr "Add year"
 
@@ -1835,6 +1926,32 @@ msgstr "Daily"
 
 msgid "Override org units for this run"
 msgstr "Override org units for this run"
+
+msgid "This step has no prediction setup"
+msgstr "This step has no prediction setup"
+
+msgid ""
+"Edit the prediction step and choose an evaluation with a prediction setup, "
+"then come back here."
+msgstr ""
+"Edit the prediction step and choose an evaluation with a prediction setup, "
+"then come back here."
+
+msgid "Could not load the prediction setup"
+msgstr "Could not load the prediction setup"
+
+msgid "CHAP could not be reached. Try again in a moment."
+msgstr "CHAP could not be reached. Try again in a moment."
+
+msgid "Prediction setup not found"
+msgstr "Prediction setup not found"
+
+msgid ""
+"The prediction setup this step uses no longer exists in CHAP. Edit the step "
+"and choose another evaluation."
+msgstr ""
+"The prediction setup this step uses no longer exists in CHAP. Edit the step "
+"and choose another evaluation."
 
 msgid "just now"
 msgstr "just now"

@@ -4,13 +4,17 @@ import { useFormContext } from 'react-hook-form'
 import type { HandlerDescriptor } from '@/capsApi/types'
 import { useHandlerDisplayName } from '@/modules/handlers/utils/handlerLookup'
 import type { PipelineContextFormValues } from '@/modules/pipeline-detail/schemas/pipelineContextFormSchema'
-import { HandlerContextForm } from '@/shared/components/HandlerContextForms/HandlerContextForm'
+import {
+    HandlerContextForm,
+    type RunContextMode,
+} from '@/shared/components/HandlerContextForms/HandlerContextForm'
 import type { PipelineStep } from '@/shared/types/caps'
 
 export function StepContextBlock({
     step,
     handlers,
     showStepHeader,
+    mode,
 }: {
     step: PipelineStep
     handlers: HandlerDescriptor[]
@@ -18,6 +22,7 @@ export function StepContextBlock({
         typeof useFormContext<PipelineContextFormValues>
     >['control']
     showStepHeader: boolean
+    mode: RunContextMode
 }): React.ReactElement {
     const handlerLabel = useHandlerDisplayName(handlers, step.handlerKey)
 
@@ -37,6 +42,7 @@ export function StepContextBlock({
                     handlerKey={step.handlerKey}
                     stepId={step.id}
                     handlerConfig={step.handlerConfig}
+                    mode={mode}
                 />
             </div>
         </div>

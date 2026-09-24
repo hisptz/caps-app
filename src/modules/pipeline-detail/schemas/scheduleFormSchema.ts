@@ -6,6 +6,7 @@ import {
     getContextCapableSteps,
 } from '@/modules/handlers/utils/contextCapableSteps'
 import { getHandlerContextSchema } from '@/modules/handlers/utils/handlerContextSchemas'
+import { DEFAULT_PERIODS_TO_GENERATE } from '@/shared/components/HandlerConfigForms/PredictionTriggerConfig/periodIds'
 import type { PipelineSchedule, PipelineStep } from '@/shared/types/caps'
 
 const scheduleFieldsSchema = z.object({
@@ -61,13 +62,40 @@ export const defaultScheduleFormValues: ScheduleFormValues = {
     stepContexts: {},
 }
 
+function withRollingPredictionPeriods(
+    steps: PipelineStep[],
+    stepContexts: Record<string, Record<string, unknown>>
+): Record<string, Record<string, unknown>> {
+    const result = { ...stepContexts }
+    for (const step of steps) {
+        const context = result[step.id]
+        if (step.handlerKey !== 'prediction-trigger' || !context) {
+            continue
+        }
+        const period = (context.period ?? {}) as Record<string, unknown>
+        result[step.id] = {
+            ...context,
+            period: {
+                periodOffset: 1,
+                numberOfPeriodsToGenerate:
+                    period.numberOfPeriodsToGenerate ??
+                    DEFAULT_PERIODS_TO_GENERATE,
+            },
+        }
+    }
+    return result
+}
+
 export function buildScheduleFormDefaults(
     steps: PipelineStep[],
     handlers: HandlerDescriptor[]
 ): ScheduleFormValues {
     return {
         ...defaultScheduleFormValues,
-        stepContexts: buildDefaultStepContexts(steps, handlers),
+        stepContexts: withRollingPredictionPeriods(
+            steps,
+            buildDefaultStepContexts(steps, handlers)
+        ),
     }
 }
 
