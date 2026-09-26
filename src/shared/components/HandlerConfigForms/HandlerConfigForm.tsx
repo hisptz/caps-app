@@ -3,6 +3,8 @@ import { AlertGenerationConfig } from './AlertGenerationConfig'
 import type { AlertGenerationConfigProps } from './AlertGenerationConfig'
 import { Dhis2AnalyticsRunConfig } from './Dhis2AnalyticsRunConfig'
 import type { Dhis2AnalyticsRunConfigProps } from './Dhis2AnalyticsRunConfig'
+import { Dhis2DataUploadConfig } from './Dhis2DataUploadConfig'
+import type { Dhis2DataUploadConfigProps } from './Dhis2DataUploadConfig'
 import { PredictionDataDownloadConfig } from './PredictionDataDownloadConfig'
 import type { PredictionDataDownloadConfigProps } from './PredictionDataDownloadConfig'
 import { PredictionTriggerConfig } from './PredictionTriggerConfig/PredictionTriggerConfig'
@@ -11,6 +13,8 @@ import { ThresholdGenerationConfig } from './ThresholdGenerationConfig'
 import type { ThresholdGenerationConfigProps } from './ThresholdGenerationConfig'
 import type { ClimateOpenEoCreateConfigProps } from '@/shared/components/HandlerConfigForms/ClimateOpenEoCreateConfig/ClimateOpenEoCreateConfig'
 import { ClimateOpenEoCreateConfig } from '@/shared/components/HandlerConfigForms/ClimateOpenEoCreateConfig/ClimateOpenEoCreateConfig'
+import { OpenClimateServiceSyncConfig } from '@/shared/components/HandlerConfigForms/OpenClimateServiceSyncConfig/OpenClimateServiceSyncConfig'
+import type { OpenClimateServiceSyncConfigProps } from '@/shared/components/HandlerConfigForms/OpenClimateServiceSyncConfig/OpenClimateServiceSyncConfig'
 
 export interface HandlerConfigFormProps {
     handlerKey: string | null
@@ -45,6 +49,13 @@ export function HandlerConfigForm({
                     onChange={onChange}
                 />
             )
+        case 'open-climate-service-sync':
+            return (
+                <OpenClimateServiceSyncConfig
+                    value={value as OpenClimateServiceSyncConfigProps['value']}
+                    onChange={onChange}
+                />
+            )
         case 'climate-openeo-create':
             return (
                 <ClimateOpenEoCreateConfig
@@ -63,6 +74,13 @@ export function HandlerConfigForm({
             return (
                 <Dhis2AnalyticsRunConfig
                     value={value as Dhis2AnalyticsRunConfigProps['value']}
+                    onChange={onChange}
+                />
+            )
+        case 'dhis2-data-upload':
+            return (
+                <Dhis2DataUploadConfig
+                    value={value as Dhis2DataUploadConfigProps['value']}
                     onChange={onChange}
                 />
             )

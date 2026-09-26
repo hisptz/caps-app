@@ -1,14 +1,17 @@
 import { useAlert, useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import { Button, CircularLoader, NoticeBox } from '@dhis2/ui'
+import { Button, NoticeBox } from '@dhis2/ui'
 import React, { useId, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { CancelExecutionModal } from './components/CancelExecutionModal'
+import {
+    ErrorDetailsModal,
+    type ErrorTarget,
+} from './components/ErrorDetailsModal'
 import { ExecutionLogsSection } from './components/ExecutionLogsSection'
 import { ExecutionStepsSection } from './components/ExecutionStepsSection'
 import { ExecutionSummaryHeader } from './components/ExecutionSummaryHeader'
 import { RetryStepModal } from './components/RetryStepModal'
-import { TaskErrorModal } from './components/TaskErrorModal'
 import classes from './ExecutionDetailPage.module.css'
 import { CapsApiError } from '@/capsApi/client'
 import { isUuid } from '@/capsApi/isUuid'
@@ -18,8 +21,9 @@ import {
     mapRetryStepError,
     useRetryStepExecutionMutation,
 } from '@/modules/monitoring/hooks/useRetryStepExecutionMutation'
+import { PageLoader } from '@/shared/components/ui/PageLoader'
 import shellClasses from '@/shared/components/ui/PageShell/PageShell.module.css'
-import type { StepExecution, TaskExecution } from '@/shared/types/caps'
+import type { StepExecution } from '@/shared/types/caps'
 
 type AlertShowProps = { text: string; error?: boolean; success?: boolean }
 
@@ -29,7 +33,7 @@ const ExecutionDetailPage: React.FC = () => {
     const navigate = useNavigate()
     const [expandedSteps, setExpandedSteps] = useState<Set<string>>(new Set())
     const [expandedTasks, setExpandedTasks] = useState<Set<string>>(new Set())
-    const [taskError, setTaskError] = useState<TaskExecution | null>(null)
+    const [errorTarget, setErrorTarget] = useState<ErrorTarget | null>(null)
     const [showCancelConfirm, setShowCancelConfirm] = useState(false)
     const [retryTarget, setRetryTarget] = useState<StepExecution | null>(null)
     const [retryError, setRetryError] = useState<string | null>(null)
@@ -140,7 +144,7 @@ const ExecutionDetailPage: React.FC = () => {
     if (isLoading && !execution) {
         return (
             <div className={shellClasses.pageRoot}>
-                <CircularLoader />
+                <PageLoader />
             </div>
         )
     }
@@ -212,16 +216,16 @@ const ExecutionDetailPage: React.FC = () => {
                 expandedTasks={expandedTasks}
                 onToggleStep={toggleStep}
                 onToggleTask={toggleTask}
-                onViewTaskError={setTaskError}
+                onViewError={setErrorTarget}
                 onRetryClick={openRetryModal}
             />
 
             <ExecutionLogsSection logs={logs} />
 
-            {taskError && (
-                <TaskErrorModal
-                    task={taskError}
-                    onClose={() => setTaskError(null)}
+            {errorTarget && (
+                <ErrorDetailsModal
+                    {...errorTarget}
+                    onClose={() => setErrorTarget(null)}
                 />
             )}
 

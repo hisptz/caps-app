@@ -1,6 +1,6 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import { Button, CircularLoader, NoticeBox, Tab, TabBar } from '@dhis2/ui'
+import { Button, NoticeBox, Tab, TabBar } from '@dhis2/ui'
 import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { DeletePipelineModal } from './components/DeletePipelineModal'
@@ -30,6 +30,7 @@ import { useScheduleMutations } from '@/modules/pipeline-detail/hooks/useSchedul
 import { useStepMutations } from '@/modules/pipeline-detail/hooks/useStepMutations'
 import { useTriggerPipeline } from '@/modules/pipeline-detail/hooks/useTriggerPipeline'
 import { PipelineEditModal } from '@/modules/pipelines/components/PipelineEditModal'
+import { PageLoader } from '@/shared/components/ui/PageLoader'
 import shellClasses from '@/shared/components/ui/PageShell/PageShell.module.css'
 import type { PipelineSchedule, PipelineStep } from '@/shared/types/caps'
 
@@ -153,7 +154,7 @@ const PipelineDetailPage: React.FC = () => {
     if (pipelineLoading && !pipelineDetail) {
         return (
             <div className={shellClasses.pageRoot}>
-                <CircularLoader />
+                <PageLoader />
             </div>
         )
     }
@@ -249,6 +250,20 @@ const PipelineDetailPage: React.FC = () => {
                         }}
                         onReorder={(fromIndex, toIndex) =>
                             void handleStepReorder(steps, fromIndex, toIndex)
+                        }
+                        onUpdateSyncStep={(syncStep, handlerConfig) =>
+                            updateStepMutation.mutate({
+                                stepId: syncStep.id,
+                                body: { handlerConfig },
+                            })
+                        }
+                        syncStepUpdating={updateStepMutation.isPending}
+                        syncStepUpdateError={
+                            editStep === null && updateStepMutation.isError
+                                ? i18n.t(
+                                      'Could not update the sync step. Try again.'
+                                  )
+                                : null
                         }
                     />
                 )}

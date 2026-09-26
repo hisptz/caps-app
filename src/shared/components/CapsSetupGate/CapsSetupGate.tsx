@@ -1,6 +1,6 @@
 import { useDataQuery } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import { Button, ButtonStrip, CircularLoader, NoticeBox } from '@dhis2/ui'
+import { Button, ButtonStrip, NoticeBox } from '@dhis2/ui'
 import React from 'react'
 import classes from '@/app/App.module.css'
 import {
@@ -8,11 +8,11 @@ import {
     type RoutesListResponse,
 } from '@/capsApi/dhis2CapsRoute'
 import WelcomePage from '@/pages/WelcomePage'
+import { PageLoader } from '@/shared/components/ui/PageLoader'
 import shellClasses from '@/shared/components/ui/PageShell/PageShell.module.css'
 
 export type CapsSetupGateProps = {
     children: React.ReactNode
-    /** Matches main content id for skip-link parity when the full shell mounts later */
     mainContentId: string
 }
 
@@ -34,9 +34,7 @@ const CapsSetupGate: React.FC<CapsSetupGateProps> = ({
                     className={classes.mainWelcome}
                     tabIndex={-1}
                 >
-                    <div className={shellClasses.pageRoot}>
-                        <CircularLoader />
-                    </div>
+                    <PageLoader />
                 </main>
             </div>
         )

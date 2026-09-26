@@ -1,11 +1,6 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import {
-    CircularLoader,
-    NoticeBox,
-    SingleSelectField,
-    SingleSelectOption,
-} from '@dhis2/ui'
+import { NoticeBox, SingleSelectField, SingleSelectOption } from '@dhis2/ui'
 import React, { useMemo, useState } from 'react'
 import classes from './AnalyticsPage.module.css'
 import { ExecutionTrendsSection } from './components/ExecutionTrendsSection'
@@ -17,6 +12,7 @@ import {
     TopFailingStepsBarChart,
 } from '@/shared/components/AnalyticsBarCharts'
 import type { TrendChartPoint } from '@/shared/components/ExecutionTrendChart'
+import { PageLoader } from '@/shared/components/ui/PageLoader'
 import shellClasses from '@/shared/components/ui/PageShell/PageShell.module.css'
 
 const AnalyticsPage: React.FC = () => {
@@ -121,7 +117,7 @@ const AnalyticsPage: React.FC = () => {
             <section className={classes.section}>
                 <h3>{i18n.t('Top Failing Steps')}</h3>
                 {topStepsQuery.isLoading && !topStepsQuery.data ? (
-                    <CircularLoader />
+                    <PageLoader variant="section" />
                 ) : (
                     <TopFailingStepsBarChart steps={topFailingSteps} />
                 )}
@@ -130,7 +126,7 @@ const AnalyticsPage: React.FC = () => {
             <section className={classes.section}>
                 <h3>{i18n.t('Pipeline Durations')}</h3>
                 {durationsQuery.isLoading && !durationsQuery.data ? (
-                    <CircularLoader />
+                    <PageLoader variant="section" />
                 ) : (
                     <PipelineDurationsBarChart durations={durations} />
                 )}
@@ -139,7 +135,7 @@ const AnalyticsPage: React.FC = () => {
             <section className={classes.section}>
                 <h3>{i18n.t('Top Errors')}</h3>
                 {topErrorsQuery.isLoading && !topErrorsQuery.data ? (
-                    <CircularLoader />
+                    <PageLoader variant="section" />
                 ) : (
                     <TopErrorsBarChart errors={topErrors} />
                 )}

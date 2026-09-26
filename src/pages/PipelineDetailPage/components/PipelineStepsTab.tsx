@@ -20,6 +20,8 @@ import {
     getHandlerByKey,
     getHandlerDisplayName,
 } from '@/modules/handlers/utils/handlerLookup'
+import { OpenClimateServiceSyncCoverageNotice } from '@/modules/open-climate-service-sync/components/OpenClimateServiceSyncCoverageNotice'
+import { PredictionCoverageNotice } from '@/modules/prediction-coverage/components/PredictionCoverageNotice'
 import { TableScroll } from '@/shared/components/ui/TableScroll'
 import type { PipelineStep } from '@/shared/types/caps'
 
@@ -31,11 +33,14 @@ type Props = {
     onEditStep: (step: PipelineStep) => void
     onDeleteStep: (step: PipelineStep) => void
     onReorder: (fromIndex: number, toIndex: number) => void
+    onUpdateSyncStep: (
+        syncStep: PipelineStep,
+        handlerConfig: Record<string, unknown>
+    ) => void
+    syncStepUpdating: boolean
+    syncStepUpdateError: string | null
 }
 
-// We render our own handle instead of DataTableRow's `draggable` prop (which
-// only adds a 2×3 icon and a move cursor), and set the HTML attribute here so
-// the browser actually starts a native drag.
 const enableNativeDrag = (row: HTMLTableRowElement | null) => {
     row?.setAttribute('draggable', 'true')
 }
@@ -66,6 +71,9 @@ export function PipelineStepsTab({
     onEditStep,
     onDeleteStep,
     onReorder,
+    onUpdateSyncStep,
+    syncStepUpdating,
+    syncStepUpdateError,
 }: Props): React.ReactElement {
     const [dragId, setDragId] = useState<string | null>(null)
     const [draftOrder, setDraftOrder] = useState<PipelineStep[] | null>(null)
@@ -109,6 +117,13 @@ export function PipelineStepsTab({
                     {reorderError}
                 </NoticeBox>
             )}
+            <OpenClimateServiceSyncCoverageNotice
+                steps={steps}
+                onUpdateSyncStep={onUpdateSyncStep}
+                updating={syncStepUpdating}
+                updateError={syncStepUpdateError}
+            />
+            <PredictionCoverageNotice steps={steps} />
             {steps.length === 0 ? (
                 <NoticeBox title={i18n.t('No steps')}>
                     {i18n.t('Add a step to define this pipeline.')}
