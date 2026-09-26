@@ -1,11 +1,11 @@
 import i18n from '@dhis2/d2-i18n'
-import { CircularLoader } from '@dhis2/ui'
 import React from 'react'
 import classes from '../AnalyticsPage.module.css'
 import {
     ExecutionTrendChart,
     type TrendChartPoint,
 } from '@/shared/components/ExecutionTrendChart'
+import { PageLoader } from '@/shared/components/ui/PageLoader'
 
 type TrendRow = [string, { completed: number; failed: number }]
 
@@ -26,7 +26,7 @@ export function ExecutionTrendsSection({
         <section className={classes.section}>
             <h3>{i18n.t('Execution Trends')}</h3>
             {isLoading && !hasLoadedOnce ? (
-                <CircularLoader />
+                <PageLoader variant="section" />
             ) : (
                 <>
                     <ExecutionTrendChart points={chartPoints} />

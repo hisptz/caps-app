@@ -1,0 +1,23 @@
+.page,
+.content,
+.section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Viewport minus the DHIS2 header bar (48px) and <main> vertical padding */
+.page {
+    min-height: calc(100vh - 48px - 48px);
+}
+
+.content {
+    min-height: 60vh;
+}
+
+.section {
+    min-height: 200px;
+    padding: var(--spacers-dp32, 32px) 0;
+}

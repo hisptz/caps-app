@@ -1,6 +1,5 @@
 import i18n from '@dhis2/d2-i18n'
 import {
-    CircularLoader,
     DataTable,
     DataTableBody,
     DataTableCell,
@@ -20,6 +19,7 @@ import {
     durationLabel,
     formatDate,
 } from '@/modules/pipeline-detail/utils/formatLabels'
+import { PageLoader } from '@/shared/components/ui/PageLoader'
 import { StatusTag } from '@/shared/components/ui/StatusTag'
 import tableNavLinkClasses from '@/shared/components/ui/TableNavLink/TableNavLink.module.css'
 import { TableScroll } from '@/shared/components/ui/TableScroll'
@@ -97,7 +97,7 @@ export function PipelineExecutionsTab({
                 </SingleSelectField>
             </div>
             {isLoading && !hasLoadedOnce ? (
-                <CircularLoader />
+                <PageLoader variant="section" />
             ) : executions.length === 0 ? (
                 <NoticeBox title={i18n.t('No executions')}>
                     {statusFilter

@@ -1,6 +1,6 @@
 import { useAlert, useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import { Button, CircularLoader, NoticeBox } from '@dhis2/ui'
+import { Button, NoticeBox } from '@dhis2/ui'
 import React, { useId, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { CancelExecutionModal } from './components/CancelExecutionModal'
@@ -18,6 +18,7 @@ import {
     mapRetryStepError,
     useRetryStepExecutionMutation,
 } from '@/modules/monitoring/hooks/useRetryStepExecutionMutation'
+import { PageLoader } from '@/shared/components/ui/PageLoader'
 import shellClasses from '@/shared/components/ui/PageShell/PageShell.module.css'
 import type { StepExecution, TaskExecution } from '@/shared/types/caps'
 
@@ -140,7 +141,7 @@ const ExecutionDetailPage: React.FC = () => {
     if (isLoading && !execution) {
         return (
             <div className={shellClasses.pageRoot}>
-                <CircularLoader />
+                <PageLoader />
             </div>
         )
     }

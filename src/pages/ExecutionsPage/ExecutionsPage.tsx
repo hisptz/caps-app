@@ -1,6 +1,6 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import { CircularLoader, NoticeBox, Pagination } from '@dhis2/ui'
+import { NoticeBox, Pagination } from '@dhis2/ui'
 import React, { useState } from 'react'
 import { ExecutionsFilters } from './components/ExecutionsFilters'
 import { ExecutionsTable } from './components/ExecutionsTable'
@@ -8,6 +8,7 @@ import classes from './ExecutionsPage.module.css'
 import { CapsApiError } from '@/capsApi/client'
 import { paginationToPageCount } from '@/capsApi/types'
 import { useExecutionsPageQueries } from '@/modules/monitoring/hooks/capsMonitoringHooks'
+import { PageLoader } from '@/shared/components/ui/PageLoader'
 import shellClasses from '@/shared/components/ui/PageShell/PageShell.module.css'
 
 const ExecutionsPage: React.FC = () => {
@@ -57,11 +58,7 @@ const ExecutionsPage: React.FC = () => {
                 }}
             />
 
-            {isLoading && !execData && (
-                <div>
-                    <CircularLoader />
-                </div>
-            )}
+            {isLoading && !execData && <PageLoader variant="content" />}
 
             {isError && error instanceof CapsApiError && (
                 <NoticeBox error title={i18n.t('Could not load executions')}>
