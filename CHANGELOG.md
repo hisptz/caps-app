@@ -1,3 +1,11 @@
+# [1.2.0](https://github.com/hisptz/caps-app/compare/v1.1.0...v1.2.0) (2026-09-26)
+
+### Features
+
+- add DHIS2 data upload configuration component and schema ([4259c3e](https://github.com/hisptz/caps-app/commit/4259c3ec77218fdbde584813afac265542de7e22))
+- implement Open Climate Service sync functionality with configuration and coverage notices ([d553602](https://github.com/hisptz/caps-app/commit/d553602dceac89afa8c055219fc611091fa2e99b))
+- implement prediction coverage notice ([5ca982e](https://github.com/hisptz/caps-app/commit/5ca982e375b458c2fa136daf000cbc35488564d5))
+
 # [1.1.0](https://github.com/hisptz/caps-app/compare/v1.0.0...v1.1.0) (2026-09-24)
 
 ### Features
