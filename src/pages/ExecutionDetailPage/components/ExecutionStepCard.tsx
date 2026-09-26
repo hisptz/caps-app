@@ -4,10 +4,11 @@ import {
     IconChevronDown16,
     IconChevronRight16,
     IconSync16,
-    NoticeBox,
 } from '@dhis2/ui'
 import React, { useRef } from 'react'
 import classes from '../ExecutionDetailPage.module.css'
+import type { ErrorTarget } from './ErrorDetailsModal'
+import { ErrorNotice } from './ErrorNotice'
 import { IoJsonGrid } from './IoJsonGrid'
 import { TaskExecutionsTable } from './TaskExecutionsTable'
 import {
@@ -15,7 +16,7 @@ import {
     formatDate,
 } from '@/modules/pipeline-detail/utils/formatLabels'
 import { StatusTag } from '@/shared/components/ui/StatusTag'
-import type { StepExecution, TaskExecution } from '@/shared/types/caps'
+import type { StepExecution } from '@/shared/types/caps'
 
 type Props = {
     stepExecution: StepExecution
@@ -24,7 +25,7 @@ type Props = {
     onToggle: () => void
     expandedTasks: Set<string>
     onToggleTask: (taskId: string) => void
-    onViewTaskError: (task: TaskExecution) => void
+    onViewError: (target: ErrorTarget) => void
     onRetryClick: (triggerEl: HTMLElement | null) => void
 }
 
@@ -35,7 +36,7 @@ export function ExecutionStepCard({
     onToggle,
     expandedTasks,
     onToggleTask,
-    onViewTaskError,
+    onViewError,
     onRetryClick,
 }: Props): React.ReactElement {
     const retryButtonWrapRef = useRef<HTMLSpanElement | null>(null)
@@ -97,9 +98,13 @@ export function ExecutionStepCard({
             {isExpanded && (
                 <div id={panelId} className={classes.stepBody}>
                     {se.errorMessage && (
-                        <NoticeBox error title={i18n.t('Step failed')}>
-                            {se.errorMessage}
-                        </NoticeBox>
+                        <ErrorNotice
+                            title={i18n.t('Step failed')}
+                            error={se}
+                            onViewDetails={() =>
+                                onViewError({ title: stepTitle, error: se })
+                            }
+                        />
                     )}
 
                     <IoJsonGrid input={se.input} output={se.output} />
@@ -109,7 +114,7 @@ export function ExecutionStepCard({
                             tasks={se.taskExecutions}
                             expandedTasks={expandedTasks}
                             onToggleTask={onToggleTask}
-                            onViewTaskError={onViewTaskError}
+                            onViewError={onViewError}
                         />
                     )}
                 </div>

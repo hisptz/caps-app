@@ -1,12 +1,6 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import {
-    Button,
-    ButtonStrip,
-    CircularLoader,
-    IconAdd16,
-    NoticeBox,
-} from '@dhis2/ui'
+import { Button, ButtonStrip, IconAdd16, NoticeBox } from '@dhis2/ui'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router'
 import classes from './ClimateDataPage.module.css'
@@ -30,6 +24,7 @@ import {
 import { useClimateJobsTracker } from '@/modules/climate-data/hooks/useClimateJobsTracker'
 import { useClimateTemplatesQuery } from '@/modules/climate-data/hooks/useClimateTemplatesQuery'
 import { useSystemInfoQuery } from '@/modules/monitoring/hooks/capsMonitoringHooks'
+import { PageLoader } from '@/shared/components/ui/PageLoader'
 import shellClasses from '@/shared/components/ui/PageShell/PageShell.module.css'
 
 const SUCCESS_BANNER_TIMEOUT_MS = 2000
@@ -243,13 +238,7 @@ const ClimateDataPage: React.FC = () => {
                     </div>
                 )
             })}
-
-            {datasetsQuery.isLoading && (
-                <div className={classes.loaderWrap}>
-                    <CircularLoader />
-                </div>
-            )}
-
+            {datasetsQuery.isLoading && <PageLoader variant="content" />}
             {datasetsQuery.isError && (
                 <NoticeBox
                     error

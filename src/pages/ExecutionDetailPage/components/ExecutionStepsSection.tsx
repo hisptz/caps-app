@@ -1,8 +1,9 @@
 import i18n from '@dhis2/d2-i18n'
 import React from 'react'
 import classes from '../ExecutionDetailPage.module.css'
+import type { ErrorTarget } from './ErrorDetailsModal'
 import { ExecutionStepCard } from './ExecutionStepCard'
-import type { StepExecution, TaskExecution } from '@/shared/types/caps'
+import type { StepExecution } from '@/shared/types/caps'
 
 type Props = {
     stepExecutions: StepExecution[]
@@ -11,7 +12,7 @@ type Props = {
     expandedTasks: Set<string>
     onToggleStep: (stepId: string) => void
     onToggleTask: (taskId: string) => void
-    onViewTaskError: (task: TaskExecution) => void
+    onViewError: (target: ErrorTarget) => void
     onRetryClick: (
         stepExecution: StepExecution,
         triggerEl: HTMLElement | null
@@ -25,7 +26,7 @@ export function ExecutionStepsSection({
     expandedTasks,
     onToggleStep,
     onToggleTask,
-    onViewTaskError,
+    onViewError,
     onRetryClick,
 }: Props): React.ReactElement {
     return (
@@ -46,7 +47,7 @@ export function ExecutionStepsSection({
                             onToggle={() => onToggleStep(se.id)}
                             expandedTasks={expandedTasks}
                             onToggleTask={onToggleTask}
-                            onViewTaskError={onViewTaskError}
+                            onViewError={onViewError}
                             onRetryClick={(triggerEl) =>
                                 onRetryClick(se, triggerEl)
                             }

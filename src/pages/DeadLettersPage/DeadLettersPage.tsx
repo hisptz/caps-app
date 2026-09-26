@@ -1,7 +1,6 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import {
-    CircularLoader,
     NoticeBox,
     Pagination,
     SingleSelectField,
@@ -13,6 +12,7 @@ import classes from './DeadLettersPage.module.css'
 import { CapsApiError } from '@/capsApi/client'
 import { paginationToPageCount } from '@/capsApi/types'
 import { useDeadLettersPageQueries } from '@/modules/monitoring/hooks/capsMonitoringHooks'
+import { PageLoader } from '@/shared/components/ui/PageLoader'
 import shellClasses from '@/shared/components/ui/PageShell/PageShell.module.css'
 
 const DeadLettersPage: React.FC = () => {
@@ -67,11 +67,7 @@ const DeadLettersPage: React.FC = () => {
                 </SingleSelectField>
             </div>
 
-            {isLoading && !deadLetterData && (
-                <div>
-                    <CircularLoader />
-                </div>
-            )}
+            {isLoading && !deadLetterData && <PageLoader variant="content" />}
 
             {isError && error instanceof CapsApiError && (
                 <NoticeBox error title={i18n.t('Could not load dead letters')}>

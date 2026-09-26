@@ -1,0 +1,32 @@
+.planList {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.planRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+}
+
+.planName {
+    font-weight: 500;
+    color: var(--colors-grey900);
+}
+
+.planDetail {
+    color: var(--colors-grey700);
+}
+
+.pipelineNotice {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}

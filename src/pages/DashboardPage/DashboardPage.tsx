@@ -10,6 +10,7 @@ import classes from './DashboardPage.module.css'
 import { CapsApiError } from '@/capsApi/client'
 import { capsKeys } from '@/capsApi/queryKeys'
 import { useDashboardQuery } from '@/modules/monitoring/hooks/capsMonitoringHooks'
+import { PageLoader } from '@/shared/components/ui/PageLoader'
 import shellClasses from '@/shared/components/ui/PageShell/PageShell.module.css'
 
 const DashboardPage: React.FC = () => {
@@ -25,7 +26,7 @@ const DashboardPage: React.FC = () => {
     if (isLoading && !data) {
         return (
             <div className={shellClasses.pageRoot}>
-                <CircularLoader />
+                <PageLoader />
             </div>
         )
     }

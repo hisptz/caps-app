@@ -2,6 +2,7 @@ import { useDataEngine } from '@dhis2/app-runtime'
 import { useMemo } from 'react'
 import { useParams } from 'react-router'
 import { usePipelineDetailQuery } from '@/modules/monitoring/hooks/capsMonitoringHooks'
+import { getPipelinePredictionSetupId } from '@/modules/prediction-coverage/utils/predictionCoverage'
 import { usePredictionSetupQuery } from '@/shared/hooks/useEvaluationsQuery'
 import type { PredictionSetup } from '@/shared/types/caps'
 
@@ -14,19 +15,10 @@ export function usePipelinePredictionSetup(): PredictionSetup | undefined {
         Boolean(pipelineId)
     )
 
-    const predictionSetupId = useMemo(() => {
-        const steps = pipeline?.steps ?? []
-        for (const step of steps) {
-            if (step.handlerKey !== 'prediction-trigger') {
-                continue
-            }
-            const id = step.handlerConfig?.predictionSetupId
-            if (typeof id === 'number') {
-                return id
-            }
-        }
-        return undefined
-    }, [pipeline])
+    const predictionSetupId = useMemo(
+        () => getPipelinePredictionSetupId(pipeline?.steps ?? []),
+        [pipeline]
+    )
 
     const { data } = usePredictionSetupQuery(engine, predictionSetupId)
 

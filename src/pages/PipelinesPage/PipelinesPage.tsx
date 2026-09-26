@@ -1,12 +1,6 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import {
-    Button,
-    CircularLoader,
-    IconAdd16,
-    NoticeBox,
-    Pagination,
-} from '@dhis2/ui'
+import { Button, IconAdd16, NoticeBox, Pagination } from '@dhis2/ui'
 import React, { useState } from 'react'
 import { PipelinesTable } from './components/PipelinesTable'
 import classes from './PipelinesPage.module.css'
@@ -14,6 +8,7 @@ import { CapsApiError } from '@/capsApi/client'
 import { paginationToPageCount } from '@/capsApi/types'
 import { PipelineCreateModal } from '@/modules/pipelines/components/PipelineCreateModal'
 import { usePipelinesListQuery } from '@/modules/pipelines/hooks/usePipelinesListQuery'
+import { PageLoader } from '@/shared/components/ui/PageLoader'
 import shellClasses from '@/shared/components/ui/PageShell/PageShell.module.css'
 
 const PipelinesPage: React.FC = () => {
@@ -46,11 +41,7 @@ const PipelinesPage: React.FC = () => {
                 </Button>
             </div>
 
-            {isLoading && (
-                <div>
-                    <CircularLoader />
-                </div>
-            )}
+            {isLoading && <PageLoader variant="content" />}
 
             {isError && error instanceof CapsApiError && (
                 <NoticeBox error title={i18n.t('Could not load pipelines')}>

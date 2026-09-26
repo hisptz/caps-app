@@ -5,7 +5,13 @@ import { Controller, useFormContext } from 'react-hook-form'
 import type { PipelineStepFormWithHandlerValues } from '@/modules/pipeline-detail/schemas/stepFormSchema'
 import { formSectionGrids } from '@/shared/components/ui/FormPrimitives'
 
-export function PollingFields(): React.ReactElement {
+export interface PollingFieldsProps {
+    minPollIntervalMs?: number
+}
+
+export function PollingFields({
+    minPollIntervalMs = 250,
+}: PollingFieldsProps): React.ReactElement {
     const { control } = useFormContext<PipelineStepFormWithHandlerValues>()
 
     return (
@@ -19,7 +25,8 @@ export function PollingFields(): React.ReactElement {
                         type="number"
                         required
                         helpText={i18n.t(
-                            'Time between status checks. Minimum 250ms.'
+                            'Time between status checks. Minimum {{min}}ms.',
+                            { min: minPollIntervalMs }
                         )}
                         value={
                             typeof field.value === 'number' &&

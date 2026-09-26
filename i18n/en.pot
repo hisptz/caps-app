@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-09-24T06:04:43.064Z\n"
-"PO-Revision-Date: 2026-09-24T06:04:43.066Z\n"
+"POT-Creation-Date: 2026-09-25T16:31:00.165Z\n"
+"PO-Revision-Date: 2026-09-25T16:31:00.165Z\n"
 
 msgid "Enter a valid HTTP or HTTPS URL."
 msgstr "Enter a valid HTTP or HTTPS URL."
@@ -223,6 +223,25 @@ msgstr "n/a"
 
 msgid "Could not retry the step. Try again."
 msgstr "Could not retry the step. Try again."
+
+msgid "Climate data may be stale"
+msgstr "Climate data may be stale"
+
+msgid ""
+"Not synced by an earlier step — {{steps}}. Scheduled runs will use whatever "
+"was last synced by hand."
+msgstr ""
+"Not synced by an earlier step — {{steps}}. Scheduled runs will use whatever "
+"was last synced by hand."
+
+msgid "Move \"{{name}}\" above these steps."
+msgstr "Move \"{{name}}\" above these steps."
+
+msgid "Add an Open Climate Service Sync step above these steps."
+msgstr "Add an Open Climate Service Sync step above these steps."
+
+msgid "Add {{datasets}} to \"{{step}}\""
+msgstr "Add {{datasets}} to \"{{step}}\""
 
 msgid "e.g. Download ERA5 Data"
 msgstr "e.g. Download ERA5 Data"
@@ -614,6 +633,41 @@ msgstr "Could not trigger pipeline"
 
 msgid "Unknown error"
 msgstr "Unknown error"
+
+msgid "Steps do not match prediction setup \"{{name}}\""
+msgstr "Steps do not match prediction setup \"{{name}}\""
+
+msgid ""
+"Written to a data element the setup does not read — {{steps}}. Pick the "
+"covariate in each step so it writes where \"{{prediction}}\" reads."
+msgstr ""
+"Written to a data element the setup does not read — {{steps}}. Pick the "
+"covariate in each step so it writes where \"{{prediction}}\" reads."
+
+msgid ""
+"Run after \"{{prediction}}\", so each prediction uses the previous run’s "
+"data — {{steps}}. Move them above it."
+msgstr ""
+"Run after \"{{prediction}}\", so each prediction uses the previous run’s "
+"data — {{steps}}. Move them above it."
+
+msgid ""
+"No analytics run between the covariate downloads and \"{{prediction}}\". "
+"The prediction reads analytics, so new data is not seen until analytics "
+"runs. Add a DHIS2 analytics run step (without skipping aggregate tables) "
+"just above it."
+msgstr ""
+"No analytics run between the covariate downloads and \"{{prediction}}\". "
+"The prediction reads analytics, so new data is not seen until analytics "
+"runs. Add a DHIS2 analytics run step (without skipping aggregate tables) "
+"just above it."
+
+msgid ""
+"Downloaded at a coarser period than the setup’s {{periodType}} periods, so "
+"analytics cannot split the values — {{steps}}."
+msgstr ""
+"Downloaded at a coarser period than the setup’s {{periodType}} periods, so "
+"analytics cannot split the values — {{steps}}."
 
 msgid "DHIS2 instance"
 msgstr "DHIS2 instance"
@@ -1059,6 +1113,9 @@ msgstr "Could not load pipeline"
 
 msgid "Overview"
 msgstr "Overview"
+
+msgid "Could not update the sync step. Try again."
+msgstr "Could not update the sync step. Try again."
 
 msgid "Delete pipeline?"
 msgstr "Delete pipeline?"
@@ -1573,6 +1630,23 @@ msgstr "No periods match"
 msgid "Clear"
 msgstr "Clear"
 
+msgid "Prediction covariate"
+msgstr "Prediction covariate"
+
+msgid ""
+"Writes the data element prediction setup \"{{name}}\" reads for this "
+"covariate."
+msgstr ""
+"Writes the data element prediction setup \"{{name}}\" reads for this "
+"covariate."
+
+msgid ""
+"Prediction setup \"{{name}}\" does not read this data element. Pick a "
+"covariate so the prediction sees this data."
+msgstr ""
+"Prediction setup \"{{name}}\" does not read this data element. Pick a "
+"covariate so the prediction sees this data."
+
 msgid "Add"
 msgstr "Add"
 
@@ -1614,6 +1688,86 @@ msgstr "Polling"
 msgid "Controls how CAPS waits for DHIS2 task completion."
 msgstr "Controls how CAPS waits for DHIS2 task completion."
 
+msgid "Merge"
+msgstr "Merge"
+
+msgid "Import new values and update existing"
+msgstr "Import new values and update existing"
+
+msgid "Append"
+msgstr "Append"
+
+msgid "Import new values only"
+msgstr "Import new values only"
+
+msgid "Update"
+msgstr "Update"
+
+msgid "Only update existing values, ignore new values"
+msgstr "Only update existing values, ignore new values"
+
+msgid "Import strategy"
+msgstr "Import strategy"
+
+msgid ""
+"How DHIS2 should treat values that already exist when importing the data "
+"value set."
+msgstr ""
+"How DHIS2 should treat values that already exist when importing the data "
+"value set."
+
+msgid "Datasets"
+msgstr "Datasets"
+
+msgid "Brought up to date before later steps read them"
+msgstr "Brought up to date before later steps read them"
+
+msgid ""
+"Datasets already up to date are skipped, so syncing on every run costs "
+"nothing."
+msgstr ""
+"Datasets already up to date are skipped, so syncing on every run costs "
+"nothing."
+
+msgid "{{name}} (used by this pipeline)"
+msgstr "{{name}} (used by this pipeline)"
+
+msgid "Some datasets this pipeline reads are not selected"
+msgstr "Some datasets this pipeline reads are not selected"
+
+msgid "Add them"
+msgstr "Add them"
+
+msgid "If a dataset fails to sync"
+msgstr "If a dataset fails to sync"
+
+msgid "Stop the pipeline"
+msgstr "Stop the pipeline"
+
+msgid "Continue with existing data"
+msgstr "Continue with existing data"
+
+msgid "Sync until"
+msgstr "Sync until"
+
+msgid "Leave blank to sync to the latest available data"
+msgstr "Leave blank to sync to the latest available data"
+
+msgid "Last date"
+msgstr "Last date"
+
+msgid "Latest available"
+msgstr "Latest available"
+
+msgid "How CAPS waits for queued sync jobs. Keep the total under 30 minutes."
+msgstr "How CAPS waits for queued sync jobs. Keep the total under 30 minutes."
+
+msgid "Sync status unavailable"
+msgstr "Sync status unavailable"
+
+msgid "Covers data until {{end}}"
+msgstr "Covers data until {{end}}"
+
 msgid "By level"
 msgstr "By level"
 
@@ -1648,8 +1802,8 @@ msgstr "No matching organisation unit levels found"
 msgid "Poll interval (ms)"
 msgstr "Poll interval (ms)"
 
-msgid "Time between status checks. Minimum 250ms."
-msgstr "Time between status checks. Minimum 250ms."
+msgid "Time between status checks. Minimum {{min}}ms."
+msgstr "Time between status checks. Minimum {{min}}ms."
 
 msgid "Max attempts"
 msgstr "Max attempts"
@@ -2001,11 +2155,3 @@ msgstr "Skipped"
 msgctxt "URL configuration."
 msgid "Check CLIMATE_API_BASE"
 msgstr "Check CLIMATE_API_BASE_URL configuration."
-
-msgctxt "Application title"
-msgid "__MANIFEST_APP_TITLE"
-msgstr "CAPS"
-
-msgctxt "Application description"
-msgid "__MANIFEST_APP_DESCRIPTION"
-msgstr ""
