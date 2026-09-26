@@ -124,6 +124,33 @@ export type RetryBlockedReason =
     | 'RETRY_IN_PROGRESS'
     | 'IDEMPOTENCY_KEY_CONFLICT'
 
+/** Identical upstream conflicts collapsed into one row (see caps-engine `groupConflicts`). */
+export interface ErrorConflict {
+    value: string
+    count: number
+    /** First few objects (UIDs, row refs) that hit this conflict */
+    objects: string[]
+}
+
+/** Structured failure context stored next to the short `errorMessage` headline. */
+export interface ErrorDetails {
+    source?: string
+    httpStatus?: number
+    request?: string
+    description?: string
+    conflicts?: ErrorConflict[]
+    totalConflicts?: number
+    /** Original message when `errorMessage` was truncated */
+    fullMessage?: string
+    [key: string]: unknown
+}
+
+/** The error columns shared by step and task executions. */
+export type ExecutionError = Pick<
+    StepExecution,
+    'errorMessage' | 'errorStack' | 'errorDetails'
+>
+
 export interface StepExecution {
     id: string
     executionId: string
@@ -136,6 +163,7 @@ export interface StepExecution {
     output: Record<string, unknown> | null
     errorMessage: string | null
     errorStack: string | null
+    errorDetails?: ErrorDetails | null
     startedAt: string | null
     finishedAt: string | null
     /** Authoritative eligibility from GET /monitoring/execution/:id */
@@ -156,6 +184,7 @@ export interface TaskExecution {
     output: Record<string, unknown> | null
     errorMessage: string | null
     errorStack: string | null
+    errorDetails?: ErrorDetails | null
     startedAt: string | null
     finishedAt: string | null
 }

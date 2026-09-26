@@ -8,10 +8,11 @@ import {
     DataTableHead,
     DataTableRow,
     IconErrorFilled16,
-    NoticeBox,
 } from '@dhis2/ui'
 import React from 'react'
 import classes from '../ExecutionDetailPage.module.css'
+import type { ErrorTarget } from './ErrorDetailsModal'
+import { ErrorNotice } from './ErrorNotice'
 import { IoJsonGrid } from './IoJsonGrid'
 import {
     durationLabel,
@@ -21,18 +22,25 @@ import { StatusTag } from '@/shared/components/ui/StatusTag'
 import { TableScroll } from '@/shared/components/ui/TableScroll'
 import type { TaskExecution } from '@/shared/types/caps'
 
+function taskErrorTarget(task: TaskExecution): ErrorTarget {
+    return {
+        title: i18n.t('Task error — {{name}}', { name: task.name }),
+        error: task,
+    }
+}
+
 type Props = {
     tasks: TaskExecution[]
     expandedTasks: Set<string>
     onToggleTask: (taskId: string) => void
-    onViewTaskError: (task: TaskExecution) => void
+    onViewError: (target: ErrorTarget) => void
 }
 
 export function TaskExecutionsTable({
     tasks,
     expandedTasks,
     onToggleTask,
-    onViewTaskError,
+    onViewError,
 }: Props): React.ReactElement {
     return (
         <>
@@ -66,12 +74,15 @@ export function TaskExecutionsTable({
                                 expandableContent={
                                     <div className={classes.stepBody}>
                                         {task.errorMessage && (
-                                            <NoticeBox
-                                                error
+                                            <ErrorNotice
                                                 title={i18n.t('Task failed')}
-                                            >
-                                                {task.errorMessage}
-                                            </NoticeBox>
+                                                error={task}
+                                                onViewDetails={() =>
+                                                    onViewError(
+                                                        taskErrorTarget(task)
+                                                    )
+                                                }
+                                            />
                                         )}
                                         <IoJsonGrid
                                             input={task.input}
@@ -99,7 +110,9 @@ export function TaskExecutionsTable({
                                             small
                                             icon={<IconErrorFilled16 />}
                                             onClick={() =>
-                                                onViewTaskError(task)
+                                                onViewError(
+                                                    taskErrorTarget(task)
+                                                )
                                             }
                                         >
                                             {i18n.t('View error')}
