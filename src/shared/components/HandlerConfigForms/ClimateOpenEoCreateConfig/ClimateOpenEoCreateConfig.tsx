@@ -6,6 +6,7 @@ import { OrgUnitSection } from '../OrgUnitSection'
 import { ClimateDatasetBrowser } from '@/shared/components/HandlerConfigForms/ClimateOpenEoCreateConfig/components/ClimateDatasetBrowser'
 import { ClimateDatasetPeriodSelector } from '@/shared/components/HandlerConfigForms/ClimateOpenEoCreateConfig/components/ClimateDatasetPeriodSelector'
 import { ClimateDatasetVariables } from '@/shared/components/HandlerConfigForms/ClimateOpenEoCreateConfig/components/ClimateDatasetVariables'
+import { PredictionCovariatePicker } from '@/shared/components/HandlerConfigForms/ClimateOpenEoCreateConfig/components/PredictionCovariatePicker'
 import { DataElementSelector } from '@/shared/components/HandlerConfigForms/DataElementSelector'
 import {
     FormSection,
@@ -70,6 +71,7 @@ export function ClimateOpenEoCreateConfig({
                 tight
             >
                 <div className={formSectionGrids.grid2}>
+                    <PredictionCovariatePicker />
                     <DataElementSelector
                         label={i18n.t('Data element')}
                         name="handlerConfig.variable.dataElement"
