@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-09-25T16:31:00.165Z\n"
-"PO-Revision-Date: 2026-09-25T16:31:00.165Z\n"
+"POT-Creation-Date: 2026-09-28T09:22:13.379Z\n"
+"PO-Revision-Date: 2026-09-28T09:22:13.380Z\n"
 
 msgid "Enter a valid HTTP or HTTPS URL."
 msgstr "Enter a valid HTTP or HTTPS URL."
@@ -971,6 +971,39 @@ msgstr "Keep running"
 msgid "Confirm cancel"
 msgstr "Confirm cancel"
 
+msgid "Source"
+msgstr "Source"
+
+msgid "HTTP status"
+msgstr "HTTP status"
+
+msgid "Request"
+msgstr "Request"
+
+msgid "Upstream response"
+msgstr "Upstream response"
+
+msgid "{{total}} conflicts, {{groups}} distinct"
+msgstr "{{total}} conflicts, {{groups}} distinct"
+
+msgid "Conflict"
+msgstr "Conflict"
+
+msgid "Count"
+msgstr "Count"
+
+msgid "Examples"
+msgstr "Examples"
+
+msgid "Full message"
+msgstr "Full message"
+
+msgid "Stack trace"
+msgstr "Stack trace"
+
+msgid "{{n}} conflicts"
+msgstr "{{n}} conflicts"
+
 msgid "Execution Logs"
 msgstr "Execution Logs"
 
@@ -1050,12 +1083,6 @@ msgstr "Could not retry step"
 
 msgid "Task error — {{name}}"
 msgstr "Task error — {{name}}"
-
-msgid "Error message"
-msgstr "Error message"
-
-msgid "Stack trace"
-msgstr "Stack trace"
 
 msgid "Task Executions"
 msgstr "Task Executions"
@@ -2155,3 +2182,11 @@ msgstr "Skipped"
 msgctxt "URL configuration."
 msgid "Check CLIMATE_API_BASE"
 msgstr "Check CLIMATE_API_BASE_URL configuration."
+
+msgctxt "Application title"
+msgid "__MANIFEST_APP_TITLE"
+msgstr "CAPS"
+
+msgctxt "Application description"
+msgid "__MANIFEST_APP_DESCRIPTION"
+msgstr ""
