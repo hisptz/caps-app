@@ -1,0 +1,144 @@
+.items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.itemRow {
+    border: 1px solid var(--colors-grey200, #e8edf2);
+    border-radius: 4px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: var(--colors-white, #ffffff);
+}
+
+.itemMain {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+    align-items: end;
+}
+.itemSource {
+    min-width: 0;
+}
+
+.itemTarget {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding-left: 12px;
+    border-left: 2px solid var(--colors-grey200, #e8edf2);
+}
+.itemTarget > :global(*) {
+    max-width: 100%;
+}
+
+.target {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+}
+.arrow {
+    color: var(--colors-grey500, #a0adba);
+    font-size: 14px;
+    line-height: 24px;
+}
+.targetBody {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.targetLine {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 10px;
+    min-height: 24px;
+}
+.targetPicker {
+    max-width: 100%;
+}
+.linkButton {
+    border: 0;
+    padding: 0;
+    background: none;
+    font: inherit;
+    font-size: 13px;
+    color: var(--colors-blue700, #1565c0);
+    cursor: pointer;
+}
+.linkButton:hover {
+    text-decoration: underline;
+}
+.linkButton:focus-visible {
+    outline: 2px solid var(--colors-blue600, #147cd7);
+    outline-offset: 2px;
+}
+.loading {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--colors-grey600, #6e7a8a);
+}
+.loading :global(.extrasmall) {
+    margin: 0;
+}
+.breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.mappingName {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--colors-grey900, #212934);
+    overflow-wrap: anywhere;
+}
+.mappingMeta {
+    font-size: 13px;
+    color: var(--colors-grey600, #6e7a8a);
+    overflow-wrap: anywhere;
+}
+.pairs summary {
+    font-size: 12px;
+    color: var(--colors-blue700, #1565c0);
+    cursor: pointer;
+    width: fit-content;
+}
+.pairs ul {
+    margin: 4px 0 0;
+    padding-left: 18px;
+    font-size: 12.5px;
+    color: var(--colors-grey800, #404b5a);
+    display: grid;
+    gap: 2px;
+}
+.fieldError {
+    margin: 0;
+    font-size: 12.5px;
+    color: var(--colors-red700, #b71c1c);
+    line-height: 1.45;
+}
+
+.hint {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--colors-grey700, #4a5768);
+}
+
+.inlineControls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 24px;
+}

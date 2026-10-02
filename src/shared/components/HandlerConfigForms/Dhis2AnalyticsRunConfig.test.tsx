@@ -46,9 +46,9 @@ describe('Dhis2AnalyticsRunConfig', () => {
                     skipEnrollment: false,
                     skipEvents: false,
                     skipOrgUnitOwnership: false,
-                    skipOutliers: false,
+                    skipOutliers: true,
                     skipResourceTables: false,
-                    skipTrackedEntities: false,
+                    skipTrackedEntities: true,
                     skipValidationResult: false,
                 }),
                 polling: expect.objectContaining({
@@ -56,6 +56,11 @@ describe('Dhis2AnalyticsRunConfig', () => {
                     maxAttempts: 120,
                 }),
             })
+        )
+
+        // Starts on all years, like the DHIS2 Data Administration app.
+        expect(onChange.mock.calls[0][0].runOptions).not.toHaveProperty(
+            'lastYears'
         )
 
         await act(async () => {

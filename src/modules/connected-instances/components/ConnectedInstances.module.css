@@ -1,0 +1,115 @@
+.list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px 16px;
+    align-items: start;
+    padding: 14px 0;
+    border-top: 1px solid var(--colors-grey200, #e8edf2);
+}
+.item:first-child {
+    border-top: 0;
+    padding-top: 0;
+}
+
+.itemText {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.itemName {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--colors-grey900, #212934);
+}
+.itemMeta {
+    font-family: 'Roboto Mono', Menlo, Consolas, monospace;
+    font-size: 12px;
+    color: var(--colors-grey600, #6e7a8a);
+    overflow-wrap: anywhere;
+}
+.itemTags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+}
+.itemActions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+.testResult {
+    grid-column: 1 / -1;
+}
+.testFacts {
+    margin: 4px 0 0;
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: 2px 12px;
+    font-size: 13px;
+}
+.testFacts dt {
+    color: var(--colors-grey700, #4a5768);
+}
+.testFacts dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.empty {
+    margin: 0;
+    font-size: 13px;
+    color: var(--colors-grey700, #4a5768);
+    line-height: 1.45;
+}
+
+.modalBody {
+    display: flex;
+    flex-direction: column;
+    padding: 4px 0 8px;
+}
+.row2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    align-items: start;
+}
+.headerList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.headerRow {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+    gap: 8px;
+    align-items: end;
+}
+.fieldError {
+    margin: 0;
+    font-size: 12px;
+    color: var(--colors-red700, #b71c1c);
+}
+
+@media (max-width: 640px) {
+    .row2,
+    .headerRow {
+        grid-template-columns: 1fr;
+    }
+    .item {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .itemActions {
+        justify-content: flex-start;
+    }
+}

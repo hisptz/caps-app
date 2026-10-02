@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-09-28T09:22:13.379Z\n"
-"PO-Revision-Date: 2026-09-28T09:22:13.380Z\n"
+"POT-Creation-Date: 2026-10-01T14:11:12.219Z\n"
+"PO-Revision-Date: 2026-10-01T14:11:12.219Z\n"
 
 msgid "Enter a valid HTTP or HTTPS URL."
 msgstr "Enter a valid HTTP or HTTPS URL."
@@ -221,6 +221,310 @@ msgstr "Select at least one period"
 msgid "n/a"
 msgstr "n/a"
 
+msgid "Connection failed"
+msgstr "Connection failed"
+
+msgid "The route could not be run."
+msgstr "The route could not be run."
+
+msgid "Connected"
+msgstr "Connected"
+
+msgid "Signed in as"
+msgstr "Signed in as"
+
+msgid "DHIS2 version"
+msgstr "DHIS2 version"
+
+msgid "Analytics last run"
+msgstr "Analytics last run"
+
+msgid "Not reported"
+msgstr "Not reported"
+
+msgid "The CAPS service could not be reached."
+msgstr "The CAPS service could not be reached."
+
+msgid "{{name}} disconnected."
+msgstr "{{name}} disconnected."
+
+msgid "Could not delete the connected instance."
+msgstr "Could not delete the connected instance."
+
+msgid "Connected instances"
+msgstr "Connected instances"
+
+msgid "Other DHIS2 instances that pipelines can pull data from."
+msgstr "Other DHIS2 instances that pipelines can pull data from."
+
+msgid "Connect instance"
+msgstr "Connect instance"
+
+msgid "Could not load connected instances"
+msgstr "Could not load connected instances"
+
+msgid "The DHIS2 routes could not be read."
+msgstr "The DHIS2 routes could not be read."
+
+msgid ""
+"No instances connected yet. Connect one to add a DHIS2 Instance Pull step "
+"to a pipeline."
+msgstr ""
+"No instances connected yet. Connect one to add a DHIS2 Instance Pull step "
+"to a pipeline."
+
+msgid "Disabled"
+msgstr "Disabled"
+
+msgid "Timeout {{seconds}} s"
+msgstr "Timeout {{seconds}} s"
+
+msgid "Test"
+msgstr "Test"
+
+msgid "Edit"
+msgstr "Edit"
+
+msgid "Delete"
+msgstr "Delete"
+
+msgid "{{name}} saved."
+msgstr "{{name}} saved."
+
+msgid "Disconnect instance?"
+msgstr "Disconnect instance?"
+
+msgid ""
+"This deletes the route {{code}} and its stored credentials from staging. "
+"Pipeline steps that pull from {{name}} will fail until another instance is "
+"picked."
+msgstr ""
+"This deletes the route {{code}} and its stored credentials from staging. "
+"Pipeline steps that pull from {{name}} will fail until another instance is "
+"picked."
+
+msgid "Disconnect"
+msgstr "Disconnect"
+
+msgid "Access token"
+msgstr "Access token"
+
+msgid "Username and password"
+msgstr "Username and password"
+
+msgid "Custom headers"
+msgstr "Custom headers"
+
+msgid "Could not save the connected instance."
+msgstr "Could not save the connected instance."
+
+msgid "Edit connected instance"
+msgstr "Edit connected instance"
+
+msgid "Connect a DHIS2 instance"
+msgstr "Connect a DHIS2 instance"
+
+msgid "Could not save"
+msgstr "Could not save"
+
+msgid "Instance"
+msgstr "Instance"
+
+msgid ""
+"Staging DHIS2 stores this as a route. CAPS reaches the instance through it, "
+"so the credentials never leave staging."
+msgstr ""
+"Staging DHIS2 stores this as a route. CAPS reaches the instance through it, "
+"so the credentials never leave staging."
+
+msgid "e.g. DHIS2 Play"
+msgstr "e.g. DHIS2 Play"
+
+msgid "Route code"
+msgstr "Route code"
+
+msgid "Pipeline steps refer to the code, so it can’t change."
+msgstr "Pipeline steps refer to the code, so it can’t change."
+
+msgid "Saved as {{code}}. Pipeline steps refer to it, so it can’t change later."
+msgstr "Saved as {{code}}. Pipeline steps refer to it, so it can’t change later."
+
+msgid "Instance URL"
+msgstr "Instance URL"
+
+msgid "The address you open DHIS2 at, without /api."
+msgstr "The address you open DHIS2 at, without /api."
+
+msgid "Credentials"
+msgstr "Credentials"
+
+msgid ""
+"Use a read-only account on the instance. The route forwards any API call "
+"with these credentials, including writes."
+msgstr ""
+"Use a read-only account on the instance. The route forwards any API call "
+"with these credentials, including writes."
+
+msgid "Replace the stored credentials"
+msgstr "Replace the stored credentials"
+
+msgid "Authentication"
+msgstr "Authentication"
+
+msgid "Personal access token"
+msgstr "Personal access token"
+
+msgid ""
+"Recommended. Create it on the instance under Profile › Personal access "
+"tokens."
+msgstr ""
+"Recommended. Create it on the instance under Profile › Personal access "
+"tokens."
+
+msgid "Username"
+msgstr "Username"
+
+msgid "Password"
+msgstr "Password"
+
+msgid "Header"
+msgstr "Header"
+
+msgid "Value"
+msgstr "Value"
+
+msgid "Remove header"
+msgstr "Remove header"
+
+msgid "Add header"
+msgstr "Add header"
+
+msgid "Access and limits"
+msgstr "Access and limits"
+
+msgid "Authorities"
+msgstr "Authorities"
+
+msgid ""
+"Comma-separated. Only users with one of these authorities can run the "
+"route. Give one to CAPS admins and the CAPS engine user."
+msgstr ""
+"Comma-separated. Only users with one of these authorities can run the "
+"route. Give one to CAPS admins and the CAPS engine user."
+
+msgid "Response timeout (seconds)"
+msgstr "Response timeout (seconds)"
+
+msgid ""
+"How long staging waits for the instance. Analytics calls can be slow, so "
+"keep this high."
+msgstr ""
+"How long staging waits for the instance. Analytics calls can be slow, so "
+"keep this high."
+
+msgid "Saving…"
+msgstr "Saving…"
+
+msgid "Save changes"
+msgstr "Save changes"
+
+msgid "Name is required"
+msgstr "Name is required"
+
+msgid "Use lowercase letters, digits and dashes, e.g. play"
+msgstr "Use lowercase letters, digits and dashes, e.g. play"
+
+msgid "Enter the personal access token"
+msgstr "Enter the personal access token"
+
+msgid "Enter the username"
+msgstr "Enter the username"
+
+msgid "Enter the password"
+msgstr "Enter the password"
+
+msgid "Add at least one header name and value"
+msgstr "Add at least one header name and value"
+
+msgid "request failed"
+msgstr "request failed"
+
+msgid "[CAPS] Imported from other instances"
+msgstr "[CAPS] Imported from other instances"
+
+msgid "CAPS imported"
+msgstr "CAPS imported"
+
+msgid ""
+"If staging already has this data element, use “Write into a different data "
+"element” on that row."
+msgstr ""
+"If staging already has this data element, use “Write into a different data "
+"element” on that row."
+
+msgid "check that you may add data elements and data element groups"
+msgstr "check that you may add data elements and data element groups"
+
+msgid "the metadata import failed"
+msgstr "the metadata import failed"
+
+msgid "Must be a DHIS2 ID"
+msgstr "Must be a DHIS2 ID"
+
+msgid "Pick a start period"
+msgstr "Pick a start period"
+
+msgid "Pick an end period"
+msgstr "Pick an end period"
+
+msgid "Pick a connected instance"
+msgstr "Pick a connected instance"
+
+msgid "Add at least one item to pull"
+msgstr "Add at least one item to pull"
+
+msgid ""
+"This staging data element has categories, but indicators and program "
+"indicators only give totals. Pick one without categories."
+msgstr ""
+"This staging data element has categories, but indicators and program "
+"indicators only give totals. Pick one without categories."
+
+msgid ""
+"This staging data element has categories but the source’s has none, so "
+"there’s no breakdown to fill it. Pick one without categories."
+msgstr ""
+"This staging data element has categories but the source’s has none, so "
+"there’s no breakdown to fill it. Pick one without categories."
+
+msgid ""
+"None of the source’s option combos match this staging data element’s, by ID "
+"or by name."
+msgstr ""
+"None of the source’s option combos match this staging data element’s, by ID "
+"or by name."
+
+msgid ""
+"This staging data element holds {{valueType}} values, not numbers. Pick a "
+"numeric data element."
+msgstr ""
+"This staging data element holds {{valueType}} values, not numbers. Pick a "
+"numeric data element."
+
+msgid ""
+"Indicator values can have decimals, but this staging data element only "
+"takes whole numbers. Pick one with value type Number."
+msgstr ""
+"Indicator values can have decimals, but this staging data element only "
+"takes whole numbers. Pick one with value type Number."
+
+msgid ""
+"The source data element has decimal values, but this staging one only takes "
+"whole numbers. Pick one with value type Number."
+msgstr ""
+"The source data element has decimal values, but this staging one only takes "
+"whole numbers. Pick one with value type Number."
+
 msgid "Could not retry the step. Try again."
 msgstr "Could not retry the step. Try again."
 
@@ -375,17 +679,11 @@ msgstr "Edit schedule"
 msgid "Could not update schedule"
 msgstr "Could not update schedule"
 
-msgid "Save changes"
-msgstr "Save changes"
-
 msgid "Edit step"
 msgstr "Edit step"
 
 msgid "Could not update step"
 msgstr "Could not update step"
-
-msgid "Saving…"
-msgstr "Saving…"
 
 msgid "Input context"
 msgstr "Input context"
@@ -482,9 +780,6 @@ msgstr "Could not reorder steps. Try again."
 
 msgid "Could not trigger pipeline. Try again."
 msgstr "Could not trigger pipeline. Try again."
-
-msgid "Name is required"
-msgstr "Name is required"
 
 msgid "Cron expression is required"
 msgstr "Cron expression is required"
@@ -702,9 +997,6 @@ msgid ""
 msgstr ""
 "The base URL of the CAPS API this app forwards requests to, via a DHIS2 "
 "route."
-
-msgid "Connected"
-msgstr "Connected"
 
 msgid "Not configured"
 msgstr "Not configured"
@@ -1156,9 +1448,6 @@ msgstr "This will remove \"{{name}}\" and cannot be undone."
 msgid "Deleting…"
 msgstr "Deleting…"
 
-msgid "Delete"
-msgstr "Delete"
-
 msgid "Delete schedule?"
 msgstr "Delete schedule?"
 
@@ -1176,9 +1465,6 @@ msgstr "Pipelines"
 
 msgid "Trigger with context…"
 msgstr "Trigger with context…"
-
-msgid "Edit"
-msgstr "Edit"
 
 msgid "Could not start a run"
 msgstr "Could not start a run"
@@ -1369,9 +1655,6 @@ msgstr "Yes"
 
 msgid "No"
 msgstr "No"
-
-msgid "DHIS2 version"
-msgstr "DHIS2 version"
 
 msgid "System name"
 msgstr "System name"
@@ -1683,6 +1966,9 @@ msgstr "No matching data items found"
 msgid "No matching data elements found"
 msgstr "No matching data elements found"
 
+msgid "All"
+msgstr "All"
+
 msgid "Run options"
 msgstr "Run options"
 
@@ -1697,11 +1983,11 @@ msgid "Last years"
 msgstr "Last years"
 
 msgid ""
-"Limit analytics generation to the most recent N years. Leave blank for "
-"default DHIS2 behavior."
+"All rebuilds every year. A number rebuilds only that many recent years; 0 "
+"updates only data changed since the last run."
 msgstr ""
-"Limit analytics generation to the most recent N years. Leave blank for "
-"default DHIS2 behavior."
+"All rebuilds every year. A number rebuilds only that many recent years; 0 "
+"updates only data changed since the last run."
 
 msgid "Hide advanced options"
 msgstr "Hide advanced options"
@@ -1742,6 +2028,194 @@ msgid ""
 msgstr ""
 "How DHIS2 should treat values that already exist when importing the data "
 "value set."
+
+msgid "Source instance"
+msgstr "Source instance"
+
+msgid "The DHIS2 instance to pull from, connected in Settings."
+msgstr "The DHIS2 instance to pull from, connected in Settings."
+
+msgid "No connected instances"
+msgstr "No connected instances"
+
+msgid "Connect the source instance under Settings › Connected instances first."
+msgstr "Connect the source instance under Settings › Connected instances first."
+
+msgid "Instance not found"
+msgstr "Instance not found"
+
+msgid ""
+"The route {{code}} no longer exists on the destination. Pick another "
+"instance."
+msgstr ""
+"The route {{code}} no longer exists on the destination. Pick another "
+"instance."
+
+msgid "Data items"
+msgstr "Data items"
+
+msgid "Each item is written to the destination data element with the same ID."
+msgstr "Each item is written to the destination data element with the same ID."
+
+msgid "Could not check the destination"
+msgstr "Could not check the destination"
+
+msgid ""
+"Which items already exist on the destination is unknown; it’s checked again "
+"on save."
+msgstr ""
+"Which items already exist on the destination is unknown; it’s checked again "
+"on save."
+
+msgid "Add item"
+msgstr "Add item"
+
+msgid ""
+"Chosen from the destination. They must have the same IDs on the source "
+"instance"
+msgstr ""
+"Chosen from the destination. They must have the same IDs on the source "
+"instance"
+
+msgid ""
+"Values are merged into the destination, so pulling a period again updates "
+"it."
+msgstr ""
+"Values are merged into the destination, so pulling a period again updates "
+"it."
+
+msgid "Request size"
+msgstr "Request size"
+
+msgid ""
+"Each analytics request covers at most this many periods and org units. "
+"Lower them if requests time out."
+msgstr ""
+"Each analytics request covers at most this many periods and org units. "
+"Lower them if requests time out."
+
+msgid "Periods per request"
+msgstr "Periods per request"
+
+msgid "Org units per request"
+msgstr "Org units per request"
+
+msgid "Latest periods"
+msgstr "Latest periods"
+
+msgid "Fixed range"
+msgstr "Fixed range"
+
+msgid "Periods to pull"
+msgstr "Periods to pull"
+
+msgid "Number of periods"
+msgstr "Number of periods"
+
+msgid "Pulled again on every run, so late reports in the source get corrected."
+msgstr "Pulled again on every run, so late reports in the source get corrected."
+
+msgid "Skip most recent"
+msgstr "Skip most recent"
+
+msgid "1 skips the current period, which isn’t finished yet."
+msgstr "1 skips the current period, which isn’t finished yet."
+
+msgid "A run today pulls {{first}}."
+msgstr "A run today pulls {{first}}."
+
+msgid "A run today pulls {{first}} to {{last}}."
+msgstr "A run today pulls {{first}} to {{last}}."
+
+msgid "From"
+msgstr "From"
+
+msgid "To"
+msgstr "To"
+
+msgid "Can’t pull"
+msgstr "Can’t pull"
+
+msgid "Same ID"
+msgstr "Same ID"
+
+msgid "Mapped"
+msgstr "Mapped"
+
+msgid "Pick target"
+msgstr "Pick target"
+
+msgid "New"
+msgstr "New"
+
+msgid "Missing"
+msgstr "Missing"
+
+msgid "{{matched}}/{{total}} option combos matched"
+msgstr "{{matched}}/{{total}} option combos matched"
+
+msgid "No data element with this ID on the destination."
+msgstr "No data element with this ID on the destination."
+
+msgid "Indicators can’t hold values."
+msgstr "Indicators can’t hold values."
+
+msgid "Created on save"
+msgstr "Created on save"
+
+msgid "{{id}} no longer exists on the destination."
+msgstr "{{id}} no longer exists on the destination."
+
+msgid "Remove item"
+msgstr "Remove item"
+
+msgid "Checking destination…"
+msgstr "Checking destination…"
+
+msgid "Change"
+msgstr "Change"
+
+msgid "Use same ID"
+msgstr "Use same ID"
+
+msgid "Destination data element"
+msgstr "Destination data element"
+
+msgid "Checking categories…"
+msgstr "Checking categories…"
+
+msgid "Write into"
+msgstr "Write into"
+
+msgid "New data element"
+msgstr "New data element"
+
+msgid "Existing data element"
+msgstr "Existing data element"
+
+msgid "Average rates and percentages."
+msgstr "Average rates and percentages."
+
+msgid "Indicator"
+msgstr "Indicator"
+
+msgid "Program indicator"
+msgstr "Program indicator"
+
+msgid "Loading…"
+msgstr "Loading…"
+
+msgid "Search by name, code or ID"
+msgstr "Search by name, code or ID"
+
+msgid "The source instance could not be searched"
+msgstr "The source instance could not be searched"
+
+msgid "No matching data items"
+msgstr "No matching data items"
+
+msgid "Searching the source instance failed. Test the connection in Settings."
+msgstr "Searching the source instance failed. Test the connection in Settings."
 
 msgid "Datasets"
 msgstr "Datasets"
@@ -1977,17 +2451,11 @@ msgstr ""
 "Every run trains up to this period. Pick {{latest}} to move forward with "
 "each run."
 
-msgid "From"
-msgstr "From"
-
 msgid "First period of the training data."
 msgstr "First period of the training data."
 
 msgid "Year"
 msgstr "Year"
-
-msgid "To"
-msgstr "To"
 
 msgid "Number of periods to generate"
 msgstr "Number of periods to generate"
@@ -2007,9 +2475,6 @@ msgstr "Forecast"
 
 msgid "Written to"
 msgstr "Written to"
-
-msgid "Loading…"
-msgstr "Loading…"
 
 msgid "No entries yet. Add one below."
 msgstr "No entries yet. Add one below."
@@ -2108,6 +2573,19 @@ msgstr "Daily"
 msgid "Override org units for this run"
 msgstr "Override org units for this run"
 
+msgid ""
+"Scheduled runs normally pull the step’s latest periods. A fixed range here "
+"is pulled on every scheduled run."
+msgstr ""
+"Scheduled runs normally pull the step’s latest periods. A fixed range here "
+"is pulled on every scheduled run."
+
+msgid "Pull a fixed range for this run only, e.g. to backfill history."
+msgstr "Pull a fixed range for this run only, e.g. to backfill history."
+
+msgid "Pull a fixed range instead of the step’s periods"
+msgstr "Pull a fixed range instead of the step’s periods"
+
 msgid "This step has no prediction setup"
 msgstr "This step has no prediction setup"
 
@@ -2182,11 +2660,3 @@ msgstr "Skipped"
 msgctxt "URL configuration."
 msgid "Check CLIMATE_API_BASE"
 msgstr "Check CLIMATE_API_BASE_URL configuration."
-
-msgctxt "Application title"
-msgid "__MANIFEST_APP_TITLE"
-msgstr "CAPS"
-
-msgctxt "Application description"
-msgid "__MANIFEST_APP_DESCRIPTION"
-msgstr ""

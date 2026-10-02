@@ -25,6 +25,10 @@ export function buildDefaultStepContexts(
 ): Record<string, Record<string, unknown>> {
     const result: Record<string, Record<string, unknown>> = {}
     for (const step of getContextCapableSteps(steps, handlers)) {
+        if (step.handlerKey === 'dhis2-instance-pull') {
+            result[step.id] = {}
+            continue
+        }
         result[step.id] = deriveContextDefaults(
             handlers,
             step.handlerKey,

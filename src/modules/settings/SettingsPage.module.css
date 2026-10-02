@@ -181,6 +181,10 @@
     color: var(--colors-teal700, #00796b);
 }
 
+.sectionGap {
+    margin-top: var(--spacers-dp16, 16px);
+}
+
 .tipNotice {
     margin-top: 16px;
 }
