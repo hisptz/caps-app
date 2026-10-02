@@ -1,5 +1,5 @@
 import i18n from '@dhis2/d2-i18n'
-import { Button, InputField } from '@dhis2/ui'
+import { Button, SingleSelectField, SingleSelectOption } from '@dhis2/ui'
 import React, { useEffect, useMemo, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { AdvancedRunOptionsFields } from './AdvancedRunOptionsFields'
@@ -13,6 +13,25 @@ import {
     FormSection,
     formSectionGrids,
 } from '@/shared/components/ui/FormPrimitives'
+
+const ALL_YEARS = 'all'
+const MAX_LAST_YEARS = 10
+
+function lastYearsOptions(
+    selected: string
+): Array<{ value: string; label: string }> {
+    const options = [
+        { value: ALL_YEARS, label: i18n.t('All') },
+        ...Array.from({ length: MAX_LAST_YEARS + 1 }, (_, n) => ({
+            value: String(n),
+            label: String(n),
+        })),
+    ]
+    if (!options.some((option) => option.value === selected)) {
+        options.push({ value: selected, label: selected })
+    }
+    return options
+}
 
 export interface Dhis2AnalyticsRunConfigProps {
     value: Record<string, unknown> | null
@@ -50,37 +69,40 @@ export function Dhis2AnalyticsRunConfig({
                     <Controller
                         name="handlerConfig.runOptions.lastYears"
                         control={control}
-                        render={({ field, fieldState }) => (
-                            <InputField
-                                label={i18n.t('Last years')}
-                                type="number"
-                                helpText={i18n.t(
-                                    'Limit analytics generation to the most recent N years. Leave blank for default DHIS2 behavior.'
-                                )}
-                                value={
-                                    typeof field.value === 'number' &&
-                                    Number.isFinite(field.value)
-                                        ? String(field.value)
-                                        : ''
-                                }
-                                onChange={({ value: v }) => {
-                                    const raw = v ?? ''
-                                    if (raw === '') {
-                                        field.onChange(undefined)
-                                        return
+                        render={({ field, fieldState }) => {
+                            const selected =
+                                typeof field.value === 'number'
+                                    ? String(field.value)
+                                    : ALL_YEARS
+                            return (
+                                <SingleSelectField
+                                    label={i18n.t('Last years')}
+                                    selected={selected}
+                                    onChange={({ selected: next }) =>
+                                        field.onChange(
+                                            next === ALL_YEARS
+                                                ? undefined
+                                                : Number(next)
+                                        )
                                     }
-                                    const parsed = Number(raw)
-                                    field.onChange(
-                                        Number.isFinite(parsed)
-                                            ? parsed
-                                            : undefined
-                                    )
-                                }}
-                                onBlur={field.onBlur}
-                                error={Boolean(fieldState.error)}
-                                validationText={fieldState.error?.message}
-                            />
-                        )}
+                                    helpText={i18n.t(
+                                        'All rebuilds every year. A number rebuilds only that many recent years; 0 updates only data changed since the last run.'
+                                    )}
+                                    error={Boolean(fieldState.error)}
+                                    validationText={fieldState.error?.message}
+                                >
+                                    {lastYearsOptions(selected).map(
+                                        (option) => (
+                                            <SingleSelectOption
+                                                key={option.value}
+                                                value={option.value}
+                                                label={option.label}
+                                            />
+                                        )
+                                    )}
+                                </SingleSelectField>
+                            )
+                        }}
                     />
                 </div>
 
