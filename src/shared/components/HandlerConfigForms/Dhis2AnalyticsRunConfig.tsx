@@ -1,7 +1,7 @@
 import i18n from '@dhis2/d2-i18n'
 import { Button, SingleSelectField, SingleSelectOption } from '@dhis2/ui'
 import React, { useEffect, useMemo, useState } from 'react'
-import { Controller, useFormContext } from 'react-hook-form'
+import { Controller, useFormContext, useWatch } from 'react-hook-form'
 import { AdvancedRunOptionsFields } from './AdvancedRunOptionsFields'
 import { PollingFields } from './PollingFields'
 import {
@@ -45,6 +45,12 @@ export function Dhis2AnalyticsRunConfig({
     const { control, getValues, setValue } =
         useFormContext<PipelineStepFormWithHandlerValues>()
     const [showAdvanced, setShowAdvanced] = useState(false)
+    // Read lastYears off the parent object: when "All" clears it to undefined, the
+    // Controller's own value would fall back to the saved default and undo the choice.
+    const handlerConfig = useWatch({ control, name: 'handlerConfig' })
+    const lastYears = (
+        handlerConfig?.runOptions as { lastYears?: unknown } | undefined
+    )?.lastYears
 
     const defaults = useMemo(() => defaultDhis2AnalyticsRunConfig(), [])
 
@@ -71,8 +77,8 @@ export function Dhis2AnalyticsRunConfig({
                         control={control}
                         render={({ field, fieldState }) => {
                             const selected =
-                                typeof field.value === 'number'
-                                    ? String(field.value)
+                                typeof lastYears === 'number'
+                                    ? String(lastYears)
                                     : ALL_YEARS
                             return (
                                 <SingleSelectField
@@ -85,9 +91,6 @@ export function Dhis2AnalyticsRunConfig({
                                                 : Number(next)
                                         )
                                     }
-                                    helpText={i18n.t(
-                                        'All rebuilds every year. A number rebuilds only that many recent years; 0 updates only data changed since the last run.'
-                                    )}
                                     error={Boolean(fieldState.error)}
                                     validationText={fieldState.error?.message}
                                 >

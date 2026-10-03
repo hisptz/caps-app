@@ -1,7 +1,8 @@
 import React, { act, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
-import { FormProvider, useForm } from 'react-hook-form'
+import { FormProvider, useForm, type UseFormReturn } from 'react-hook-form'
 import { Dhis2AnalyticsRunConfig } from './Dhis2AnalyticsRunConfig'
+import { defaultDhis2AnalyticsRunConfig } from '@/modules/dhis2-analytics-run/schemas/config'
 
 function Harness({
     onChange,
@@ -62,6 +63,51 @@ describe('Dhis2AnalyticsRunConfig', () => {
         expect(onChange.mock.calls[0][0].runOptions).not.toHaveProperty(
             'lastYears'
         )
+
+        await act(async () => {
+            root.unmount()
+        })
+    })
+
+    it('shows "All" after clearing a saved last-years value', async () => {
+        ;(
+            globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }
+        ).IS_REACT_ACT_ENVIRONMENT = true
+        const saved = defaultDhis2AnalyticsRunConfig()
+        saved.runOptions.lastYears = 0
+        let form: UseFormReturn<{ handlerConfig: unknown }> | undefined
+
+        function EditHarness(): React.ReactElement {
+            const f = useForm<{ handlerConfig: unknown }>({
+                defaultValues: { handlerConfig: saved },
+            })
+            form = f
+            return (
+                <FormProvider {...f}>
+                    <Dhis2AnalyticsRunConfig
+                        value={saved}
+                        onChange={jest.fn()}
+                    />
+                </FormProvider>
+            )
+        }
+
+        const container = document.createElement('div')
+        const root = createRoot(container)
+        await act(async () => {
+            root.render(<EditHarness />)
+        })
+        expect(container.textContent).toContain('0')
+        expect(container.textContent).not.toContain('All')
+
+        // What choosing "All" does: the select clears lastYears to undefined.
+        await act(async () => {
+            form?.setValue(
+                'handlerConfig.runOptions.lastYears' as never,
+                undefined as never
+            )
+        })
+        expect(container.textContent).toContain('All')
 
         await act(async () => {
             root.unmount()
