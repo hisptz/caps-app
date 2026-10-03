@@ -6,6 +6,7 @@ import {
     sourceRouteFormSchema,
     sourceRouteToFormValues,
     type SourceRouteFormValues,
+    routeKeyFromName,
 } from './routeForm'
 
 function values(
@@ -109,5 +110,14 @@ describe('source route form', () => {
         expect(baseUrlFromRouteUrl('https://x.org/dhis/api/**')).toBe(
             'https://x.org/dhis'
         )
+    })
+})
+
+describe('routeKeyFromName', () => {
+    it('slugifies a display name into a valid route key', () => {
+        expect(routeKeyFromName('DHIS2 Play 2.42')).toBe('dhis2-play-2-42')
+        expect(routeKeyFromName('  play-42-6  ')).toBe('play-42-6')
+        expect(routeKeyFromName('Café / Ünit')).toBe('cafe-unit')
+        expect(routeKeyFromName('***')).toBe('')
     })
 })

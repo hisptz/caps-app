@@ -100,6 +100,17 @@ export const sourceRouteFormSchema = z
 
 export type SourceRouteFormValues = z.infer<typeof sourceRouteFormSchema>
 
+export function routeKeyFromName(name: string): string {
+    return name
+        .normalize('NFKD')
+        .replace(/[̀-ͯ]/g, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+/, '')
+        .slice(0, MAX_CODE_LENGTH - SOURCE_ROUTE_CODE_PREFIX.length)
+        .replace(/-+$/, '')
+}
+
 export function defaultSourceRouteFormValues(): SourceRouteFormValues {
     return {
         name: '',

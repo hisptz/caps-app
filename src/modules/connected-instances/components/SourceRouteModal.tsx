@@ -13,7 +13,7 @@ import {
     NoticeBox,
 } from '@dhis2/ui'
 import { zodResolver } from '@hookform/resolvers/zod'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import {
     Controller,
     FormProvider,
@@ -27,6 +27,7 @@ import { useSaveSourceRoute } from '@/modules/connected-instances/hooks/useSourc
 import {
     defaultSourceRouteFormValues,
     MAX_ROUTE_TIMEOUT_SECONDS,
+    routeKeyFromName,
     type SourceRoute,
     type SourceRouteAuthType,
     sourceRouteFormSchema,
@@ -72,6 +73,7 @@ export function SourceRouteModal({
         control: form.control,
         name: ['authType', 'changeCredentials', 'key'],
     })
+    const keyEditedRef = useRef(false)
     const rootError = form.formState.errors.root?.message
     const headersError = form.formState.errors.headers?.message
 
@@ -83,6 +85,7 @@ export function SourceRouteModal({
                     : defaultSourceRouteFormValues()
             )
             form.clearErrors()
+            keyEditedRef.current = false
         }
     }, [open, route, form])
 
@@ -145,9 +148,25 @@ export function SourceRouteModal({
                                                 'e.g. DHIS2 Play'
                                             )}
                                             value={field.value ?? ''}
-                                            onChange={({ value }) =>
+                                            onChange={({ value }) => {
                                                 field.onChange(value)
-                                            }
+                                                if (
+                                                    !isEdit &&
+                                                    !keyEditedRef.current
+                                                ) {
+                                                    form.setValue(
+                                                        'key',
+                                                        routeKeyFromName(
+                                                            value ?? ''
+                                                        ),
+                                                        {
+                                                            shouldValidate:
+                                                                form.formState
+                                                                    .isSubmitted,
+                                                        }
+                                                    )
+                                                }
+                                            }}
                                             onBlur={field.onBlur}
                                             error={Boolean(fieldState.error)}
                                             validationText={
@@ -167,21 +186,24 @@ export function SourceRouteModal({
                                             helpText={
                                                 isEdit
                                                     ? i18n.t(
-                                                          'Pipeline steps refer to the code, so it can’t change.'
+                                                          'Pipeline steps refer to the code, it can’t change.'
                                                       )
                                                     : i18n.t(
-                                                          'Saved as {{code}}. Pipeline steps refer to it, so it can’t change later.',
+                                                          'Saved as {{code}}. Pipeline steps refer to it, it can’t change later.',
                                                           {
                                                               code: `${SOURCE_ROUTE_CODE_PREFIX}${key || '…'}`,
                                                           }
                                                       )
                                             }
                                             value={field.value ?? ''}
-                                            onChange={({ value }) =>
-                                                field.onChange(
-                                                    (value ?? '').toLowerCase()
-                                                )
-                                            }
+                                            onChange={({ value }) => {
+                                                const next = (
+                                                    value ?? ''
+                                                ).toLowerCase()
+                                                keyEditedRef.current =
+                                                    next !== ''
+                                                field.onChange(next)
+                                            }}
                                             onBlur={field.onBlur}
                                             error={Boolean(fieldState.error)}
                                             validationText={
