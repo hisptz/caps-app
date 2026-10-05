@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-05T12:05:31.498Z\n"
-"PO-Revision-Date: 2026-10-05T12:05:31.499Z\n"
+"POT-Creation-Date: 2026-10-05T12:24:34.423Z\n"
+"PO-Revision-Date: 2026-10-05T12:24:34.423Z\n"
 
 msgid "Enter a valid HTTP or HTTPS URL."
 msgstr "Enter a valid HTTP or HTTPS URL."
@@ -312,9 +312,6 @@ msgstr "Access token"
 msgid "Username and password"
 msgstr "Username and password"
 
-msgid "Custom headers"
-msgstr "Custom headers"
-
 msgid "Could not save the connected instance."
 msgstr "Could not save the connected instance."
 
@@ -387,18 +384,6 @@ msgstr "Username"
 msgid "Password"
 msgstr "Password"
 
-msgid "Header"
-msgstr "Header"
-
-msgid "Value"
-msgstr "Value"
-
-msgid "Remove header"
-msgstr "Remove header"
-
-msgid "Add header"
-msgstr "Add header"
-
 msgid "Access and limits"
 msgstr "Access and limits"
 
@@ -442,9 +427,6 @@ msgstr "Enter the username"
 
 msgid "Enter the password"
 msgstr "Enter the password"
-
-msgid "Add at least one header name and value"
-msgstr "Add at least one header name and value"
 
 msgid "request failed"
 msgstr "request failed"

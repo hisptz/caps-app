@@ -33,6 +33,11 @@ export const pullPeriodSchema = z.discriminatedUnion('mode', [
 
 export type PullPeriod = z.infer<typeof pullPeriodSchema>
 
+/** How destination org units are found on the source instance. */
+export const orgUnitMatchSchema = z.enum(['id', 'code'])
+
+export type OrgUnitMatch = z.infer<typeof orgUnitMatchSchema>
+
 export const pullItemTypeSchema = z.enum([
     'DATA_ELEMENT',
     'INDICATOR',
@@ -65,6 +70,7 @@ export const dhis2InstancePullConfigSchema = z.object({
         levels: z.array(z.number().int().positive()).optional(),
         groups: z.array(z.string()).optional(),
     }),
+    orgUnitMatch: orgUnitMatchSchema.default('id'),
     period: pullPeriodSchema,
     chunk: z
         .object({
@@ -91,6 +97,7 @@ export function defaultDhis2InstancePullConfig(): Dhis2InstancePullConfigValue {
         routeCode: '',
         items: [],
         orgUnit: { levels: [] },
+        orgUnitMatch: 'id',
         period: {
             mode: 'relative',
             periodType: 'MONTHLY',

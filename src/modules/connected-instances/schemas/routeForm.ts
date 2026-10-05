@@ -2,11 +2,7 @@ import i18n from '@dhis2/d2-i18n'
 import { z } from 'zod'
 import { SOURCE_ROUTE_CODE_PREFIX } from '@/modules/connected-instances/constants'
 
-export const SOURCE_ROUTE_AUTH_TYPES = [
-    'api-token',
-    'http-basic',
-    'api-headers',
-] as const
+export const SOURCE_ROUTE_AUTH_TYPES = ['api-token', 'http-basic'] as const
 
 export type SourceRouteAuthType = (typeof SOURCE_ROUTE_AUTH_TYPES)[number]
 
@@ -58,7 +54,6 @@ export const sourceRouteFormSchema = z
         token: z.string().optional(),
         username: z.string().optional(),
         password: z.string().optional(),
-        headers: z.array(z.object({ name: z.string(), value: z.string() })),
     })
     .superRefine((values, ctx) => {
         if (!values.changeCredentials) {
@@ -80,21 +75,6 @@ export const sourceRouteFormSchema = z
                 require('username', i18n.t('Enter the username'))
                 require('password', i18n.t('Enter the password'))
                 break
-            case 'api-headers': {
-                const filled = values.headers.filter(
-                    (h) => h.name.trim() && h.value.trim()
-                )
-                if (filled.length === 0) {
-                    ctx.addIssue({
-                        code: 'custom',
-                        path: ['headers'],
-                        message: i18n.t(
-                            'Add at least one header name and value'
-                        ),
-                    })
-                }
-                break
-            }
         }
     })
 
@@ -123,7 +103,6 @@ export function defaultSourceRouteFormValues(): SourceRouteFormValues {
         token: '',
         username: '',
         password: '',
-        headers: [{ name: '', value: '' }],
     }
 }
 
@@ -172,7 +151,6 @@ export function parseAuthorities(text: string): string[] {
 export type SourceRouteAuth =
     | { type: 'api-token'; token: string }
     | { type: 'http-basic'; username: string; password: string }
-    | { type: 'api-headers'; headers: Record<string, string> }
 
 export function buildSourceRouteAuth(
     values: SourceRouteFormValues
@@ -185,15 +163,6 @@ export function buildSourceRouteAuth(
                 type: 'http-basic',
                 username: values.username?.trim() ?? '',
                 password: values.password ?? '',
-            }
-        case 'api-headers':
-            return {
-                type: 'api-headers',
-                headers: Object.fromEntries(
-                    values.headers
-                        .filter((h) => h.name.trim() && h.value.trim())
-                        .map((h) => [h.name.trim(), h.value.trim()])
-                ),
             }
     }
 }

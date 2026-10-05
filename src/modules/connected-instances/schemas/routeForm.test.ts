@@ -46,17 +46,6 @@ describe('source route form', () => {
                 })
             ).auth
         ).toEqual({ type: 'http-basic', username: 'reader', password: 'pw' })
-        expect(
-            buildSourceRouteCreatePayload(
-                values({
-                    authType: 'api-headers',
-                    headers: [
-                        { name: 'X-API-Key', value: 'abc' },
-                        { name: '', value: '' },
-                    ],
-                })
-            ).auth
-        ).toEqual({ type: 'api-headers', headers: { 'X-API-Key': 'abc' } })
     })
 
     it('patches without touching credentials unless they are being replaced', () => {

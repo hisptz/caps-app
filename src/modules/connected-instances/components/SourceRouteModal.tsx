@@ -3,8 +3,6 @@ import {
     Button,
     ButtonStrip,
     Checkbox,
-    IconAdd16,
-    IconDelete16,
     InputField,
     Modal,
     ModalActions,
@@ -14,13 +12,7 @@ import {
 } from '@dhis2/ui'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React, { useEffect, useRef } from 'react'
-import {
-    Controller,
-    FormProvider,
-    useFieldArray,
-    useForm,
-    useWatch,
-} from 'react-hook-form'
+import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form'
 import classes from './ConnectedInstances.module.css'
 import { SOURCE_ROUTE_CODE_PREFIX } from '@/modules/connected-instances/constants'
 import { useSaveSourceRoute } from '@/modules/connected-instances/hooks/useSourceRoutes'
@@ -45,7 +37,6 @@ const FORM_ID = 'source-route-form'
 const AUTH_OPTIONS: Array<{ value: SourceRouteAuthType; label: string }> = [
     { value: 'api-token', label: i18n.t('Access token') },
     { value: 'http-basic', label: i18n.t('Username and password') },
-    { value: 'api-headers', label: i18n.t('Custom headers') },
 ]
 
 type Props = {
@@ -67,7 +58,6 @@ export function SourceRouteModal({
         defaultValues: defaultSourceRouteFormValues(),
         mode: 'onBlur',
     })
-    const headers = useFieldArray({ control: form.control, name: 'headers' })
     const isEdit = Boolean(route)
     const [authType, changeCredentials, key] = useWatch({
         control: form.control,
@@ -75,7 +65,6 @@ export function SourceRouteModal({
     })
     const keyEditedRef = useRef(false)
     const rootError = form.formState.errors.root?.message
-    const headersError = form.formState.errors.headers?.message
 
     useEffect(() => {
         if (open) {
@@ -369,128 +358,6 @@ export function SourceRouteModal({
                                                     />
                                                 )}
                                             />
-                                        </div>
-                                    )}
-                                    {authType === 'api-headers' && (
-                                        <div className={classes.headerList}>
-                                            {headers.fields.map(
-                                                (row, index) => (
-                                                    <div
-                                                        key={row.id}
-                                                        className={
-                                                            classes.headerRow
-                                                        }
-                                                    >
-                                                        <Controller
-                                                            name={`headers.${index}.name`}
-                                                            render={({
-                                                                field,
-                                                            }) => (
-                                                                <InputField
-                                                                    dense
-                                                                    label={
-                                                                        index ===
-                                                                        0
-                                                                            ? i18n.t(
-                                                                                  'Header'
-                                                                              )
-                                                                            : undefined
-                                                                    }
-                                                                    placeholder="X-API-Key"
-                                                                    value={
-                                                                        field.value ??
-                                                                        ''
-                                                                    }
-                                                                    onChange={({
-                                                                        value,
-                                                                    }) =>
-                                                                        field.onChange(
-                                                                            value
-                                                                        )
-                                                                    }
-                                                                />
-                                                            )}
-                                                        />
-                                                        <Controller
-                                                            name={`headers.${index}.value`}
-                                                            render={({
-                                                                field,
-                                                            }) => (
-                                                                <InputField
-                                                                    dense
-                                                                    type="password"
-                                                                    autoComplete="off"
-                                                                    label={
-                                                                        index ===
-                                                                        0
-                                                                            ? i18n.t(
-                                                                                  'Value'
-                                                                              )
-                                                                            : undefined
-                                                                    }
-                                                                    value={
-                                                                        field.value ??
-                                                                        ''
-                                                                    }
-                                                                    onChange={({
-                                                                        value,
-                                                                    }) =>
-                                                                        field.onChange(
-                                                                            value
-                                                                        )
-                                                                    }
-                                                                />
-                                                            )}
-                                                        />
-                                                        <Button
-                                                            small
-                                                            secondary
-                                                            type="button"
-                                                            icon={
-                                                                <IconDelete16 />
-                                                            }
-                                                            aria-label={i18n.t(
-                                                                'Remove header'
-                                                            )}
-                                                            disabled={
-                                                                headers.fields
-                                                                    .length ===
-                                                                1
-                                                            }
-                                                            onClick={() =>
-                                                                headers.remove(
-                                                                    index
-                                                                )
-                                                            }
-                                                        />
-                                                    </div>
-                                                )
-                                            )}
-                                            <div>
-                                                <Button
-                                                    small
-                                                    secondary
-                                                    type="button"
-                                                    icon={<IconAdd16 />}
-                                                    onClick={() =>
-                                                        headers.append({
-                                                            name: '',
-                                                            value: '',
-                                                        })
-                                                    }
-                                                >
-                                                    {i18n.t('Add header')}
-                                                </Button>
-                                            </div>
-                                            {headersError && (
-                                                <p
-                                                    className={
-                                                        classes.fieldError
-                                                    }
-                                                >
-                                                    {headersError}
-                                                </p>
-                                            )}
                                         </div>
                                     )}
                                 </>
