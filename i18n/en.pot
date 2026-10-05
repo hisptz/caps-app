@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-03T11:56:33.417Z\n"
-"PO-Revision-Date: 2026-10-03T11:56:33.419Z\n"
+"POT-Creation-Date: 2026-10-05T12:05:31.498Z\n"
+"PO-Revision-Date: 2026-10-05T12:05:31.499Z\n"
 
 msgid "Enter a valid HTTP or HTTPS URL."
 msgstr "Enter a valid HTTP or HTTPS URL."
@@ -343,11 +343,11 @@ msgstr "e.g. DHIS2 Play"
 msgid "Route code"
 msgstr "Route code"
 
-msgid "Pipeline steps refer to the code, so it can’t change."
-msgstr "Pipeline steps refer to the code, so it can’t change."
+msgid "Pipeline steps refer to the code, it can’t change."
+msgstr "Pipeline steps refer to the code, it can’t change."
 
-msgid "Saved as {{code}}. Pipeline steps refer to it, so it can’t change later."
-msgstr "Saved as {{code}}. Pipeline steps refer to it, so it can’t change later."
+msgid "Saved as {{code}}. Pipeline steps refer to it, it can’t change later."
+msgstr "Saved as {{code}}. Pipeline steps refer to it, it can’t change later."
 
 msgid "Instance URL"
 msgstr "Instance URL"
@@ -1982,13 +1982,6 @@ msgstr ""
 msgid "Last years"
 msgstr "Last years"
 
-msgid ""
-"All rebuilds every year. A number rebuilds only that many recent years; 0 "
-"updates only data changed since the last run."
-msgstr ""
-"All rebuilds every year. A number rebuilds only that many recent years; 0 "
-"updates only data changed since the last run."
-
 msgid "Hide advanced options"
 msgstr "Hide advanced options"
 
@@ -2071,11 +2064,34 @@ msgid "Add item"
 msgstr "Add item"
 
 msgid ""
-"Chosen from the destination. They must have the same IDs on the source "
-"instance"
+"Chosen from the destination. Each is pulled from the source org unit with "
+"the same code; org units without a code are skipped."
 msgstr ""
-"Chosen from the destination. They must have the same IDs on the source "
-"instance"
+"Chosen from the destination. Each is pulled from the source org unit with "
+"the same code; org units without a code are skipped."
+
+msgid ""
+"Chosen from the destination. Each is pulled from the source org unit with "
+"the same ID."
+msgstr ""
+"Chosen from the destination. Each is pulled from the source org unit with "
+"the same ID."
+
+msgid "Match org units on the source by"
+msgstr "Match org units on the source by"
+
+msgid ""
+"Use code when the source and destination have different IDs for the same "
+"places."
+msgstr ""
+"Use code when the source and destination have different IDs for the same "
+"places."
+
+msgid "ID"
+msgstr "ID"
+
+msgid "Code"
+msgstr "Code"
 
 msgid ""
 "Values are merged into the destination, so pulling a period again updates "
@@ -2254,12 +2270,6 @@ msgstr "Sync until"
 msgid "Leave blank to sync to the latest available data"
 msgstr "Leave blank to sync to the latest available data"
 
-msgid "Last date"
-msgstr "Last date"
-
-msgid "Latest available"
-msgstr "Latest available"
-
 msgid "How CAPS waits for queued sync jobs. Keep the total under 30 minutes."
 msgstr "How CAPS waits for queued sync jobs. Keep the total under 30 minutes."
 
@@ -2268,6 +2278,21 @@ msgstr "Sync status unavailable"
 
 msgid "Covers data until {{end}}"
 msgstr "Covers data until {{end}}"
+
+msgid "Last date"
+msgstr "Last date"
+
+msgid "Latest available"
+msgstr "Latest available"
+
+msgid "Last year"
+msgstr "Last year"
+
+msgid "Last month"
+msgstr "Last month"
+
+msgid "Datasets sync through the end of the chosen month."
+msgstr "Datasets sync through the end of the chosen month."
 
 msgid "By level"
 msgstr "By level"
@@ -2660,11 +2685,3 @@ msgstr "Skipped"
 msgctxt "URL configuration."
 msgid "Check CLIMATE_API_BASE"
 msgstr "Check CLIMATE_API_BASE_URL configuration."
-
-msgctxt "Application title"
-msgid "__MANIFEST_APP_TITLE"
-msgstr "CAPS"
-
-msgctxt "Application description"
-msgid "__MANIFEST_APP_DESCRIPTION"
-msgstr ""
