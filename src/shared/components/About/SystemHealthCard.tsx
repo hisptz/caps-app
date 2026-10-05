@@ -1,5 +1,5 @@
 import i18n from '@dhis2/d2-i18n'
-import { IconClock16 } from '@dhis2/ui'
+import { CircularLoader, IconClock16 } from '@dhis2/ui'
 import * as React from 'react'
 import classes from './About.module.css'
 import { ConnectedBadge } from './ConnectedBadge'
@@ -15,8 +15,9 @@ export interface SystemHealthCardProps {
     connected: boolean
     rows: { label: string; value: string }[]
     checkedLabel: string
-    /** Aggregate fetch latency shown on connected cards; omitted when disconnected. */
     latencyMs?: number
+    disconnectedMessage?: string
+    loading?: boolean
 }
 
 export const SystemHealthCard: React.FC<SystemHealthCardProps> = ({
@@ -29,6 +30,8 @@ export const SystemHealthCard: React.FC<SystemHealthCardProps> = ({
     rows,
     checkedLabel,
     latencyMs,
+    disconnectedMessage,
+    loading = false,
 }) => {
     const avatarClass = `${classes.systemAvatar} ${classes[`systemAvatar_${accent}`]}`
 
@@ -47,7 +50,9 @@ export const SystemHealthCard: React.FC<SystemHealthCardProps> = ({
                             >
                                 {title}
                             </h4>
-                            <ConnectedBadge connected={connected} />
+                            {!loading && (
+                                <ConnectedBadge connected={connected} />
+                            )}
                         </div>
                         <p className={classes.systemCardDescription}>
                             {description}
@@ -56,7 +61,11 @@ export const SystemHealthCard: React.FC<SystemHealthCardProps> = ({
                 </div>
             </header>
             <div className={classes.systemCardBody}>
-                {connected && rows.length > 0 ? (
+                {loading ? (
+                    <div className={classes.systemCardLoader}>
+                        <CircularLoader small />
+                    </div>
+                ) : connected && rows.length > 0 ? (
                     <dl className={classes.infoRows}>
                         {rows.map(({ label, value }) => (
                             <React.Fragment key={label}>
@@ -71,7 +80,7 @@ export const SystemHealthCard: React.FC<SystemHealthCardProps> = ({
                     </p>
                 ) : (
                     <p className={classes.systemMuted}>
-                        {i18n.t('Not connected')}
+                        {disconnectedMessage ?? i18n.t('Not connected')}
                     </p>
                 )}
             </div>

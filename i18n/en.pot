@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-05T12:24:34.423Z\n"
-"PO-Revision-Date: 2026-10-05T12:24:34.423Z\n"
+"POT-Creation-Date: 2026-10-05T13:40:53.924Z\n"
+"PO-Revision-Date: 2026-10-05T13:40:53.926Z\n"
 
 msgid "Enter a valid HTTP or HTTPS URL."
 msgstr "Enter a valid HTTP or HTTPS URL."
@@ -1711,6 +1711,18 @@ msgstr "refreshed {{when}}"
 msgid "Could not load system information"
 msgstr "Could not load system information"
 
+msgid "Route is disabled"
+msgstr "Route is disabled"
+
+msgid "Source instance · {{url}}"
+msgstr "Source instance · {{url}}"
+
+msgid "Connected as"
+msgstr "Connected as"
+
+msgid "Analytics up to"
+msgstr "Analytics up to"
+
 msgid "No additional details available."
 msgstr "No additional details available."
 
@@ -1942,11 +1954,20 @@ msgstr ""
 msgid "Add"
 msgstr "Add"
 
+msgid "Search by name or id"
+msgstr "Search by name or id"
+
 msgid "No matching data items found"
 msgstr "No matching data items found"
 
 msgid "No matching data elements found"
 msgstr "No matching data elements found"
+
+msgid "Indicator"
+msgstr "Indicator"
+
+msgid "Program indicator"
+msgstr "Program indicator"
 
 msgid "All"
 msgstr "All"
@@ -2193,12 +2214,6 @@ msgstr "Existing data element"
 
 msgid "Average rates and percentages."
 msgstr "Average rates and percentages."
-
-msgid "Indicator"
-msgstr "Indicator"
-
-msgid "Program indicator"
-msgstr "Program indicator"
 
 msgid "Loading…"
 msgstr "Loading…"

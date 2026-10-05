@@ -1,5 +1,10 @@
 import { useDataEngine } from '@dhis2/app-runtime'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import {
+    useMutation,
+    useQueries,
+    useQuery,
+    useQueryClient,
+} from '@tanstack/react-query'
 import { testSourceRoute } from '@/capsApi/endpoints'
 import { SOURCE_ROUTE_CODE_PREFIX } from '@/modules/connected-instances/constants'
 import {
@@ -84,5 +89,16 @@ export function useTestSourceRoute() {
     const engine = useDataEngine()
     return useMutation({
         mutationFn: (routeCode: string) => testSourceRoute(engine, routeCode),
+    })
+}
+
+export function useSourceRouteHealthQueries(routes: SourceRoute[]) {
+    const engine = useDataEngine()
+    return useQueries({
+        queries: routes.map((route) => ({
+            queryKey: sourceRouteKeys.test(route.code),
+            queryFn: () => testSourceRoute(engine, route.code),
+            enabled: !route.disabled,
+        })),
     })
 }

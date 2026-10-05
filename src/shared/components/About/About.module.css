@@ -246,6 +246,14 @@
     flex: 1;
 }
 
+.systemCardLoader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 96px;
+}
+
 .systemCardFooter {
     display: flex;
     align-items: center;

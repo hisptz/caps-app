@@ -139,6 +139,7 @@ export interface SourceRouteTestResponse {
     reachable: boolean
     user?: { username: string | null; displayName: string | null }
     system?: {
+        systemName: string | null
         version: string | null
         revision: string | null
         contextPath: string | null

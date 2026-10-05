@@ -1,5 +1,5 @@
 import { useDataEngine } from '@dhis2/app-runtime'
-import { useQuery } from '@tanstack/react-query'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { sourceRunResource } from '@/modules/connected-instances/constants'
 import type { PullItemType } from '@/modules/dhis2-instance-pull/schemas/config'
 import {
@@ -20,9 +20,12 @@ const ITEM_TYPES: PullItemType[] = [
     'PROGRAM_INDICATOR',
 ]
 const TYPE_FILTER = `dimensionItemType:in:[${ITEM_TYPES.join(',')}]`
-const PAGE_SIZE = 20
+const PAGE_SIZE = 50
 
-type DataItemsResponse = { items: { dataItems?: SourceDataItem[] } }
+type DataItemsPage = {
+    dataItems?: SourceDataItem[]
+    pager?: { page: number; pageCount: number }
+}
 
 export function useSourceDataItemSearch(
     routeCode: string | undefined,
@@ -30,12 +33,12 @@ export function useSourceDataItemSearch(
 ) {
     const engine = useDataEngine()
     const trimmed = keyword.trim()
-    return useQuery({
+    return useInfiniteQuery({
         queryKey: ['dhis2', 'source-data-items', routeCode, 'search', trimmed],
         enabled: Boolean(routeCode),
         keepPreviousData: true,
         staleTime: 5 * 60_000,
-        queryFn: async () => {
+        queryFn: async ({ pageParam = 1 }) => {
             const filter = [TYPE_FILTER]
             if (trimmed) {
                 filter.push(`identifiable:token:${trimmed}`)
@@ -47,13 +50,17 @@ export function useSourceDataItemSearch(
                         filter,
                         fields: 'id,displayName,dimensionItemType',
                         order: 'displayName:asc',
-                        page: 1,
+                        page: pageParam,
                         pageSize: PAGE_SIZE,
                     },
                 },
-            })) as DataItemsResponse
-            return result.items.dataItems ?? []
+            })) as { items: DataItemsPage }
+            return result.items
         },
+        getNextPageParam: (last) =>
+            last.pager && last.pager.page < last.pager.pageCount
+                ? last.pager.page + 1
+                : undefined,
     })
 }
 

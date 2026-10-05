@@ -2,26 +2,11 @@ import i18n from '@dhis2/d2-i18n'
 import { SimpleSingleSelectField } from '@dhis2/ui'
 import React, { useMemo, useState } from 'react'
 import { useDebounceValue } from 'usehooks-ts'
+import { dataItemOptionComponent } from '../DataItemOption'
 import {
     type SourceDataItem,
     useSourceDataItemSearch,
 } from '@/modules/dhis2-instance-pull/hooks/usePullItemQueries'
-import type { PullItemType } from '@/modules/dhis2-instance-pull/schemas/config'
-
-export function itemTypeLabel(type: PullItemType): string {
-    switch (type) {
-        case 'DATA_ELEMENT':
-            return i18n.t('Data element')
-        case 'INDICATOR':
-            return i18n.t('Indicator')
-        case 'PROGRAM_INDICATOR':
-            return i18n.t('Program indicator')
-    }
-}
-
-function optionLabel(item: SourceDataItem): string {
-    return `${item.displayName} · ${itemTypeLabel(item.dimensionItemType)}`
-}
 
 export function SourceItemSelector({
     routeCode,
@@ -50,8 +35,10 @@ export function SourceItemSelector({
         if (selected) {
             map.set(selected.id, selected)
         }
-        for (const item of search.data ?? []) {
-            map.set(item.id, item)
+        for (const page of search.data?.pages ?? []) {
+            for (const item of page.dataItems ?? []) {
+                map.set(item.id, item)
+            }
         }
         return map
     }, [search.data, selected])
@@ -59,12 +46,14 @@ export function SourceItemSelector({
     const options = useMemo(() => {
         const list = [...byId.values()].map((item) => ({
             value: item.id,
-            label: optionLabel(item),
+            label: item.displayName,
+            component: dataItemOptionComponent(item.dimensionItemType),
         }))
         if (value && !byId.has(value)) {
             list.unshift({
                 value,
                 label: resolving ? i18n.t('Loading…') : value,
+                component: undefined,
             })
         }
         return list
@@ -81,6 +70,11 @@ export function SourceItemSelector({
             filterValue={keyword}
             filterPlaceholder={i18n.t('Search by name, code or ID')}
             onFilterChange={(next) => setKeyword(next ?? '')}
+            onEndReached={() => {
+                if (search.hasNextPage && !search.isFetchingNextPage) {
+                    void search.fetchNextPage()
+                }
+            }}
             noMatchText={
                 search.isError
                     ? i18n.t('The source instance could not be searched')
