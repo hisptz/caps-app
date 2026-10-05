@@ -2,7 +2,6 @@ import { useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import {
     Button,
-    CalendarInput,
     MultiSelectField,
     MultiSelectOption,
     NoticeBox,
@@ -13,6 +12,7 @@ import { useParams } from 'react-router'
 import { PollingFields } from '../PollingFields'
 import classes from './OpenClimateServiceSyncConfig.module.css'
 import { SyncPlanPreview } from './SyncPlanPreview'
+import { SyncUntilField } from './SyncUntilField'
 import { isUuid } from '@/capsApi/isUuid'
 import { useClimateDatasetsQuery } from '@/modules/climate-data/hooks/useClimateDatasetsQuery'
 import { usePipelineDetailQuery } from '@/modules/monitoring/hooks/capsMonitoringHooks'
@@ -22,6 +22,7 @@ import {
     isOpenClimateServiceSyncConfigShape,
 } from '@/modules/open-climate-service-sync/schemas/config'
 import { getPipelineClimateDatasetIds } from '@/modules/open-climate-service-sync/utils/syncCoverage'
+import { getSyncEndGranularity } from '@/modules/open-climate-service-sync/utils/syncEnd'
 import type { PipelineStepFormWithHandlerValues } from '@/modules/pipeline-detail/schemas/stepFormSchema'
 import {
     FormSection,
@@ -83,6 +84,18 @@ export function OpenClimateServiceSyncConfig({
     const selectedIds = Array.isArray(watchedIds)
         ? (watchedIds as string[])
         : EMPTY
+    const selectedDatasets = datasets.filter((d) =>
+        selectedIds.includes(d.dataset_id)
+    )
+    const syncEndGranularity = getSyncEndGranularity(
+        selectedDatasets.map((d) => d.period_type)
+    )
+    const syncEndMinYear = Math.min(
+        new Date().getFullYear() - 9,
+        ...selectedDatasets
+            .map((d) => Number.parseInt(d.extent?.temporal?.start ?? '', 10))
+            .filter((y) => !Number.isNaN(y))
+    )
     const missingIds = pipelineDatasetIds.filter(
         (d) => !selectedIds.includes(d)
     )
@@ -245,32 +258,9 @@ export function OpenClimateServiceSyncConfig({
                         )}
                         tight
                     >
-                        <Controller
-                            name="handlerConfig.end"
-                            control={control}
-                            render={({ field, fieldState }) => (
-                                <CalendarInput
-                                    label={i18n.t('Last date')}
-                                    placeholder={i18n.t('Latest available')}
-                                    calendar="gregory"
-                                    format="YYYY-MM-DD"
-                                    clearable
-                                    date={
-                                        typeof field.value === 'string'
-                                            ? field.value
-                                            : ''
-                                    }
-                                    onDateSelect={(selected) =>
-                                        field.onChange(
-                                            selected?.calendarDateString ||
-                                                undefined
-                                        )
-                                    }
-                                    onBlur={field.onBlur}
-                                    error={Boolean(fieldState.error)}
-                                    validationText={fieldState.error?.message}
-                                />
-                            )}
+                        <SyncUntilField
+                            granularity={syncEndGranularity}
+                            minYear={syncEndMinYear}
                         />
                     </FormSection>
                     <FormSection

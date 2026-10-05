@@ -5,7 +5,12 @@ import * as React from 'react'
 import classes from './About.module.css'
 import { ConnectedSystemCards } from './ConnectedSystemCards'
 import { countHealthy } from './connectedSystems.utils'
+import { SourceInstanceCards } from './SourceInstanceCards'
 import { CapsApiError } from '@/capsApi/client'
+import {
+    useSourceRouteHealthQueries,
+    useSourceRoutesQuery,
+} from '@/modules/connected-instances/hooks/useSourceRoutes'
 import { useSystemInfoQuery } from '@/modules/monitoring/hooks/capsMonitoringHooks'
 import { formatPastRelative } from '@/shared/utils/date.utils'
 
@@ -21,17 +26,35 @@ export const ConnectedSystemsSection: React.FC = () => {
         dataUpdatedAt,
     } = useSystemInfoQuery(engine)
 
+    const sourceRoutesQuery = useSourceRoutesQuery()
+    const sourceRoutes = sourceRoutesQuery.data ?? []
+    const sourceResults = useSourceRouteHealthQueries(sourceRoutes)
+    const sourcesFetching =
+        sourceRoutesQuery.isFetching ||
+        sourceResults.some((result) => result.isFetching)
+    const refreshing = isFetching || sourcesFetching
+
     const caps = data?.caps
     const fetchLatencyMs = data?.fetchLatencyMs
 
     const handleRefresh = () => {
         void refetch()
+        void sourceRoutesQuery
+            .refetch()
+            .then(() => sourceResults.forEach((result) => result.refetch()))
     }
 
     const checkedLabel = formatPastRelative(dataUpdatedAt)
     const refreshedLabel = formatPastRelative(dataUpdatedAt)
 
-    const health = caps != null ? countHealthy(caps) : { healthy: 0, total: 4 }
+    const coreHealth =
+        caps != null ? countHealthy(caps) : { healthy: 0, total: 4 }
+    const health = {
+        healthy:
+            coreHealth.healthy +
+            sourceResults.filter((result) => result.data?.reachable).length,
+        total: coreHealth.total + sourceRoutes.length,
+    }
 
     const allHealthy = caps != null && health.healthy === health.total
 
@@ -77,11 +100,11 @@ export const ConnectedSystemsSection: React.FC = () => {
                         </div>
                     )}
                     <div className={classes.refreshWrap}>
-                        {isFetching && <CircularLoader />}
+                        {refreshing && <CircularLoader />}
                         <Button
                             icon={<IconSync16 />}
-                            disabled={isFetching}
-                            aria-busy={isFetching}
+                            disabled={refreshing}
+                            aria-busy={refreshing}
                             onClick={handleRefresh}
                         >
                             {i18n.t('Refresh')}
@@ -111,6 +134,10 @@ export const ConnectedSystemsSection: React.FC = () => {
                         caps={caps}
                         checkedLabel={checkedLabel}
                         latencyMs={fetchLatencyMs}
+                    />
+                    <SourceInstanceCards
+                        routes={sourceRoutes}
+                        results={sourceResults}
                     />
                 </div>
             )}

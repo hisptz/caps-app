@@ -61,14 +61,16 @@ export function PipelineEditScheduleModal({
 
     const form = useForm<ScheduleFormValues>({
         resolver: zodResolver(schema),
-        defaultValues: schedule ? scheduleToFormValues(schedule) : undefined,
+        defaultValues: schedule
+            ? scheduleToFormValues(schedule, steps)
+            : undefined,
         mode: 'onBlur',
     })
     const rootError = form.formState.errors.root?.message
 
     useEffect(() => {
         if (open && schedule) {
-            form.reset(scheduleToFormValues(schedule))
+            form.reset(scheduleToFormValues(schedule, steps))
             form.clearErrors()
         }
     }, [open, schedule, steps, handlers, form])

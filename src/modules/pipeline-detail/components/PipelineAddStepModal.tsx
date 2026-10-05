@@ -16,6 +16,7 @@ import { StepWizardBody, type StepWizardPanel } from './StepWizardBody'
 import { StepWizardModalActions } from './StepWizardModalActions'
 import { CapsApiError } from '@/capsApi/client'
 import type { CreateStepBody, HandlerDescriptor } from '@/capsApi/types'
+import { usePrepareHandlerConfig } from '@/modules/pipeline-detail/hooks/usePrepareHandlerConfig'
 import { useStepWizardFlow } from '@/modules/pipeline-detail/hooks/useStepWizardFlow'
 import {
     createPipelineStepFormSchema,
@@ -65,6 +66,7 @@ export function PipelineAddStepModal({
         defaultValues: defaultPipelineStepFormValues(defaultStepOrder),
         mode: 'onBlur',
     })
+    const prepareHandlerConfig = usePrepareHandlerConfig()
     const { isSubmitting } = useFormState({ control: form.control })
     const rootError = form.formState.errors.root?.message
     const [active, setActive] = useState<StepWizardPanel>('basics')
@@ -91,13 +93,22 @@ export function PipelineAddStepModal({
         }
     }, [open, defaultStepOrder, form])
 
-    function onSubmit(values: PipelineStepFormWithHandlerValues) {
+    async function onSubmit(values: PipelineStepFormWithHandlerValues) {
         const parseResult = createPipelineStepFormSchema(
             handlers ?? []
         ).safeParse(values)
         if (!parseResult.success) {
             applyZodErrorsToForm(parseResult.error, form.setError)
             return
+        }
+
+        const prepared = await prepareHandlerConfig(values)
+        if (!prepared.ok) {
+            form.setError('root', { type: 'server', message: prepared.message })
+            return
+        }
+        if (prepared.handlerConfig !== values.handlerConfig) {
+            form.setValue('handlerConfig', prepared.handlerConfig ?? null)
         }
 
         createStepMutation.mutate(
@@ -108,7 +119,7 @@ export function PipelineAddStepModal({
                 stepOrder: values.stepOrder,
                 maxRetries: values.maxRetries,
                 retryDelayMs: values.retryDelayMs,
-                handlerConfig: values.handlerConfig ?? undefined,
+                handlerConfig: prepared.handlerConfig ?? undefined,
             },
             {
                 onSuccess: () => {

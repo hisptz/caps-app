@@ -15,6 +15,7 @@ import { StepWizardBody, type StepWizardPanel } from './StepWizardBody'
 import { StepWizardModalActions } from './StepWizardModalActions'
 import { CapsApiError } from '@/capsApi/client'
 import type { HandlerDescriptor, UpdateStepBody } from '@/capsApi/types'
+import { usePrepareHandlerConfig } from '@/modules/pipeline-detail/hooks/usePrepareHandlerConfig'
 import { useStepWizardFlow } from '@/modules/pipeline-detail/hooks/useStepWizardFlow'
 import {
     createPipelineStepFormSchema,
@@ -64,6 +65,7 @@ export function PipelineEditStepModal({
         defaultValues: step ? pipelineStepToFormValues(step) : undefined,
         mode: 'onBlur',
     })
+    const prepareHandlerConfig = usePrepareHandlerConfig()
     const { isSubmitting, isDirty } = useFormState({ control: form.control })
     const rootError = form.formState.errors.root?.message
     const [active, setActive] = useState<StepWizardPanel>(initialPanel)
@@ -91,7 +93,7 @@ export function PipelineEditStepModal({
         }
     }, [open, step, initialPanel, form])
 
-    function onSubmit(values: PipelineStepFormWithHandlerValues) {
+    async function onSubmit(values: PipelineStepFormWithHandlerValues) {
         if (!step) {
             return
         }
@@ -104,6 +106,15 @@ export function PipelineEditStepModal({
             return
         }
 
+        const prepared = await prepareHandlerConfig(values)
+        if (!prepared.ok) {
+            form.setError('root', { type: 'server', message: prepared.message })
+            return
+        }
+        if (prepared.handlerConfig !== values.handlerConfig) {
+            form.setValue('handlerConfig', prepared.handlerConfig ?? null)
+        }
+
         updateStepMutation.mutate(
             {
                 stepId: step.id,
@@ -114,7 +125,7 @@ export function PipelineEditStepModal({
                     stepOrder: values.stepOrder,
                     maxRetries: values.maxRetries,
                     retryDelayMs: values.retryDelayMs,
-                    handlerConfig: values.handlerConfig ?? undefined,
+                    handlerConfig: prepared.handlerConfig ?? undefined,
                 },
             },
             {

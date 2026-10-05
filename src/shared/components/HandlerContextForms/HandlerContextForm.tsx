@@ -1,6 +1,7 @@
 import React from 'react'
 import { AlertGenerationContextForm } from './AlertGenerationContextForm'
 import { ClimateOpenEoCreateContextForm } from './ClimateOpenEoCreateContextForm'
+import { Dhis2InstancePullContextForm } from './Dhis2InstancePullContextForm'
 import { PredictionTriggerContextForm } from './PredictionTriggerContextForm'
 import { ThresholdContextForm } from './ThresholdContextForm'
 
@@ -33,6 +34,14 @@ export function HandlerContextForm({
                 <ClimateOpenEoCreateContextForm
                     stepId={stepId}
                     handlerConfig={handlerConfig}
+                />
+            )
+        case 'dhis2-instance-pull':
+            return (
+                <Dhis2InstancePullContextForm
+                    stepId={stepId}
+                    handlerConfig={handlerConfig}
+                    mode={mode}
                 />
             )
         case 'threshold-generation':

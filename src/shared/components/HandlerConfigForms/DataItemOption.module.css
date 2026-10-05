@@ -1,0 +1,51 @@
+/* Mirrors the default SimpleSingleSelect option, plus a leading type icon. */
+.option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 16px;
+    color: var(--colors-grey900, #212934);
+    padding-block: 8px;
+    padding-inline: 12px;
+}
+
+.option:hover {
+    background-color: var(--colors-grey200, #f3f5f7);
+}
+
+.option.highlighted,
+.option:active {
+    background-color: var(--colors-teal700, #00796b);
+    color: var(--colors-white, #fff);
+    cursor: auto;
+}
+
+.option.disabled {
+    color: var(--colors-grey500, #a0adba);
+    cursor: not-allowed;
+    user-select: none;
+}
+
+.option.disabled:hover {
+    background-color: initial;
+}
+
+.icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    color: var(--colors-grey600, #6c7787);
+}
+
+.highlighted .icon,
+.option:active .icon {
+    color: inherit;
+}
+
+.label {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
