@@ -143,7 +143,7 @@ export function ThresholdGenerationConfig({
                                 label={i18n.t('Sum')}
                             />
                             <SingleSelectOption
-                                value="MEAN"
+                                value="AVERAGE"
                                 label={i18n.t('Average')}
                             />
                         </SingleSelectField>

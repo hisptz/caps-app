@@ -25,6 +25,43 @@ const baseSchedule: PipelineSchedule = {
 }
 
 describe('scheduleToFormValues', () => {
+    it('drops a copied pull period but keeps a fixed-range override', () => {
+        const relative = {
+            mode: 'relative',
+            periodType: 'MONTHLY',
+            count: 3,
+            offset: 1,
+        }
+        const backfill = {
+            mode: 'fixed',
+            periodType: 'MONTHLY',
+            start: '202401',
+            end: '202412',
+        }
+        const pullStep = (id: string) =>
+            ({
+                id,
+                handlerKey: 'dhis2-instance-pull',
+                handlerConfig: { period: relative },
+            }) as unknown as PipelineStep
+        const values = scheduleToFormValues(
+            {
+                ...baseSchedule,
+                inputContext: {
+                    steps: {
+                        copied: { period: { ...relative, count: 6 } },
+                        override: { period: backfill },
+                    },
+                },
+            },
+            [pullStep('copied'), pullStep('override')]
+        )
+        expect(values.stepContexts).toEqual({
+            copied: {},
+            override: { period: backfill },
+        })
+    })
+
     it('maps cron schedule fields and stored step contexts', () => {
         expect(scheduleToFormValues(baseSchedule)).toEqual({
             name: 'Daily run',
@@ -143,5 +180,36 @@ describe('buildScheduleFormDefaults', () => {
         expect(defaults.stepContexts?.['step-p']).toEqual({
             period: { periodOffset: 1, numberOfPeriodsToGenerate: 6 },
         })
+    })
+
+    it('leaves a pull step without a period, so it follows edits to the step', () => {
+        const pullHandler: HandlerDescriptor = {
+            ...predictionHandler,
+            key: 'dhis2-instance-pull',
+            queueName: 'step.dhis2-instance-pull',
+            schemas: {
+                context: z.toJSONSchema(
+                    z.object({
+                        period: z.record(z.string(), z.unknown()).optional(),
+                    }),
+                    { target: 'draft-2020-12' }
+                ) as Record<string, unknown>,
+            },
+        }
+        const pullStep: PipelineStep = {
+            ...predictionStep,
+            id: 'step-pull',
+            handlerKey: 'dhis2-instance-pull',
+            handlerConfig: {
+                period: {
+                    mode: 'relative',
+                    periodType: 'MONTHLY',
+                    count: 3,
+                    offset: 1,
+                },
+            },
+        }
+        const defaults = buildScheduleFormDefaults([pullStep], [pullHandler])
+        expect(defaults.stepContexts?.['step-pull']).toEqual({})
     })
 })

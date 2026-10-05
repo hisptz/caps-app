@@ -1,9 +1,15 @@
-type DataElementRow = { id: string; displayName: string }
+import type { DataItemType } from './DataItemOption'
+
+export type DataElementRow = {
+    id: string
+    displayName: string
+    dimensionItemType?: DataItemType
+}
 
 export function mergeDataElementOptions(
     paged: DataElementRow[],
     selected: DataElementRow[]
-): Array<{ value: string; label: string }> {
+): Array<{ value: string; label: string; type?: DataItemType }> {
     const seen = new Set<string>()
     const merged: DataElementRow[] = []
 
@@ -20,5 +26,6 @@ export function mergeDataElementOptions(
         .map((de) => ({
             value: de.id,
             label: de.displayName,
+            type: de.dimensionItemType,
         }))
 }

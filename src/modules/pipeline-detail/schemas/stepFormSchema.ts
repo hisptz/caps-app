@@ -29,6 +29,11 @@ export function createPipelineStepFormSchema(handlers: HandlerDescriptor[]) {
                 .record(z.string(), z.unknown())
                 .nullable()
                 .optional(),
+            /**
+             * Handler form choices that are acted on when the step is saved but aren't part of
+             * its config, e.g. the aggregation type of data elements a pull step creates.
+             */
+            handlerDrafts: z.record(z.string(), z.unknown()).optional(),
         })
         .superRefine((data, ctx) => {
             if (handlers.length === 0) {
@@ -92,6 +97,7 @@ export function defaultPipelineStepFormValues(
         maxRetries: 3,
         retryDelayMs: 1000,
         handlerConfig: null,
+        handlerDrafts: {},
     }
 }
 
@@ -106,5 +112,6 @@ export function pipelineStepToFormValues(
         maxRetries: step.maxRetries,
         retryDelayMs: step.retryDelayMs,
         handlerConfig: step.handlerConfig,
+        handlerDrafts: {},
     }
 }

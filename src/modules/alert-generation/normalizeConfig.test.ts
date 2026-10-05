@@ -47,7 +47,7 @@ describe('alert-generation normalizeConfig', () => {
             period: { periods: ['202301'] },
             thresholdDataElementId: 'DE_THRESH',
             valueDataElementIds: ['DE_VAL'],
-            aggregationType: 'MEAN',
+            aggregationType: 'AVERAGE',
         })
         expect(emitted).not.toHaveProperty('valueDataElementId')
     })

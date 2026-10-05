@@ -134,6 +134,22 @@ export interface SystemInfoResponse {
     caps: CapsSystemInfoPayload
 }
 
+export interface SourceRouteTestResponse {
+    routeCode: string
+    reachable: boolean
+    user?: { username: string | null; displayName: string | null }
+    system?: {
+        systemName: string | null
+        version: string | null
+        revision: string | null
+        contextPath: string | null
+        serverDate: string | null
+        analyticsUpTo: string | null
+    }
+    error?: string
+    code?: string
+}
+
 export interface CreatePipelineBody {
     name: string
     description?: string

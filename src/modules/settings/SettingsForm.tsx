@@ -16,6 +16,7 @@ import {
     createRouteMutation,
     updateRouteMutation,
 } from '@/capsApi/dhis2CapsRoute'
+import { ConnectedInstancesSection } from '@/modules/connected-instances/components/ConnectedInstancesSection'
 import shellClasses from '@/shared/components/ui/PageShell/PageShell.module.css'
 
 type AlertShowProps = { text: string; error?: boolean; success?: boolean }
@@ -188,6 +189,12 @@ export function SettingsForm({
                         )}
                     </div>
                 </form>
+
+                {isConfigured && (
+                    <div className={`${classes.cards} ${classes.sectionGap}`}>
+                        <ConnectedInstancesSection />
+                    </div>
+                )}
             </div>
         </div>
     )

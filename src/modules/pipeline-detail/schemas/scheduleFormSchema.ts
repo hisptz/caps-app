@@ -122,14 +122,41 @@ function inputContextSteps(
     return {}
 }
 
+function withoutCopiedPullPeriods(
+    steps: PipelineStep[],
+    stepContexts: Record<string, Record<string, unknown>>
+): Record<string, Record<string, unknown>> {
+    const result = { ...stepContexts }
+    for (const step of steps) {
+        const period = result[step.id]?.period as { mode?: string } | undefined
+        if (step.handlerKey !== 'dhis2-instance-pull' || !period) {
+            continue
+        }
+        const override =
+            period.mode === 'fixed' &&
+            JSON.stringify(period) !==
+                JSON.stringify(step.handlerConfig?.period)
+        if (!override) {
+            const rest = { ...result[step.id] }
+            delete rest.period
+            result[step.id] = rest
+        }
+    }
+    return result
+}
+
 export function scheduleToFormValues(
-    schedule: PipelineSchedule
+    schedule: PipelineSchedule,
+    steps: PipelineStep[] = []
 ): ScheduleFormValues {
     return {
         name: schedule.name,
         description: schedule.description ?? '',
         cronExpression: schedule.cronExpr,
-        stepContexts: inputContextSteps(schedule.inputContext),
+        stepContexts: withoutCopiedPullPeriods(
+            steps,
+            inputContextSteps(schedule.inputContext)
+        ),
     }
 }
 

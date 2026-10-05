@@ -3,6 +3,7 @@ import {
     emitOrgUnitConfig,
     normalizeOrgUnitConfig,
 } from '@/modules/org-unit-config/normalizeOrgUnit'
+import { normalizeAggregationType } from '@/shared/utils/aggregationType.utils'
 
 function valueDataElementIdsForLoad(raw: Record<string, unknown>): string[] {
     if (Array.isArray(raw.valueDataElementIds)) {
@@ -60,10 +61,13 @@ export function normalizeAlertConfigForLoad(
     const source = raw !== null && typeof raw === 'object' ? raw : {}
 
     return {
-        aggregationType: DEFAULT_AGGREGATION_TYPE,
         thresholdDataElementId: '',
         orgUnit: { ids: [], levels: [], groups: [] },
         ...base,
+        aggregationType: normalizeAggregationType(
+            base.aggregationType,
+            DEFAULT_AGGREGATION_TYPE
+        ),
         period,
         valueDataElementIds: valueDataElementIdsForLoad(source),
     }
@@ -91,11 +95,10 @@ export function emitAlertConfig(
                 ? draft.thresholdDataElementId.trim()
                 : '',
         valueDataElementIds: valueDataElementIdsForEmit(draft),
-        aggregationType:
-            typeof draft.aggregationType === 'string' &&
-            draft.aggregationType.trim()
-                ? draft.aggregationType.trim()
-                : DEFAULT_AGGREGATION_TYPE,
+        aggregationType: normalizeAggregationType(
+            draft.aggregationType,
+            DEFAULT_AGGREGATION_TYPE
+        ),
     }
 
     return next

@@ -35,6 +35,7 @@ import {
     UpdateStepBody,
     RetryStepExecutionBody,
     RetryStepExecutionResponse,
+    SourceRouteTestResponse,
 } from '@/capsApi/types'
 import type { CreateScheduleBody, UpdateScheduleBody } from '@/capsApi/types'
 import type {
@@ -322,6 +323,13 @@ export function deleteSchedule(engine: CapsDataEngine, scheduleId: string) {
 
 export function listHandlers(engine: CapsDataEngine) {
     return capsFetchJson<ListHandlersResponse>(engine, '/handlers')
+}
+
+export function testSourceRoute(engine: CapsDataEngine, routeCode: string) {
+    return capsFetchJson<SourceRouteTestResponse>(
+        engine,
+        `/source-routes/${routeCode}/test`
+    )
 }
 
 export function listEvaluations(engine: CapsDataEngine) {

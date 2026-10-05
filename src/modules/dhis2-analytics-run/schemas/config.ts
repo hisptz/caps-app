@@ -1,6 +1,9 @@
 import { z } from 'zod'
 
-/** Mirrors caps-engine worker `dhis2AnalyticsRunConfigSchema`. */
+/**
+ * Mirrors caps-engine worker `dhis2AnalyticsRunConfigSchema`. Tracked entities and outliers are
+ * skipped by default, as the DHIS2 Data Administration app does.
+ */
 export const dhis2AnalyticsRunConfigSchema = z.object({
     runOptions: z
         .object({
@@ -9,9 +12,9 @@ export const dhis2AnalyticsRunConfigSchema = z.object({
             skipEnrollment: z.boolean().default(false),
             skipEvents: z.boolean().default(false),
             skipOrgUnitOwnership: z.boolean().default(false),
-            skipOutliers: z.boolean().default(false),
+            skipOutliers: z.boolean().default(true),
             skipResourceTables: z.boolean().default(false),
-            skipTrackedEntities: z.boolean().default(false),
+            skipTrackedEntities: z.boolean().default(true),
             skipValidationResult: z.boolean().default(false),
         })
         .default({
@@ -19,9 +22,9 @@ export const dhis2AnalyticsRunConfigSchema = z.object({
             skipEnrollment: false,
             skipEvents: false,
             skipOrgUnitOwnership: false,
-            skipOutliers: false,
+            skipOutliers: true,
             skipResourceTables: false,
-            skipTrackedEntities: false,
+            skipTrackedEntities: true,
             skipValidationResult: false,
         }),
     polling: z
@@ -39,10 +42,9 @@ export type Dhis2AnalyticsRunConfigValue = z.infer<
     typeof dhis2AnalyticsRunConfigSchema
 >
 
+/** Starts on all years, like the DHIS2 Data Administration app. */
 export function defaultDhis2AnalyticsRunConfig(): Dhis2AnalyticsRunConfigValue {
-    return dhis2AnalyticsRunConfigSchema.parse({
-        runOptions: { lastYears: 0 },
-    })
+    return dhis2AnalyticsRunConfigSchema.parse({})
 }
 
 export function isDhis2AnalyticsRunConfig(

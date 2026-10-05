@@ -13,6 +13,7 @@ import {
     emitOrgUnitConfig,
     normalizeOrgUnitConfig,
 } from '@/modules/org-unit-config/normalizeOrgUnit'
+import { normalizeAggregationType } from '@/shared/utils/aggregationType.utils'
 
 const LEGACY_METHOD_MAP: Record<string, CalculationMethod> = {
     'mean+2SD': 'mean + 2SD',
@@ -127,10 +128,10 @@ export function normalizeThresholdConfigForLoad(
               .filter(Boolean)
         : []
 
-    const aggregationType =
-        typeof raw.aggregationType === 'string' && raw.aggregationType.trim()
-            ? raw.aggregationType.trim()
-            : DEFAULT_AGGREGATION_TYPE
+    const aggregationType = normalizeAggregationType(
+        raw.aggregationType,
+        DEFAULT_AGGREGATION_TYPE
+    )
 
     const orgUnit = ensureEditableOrgUnitForForm(
         normalizeOrgUnitConfig(raw.orgUnit)
@@ -184,6 +185,10 @@ export function emitThresholdConfig(
 ): Record<string, unknown> {
     const next = { ...draft }
     next.orgUnit = emitOrgUnitConfig(draft.orgUnit)
+    next.aggregationType = normalizeAggregationType(
+        draft.aggregationType,
+        DEFAULT_AGGREGATION_TYPE
+    )
 
     if (mode === 'batch') {
         delete next.calculationMethod

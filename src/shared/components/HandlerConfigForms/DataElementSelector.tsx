@@ -1,148 +1,53 @@
-import { useDataQuery } from '@dhis2/app-runtime'
+import { useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { SimpleSingleSelectField } from '@dhis2/ui'
-import { isEmpty } from 'lodash-es'
-import React, { useEffect, useMemo, useState } from 'react'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
+import React, { useMemo, useState } from 'react'
 import { useController } from 'react-hook-form'
 import { useDebounceValue } from 'usehooks-ts'
-import { mergeDataElementOptions } from './mergeDataElementOptions'
-
-type DataElementRow = { id: string; displayName: string }
-
-type SelectorResponse = {
-    de: { dataElements?: DataElementRow[]; dataItems?: DataElementRow[] }
-    selectedDe: {
-        dataElements?: DataElementRow[]
-        dataItems?: DataElementRow[]
-    }
-}
+import { dataItemOptionComponent } from './DataItemOption'
+import {
+    type DataElementRow,
+    mergeDataElementOptions,
+} from './mergeDataElementOptions'
 
 const DX_ITEM_TYPES = ['DATA_ELEMENT', 'INDICATOR', 'PROGRAM_INDICATOR']
+const PAGE_SIZE = 50
 
-/**
- * Data-element-only lookup, for fields whose value is a *write* target
- * (posted to `/dataValueSets`). Indicators are computed and cannot be
- * written to, so they must not appear here.
- */
-const dataElementQuery = {
-    de: {
-        resource: 'dataElements',
-        params: ({
-            keyword,
-            valueType,
-        }: {
-            keyword?: string
-            valueType?: string
-        }) => {
-            const filters = []
-
-            if (valueType) {
-                filters.push(`valueType:eq:${valueType}`)
-            }
-
-            if (keyword) {
-                filters.push(`identifiable:token:${keyword}`)
-            }
-
-            return {
-                fields: 'id,displayName',
-                filter: isEmpty(filters) ? undefined : filters,
-                order: 'displayName:asc',
-                page: 1,
-                pageSize: 20,
-            }
-        },
-    },
-    selectedDe: {
-        resource: 'dataElements',
-        params: ({
-            selectedId,
-            valueType,
-        }: {
-            selectedId?: string
-            valueType?: string
-        }) => {
-            if (!selectedId) {
-                return { fields: 'id,displayName', pageSize: 0 }
-            }
-
-            const filters = [`id:eq:${selectedId}`]
-
-            if (valueType) {
-                filters.push(`valueType:eq:${valueType}`)
-            }
-
-            return {
-                fields: 'id,displayName',
-                filter: filters,
-            }
-        },
-    },
+type Page = {
+    dataElements?: DataElementRow[]
+    dataItems?: DataElementRow[]
+    pager?: { page: number; pageCount: number }
 }
 
-const dataItemQuery = {
-    de: {
-        resource: 'dataItems',
-        params: ({
-            keyword,
-            valueType,
-        }: {
-            keyword?: string
-            valueType?: string
-        }) => {
-            const filters = [
-                `dimensionItemType:in:[${DX_ITEM_TYPES.join(',')}]`,
-            ]
-
-            if (valueType) {
-                filters.push(`valueType:eq:${valueType}`)
-            }
-
-            if (keyword) {
-                filters.push(`displayName:ilike:${keyword}`)
-            }
-
-            return {
-                fields: 'id,displayName',
-                filter: filters,
-                order: 'displayName:asc',
-                page: 1,
-                pageSize: 20,
-            }
-        },
-    },
-    selectedDe: {
-        resource: 'dataItems',
-        params: ({
-            selectedId,
-            valueType,
-        }: {
-            selectedId?: string
-            valueType?: string
-        }) => {
-            const filters = [
-                `dimensionItemType:in:[${DX_ITEM_TYPES.join(',')}]`,
-                `id:eq:${selectedId ?? '__none__'}`,
-            ]
-
-            if (valueType) {
-                filters.push(`valueType:eq:${valueType}`)
-            }
-
-            return {
-                fields: 'id,displayName',
-                filter: filters,
-            }
-        },
-    },
+function lookup(allowIndicators: boolean) {
+    return allowIndicators
+        ? {
+              resource: 'dataItems',
+              fields: 'id,displayName,dimensionItemType',
+              baseFilters: [
+                  `dimensionItemType:in:[${DX_ITEM_TYPES.join(',')}]`,
+              ],
+              keywordFilter: (keyword: string) =>
+                  `displayName:ilike:${keyword}`,
+          }
+        : {
+              resource: 'dataElements',
+              fields: 'id,displayName',
+              baseFilters: [] as string[],
+              keywordFilter: (keyword: string) =>
+                  `identifiable:token:${keyword}`,
+          }
 }
 
-function rowsOf(
-    result:
-        | { dataElements?: DataElementRow[]; dataItems?: DataElementRow[] }
-        | undefined
-): DataElementRow[] {
-    return result?.dataItems ?? result?.dataElements ?? []
+function rowsOf(page: Page | undefined, allowIndicators: boolean) {
+    const rows = page?.dataItems ?? page?.dataElements ?? []
+    return allowIndicators
+        ? rows
+        : rows.map((row) => ({
+              ...row,
+              dimensionItemType: 'DATA_ELEMENT' as const,
+          }))
 }
 
 export function DataElementSelector({
@@ -158,9 +63,9 @@ export function DataElementSelector({
     dense?: boolean
     allowIndicators?: boolean
 }) {
-    const [keyword, setKeyword] = useState<string | null>(null)
-
-    const [searchedKeyword, setSearchedKeyword] = useDebounceValue(keyword, 400)
+    const engine = useDataEngine()
+    const [keyword, setKeyword] = useState('')
+    const [searchedKeyword] = useDebounceValue(keyword.trim(), 400)
 
     const { field, fieldState } = useController({ name })
 
@@ -169,42 +74,94 @@ export function DataElementSelector({
             ? field.value.trim()
             : undefined
 
-    const { loading, error, refetch, called, data } =
-        useDataQuery<SelectorResponse>(
-            allowIndicators ? dataItemQuery : dataElementQuery,
-            {
-                variables: {
-                    keyword: searchedKeyword,
-                    valueType,
-                    selectedId,
-                },
+    const { resource, fields, baseFilters, keywordFilter } =
+        lookup(allowIndicators)
+    const valueFilters = valueType ? [`valueType:eq:${valueType}`] : []
+
+    const search = useInfiniteQuery({
+        queryKey: [
+            'dhis2',
+            'data-element-selector',
+            resource,
+            valueType,
+            searchedKeyword,
+        ],
+        keepPreviousData: true,
+        staleTime: 60_000,
+        queryFn: async ({ pageParam = 1 }) => {
+            const filter = [...baseFilters, ...valueFilters]
+            if (searchedKeyword) {
+                filter.push(keywordFilter(searchedKeyword))
             }
-        )
+            const result = (await engine.query({
+                page: {
+                    resource,
+                    params: {
+                        fields,
+                        filter,
+                        order: 'displayName:asc',
+                        page: pageParam,
+                        pageSize: PAGE_SIZE,
+                    },
+                },
+            })) as { page: Page }
+            return result.page
+        },
+        getNextPageParam: (last) =>
+            last.pager && last.pager.page < last.pager.pageCount
+                ? last.pager.page + 1
+                : undefined,
+    })
 
-    const options = useMemo(() => {
-        if (!data) {
-            return []
-        }
+    // The saved value may sit beyond the loaded pages; look it up on its own.
+    const selected = useQuery({
+        queryKey: [
+            'dhis2',
+            'data-element-selector',
+            resource,
+            valueType,
+            'id',
+            selectedId,
+        ],
+        enabled: Boolean(selectedId),
+        staleTime: 60_000,
+        queryFn: async () => {
+            const result = (await engine.query({
+                page: {
+                    resource,
+                    params: {
+                        fields,
+                        filter: [
+                            ...baseFilters,
+                            ...valueFilters,
+                            `id:eq:${selectedId}`,
+                        ],
+                        paging: false,
+                    },
+                },
+            })) as { page: Page }
+            return result.page
+        },
+    })
 
-        return mergeDataElementOptions(rowsOf(data.de), rowsOf(data.selectedDe))
-    }, [data])
+    const options = useMemo(
+        () =>
+            mergeDataElementOptions(
+                (search.data?.pages ?? []).flatMap((page) =>
+                    rowsOf(page, allowIndicators)
+                ),
+                rowsOf(selected.data, allowIndicators)
+            ).map(({ value, label, type }) => ({
+                value,
+                label,
+                component: dataItemOptionComponent(type),
+            })),
+        [search.data, selected.data, allowIndicators]
+    )
 
     const selectedOptionLoaded =
         !selectedId || options.some((option) => option.value === field.value)
-
-    useEffect(() => {
-        const variables = {
-            keyword: searchedKeyword ?? undefined,
-            valueType,
-            selectedId,
-        }
-
-        if (searchedKeyword) {
-            refetch(variables)
-        } else if (called) {
-            refetch(variables)
-        }
-    }, [searchedKeyword, selectedId, valueType, called, refetch])
+    const error = search.error ?? selected.error
 
     return (
         <SimpleSingleSelectField
@@ -217,20 +174,27 @@ export function DataElementSelector({
             onChange={field.onChange}
             options={options}
             filterable
-            filterValue={keyword ?? undefined}
-            filterPlaceholder="Search by name or id"
+            filterValue={keyword}
+            filterPlaceholder={i18n.t('Search by name or id')}
             noMatchText={
                 allowIndicators
                     ? i18n.t('No matching data items found')
                     : i18n.t('No matching data elements found')
             }
-            onFilterChange={(key) => {
-                setKeyword(key)
-                setSearchedKeyword(key)
+            onFilterChange={(next) => setKeyword(next ?? '')}
+            onEndReached={() => {
+                if (search.hasNextPage && !search.isFetchingNextPage) {
+                    void search.fetchNextPage()
+                }
             }}
-            loading={loading || (!selectedOptionLoaded && !!selectedId)}
+            loading={
+                search.isFetching || (!selectedOptionLoaded && !!selectedId)
+            }
             error={!!error || !!fieldState.error}
-            validationText={error?.message || fieldState.error?.message}
+            validationText={
+                (error instanceof Error ? error.message : undefined) ||
+                fieldState.error?.message
+            }
         />
     )
 }

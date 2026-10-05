@@ -5,6 +5,8 @@ import { Dhis2AnalyticsRunConfig } from './Dhis2AnalyticsRunConfig'
 import type { Dhis2AnalyticsRunConfigProps } from './Dhis2AnalyticsRunConfig'
 import { Dhis2DataUploadConfig } from './Dhis2DataUploadConfig'
 import type { Dhis2DataUploadConfigProps } from './Dhis2DataUploadConfig'
+import { Dhis2InstancePullConfig } from './Dhis2InstancePullConfig/Dhis2InstancePullConfig'
+import type { Dhis2InstancePullConfigProps } from './Dhis2InstancePullConfig/Dhis2InstancePullConfig'
 import { PredictionDataDownloadConfig } from './PredictionDataDownloadConfig'
 import type { PredictionDataDownloadConfigProps } from './PredictionDataDownloadConfig'
 import { PredictionTriggerConfig } from './PredictionTriggerConfig/PredictionTriggerConfig'
@@ -74,6 +76,13 @@ export function HandlerConfigForm({
             return (
                 <Dhis2AnalyticsRunConfig
                     value={value as Dhis2AnalyticsRunConfigProps['value']}
+                    onChange={onChange}
+                />
+            )
+        case 'dhis2-instance-pull':
+            return (
+                <Dhis2InstancePullConfig
+                    value={value as Dhis2InstancePullConfigProps['value']}
                     onChange={onChange}
                 />
             )
