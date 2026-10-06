@@ -1,3 +1,11 @@
+# [2.0.0](https://github.com/hisptz/caps-app/compare/v1.2.0...v2.0.0) (2026-10-06)
+
+- feat!: cross-instance DHIS2 data pull ([50ed820](https://github.com/hisptz/caps-app/commit/50ed82061548b823289e04c9c302d3ad3a660cde))
+
+### BREAKING CHANGES
+
+- new source-instance pull configuration for ingesting data from other DHIS2 instances
+
 # [1.2.0](https://github.com/hisptz/caps-app/compare/v1.1.0...v1.2.0) (2026-09-26)
 
 ### Features
