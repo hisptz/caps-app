@@ -29,6 +29,7 @@ export function PipelineFormFields({
                     control={control}
                     render={({ field, fieldState }) => (
                         <InputField
+                            name={field.name}
                             label={i18n.t('Name')}
                             required
                             placeholder={namePlaceholder}
@@ -54,6 +55,7 @@ export function PipelineFormFields({
                     control={control}
                     render={({ field, fieldState }) => (
                         <TextAreaField
+                            name={field.name}
                             label={i18n.t('Description')}
                             value={field.value ?? ''}
                             onChange={({ value }) =>

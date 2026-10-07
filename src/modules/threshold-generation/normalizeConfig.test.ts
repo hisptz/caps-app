@@ -6,7 +6,7 @@ import {
 } from './normalizeConfig'
 
 describe('normalizeThresholdConfigForLoad', () => {
-    it('maps legacy calculation methods and org unit levels', () => {
+    it('maps legacy calculation methods and coerces org unit levels', () => {
         const result = normalizeThresholdConfigForLoad({
             orgUnit: { levels: ['3'] },
             period: {
@@ -18,7 +18,7 @@ describe('normalizeThresholdConfigForLoad', () => {
             outputDataElementId: 'OUT1',
         })
 
-        expect(result.orgUnit).toEqual({ level: 3 })
+        expect(result.orgUnit).toEqual({ ids: [], levels: [3], groups: [] })
         expect(result.period).toMatchObject({
             years: ['2023', '2024'],
             periodType: 'Monthly',

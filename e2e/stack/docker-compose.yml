@@ -1,0 +1,81 @@
+# Disposable DHIS2 + CAPS stack for the Playwright smoke tests.
+# Everything here is public: open-source images and DHIS2's default demo login
+# (admin / district), so the e2e job also runs on pull requests from forks.
+name: caps-e2e
+
+services:
+    dhis2-db:
+        image: postgis/postgis:16-3.5-alpine
+        environment:
+            POSTGRES_USER: dhis
+            POSTGRES_PASSWORD: dhis
+            POSTGRES_DB: dhis
+        healthcheck:
+            test: ['CMD-SHELL', 'pg_isready -U dhis']
+            interval: 5s
+            timeout: 5s
+            retries: 20
+
+    # Lowest supported version (minDHIS2Version in d2.config.js).
+    dhis2:
+        image: dhis2/core:${DHIS2_IMAGE_TAG:-2.41.10}
+        environment:
+            DHIS2_HOME: /opt/dhis2
+        volumes:
+            - ./dhis.conf:/opt/dhis2/dhis.conf:ro
+        ports:
+            - '127.0.0.1:${DHIS2_PORT:-18080}:8080'
+        depends_on:
+            dhis2-db:
+                condition: service_healthy
+
+    caps-db:
+        image: postgres:16-alpine
+        environment:
+            POSTGRES_USER: caps
+            POSTGRES_PASSWORD: caps
+            POSTGRES_DB: caps
+        healthcheck:
+            test: ['CMD-SHELL', 'pg_isready -U caps']
+            interval: 5s
+            timeout: 5s
+            retries: 20
+
+    rabbitmq:
+        image: rabbitmq:3.13-alpine
+        environment:
+            RABBITMQ_DEFAULT_USER: caps
+            RABBITMQ_DEFAULT_PASS: caps
+        healthcheck:
+            test: ['CMD', 'rabbitmq-diagnostics', '-q', 'ping']
+            interval: 10s
+            timeout: 10s
+            retries: 20
+
+    migrate:
+        image: ghcr.io/hisptz/caps-engine/migrate:${CAPS_IMAGE_TAG:-sha-48f80dd}
+        environment:
+            DATABASE_URL: postgres://caps:caps@caps-db:5432/caps
+        depends_on:
+            caps-db:
+                condition: service_healthy
+
+    # Reached by DHIS2 through the `caps` route at http://api:4000.
+    # CHAP and the climate service are not part of the smoke flow, so they
+    api:
+        image: ghcr.io/hisptz/caps-engine/api:${CAPS_IMAGE_TAG:-sha-48f80dd}
+        environment:
+            DATABASE_URL: postgres://caps:caps@caps-db:5432/caps
+            RABBITMQ_URL: amqp://caps:caps@rabbitmq:5672
+            PORT: 4000
+            DHIS2_BASE_URL: http://dhis2:8080
+            DHIS2_USERNAME: admin
+            DHIS2_PASSWORD: district
+            CHAP_BASE_URL: http://chap.invalid
+            CLIMATE_API_BASE_URL: http://climate-api.invalid
+            CLIMATE_DATA_BASE_URL: http://climate-data.invalid
+        depends_on:
+            rabbitmq:
+                condition: service_healthy
+            migrate:
+                condition: service_completed_successfully

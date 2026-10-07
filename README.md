@@ -30,7 +30,7 @@ App title in `d2.config.js`: **CAPS**. Entry: `src/app/App.tsx`.
 | Script                       | Command          | What it does                                                                                                       |
 | ---------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------ |
 | Dev                          | `pnpm start`     | `d2-app-scripts start --proxy http://localhost:8080` → [http://localhost:3000](http://localhost:3000)              |
-| Test (Jest via App Platform) | `pnpm test`      | `d2-app-scripts test` (tests under `src/`; **no `*.test.*` files in the tree at draft time**)                      |
+| Test (Jest via App Platform) | `pnpm test`      | `d2-app-scripts test` — Jest unit tests colocated with the code as `src/**/*.test.ts(x)`                           |
 | E2E                          | `pnpm e2e`       | Playwright (`playwright.config.ts`, `testDir: e2e`, `baseURL` http://127.0.0.1:3000). **`e2e/` has no specs yet.** |
 | Typecheck                    | `pnpm typecheck` | `tsc --noEmit`                                                                                                     |
 | Lint                         | `pnpm lint`      | ESLint + `prettier -c .`                                                                                           |

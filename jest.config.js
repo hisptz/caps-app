@@ -6,11 +6,23 @@ const defaults = require(
     )
 )
 
+const esmPackages = [
+    'moment/dist',
+    'echarts',
+    'zrender',
+    'usehooks-ts',
+    'lodash-es',
+]
+
 module.exports = {
     ...defaults,
+    transformIgnorePatterns: [
+        `/node_modules/(?!(\\.pnpm/[^/]+/node_modules/)?(${esmPackages.join('|')})/)`,
+    ],
     moduleNameMapper: {
         ...defaults.moduleNameMapper,
         '^@/(.*)$': '<rootDir>/src/$1',
+        '^jodit-react$': '<rootDir>/jest/joditReactStub.js',
     },
     setupFiles: ['<rootDir>/src/setupTests.js'],
 }

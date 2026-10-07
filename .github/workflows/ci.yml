@@ -56,3 +56,58 @@ jobs:
             - run: pnpm install --frozen-lockfile
 
             - run: pnpm exec prettier -c .
+
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: pnpm/action-setup@v4
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 24
+                  cache: pnpm
+
+            - run: pnpm install --frozen-lockfile
+
+            - run: pnpm test
+
+    # Smoke tests against a disposable DHIS2 2.41 + CAPS stack (e2e/stack).
+    # Public images and DHIS2 demo credentials only, so it runs on fork PRs.
+    e2e:
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: pnpm/action-setup@v4
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 24
+                  cache: pnpm
+
+            - run: pnpm install --frozen-lockfile
+
+            # Start the stack first so DHIS2 boots while the app builds.
+            - run: pnpm e2e:up
+
+            - run: pnpm build
+
+            - run: pnpm exec playwright install --with-deps chromium
+
+            - run: pnpm e2e
+
+            - name: Stack logs
+              if: failure()
+              run: docker compose -f e2e/stack/docker-compose.yml logs --tail 200
+
+            - uses: actions/upload-artifact@v4
+              if: failure()
+              with:
+                  name: playwright-report
+                  path: |
+                      playwright-report
+                      test-results
+                  retention-days: 7
