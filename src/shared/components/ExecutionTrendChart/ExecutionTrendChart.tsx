@@ -1,10 +1,7 @@
 import i18n from '@dhis2/d2-i18n'
-import type { Options } from 'highcharts'
-import Highcharts from 'highcharts'
-import HighchartsReact from 'highcharts-react-official'
 import React, { useId, useMemo } from 'react'
 import classes from './ExecutionTrendChart.module.css'
-import 'highcharts/modules/accessibility'
+import { EChart, type EChartOption } from '@/shared/components/EChart'
 
 export type TrendChartPoint = {
     date: string
@@ -18,6 +15,8 @@ type ExecutionTrendChartProps = {
 
 const COLOR_COMPLETED = '#48bb78'
 const COLOR_FAILED = '#f56565'
+const AXIS_LINE_COLOR = '#e2e8f0'
+const CHART_HEIGHT = 240
 
 export const ExecutionTrendChart: React.FC<ExecutionTrendChartProps> = ({
     points,
@@ -28,7 +27,7 @@ export const ExecutionTrendChart: React.FC<ExecutionTrendChartProps> = ({
         if (points.length === 0) {
             return {
                 summaryText: i18n.t('No trend data for this period.'),
-                chartOptions: null as Options | null,
+                chartOptions: null as EChartOption | null,
             }
         }
         const first = points[0]
@@ -44,59 +43,52 @@ export const ExecutionTrendChart: React.FC<ExecutionTrendChartProps> = ({
                 failed: String(totalFailed),
             }
         )
-        const opts: Options = {
-            chart: {
-                type: 'column',
-                height: 240,
-                backgroundColor: 'transparent',
-                style: { fontFamily: 'inherit' },
-                spacing: [12, 8, 12, 8],
+        const opts: EChartOption = {
+            animation: false,
+            textStyle: { fontFamily: 'inherit' },
+            grid: {
+                left: 8,
+                right: 8,
+                top: 12,
+                bottom: 36,
+                containLabel: true,
             },
-            title: { text: undefined },
-            credits: { enabled: false },
-            accessibility: {
-                description: summary,
-            },
-            legend: {
-                align: 'center',
-                verticalAlign: 'bottom',
-                layout: 'horizontal',
-                itemStyle: { fontWeight: 'normal' },
-            },
+            legend: { bottom: 0, left: 'center', orient: 'horizontal' },
             xAxis: {
-                categories: points.map((p) => p.date.slice(5)),
-                crosshair: true,
-                lineColor: '#e2e8f0',
-                tickColor: '#e2e8f0',
-                labels: { style: { color: '#4a5568' } },
+                type: 'category',
+                data: points.map((p) => p.date.slice(5)),
+                axisLine: { lineStyle: { color: AXIS_LINE_COLOR } },
+                axisTick: { lineStyle: { color: AXIS_LINE_COLOR } },
+                axisLabel: { color: '#4a5568' },
             },
             yAxis: {
+                type: 'value',
                 min: 0,
-                title: { text: undefined },
-                gridLineColor: '#e2e8f0',
-                labels: { style: { color: '#718096' } },
+                minInterval: 1,
+                splitLine: { lineStyle: { color: AXIS_LINE_COLOR } },
+                axisLabel: { color: '#718096' },
             },
-            tooltip: { shared: true },
-            plotOptions: {
-                column: {
-                    borderWidth: 0,
-                    borderRadius: 2,
-                    groupPadding: 0.12,
-                    pointPadding: 0.04,
-                },
-            },
+            tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
             series: [
                 {
-                    type: 'column',
+                    type: 'bar',
                     name: i18n.t('Completed'),
                     data: points.map((p) => p.completed),
-                    color: COLOR_COMPLETED,
+                    itemStyle: {
+                        color: COLOR_COMPLETED,
+                        borderRadius: [2, 2, 0, 0],
+                    },
+                    barCategoryGap: '24%',
+                    barGap: '8%',
                 },
                 {
-                    type: 'column',
+                    type: 'bar',
                     name: i18n.t('Failed'),
                     data: points.map((p) => p.failed),
-                    color: COLOR_FAILED,
+                    itemStyle: {
+                        color: COLOR_FAILED,
+                        borderRadius: [2, 2, 0, 0],
+                    },
                 },
             ],
         }
@@ -121,10 +113,7 @@ export const ExecutionTrendChart: React.FC<ExecutionTrendChartProps> = ({
                 role="img"
                 aria-labelledby={summaryId}
             >
-                <HighchartsReact
-                    highcharts={Highcharts}
-                    options={chartOptions}
-                />
+                <EChart option={chartOptions} height={CHART_HEIGHT} />
             </div>
         </div>
     )

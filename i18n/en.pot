@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-05T13:40:53.924Z\n"
-"PO-Revision-Date: 2026-10-05T13:40:53.926Z\n"
+"POT-Creation-Date: 2026-10-07T12:29:22.897Z\n"
+"PO-Revision-Date: 2026-10-07T12:29:22.898Z\n"
 
 msgid "Enter a valid HTTP or HTTPS URL."
 msgstr "Enter a valid HTTP or HTTPS URL."
@@ -56,11 +56,11 @@ msgstr "Dataset metadata is unavailable."
 msgid "Dataset ID"
 msgstr "Dataset ID"
 
-msgid "Template"
-msgstr "Template"
+msgid "Description"
+msgstr "Description"
 
-msgid "Variable"
-msgstr "Variable"
+msgid "Variables"
+msgstr "Variables"
 
 msgid "Period type"
 msgstr "Period type"
@@ -68,20 +68,17 @@ msgstr "Period type"
 msgid "Temporal extent"
 msgstr "Temporal extent"
 
-msgid "Last updated"
-msgstr "Last updated"
+msgid "Spatial extent (west, south, east, north)"
+msgstr "Spatial extent (west, south, east, north)"
 
-msgid "Catalogue"
-msgstr "Catalogue"
+msgid "Source"
+msgstr "Source"
 
-msgid "Listed in the climate catalogue"
-msgstr "Listed in the climate catalogue"
+msgid "License"
+msgstr "License"
 
-msgid "Not listed in the climate catalogue"
-msgstr "Not listed in the climate catalogue"
-
-msgid "Versions"
-msgstr "Versions"
+msgid "Data access"
+msgstr "Data access"
 
 msgid "Close"
 msgstr "Close"
@@ -91,6 +88,9 @@ msgstr "Climate datasets"
 
 msgid "Name"
 msgstr "Name"
+
+msgid "Variable"
+msgstr "Variable"
 
 msgid "Actions"
 msgstr "Actions"
@@ -531,9 +531,6 @@ msgstr "Add {{datasets}} to \"{{step}}\""
 
 msgid "e.g. Download ERA5 Data"
 msgstr "e.g. Download ERA5 Data"
-
-msgid "Description"
-msgstr "Description"
 
 msgid "Reliability"
 msgstr "Reliability"
@@ -1244,9 +1241,6 @@ msgstr "Keep running"
 
 msgid "Confirm cancel"
 msgstr "Confirm cancel"
-
-msgid "Source"
-msgstr "Source"
 
 msgid "HTTP status"
 msgstr "HTTP status"

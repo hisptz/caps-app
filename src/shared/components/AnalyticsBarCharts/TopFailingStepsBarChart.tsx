@@ -1,16 +1,13 @@
 import i18n from '@dhis2/d2-i18n'
-import type { Options } from 'highcharts'
-import Highcharts from 'highcharts'
-import HighchartsReact from 'highcharts-react-official'
 import React, { useId, useMemo } from 'react'
 import classes from './AnalyticsBarCharts.module.css'
-import 'highcharts/modules/accessibility'
 import {
     barChartBase,
     COLOR_ERROR,
     escapeHtml,
     truncate,
 } from './analyticsBarChartUtils'
+import { EChart, type EChartOption } from '@/shared/components/EChart'
 import type { TopFailingStep } from '@/shared/types/caps'
 
 type TopFailingStepsBarChartProps = {
@@ -26,7 +23,10 @@ export const TopFailingStepsBarChart: React.FC<
         if (steps.length === 0) {
             return {
                 summaryText: i18n.t('No failing step data for this period.'),
-                chartOptions: null as Options | null,
+                chartOptions: null as {
+                    option: EChartOption
+                    height: number
+                } | null,
             }
         }
         const total = steps.reduce((a, s) => a + s.failureCount, 0)
@@ -42,32 +42,27 @@ export const TopFailingStepsBarChart: React.FC<
         )
         const height = Math.min(420, 100 + steps.length * 36)
         const opts = barChartBase({
-            height,
-            summary,
             categories,
+            tooltipFormatter: (index) => {
+                const step = steps[index]
+                if (!step) {
+                    return ''
+                }
+                return `<b>${escapeHtml(step.stepName)}</b><br/>${escapeHtml(step.pipelineName)}<br/><span style="color:#718096">${i18n.t('Failure Count')}</span>: <b>${step.failureCount}</b>`
+            },
             series: [
                 {
                     type: 'bar',
                     name: i18n.t('Failure Count'),
                     data: steps.map((s) => s.failureCount),
-                    color: COLOR_ERROR,
-                    tooltip: {
-                        headerFormat: '',
-                        pointFormatter: function () {
-                            const step = steps[this.index]
-                            if (!step) {
-                                return ''
-                            }
-                            return `<b>${escapeHtml(step.stepName)}</b><br/>${escapeHtml(step.pipelineName)}<br/><span style="color:#718096">${i18n.t('Failure Count')}</span>: <b>${step.failureCount}</b>`
-                        },
-                    },
-                    dataLabels: {
-                        format: '{y}',
-                    },
+                    itemStyle: { color: COLOR_ERROR },
                 },
             ],
         })
-        return { summaryText: summary, chartOptions: opts }
+        return {
+            summaryText: summary,
+            chartOptions: { option: opts, height },
+        }
     }, [steps])
 
     if (steps.length === 0 || !chartOptions) {
@@ -88,9 +83,9 @@ export const TopFailingStepsBarChart: React.FC<
                 role="img"
                 aria-labelledby={summaryId}
             >
-                <HighchartsReact
-                    highcharts={Highcharts}
-                    options={chartOptions}
+                <EChart
+                    option={chartOptions.option}
+                    height={chartOptions.height}
                 />
             </div>
             <div className={classes.srOnly}>

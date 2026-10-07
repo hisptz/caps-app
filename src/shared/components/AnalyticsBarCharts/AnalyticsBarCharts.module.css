@@ -14,14 +14,6 @@
     box-sizing: border-box;
 }
 
-.chartWrap :global(.highcharts-container) {
-    font-family: inherit !important;
-}
-
-.chartWrap :global(.highcharts-background) {
-    fill: transparent;
-}
-
 .srOnly {
     position: absolute;
     width: 1px;
