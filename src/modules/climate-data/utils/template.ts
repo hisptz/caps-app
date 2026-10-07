@@ -1,15 +1,15 @@
-import type { ClimateDatasetTemplate } from '@/capsApi/types'
+import type { ClimateDataSource } from '@/capsApi/types'
 
 export const FUTURE_TEMPORAL_DIRECTION = 'future'
 
 export function getTemplateTemporalExtent(
-    template: ClimateDatasetTemplate | undefined
+    template: ClimateDataSource | undefined
 ) {
     return template?.extents?.temporal
 }
 
 export function isFutureTemplate(
-    template: ClimateDatasetTemplate | undefined
+    template: ClimateDataSource | undefined
 ): boolean {
     return template?.temporal_direction === FUTURE_TEMPORAL_DIRECTION
 }

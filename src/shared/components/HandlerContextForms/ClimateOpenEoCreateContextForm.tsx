@@ -17,7 +17,7 @@ import {
 import { get, set } from '../HandlerConfigForms/configHelpers'
 import { ConfigLabeledControl } from '../HandlerConfigForms/ConfigLabeledControl'
 import { OrgUnitSection } from '../HandlerConfigForms/OrgUnitSection'
-import { useClimateDatasetDetailQuery } from '@/modules/climate-data/hooks/useClimateDatasetDetailQuery'
+import { useClimateCollectionQuery } from '@/modules/climate-data/hooks/useClimateCollectionsQuery'
 import {
     FormSection,
     formSectionGrids,
@@ -54,7 +54,7 @@ export function ClimateOpenEoCreateContextForm({
         typeof handlerConfig?.datasetId === 'string'
             ? handlerConfig.datasetId
             : undefined
-    const { data: dataset } = useClimateDatasetDetailQuery(engine, datasetId)
+    const { data: dataset } = useClimateCollectionQuery(engine, datasetId)
     const temporalExtent = getDatasetTemporalExtent(dataset)
     const { minYear, maxYear } = getCoverageYearRange(
         temporalExtent?.start,

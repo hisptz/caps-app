@@ -2,7 +2,7 @@ import { useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { Button, NoticeBox } from '@dhis2/ui'
 import React, { useMemo } from 'react'
-import { useClimateDatasetsQuery } from '@/modules/climate-data/hooks/useClimateDatasetsQuery'
+import { useClimateCollectionsQuery } from '@/modules/climate-data/hooks/useClimateCollectionsQuery'
 import {
     OPEN_CLIMATE_SERVICE_SYNC_HANDLER,
     findUnsyncedClimateSteps,
@@ -50,11 +50,11 @@ function CoverageWarning({
     updateError,
 }: Props & { unsynced: UnsyncedClimateStep[] }): React.ReactElement {
     const engine = useDataEngine()
-    const datasetsQuery = useClimateDatasetsQuery(engine)
+    const datasetsQuery = useClimateCollectionsQuery(engine)
 
     const nameOf = (id: string) => {
-        const d = datasetsQuery.data?.items?.find((x) => x.dataset_id === id)
-        return d?.short_name ?? d?.dataset_name ?? id
+        const d = datasetsQuery.data?.find((x) => x.id === id)
+        return d?.title ?? id
     }
 
     const target = unsynced.find((u) => u.syncStep)?.syncStep ?? null

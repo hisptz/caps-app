@@ -14,7 +14,7 @@ import classes from './OpenClimateServiceSyncConfig.module.css'
 import { SyncPlanPreview } from './SyncPlanPreview'
 import { SyncUntilField } from './SyncUntilField'
 import { isUuid } from '@/capsApi/isUuid'
-import { useClimateDatasetsQuery } from '@/modules/climate-data/hooks/useClimateDatasetsQuery'
+import { useClimateCollectionsQuery } from '@/modules/climate-data/hooks/useClimateCollectionsQuery'
 import { usePipelineDetailQuery } from '@/modules/monitoring/hooks/capsMonitoringHooks'
 import {
     CLIMATE_SYNC_MIN_POLL_INTERVAL_MS,
@@ -54,16 +54,10 @@ export function OpenClimateServiceSyncConfig({
     )
     const pipelineSettled = !idReady || !pipelineQuery.isLoading
 
-    const datasetsQuery = useClimateDatasetsQuery(engine)
-    const datasets = datasetsQuery.data?.items ?? []
+    const datasetsQuery = useClimateCollectionsQuery(engine)
+    const datasets = datasetsQuery.data ?? []
     const datasetNames = useMemo(
-        () =>
-            new Map(
-                datasets.map((d) => [
-                    d.dataset_id,
-                    d.short_name ?? d.dataset_name,
-                ])
-            ),
+        () => new Map(datasets.map((d) => [d.id, d.title])),
         [datasets]
     )
 
@@ -84,11 +78,9 @@ export function OpenClimateServiceSyncConfig({
     const selectedIds = Array.isArray(watchedIds)
         ? (watchedIds as string[])
         : EMPTY
-    const selectedDatasets = datasets.filter((d) =>
-        selectedIds.includes(d.dataset_id)
-    )
+    const selectedDatasets = datasets.filter((d) => selectedIds.includes(d.id))
     const syncEndGranularity = getSyncEndGranularity(
-        selectedDatasets.map((d) => d.period_type)
+        selectedDatasets.map((d) => d.periodType)
     )
     const syncEndMinYear = Math.min(
         new Date().getFullYear() - 9,
@@ -144,22 +136,17 @@ export function OpenClimateServiceSyncConfig({
                             >
                                 {datasets.map((d) => (
                                     <MultiSelectOption
-                                        key={d.dataset_id}
-                                        value={d.dataset_id}
+                                        key={d.id}
+                                        value={d.id}
                                         label={
-                                            pipelineDatasetIds.includes(
-                                                d.dataset_id
-                                            )
+                                            pipelineDatasetIds.includes(d.id)
                                                 ? i18n.t(
                                                       '{{name}} (used by this pipeline)',
                                                       {
-                                                          name:
-                                                              d.short_name ??
-                                                              d.dataset_name,
+                                                          name: d.title,
                                                       }
                                                   )
-                                                : (d.short_name ??
-                                                  d.dataset_name)
+                                                : d.title
                                         }
                                     />
                                 ))}

@@ -12,16 +12,32 @@ import {
 } from '@dhis2/ui'
 import React from 'react'
 import classes from './ClimateDataModals.module.css'
-import type { ClimateDatasetRecord } from '@/capsApi/types'
-import { useClimateDatasetDetailQuery } from '@/modules/climate-data/hooks/useClimateDatasetDetailQuery'
+import type { ClimateCollection } from '@/capsApi/types'
+import { useClimateCollectionQuery } from '@/modules/climate-data/hooks/useClimateCollectionsQuery'
 import { formatClimateTemporalExtent } from '@/modules/climate-data/utils/formatTemporalExtent'
 
 type Props = {
-    dataset: ClimateDatasetRecord | null
+    dataset: ClimateCollection | null
     onClose: () => void
 }
 
-const formatDate = (iso: string) => new Date(iso).toLocaleString()
+const formatBbox = (bbox: number[]) =>
+    bbox.map((value) => value.toFixed(2)).join(', ')
+
+function DetailRow({
+    label,
+    children,
+}: {
+    label: string
+    children: React.ReactNode
+}): React.ReactElement {
+    return (
+        <div className={classes.detailRow}>
+            <span className={classes.detailLabel}>{label}</span>
+            <div className={classes.detailValue}>{children}</div>
+        </div>
+    )
+}
 
 export function ClimateDatasetDetailModal({
     dataset,
@@ -29,23 +45,17 @@ export function ClimateDatasetDetailModal({
 }: Props): React.ReactElement | null {
     const engine = useDataEngine()
 
-    const detailQuery = useClimateDatasetDetailQuery(
-        engine,
-        dataset?.dataset_id
-    )
+    const detailQuery = useClimateCollectionQuery(engine, dataset?.id)
 
     if (!dataset) {
         return null
     }
 
     const detail = detailQuery.data
-    const isPublished = detail?.publication.status === 'published'
 
     return (
         <Modal large onClose={onClose} position="middle">
-            <ModalTitle>
-                {detail?.dataset_name ?? dataset.dataset_name}
-            </ModalTitle>
+            <ModalTitle>{detail?.title ?? dataset.title}</ModalTitle>
             <ModalContent>
                 {detailQuery.isLoading && (
                     <div className={classes.loaderWrap}>
@@ -59,80 +69,67 @@ export function ClimateDatasetDetailModal({
                 )}
                 {detail && (
                     <div className={classes.detailGrid}>
-                        <div className={classes.detailRow}>
-                            <span className={classes.detailLabel}>
-                                {i18n.t('Dataset ID')}
-                            </span>
-                            <p className={classes.detailValue}>
-                                {detail.dataset_id}
-                            </p>
-                        </div>
-                        <div className={classes.detailRow}>
-                            <span className={classes.detailLabel}>
-                                {i18n.t('Template')}
-                            </span>
-                            <p className={classes.detailValue}>
-                                {detail.source_dataset_id}
-                            </p>
-                        </div>
-                        <div className={classes.detailRow}>
-                            <span className={classes.detailLabel}>
-                                {i18n.t('Variable')}
-                            </span>
-                            <p className={classes.detailValue}>
-                                {detail.variable}
-                                {detail.units ? ` (${detail.units})` : ''}
-                            </p>
-                        </div>
-                        <div className={classes.detailRow}>
-                            <span className={classes.detailLabel}>
-                                {i18n.t('Period type')}
-                            </span>
-                            <p className={classes.detailValue}>
-                                {detail.period_type}
-                            </p>
-                        </div>
-                        <div className={classes.detailRow}>
-                            <span className={classes.detailLabel}>
-                                {i18n.t('Temporal extent')}
-                            </span>
-                            <p className={classes.detailValue}>
-                                {formatClimateTemporalExtent(
-                                    detail.extent.temporal
+                        <DetailRow label={i18n.t('Dataset ID')}>
+                            {detail.id}
+                        </DetailRow>
+                        {detail.description && (
+                            <DetailRow label={i18n.t('Description')}>
+                                {detail.description}
+                            </DetailRow>
+                        )}
+                        <DetailRow label={i18n.t('Variables')}>
+                            {detail.variables.length > 0
+                                ? detail.variables
+                                      .map((variable) =>
+                                          variable.unit
+                                              ? `${variable.name} (${variable.unit})`
+                                              : variable.name
+                                      )
+                                      .join(', ')
+                                : '—'}
+                        </DetailRow>
+                        <DetailRow label={i18n.t('Period type')}>
+                            {detail.periodType ?? '—'}
+                        </DetailRow>
+                        <DetailRow label={i18n.t('Temporal extent')}>
+                            {formatClimateTemporalExtent(
+                                detail.extent.temporal
+                            )}
+                        </DetailRow>
+                        {detail.extent.bbox && (
+                            <DetailRow
+                                label={i18n.t(
+                                    'Spatial extent (west, south, east, north)'
                                 )}
-                            </p>
-                        </div>
-                        <div className={classes.detailRow}>
-                            <span className={classes.detailLabel}>
-                                {i18n.t('Last updated')}
-                            </span>
-                            <p className={classes.detailValue}>
-                                {formatDate(detail.last_updated)}
-                            </p>
-                        </div>
-                        <div className={classes.detailRow}>
-                            <span className={classes.detailLabel}>
-                                {i18n.t('Catalogue')}
-                            </span>
-                            <p className={classes.detailValue}>
-                                {isPublished
-                                    ? i18n.t('Listed in the climate catalogue')
-                                    : i18n.t(
-                                          'Not listed in the climate catalogue'
-                                      )}
-                            </p>
-                        </div>
-                        {detail.versions.length > 0 && (
-                            <div className={classes.detailRow}>
-                                <span className={classes.detailLabel}>
-                                    {i18n.t('Versions')}
-                                </span>
-                                <p className={classes.detailValue}>
-                                    {i18n.t('{{count}} version(s)', {
-                                        count: detail.versions.length,
-                                    })}
-                                </p>
-                            </div>
+                            >
+                                {formatBbox(detail.extent.bbox)}
+                            </DetailRow>
+                        )}
+                        {detail.providers.length > 0 && (
+                            <DetailRow label={i18n.t('Source')}>
+                                {detail.providers
+                                    .map((provider) => provider.name)
+                                    .join(', ')}
+                            </DetailRow>
+                        )}
+                        {detail.license && (
+                            <DetailRow label={i18n.t('License')}>
+                                {detail.license}
+                            </DetailRow>
+                        )}
+                        {detail.assets.length > 0 && (
+                            <DetailRow label={i18n.t('Data access')}>
+                                <ul className={classes.assetList}>
+                                    {detail.assets.map((asset) => (
+                                        <li key={asset.key}>
+                                            {asset.title ?? asset.key}:{' '}
+                                            <code className={classes.assetHref}>
+                                                {asset.href}
+                                            </code>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </DetailRow>
                         )}
                     </div>
                 )}

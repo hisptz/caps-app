@@ -1,10 +1,10 @@
-import type { ClimateDatasetTemplate } from '@/capsApi/types'
+import type { ClimateDataSource } from '@/capsApi/types'
 import {
     isFutureTemplate,
     FUTURE_TEMPORAL_DIRECTION,
 } from '@/modules/climate-data/utils/template'
 
-const baseTemplate: ClimateDatasetTemplate = {
+const baseTemplate: ClimateDataSource = {
     id: 'tpl-1',
     name: 'CHIRPS daily',
     variable: 'precip',

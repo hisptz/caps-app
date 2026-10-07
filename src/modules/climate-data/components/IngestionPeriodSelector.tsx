@@ -12,7 +12,7 @@ import {
 import { uniqBy } from 'lodash-es'
 import React, { useMemo, useState } from 'react'
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
-import { useClimateTemplatesQuery } from '@/modules/climate-data/hooks/useClimateTemplatesQuery'
+import { useClimateDataSourcesQuery } from '@/modules/climate-data/hooks/useClimateDataSourcesQuery'
 import {
     getTemplateTemporalExtent,
     isFutureTemplate,
@@ -26,15 +26,15 @@ export function IngestionPeriodSelector() {
         name: 'dataset_id',
     })
     const { getValues } = useFormContext()
-    const { data, isLoading } = useClimateTemplatesQuery(engine)
+    const { data, isLoading } = useClimateDataSourcesQuery(engine)
 
-    const selectedDatasetTemplate = useMemo(
+    const selectedDataSource = useMemo(
         () => data?.find((template) => template.id === datasetTemplateId),
         [data, datasetTemplateId]
     )
 
     const periodOptions = useMemo(() => {
-        if (!selectedDatasetTemplate) {
+        if (!selectedDataSource) {
             return []
         }
         const periods = generateFixedPeriods({
@@ -42,7 +42,7 @@ export function IngestionPeriodSelector() {
             year,
             yearsCount: 10,
             periodType:
-                selectedDatasetTemplate.period_type.toUpperCase() as unknown as Parameters<
+                selectedDataSource.period_type.toUpperCase() as unknown as Parameters<
                     typeof generateFixedPeriods
                 >[0]['periodType'],
         })
@@ -55,13 +55,13 @@ export function IngestionPeriodSelector() {
         )
 
         return uniqBy([...periods, ...selectedPeriods], 'id')
-    }, [selectedDatasetTemplate, year])
+    }, [selectedDataSource, year])
 
     if (!datasetTemplateId) {
         return null
     }
 
-    if (isFutureTemplate(selectedDatasetTemplate)) {
+    if (isFutureTemplate(selectedDataSource)) {
         return null
     }
 
@@ -81,7 +81,7 @@ export function IngestionPeriodSelector() {
         )
     }
 
-    const temporalExtent = getTemplateTemporalExtent(selectedDatasetTemplate)
+    const temporalExtent = getTemplateTemporalExtent(selectedDataSource)
 
     const coverageHint = temporalExtent
         ? i18n.t('Available coverage: {{start}} – {{end}}', {

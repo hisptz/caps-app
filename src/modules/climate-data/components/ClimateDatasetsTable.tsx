@@ -14,21 +14,19 @@ import {
 } from '@dhis2/ui'
 import React from 'react'
 import classes from './ClimateDatasetsTable.module.css'
-import type { ClimateDatasetRecord } from '@/capsApi/types'
+import type { ClimateCollection } from '@/capsApi/types'
 import { formatClimateTemporalExtent } from '@/modules/climate-data/utils/formatTemporalExtent'
 import { TableScroll } from '@/shared/components/ui/TableScroll'
 
 type Props = {
-    datasets: ClimateDatasetRecord[]
+    datasets: ClimateCollection[]
     activeDatasetJobIds: Record<string, string>
-    onViewDetails: (dataset: ClimateDatasetRecord) => void
-    onSync: (dataset: ClimateDatasetRecord) => void
+    onViewDetails: (dataset: ClimateCollection) => void
+    onSync: (dataset: ClimateCollection) => void
     onCancelJob: (jobId: string) => void
     cancelJobPending: boolean
     mutationsDisabled?: boolean
 }
-
-const formatDate = (iso: string) => new Date(iso).toLocaleString()
 
 export function ClimateDatasetsTable({
     datasets,
@@ -57,43 +55,36 @@ export function ClimateDatasetsTable({
                             {i18n.t('Temporal extent')}
                         </DataTableColumnHeader>
                         <DataTableColumnHeader>
-                            {i18n.t('Last updated')}
-                        </DataTableColumnHeader>
-                        <DataTableColumnHeader>
                             {i18n.t('Actions')}
                         </DataTableColumnHeader>
                     </DataTableRow>
                 </DataTableHead>
                 <DataTableBody>
                     {datasets.map((dataset) => {
-                        const activeJobId =
-                            activeDatasetJobIds[dataset.dataset_id]
+                        const activeJobId = activeDatasetJobIds[dataset.id]
                         const hasActiveJob = Boolean(activeJobId)
 
                         return (
-                            <DataTableRow key={dataset.dataset_id}>
+                            <DataTableRow key={dataset.id}>
                                 <DataTableCell>
                                     <span className={classes.nameCell}>
-                                        {dataset.short_name ??
-                                            dataset.dataset_name}
+                                        {dataset.title}
                                         {hasActiveJob && (
                                             <Tag>{i18n.t('Syncing')}</Tag>
                                         )}
                                     </span>
                                 </DataTableCell>
                                 <DataTableCell>
-                                    {dataset.variable}
+                                    {dataset.variable ?? '—'}
+                                    {dataset.units ? ` (${dataset.units})` : ''}
                                 </DataTableCell>
                                 <DataTableCell>
-                                    {dataset.period_type}
+                                    {dataset.periodType ?? '—'}
                                 </DataTableCell>
                                 <DataTableCell>
                                     {formatClimateTemporalExtent(
                                         dataset.extent.temporal
                                     )}
-                                </DataTableCell>
-                                <DataTableCell>
-                                    {formatDate(dataset.last_updated)}
                                 </DataTableCell>
                                 <DataTableCell>
                                     <div className={classes.actionsCell}>

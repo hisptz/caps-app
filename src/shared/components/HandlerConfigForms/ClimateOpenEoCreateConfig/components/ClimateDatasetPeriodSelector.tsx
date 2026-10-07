@@ -15,7 +15,7 @@ import {
     getDatasetTemporalExtent,
     normalizeDatasetPeriodType,
 } from '../utils/climateDatasetPeriodUtils'
-import { useClimateDatasetDetailQuery } from '@/modules/climate-data/hooks/useClimateDatasetDetailQuery'
+import { useClimateCollectionQuery } from '@/modules/climate-data/hooks/useClimateCollectionsQuery'
 import {
     formSectionGrids,
     SingleSelectControl,
@@ -38,12 +38,10 @@ export function ClimateDatasetPeriodSelector(): React.ReactElement | null {
         data: dataset,
         isLoading,
         error,
-    } = useClimateDatasetDetailQuery(engine, datasetId)
+    } = useClimateCollectionQuery(engine, datasetId)
 
     const temporalExtent = getDatasetTemporalExtent(dataset)
-    const normalizedPeriodType = normalizeDatasetPeriodType(
-        dataset?.period_type
-    )
+    const normalizedPeriodType = normalizeDatasetPeriodType(dataset?.periodType)
     const { minYear, maxYear } = getCoverageYearRange(
         temporalExtent?.start,
         temporalExtent?.end

@@ -79,17 +79,17 @@ export const capsKeys = {
             [...capsKeys.all, 'analytics', 'top-errors', days] as const,
     },
 
-    climateDatasets: {
-        all: () => [...capsKeys.all, 'climate-datasets'] as const,
-        list: () => [...capsKeys.climateDatasets.all(), 'list'] as const,
+    climateCollections: {
+        all: () => [...capsKeys.all, 'climate-collections'] as const,
+        list: () => [...capsKeys.climateCollections.all(), 'list'] as const,
         detail: (id: string | undefined) =>
-            [...capsKeys.all, 'climate-datasets', id] as const,
+            [...capsKeys.climateCollections.all(), 'detail', id] as const,
     },
-    climateTemplates: {
-        all: () => [...capsKeys.all, 'climate-templates'] as const,
-        list: () => [...capsKeys.climateTemplates.all(), 'list'] as const,
+    climateDataSources: {
+        all: () => [...capsKeys.all, 'climate-data-sources'] as const,
+        list: () => [...capsKeys.climateDataSources.all(), 'list'] as const,
         detail: (id: string | undefined) =>
-            [...capsKeys.climateTemplates.all(), 'detail', id] as const,
+            [...capsKeys.climateDataSources.all(), 'detail', id] as const,
     },
     climateJobs: {
         detail: (jobId: string | undefined) =>

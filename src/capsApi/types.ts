@@ -223,69 +223,63 @@ export function paginationToPageCount(p: CapsPagination): number {
     return Math.max(1, p.pages)
 }
 
-export type ClimateSpatialExtent = {
-    xmin: number
-    ymin: number
-    xmax: number
-    ymax: number
-}
-
 export type ClimateTemporalExtent = {
     start?: string | null
     end?: string | null
 }
 
-export type ClimateArtifactCoverage = {
-    spatial: ClimateSpatialExtent
-    spatial_wgs84?: ClimateSpatialExtent | null
-    temporal: ClimateTemporalExtent
+/** The subset of a STAC 1.1 collection (with the datacube and CF extensions) CAPS reads. */
+export type StacCollection = {
+    type: 'Collection'
+    id: string
+    title?: string
+    description?: string
+    license?: string
+    keywords?: string[]
+    extent?: {
+        spatial?: { bbox?: number[][] }
+        temporal?: { interval?: Array<[string | null, string | null]> }
+    }
+    'cube:dimensions'?: Record<
+        string,
+        { type: string; extent?: unknown[]; step?: string | number | null }
+    >
+    'cube:variables'?: Record<
+        string,
+        {
+            type?: string
+            unit?: string
+            description?: string
+            'cf:standard_name'?: string
+        }
+    >
+    providers?: Array<{ name: string; url?: string }>
+    assets?: Record<
+        string,
+        { href: string; type?: string; title?: string; roles?: string[] }
+    >
+    renders?: Record<string, { 'open_climate_service:variable'?: string }>
+    links?: Array<{ rel: string; href: string; type?: string; title?: string }>
 }
 
-export type ClimatePublicationStatus = 'unpublished' | 'published'
-
-export type ClimateDatasetPublication = {
-    status: ClimatePublicationStatus
-    published_at?: string | null
+export type StacCollectionListResponse = {
+    collections: StacCollection[]
 }
 
-export type ClimateDatasetRecord = {
-    dataset_id: string
-    source_dataset_id: string
-    dataset_name: string
-    short_name?: string | null
-    variable: string
-    period_type: string
-    units?: string | null
-    resolution?: string | null
-    source?: string | null
-    source_url?: string | null
-    extent: ClimateArtifactCoverage
-    last_updated: string
-    links?: Array<{ href: string; rel: string; title: string }>
-    publication: ClimateDatasetPublication
-}
-
-export type ClimateDatasetVersionRecord = {
-    created_at: string
-    format: 'zarr' | 'netcdf' | 'icechunk'
-    coverage: ClimateArtifactCoverage
-    request_scope?: {
-        start?: string | null
-        end?: string | null
-        bbox?: [number, number, number, number] | null
-    } | null
-}
-
-export type ClimateDatasetDetailRecord = ClimateDatasetRecord & {
-    versions: ClimateDatasetVersionRecord[]
-}
-
-/** @deprecated Use ClimateDatasetDetailRecord — kept for handler config compatibility */
-export type ClimateDataset = ClimateDatasetDetailRecord
-
-export type ClimateDatasetListResponse = {
-    kind?: string
-    items?: ClimateDatasetRecord[]
+/** A published climate collection, flattened from STAC for display and pipeline config. */
+export type ClimateCollection = {
+    id: string
+    title: string
+    description?: string
+    variable?: string
+    units?: string
+    variables: Array<{ name: string; unit?: string; standardName?: string }>
+    /** Derived from the temporal step: daily, weekly, monthly…, or irregular (e.g. dekadal). */
+    periodType?: string
+    extent: { temporal: ClimateTemporalExtent; bbox?: number[] }
+    providers: Array<{ name: string; url?: string }>
+    license?: string
+    assets: Array<{ key: string; href: string; title?: string; type?: string }>
 }
 
 export type ClimateTemplateSpatialExtent = {
@@ -312,7 +306,7 @@ export type ClimateTemplateIngestion = {
     params: Record<string, unknown>
 }
 
-export type ClimateDatasetTemplate = {
+export type ClimateDataSource = {
     id: string
     name: string
     short_name?: string | null
@@ -335,7 +329,6 @@ export type CreateClimateIngestionRequest = {
 export type ClimateIngestionResponse = {
     ingestion_id: string
     status: string
-    dataset?: ClimateDatasetRecord | null
 }
 
 export type ClimateAsyncJobAcceptedResponse = {
@@ -394,6 +387,5 @@ export type ClimateSyncResponse = {
     sync_id?: string | null
     status: string
     message?: string | null
-    dataset?: ClimateDatasetDetailRecord | null
     sync_detail?: ClimateSyncDetail | null
 }
