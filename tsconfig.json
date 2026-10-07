@@ -8,10 +8,10 @@
         "esModuleInterop": true,
         "target": "ESNext",
         "module": "esnext",
-        "moduleResolution": "node",
-        "baseUrl": ".",
+        "moduleResolution": "bundler",
+        "types": ["jest"],
         "paths": {
-            "@/*": ["src/*"]
+            "@/*": ["./src/*"]
         }
     },
     "include": ["src", "types"]
