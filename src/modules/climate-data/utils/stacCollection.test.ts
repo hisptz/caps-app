@@ -1,9 +1,16 @@
 import type { StacCollection } from '@/capsApi/types'
-import { toClimateCollection } from '@/modules/climate-data/utils/stacCollection'
+import {
+    isRasterCollection,
+    toClimateCollection,
+} from '@/modules/climate-data/utils/stacCollection'
 
 const chirps: StacCollection = {
     type: 'Collection',
     id: 'chirps3_precipitation_daily',
+    stac_extensions: [
+        'https://stac-extensions.github.io/datacube/v2.3.0/schema.json',
+        'https://stac-extensions.github.io/zarr/v1.1.0/schema.json',
+    ],
     title: 'Precipitation rate (CHIRPS3)',
     description: 'Daily rainfall over land at 5 km.',
     license: 'CC-BY-4.0',
@@ -38,6 +45,60 @@ const chirps: StacCollection = {
     },
     renders: { default: { 'open_climate_service:variable': 'precip' } },
 }
+
+// A DHIS2 org-unit collection as OCS publishes it: a GeoParquet table, no datacube.
+const districts: StacCollection = {
+    type: 'Collection',
+    id: 'districts',
+    stac_extensions: [
+        'https://stac-extensions.github.io/projection/v1.1.0/schema.json',
+        'https://stac-extensions.github.io/table/v1.2.0/schema.json',
+    ],
+    title: 'Districts (DHIS2)',
+    extent: {
+        spatial: { bbox: [[-13.5, 6.9, -10.1, 10.0]] },
+        temporal: { interval: [[null, null]] },
+    },
+    assets: {
+        data: {
+            href: 'http://ocs.example/features/districts/data.parquet',
+            type: 'application/x-parquet',
+        },
+    },
+}
+
+describe('isRasterCollection', () => {
+    it('keeps a Zarr datacube', () => {
+        expect(isRasterCollection(chirps)).toBe(true)
+    })
+
+    it('drops a GeoParquet feature collection', () => {
+        expect(isRasterCollection(districts)).toBe(false)
+    })
+
+    it('matches any datacube extension version', () => {
+        expect(
+            isRasterCollection({
+                ...chirps,
+                stac_extensions: [
+                    'https://stac-extensions.github.io/datacube/v2.4.0/schema.json',
+                ],
+            })
+        ).toBe(true)
+    })
+
+    it('drops a collection that declares no extensions', () => {
+        expect(isRasterCollection({ type: 'Collection', id: 'unknown' })).toBe(
+            false
+        )
+    })
+
+    it('keeps only the rasters from a mixed catalogue', () => {
+        expect(
+            [chirps, districts].filter(isRasterCollection).map((c) => c.id)
+        ).toEqual(['chirps3_precipitation_daily'])
+    })
+})
 
 describe('toClimateCollection', () => {
     it('flattens a published STAC collection', () => {

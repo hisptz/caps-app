@@ -232,6 +232,7 @@ export type ClimateTemporalExtent = {
 export type StacCollection = {
     type: 'Collection'
     id: string
+    stac_extensions?: string[]
     title?: string
     description?: string
     license?: string

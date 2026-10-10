@@ -5,16 +5,18 @@ import {
     listClimateCollections,
 } from '@/capsApi/endpoints'
 import { capsKeys } from '@/capsApi/queryKeys'
-import { toClimateCollection } from '@/modules/climate-data/utils/stacCollection'
+import {
+    isRasterCollection,
+    toClimateCollection,
+} from '@/modules/climate-data/utils/stacCollection'
 
-/** Published collections from the OCS STAC catalogue; ingestion publishes there automatically. */
 export function useClimateCollectionsQuery(engine: CapsDataEngine) {
     return useQuery({
         queryKey: capsKeys.climateCollections.list(),
         queryFn: async () =>
-            (await listClimateCollections(engine)).collections.map(
-                toClimateCollection
-            ),
+            (await listClimateCollections(engine)).collections
+                .filter(isRasterCollection)
+                .map(toClimateCollection),
     })
 }
 

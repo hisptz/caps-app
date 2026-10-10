@@ -23,20 +23,21 @@ App title in `d2.config.js`: **CAPS**. Entry: `src/app/App.tsx`.
 
 - Node.js (CI uses **24** for lint/typecheck; release workflow uses **22**)
 - [pnpm](https://pnpm.io) 11.x (see `package.json` `packageManager`)
+- DHIS2 **2.41+** (`minDHIS2Version`; the Route API gained non-GET methods in 2.41). E2E runs against 2.41.10
 - A DHIS2 instance to proxy against in development (default `pnpm start` uses `--proxy http://localhost:8080`, matching `.env.example`)
 
 ## Scripts
 
-| Script                       | Command          | What it does                                                                                                       |
-| ---------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------ |
-| Dev                          | `pnpm start`     | `d2-app-scripts start --proxy http://localhost:8080` → [http://localhost:3000](http://localhost:3000)              |
-| Test (Jest via App Platform) | `pnpm test`      | `d2-app-scripts test` — Jest unit tests colocated with the code as `src/**/*.test.ts(x)`                           |
-| E2E                          | `pnpm e2e`       | Playwright (`playwright.config.ts`, `testDir: e2e`, `baseURL` http://127.0.0.1:3000). **`e2e/` has no specs yet.** |
-| Typecheck                    | `pnpm typecheck` | `tsc --noEmit`                                                                                                     |
-| Lint                         | `pnpm lint`      | ESLint + `prettier -c .`                                                                                           |
-| Format                       | `pnpm format`    | Prettier write                                                                                                     |
-| Build                        | `pnpm build`     | Production zip under `build/bundle/`                                                                               |
-| Deploy                       | `pnpm deploy`    | Upload zip to a DHIS2 instance (App Management authority). Run `pnpm build` first.                                 |
+| Script                       | Command          | What it does                                                                                                                     |
+| ---------------------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Dev                          | `pnpm start`     | `d2-app-scripts start --proxy http://localhost:8080` → [http://localhost:3000](http://localhost:3000)                            |
+| Test (Jest via App Platform) | `pnpm test`      | `d2-app-scripts test` — Jest unit tests colocated with the code as `src/**/*.test.ts(x)`                                         |
+| E2E                          | `pnpm e2e`       | Playwright smoke tests in `e2e/` (onboarding, navigation, pipeline CRUD) against a DHIS2 2.41 + CAPS stack — `pnpm e2e:up` first |
+| Typecheck                    | `pnpm typecheck` | `tsc --noEmit`                                                                                                                   |
+| Lint                         | `pnpm lint`      | ESLint + `prettier -c .`                                                                                                         |
+| Format                       | `pnpm format`    | Prettier write                                                                                                                   |
+| Build                        | `pnpm build`     | Production zip under `build/bundle/`                                                                                             |
+| Deploy                       | `pnpm deploy`    | Upload zip to a DHIS2 instance (App Management authority). Run `pnpm build` first.                                               |
 
 Do **not** use the stock `yarn start` / `yarn test` App Platform boilerplate — this repo is **pnpm**.
 

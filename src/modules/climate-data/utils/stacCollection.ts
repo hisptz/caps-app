@@ -11,6 +11,8 @@ const ISO_STEP_PERIOD_TYPE: Record<string, string> = {
     P1Y: 'yearly',
 }
 
+const DATACUBE_EXTENSION = 'stac-extensions.github.io/datacube/'
+
 const toDate = (value: unknown): string | null =>
     typeof value === 'string' && value ? value.slice(0, 10) : null
 
@@ -30,6 +32,17 @@ function periodTypeOf(collection: StacCollection): string | undefined {
     }
     // OCS publishes no step for a variable-length cadence such as dekads.
     return 'irregular'
+}
+
+/**
+ * True for a raster (Zarr datacube). OCS publishes vector feature collections
+ * (GeoParquet, `table` extension) in the same catalogue and never marks them
+ * as datacubes; those are boundaries, not climate data.
+ */
+export function isRasterCollection(collection: StacCollection): boolean {
+    return (collection.stac_extensions ?? []).some((extension) =>
+        extension.includes(DATACUBE_EXTENSION)
+    )
 }
 
 export function toClimateCollection(
