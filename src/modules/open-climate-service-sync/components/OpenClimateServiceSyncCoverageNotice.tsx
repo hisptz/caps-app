@@ -77,7 +77,7 @@ function CoverageWarning({
             <NoticeBox warning title={i18n.t('Climate data may be stale')}>
                 <p style={{ marginTop: 0 }}>
                     {i18n.t(
-                        'Not synced by an earlier step — {{steps}}. Scheduled runs will use whatever was last synced by hand.',
+                        '{{steps}} - Is not synced by an open climate service sync handler. Scheduled runs will use whatever was last synced by hand.',
                         {
                             steps: unsynced
                                 .map(
