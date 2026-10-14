@@ -30,7 +30,7 @@ export function useClimateIngestionMutations(engine: CapsDataEngine) {
 
     const invalidateDatasets = () =>
         queryClient.invalidateQueries({
-            queryKey: capsKeys.climateDatasets.all(),
+            queryKey: capsKeys.climateCollections.all(),
         })
 
     const createIngestionMutation = useMutation({

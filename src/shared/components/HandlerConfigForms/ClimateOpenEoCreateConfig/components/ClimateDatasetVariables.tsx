@@ -3,14 +3,14 @@ import i18n from '@dhis2/d2-i18n'
 import { CircularLoader, InputField } from '@dhis2/ui'
 import React from 'react'
 import { useWatch } from 'react-hook-form'
-import { useClimateDatasetDetailQuery } from '@/modules/climate-data/hooks/useClimateDatasetDetailQuery'
+import { useClimateCollectionQuery } from '@/modules/climate-data/hooks/useClimateCollectionsQuery'
 
 export function ClimateDatasetVariables(): React.ReactElement | null {
     const engine = useDataEngine()
     const datasetId = useWatch({
         name: 'handlerConfig.datasetId',
     })
-    const { isLoading, data } = useClimateDatasetDetailQuery(engine, datasetId)
+    const { isLoading, data } = useClimateCollectionQuery(engine, datasetId)
 
     if (!datasetId) {
         return null

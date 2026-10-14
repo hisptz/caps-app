@@ -25,7 +25,12 @@ export function buildDefaultStepContexts(
 ): Record<string, Record<string, unknown>> {
     const result: Record<string, Record<string, unknown>> = {}
     for (const step of getContextCapableSteps(steps, handlers)) {
-        if (step.handlerKey === 'dhis2-instance-pull') {
+        // Left empty, a run uses the step's own config, including later edits: a copy made
+        // here would freeze a schedule to the step as it was when the schedule was saved.
+        if (
+            step.handlerKey === 'dhis2-instance-pull' ||
+            step.handlerKey === 'climate-openeo-create'
+        ) {
             result[step.id] = {}
             continue
         }

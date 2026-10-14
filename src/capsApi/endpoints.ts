@@ -6,14 +6,15 @@ import {
     capsPutJson,
 } from '@/capsApi/client'
 import {
+    ActiveClimateJobsResponse,
     ClimateAsyncJobAcceptedResponse,
-    ClimateDatasetDetailRecord,
-    ClimateDatasetListResponse,
-    ClimateDatasetTemplate,
+    ClimateDataSource,
     ClimateIngestionResponse,
     ClimateJobRecord,
     ClimateSyncDetail,
     ClimateSyncResponse,
+    StacCollection,
+    StacCollectionListResponse,
     CreateClimateIngestionRequest,
     CreatePipelineBody,
     CreateStepBody,
@@ -343,25 +344,22 @@ export function getPredictionSetup(engine: CapsDataEngine, id: number) {
     )
 }
 
-export function listClimateDatasets(engine: CapsDataEngine) {
-    return capsFetchJson<ClimateDatasetListResponse>(
+export function listClimateCollections(engine: CapsDataEngine) {
+    return capsFetchJson<StacCollectionListResponse>(
         engine,
-        '/climate/datasets'
+        '/climate/collections'
     )
 }
 
-export function getClimateDataset(engine: CapsDataEngine, id: string) {
-    return capsFetchJson<ClimateDatasetDetailRecord>(
+export function getClimateCollection(engine: CapsDataEngine, id: string) {
+    return capsFetchJson<StacCollection>(
         engine,
-        `/climate/datasets/${id}`
+        `/climate/collections/${encodeURIComponent(id)}`
     )
 }
 
-export function listClimateDatasetTemplates(engine: CapsDataEngine) {
-    return capsFetchJson<ClimateDatasetTemplate[]>(
-        engine,
-        '/climate/dataset-templates/'
-    )
+export function listClimateDataSources(engine: CapsDataEngine) {
+    return capsFetchJson<ClimateDataSource[]>(engine, '/climate/data-sources')
 }
 
 export function createClimateIngestion(
@@ -392,6 +390,13 @@ export function getClimateSyncPlan(engine: CapsDataEngine, datasetId: string) {
     return capsFetchJson<ClimateSyncDetail>(
         engine,
         `/climate/sync/${datasetId}/plan`
+    )
+}
+
+export function listActiveClimateJobs(engine: CapsDataEngine) {
+    return capsFetchJson<ActiveClimateJobsResponse>(
+        engine,
+        '/climate/ingestions/jobs'
     )
 }
 

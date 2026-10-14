@@ -5,13 +5,14 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router'
 import classes from './ClimateDataPage.module.css'
 import { CapsApiError } from '@/capsApi/client'
-import type { ClimateDatasetRecord } from '@/capsApi/types'
+import type { ClimateCollection } from '@/capsApi/types'
 import { ClimateDatasetDetailModal } from '@/modules/climate-data/components/ClimateDatasetDetailModal'
 import { ClimateDatasetsTable } from '@/modules/climate-data/components/ClimateDatasetsTable'
 import { ClimateJobProgressBanner } from '@/modules/climate-data/components/ClimateJobProgressBanner'
 import { CreateIngestionModal } from '@/modules/climate-data/components/CreateIngestionModal'
 import { SyncDatasetConfirmModal } from '@/modules/climate-data/components/SyncDatasetConfirmModal'
-import { useClimateDatasetsQuery } from '@/modules/climate-data/hooks/useClimateDatasetsQuery'
+import { useClimateCollectionsQuery } from '@/modules/climate-data/hooks/useClimateCollectionsQuery'
+import { useClimateDataSourcesQuery } from '@/modules/climate-data/hooks/useClimateDataSourcesQuery'
 import {
     isAsyncJobAccepted,
     mapClimateMutationError,
@@ -19,10 +20,10 @@ import {
 } from '@/modules/climate-data/hooks/useClimateIngestionMutations'
 import {
     isActiveJobStatus,
+    useActiveClimateJobsQuery,
     useClimateJobsPolling,
 } from '@/modules/climate-data/hooks/useClimateJobPolling'
 import { useClimateJobsTracker } from '@/modules/climate-data/hooks/useClimateJobsTracker'
-import { useClimateTemplatesQuery } from '@/modules/climate-data/hooks/useClimateTemplatesQuery'
 import { useSystemInfoQuery } from '@/modules/monitoring/hooks/capsMonitoringHooks'
 import { PageLoader } from '@/shared/components/ui/PageLoader'
 import shellClasses from '@/shared/components/ui/PageShell/PageShell.module.css'
@@ -39,11 +40,10 @@ const ClimateDataPage: React.FC = () => {
     const engine = useDataEngine()
 
     const [showCreateModal, setShowCreateModal] = useState(false)
-    const [detailTarget, setDetailTarget] =
-        useState<ClimateDatasetRecord | null>(null)
-    const [syncTarget, setSyncTarget] = useState<ClimateDatasetRecord | null>(
+    const [detailTarget, setDetailTarget] = useState<ClimateCollection | null>(
         null
     )
+    const [syncTarget, setSyncTarget] = useState<ClimateCollection | null>(null)
     const [syncError, setSyncError] = useState<string | null>(null)
 
     const {
@@ -53,12 +53,14 @@ const ClimateDataPage: React.FC = () => {
         jobIds,
         jobIdByDatasetId,
         addJob,
+        mergeJobs,
         removeJob,
     } = useClimateJobsTracker()
 
-    const datasetsQuery = useClimateDatasetsQuery(engine)
-    const templatesQuery = useClimateTemplatesQuery(engine)
+    const datasetsQuery = useClimateCollectionsQuery(engine)
+    const templatesQuery = useClimateDataSourcesQuery(engine)
     const systemInfoQuery = useSystemInfoQuery(engine)
+    const activeJobsQuery = useActiveClimateJobsQuery(engine)
     const jobResults = useClimateJobsPolling(engine, jobIds)
     const {
         createIngestionMutation,
@@ -67,7 +69,7 @@ const ClimateDataPage: React.FC = () => {
         invalidateDatasets,
     } = useClimateIngestionMutations(engine)
 
-    const datasets = datasetsQuery.data?.items ?? []
+    const datasets = datasetsQuery.data ?? []
     const climateReadOnly =
         systemInfoQuery.data?.caps.climateApi.info?.read_only === true
 
@@ -76,6 +78,27 @@ const ClimateDataPage: React.FC = () => {
             setShowCreateModal(true)
         }
     }, [searchParams, climateReadOnly])
+
+    const resumedActiveJobs = useRef(false)
+    useEffect(() => {
+        // Skip the cached list from a previous visit; wait for this visit's fetch.
+        if (
+            resumedActiveJobs.current ||
+            !activeJobsQuery.isFetchedAfterMount ||
+            !activeJobsQuery.data
+        ) {
+            return
+        }
+        resumedActiveJobs.current = true
+        if (activeJobsQuery.data.length > 0) {
+            mergeJobs(
+                activeJobsQuery.data.map(({ jobId, datasetId }) => ({
+                    jobId,
+                    datasetId,
+                }))
+            )
+        }
+    }, [activeJobsQuery.data, activeJobsQuery.isFetchedAfterMount, mergeJobs])
 
     const settledJobIds = useRef<Set<string>>(new Set())
     const dismissTimers = useRef<Map<string, ReturnType<typeof setTimeout>>>(
@@ -116,8 +139,8 @@ const ClimateDataPage: React.FC = () => {
             if (!datasetId) {
                 return null
             }
-            const match = datasets.find((d) => d.dataset_id === datasetId)
-            return match?.short_name ?? match?.dataset_name ?? datasetId
+            const match = datasets.find((d) => d.id === datasetId)
+            return match?.title ?? datasetId
         },
         [datasets]
     )
@@ -173,11 +196,11 @@ const ClimateDataPage: React.FC = () => {
         }
         setSyncError(null)
         syncDatasetMutation.mutate(
-            { datasetId: syncTarget.dataset_id },
+            { datasetId: syncTarget.id },
             {
                 onSuccess: (result) => {
                     if (isAsyncJobAccepted(result)) {
-                        addJob(result.jobId, syncTarget.dataset_id)
+                        addJob(result.jobId, syncTarget.id)
                         setSyncTarget(null)
                         return
                     }

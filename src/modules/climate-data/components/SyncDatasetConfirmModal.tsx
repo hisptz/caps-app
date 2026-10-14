@@ -12,7 +12,7 @@ import {
 } from '@dhis2/ui'
 import React, { useState } from 'react'
 import classes from './ClimateDataModals.module.css'
-import type { ClimateDatasetRecord } from '@/capsApi/types'
+import type { ClimateCollection } from '@/capsApi/types'
 import { useClimateSyncPlanQuery } from '@/modules/climate-data/hooks/useClimateSyncPlanQuery'
 import {
     climateSyncActionDoesWork,
@@ -20,7 +20,7 @@ import {
 } from '@/shared/utils/label.utils'
 
 type Props = {
-    dataset: ClimateDatasetRecord | null
+    dataset: ClimateCollection | null
     onClose: () => void
     onConfirm: () => void
     isPending: boolean
@@ -37,7 +37,7 @@ export function SyncDatasetConfirmModal({
     const engine = useDataEngine()
     const [localError, setLocalError] = useState<string | null>(null)
 
-    const planQuery = useClimateSyncPlanQuery(engine, dataset?.dataset_id)
+    const planQuery = useClimateSyncPlanQuery(engine, dataset?.id)
 
     if (!dataset) {
         return null
@@ -60,7 +60,7 @@ export function SyncDatasetConfirmModal({
                     {i18n.t(
                         'Sync "{{name}}" forward from its latest time step.',
                         {
-                            name: dataset.dataset_name,
+                            name: dataset.title,
                         }
                     )}
                 </p>

@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-05T13:40:53.924Z\n"
-"PO-Revision-Date: 2026-10-05T13:40:53.926Z\n"
+"POT-Creation-Date: 2026-10-14T10:40:06.841Z\n"
+"PO-Revision-Date: 2026-10-14T10:40:06.844Z\n"
 
 msgid "Enter a valid HTTP or HTTPS URL."
 msgstr "Enter a valid HTTP or HTTPS URL."
@@ -56,11 +56,11 @@ msgstr "Dataset metadata is unavailable."
 msgid "Dataset ID"
 msgstr "Dataset ID"
 
-msgid "Template"
-msgstr "Template"
+msgid "Description"
+msgstr "Description"
 
-msgid "Variable"
-msgstr "Variable"
+msgid "Variables"
+msgstr "Variables"
 
 msgid "Period type"
 msgstr "Period type"
@@ -68,20 +68,14 @@ msgstr "Period type"
 msgid "Temporal extent"
 msgstr "Temporal extent"
 
-msgid "Last updated"
-msgstr "Last updated"
+msgid "Spatial extent (west, south, east, north)"
+msgstr "Spatial extent (west, south, east, north)"
 
-msgid "Catalogue"
-msgstr "Catalogue"
+msgid "Source"
+msgstr "Source"
 
-msgid "Listed in the climate catalogue"
-msgstr "Listed in the climate catalogue"
-
-msgid "Not listed in the climate catalogue"
-msgstr "Not listed in the climate catalogue"
-
-msgid "Versions"
-msgstr "Versions"
+msgid "License"
+msgstr "License"
 
 msgid "Close"
 msgstr "Close"
@@ -91,6 +85,9 @@ msgstr "Climate datasets"
 
 msgid "Name"
 msgstr "Name"
+
+msgid "Variable"
+msgstr "Variable"
 
 msgid "Actions"
 msgstr "Actions"
@@ -531,9 +528,6 @@ msgstr "Add {{datasets}} to \"{{step}}\""
 
 msgid "e.g. Download ERA5 Data"
 msgstr "e.g. Download ERA5 Data"
-
-msgid "Description"
-msgstr "Description"
 
 msgid "Reliability"
 msgstr "Reliability"
@@ -1245,9 +1239,6 @@ msgstr "Keep running"
 msgid "Confirm cancel"
 msgstr "Confirm cancel"
 
-msgid "Source"
-msgstr "Source"
-
 msgid "HTTP status"
 msgstr "HTTP status"
 
@@ -1907,20 +1898,11 @@ msgstr "At least one of levels / ids"
 msgid "Climate dataset"
 msgstr "Climate dataset"
 
-msgid "Could not load dataset coverage"
-msgstr "Could not load dataset coverage"
+msgid "Fixed range"
+msgstr "Fixed range"
 
-msgid "Select a dataset to configure the period within its available coverage."
-msgstr "Select a dataset to configure the period within its available coverage."
-
-msgid "Unsupported period type"
-msgstr "Unsupported period type"
-
-msgid "This dataset uses a period type that is not supported for pipeline steps."
-msgstr "This dataset uses a period type that is not supported for pipeline steps."
-
-msgid "Derived from the selected dataset"
-msgstr "Derived from the selected dataset"
+msgid "Latest periods"
+msgstr "Latest periods"
 
 msgid "Optional. Leave empty to run just the start period."
 msgstr "Optional. Leave empty to run just the start period."
@@ -1933,6 +1915,27 @@ msgstr "No periods match"
 
 msgid "Clear"
 msgstr "Clear"
+
+msgid "Could not load dataset coverage"
+msgstr "Could not load dataset coverage"
+
+msgid "Select a dataset to configure the period within its available coverage."
+msgstr "Select a dataset to configure the period within its available coverage."
+
+msgid "Unsupported period type"
+msgstr "Unsupported period type"
+
+msgid "This dataset uses a period type that is not supported for pipeline steps."
+msgstr "This dataset uses a period type that is not supported for pipeline steps."
+
+msgid "Each run covers recent {{unit}}, for scheduled pipelines."
+msgstr "Each run covers recent {{unit}}, for scheduled pipelines."
+
+msgid "Every run covers the same periods."
+msgstr "Every run covers the same periods."
+
+msgid "Derived from the selected dataset"
+msgstr "Derived from the selected dataset"
 
 msgid "Prediction covariate"
 msgstr "Prediction covariate"
@@ -1950,6 +1953,59 @@ msgid ""
 msgstr ""
 "Prediction setup \"{{name}}\" does not read this data element. Pick a "
 "covariate so the prediction sees this data."
+
+msgid "days"
+msgstr "days"
+
+msgid "weeks"
+msgstr "weeks"
+
+msgid "months"
+msgstr "months"
+
+msgid "Number of {{unit}}"
+msgstr "Number of {{unit}}"
+
+msgid "Covered on every run."
+msgstr "Covered on every run."
+
+msgid "Skip the most recent {{unit}}"
+msgstr "Skip the most recent {{unit}}"
+
+msgid "1 stops at the last complete period. Raise it for sources that publish late."
+msgstr "1 stops at the last complete period. Raise it for sources that publish late."
+
+msgid "A run today covers {{start}} – {{end}}"
+msgstr "A run today covers {{start}} – {{end}}"
+
+msgid ""
+"The dataset currently ends {{end}}. Later {{unit}} stay empty until it is "
+"synced; an Open Climate Service Sync step before this one keeps it current."
+msgstr ""
+"The dataset currently ends {{end}}. Later {{unit}} stay empty until it is "
+"synced; an Open Climate Service Sync step before this one keeps it current."
+
+msgid ""
+"Worked out when each run starts (UTC), so a scheduled pipeline moves "
+"forward."
+msgstr ""
+"Worked out when each run starts (UTC), so a scheduled pipeline moves "
+"forward."
+
+msgid "Select a start period"
+msgstr "Select a start period"
+
+msgid "Enter how many periods to cover"
+msgstr "Enter how many periods to cover"
+
+msgid "At most {{max}}"
+msgstr "At most {{max}}"
+
+msgid "Enter 0 to {{max}}"
+msgstr "Enter 0 to {{max}}"
+
+msgid "Scheduled runs use the step’s period or latest periods, not a fixed range"
+msgstr "Scheduled runs use the step’s period or latest periods, not a fixed range"
 
 msgid "Add"
 msgstr "Add"
@@ -2119,12 +2175,6 @@ msgstr "Periods per request"
 msgid "Org units per request"
 msgstr "Org units per request"
 
-msgid "Latest periods"
-msgstr "Latest periods"
-
-msgid "Fixed range"
-msgstr "Fixed range"
-
 msgid "Periods to pull"
 msgstr "Periods to pull"
 
@@ -2229,6 +2279,9 @@ msgstr "No matching data items"
 
 msgid "Searching the source instance failed. Test the connection in Settings."
 msgstr "Searching the source instance failed. Test the connection in Settings."
+
+msgid "Scheduled runs pull the step’s periods or latest periods, not a fixed range"
+msgstr "Scheduled runs pull the step’s periods or latest periods, not a fixed range"
 
 msgid "Datasets"
 msgstr "Datasets"
@@ -2589,24 +2642,74 @@ msgstr "Period ID"
 msgid "Add period"
 msgstr "Add period"
 
+msgid "Step’s period"
+msgstr "Step’s period"
+
 msgid "Daily"
 msgstr "Daily"
 
-msgid "Override org units for this run"
-msgstr "Override org units for this run"
+msgid "Runs use the step’s organisation units unless you choose others here."
+msgstr "Runs use the step’s organisation units unless you choose others here."
+
+msgid "Use other organisation units than the step’s"
+msgstr "Use other organisation units than the step’s"
 
 msgid ""
-"Scheduled runs normally pull the step’s latest periods. A fixed range here "
-"is pulled on every scheduled run."
+"Scheduled runs use the step’s period, including later edits to the step, or "
+"latest periods of their own."
 msgstr ""
-"Scheduled runs normally pull the step’s latest periods. A fixed range here "
-"is pulled on every scheduled run."
+"Scheduled runs use the step’s period, including later edits to the step, or "
+"latest periods of their own."
 
-msgid "Pull a fixed range for this run only, e.g. to backfill history."
-msgstr "Pull a fixed range for this run only, e.g. to backfill history."
+msgid ""
+"This run uses the step’s period unless you choose another here, e.g. a "
+"fixed range to backfill history."
+msgstr ""
+"This run uses the step’s period unless you choose another here, e.g. a "
+"fixed range to backfill history."
 
-msgid "Pull a fixed range instead of the step’s periods"
-msgstr "Pull a fixed range instead of the step’s periods"
+msgid "Period for this run"
+msgstr "Period for this run"
+
+msgid "Every scheduled run covers the same dates"
+msgstr "Every scheduled run covers the same dates"
+
+msgid ""
+"This step uses a fixed range. Choose latest periods so each scheduled run "
+"moves forward."
+msgstr ""
+"This step uses a fixed range. Choose latest periods so each scheduled run "
+"moves forward."
+
+msgid "Step’s periods"
+msgstr "Step’s periods"
+
+msgid ""
+"Scheduled runs pull the step’s periods, including later edits to the step, "
+"or latest periods of their own."
+msgstr ""
+"Scheduled runs pull the step’s periods, including later edits to the step, "
+"or latest periods of their own."
+
+msgid ""
+"This run pulls the step’s periods unless you choose others here, e.g. a "
+"fixed range to backfill history."
+msgstr ""
+"This run pulls the step’s periods unless you choose others here, e.g. a "
+"fixed range to backfill history."
+
+msgid "Every scheduled run pulls the same periods"
+msgstr "Every scheduled run pulls the same periods"
+
+msgid ""
+"This step pulls a fixed range. Choose latest periods so each scheduled run "
+"moves forward."
+msgstr ""
+"This step pulls a fixed range. Choose latest periods so each scheduled run "
+"moves forward."
+
+msgid "Override org units for this run"
+msgstr "Override org units for this run"
 
 msgid "This step has no prediction setup"
 msgstr "This step has no prediction setup"

@@ -25,13 +25,14 @@ const baseSchedule: PipelineSchedule = {
 }
 
 describe('scheduleToFormValues', () => {
-    it('drops a copied pull period but keeps a fixed-range override', () => {
+    it('drops a copied pull period, keeps latest periods, and turns a fixed range into latest periods', () => {
         const relative = {
             mode: 'relative',
             periodType: 'MONTHLY',
             count: 3,
             offset: 1,
         }
+        const ownLatest = { ...relative, count: 6 }
         const backfill = {
             mode: 'fixed',
             periodType: 'MONTHLY',
@@ -49,16 +50,19 @@ describe('scheduleToFormValues', () => {
                 ...baseSchedule,
                 inputContext: {
                     steps: {
-                        copied: { period: { ...relative, count: 6 } },
-                        override: { period: backfill },
+                        copied: { period: relative },
+                        latest: { period: ownLatest },
+                        fixed: { period: backfill },
                     },
                 },
             },
-            [pullStep('copied'), pullStep('override')]
+            [pullStep('copied'), pullStep('latest'), pullStep('fixed')]
         )
         expect(values.stepContexts).toEqual({
             copied: {},
-            override: { period: backfill },
+            latest: { period: ownLatest },
+            // Schedules no longer take a fixed range; it starts from the step's latest periods.
+            fixed: { period: relative },
         })
     })
 

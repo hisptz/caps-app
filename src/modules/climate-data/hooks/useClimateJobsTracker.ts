@@ -104,6 +104,20 @@ export function useClimateJobsTracker() {
         [writeJobs]
     )
 
+    /** Track jobs discovered elsewhere (e.g. running server-side) without touching other params. */
+    const mergeJobs = useCallback(
+        (discovered: TrackedClimateJob[]) => {
+            writeJobs((current) => {
+                const known = new Set(current.map((job) => job.jobId))
+                const missing = discovered.filter(
+                    (job) => !known.has(job.jobId)
+                )
+                return missing.length > 0 ? [...current, ...missing] : current
+            })
+        },
+        [writeJobs]
+    )
+
     const removeJob = useCallback(
         (jobId: string) => {
             writeJobs((current) => current.filter((job) => job.jobId !== jobId))
@@ -118,6 +132,7 @@ export function useClimateJobsTracker() {
         jobIds,
         jobIdByDatasetId,
         addJob,
+        mergeJobs,
         removeJob,
     }
 }
