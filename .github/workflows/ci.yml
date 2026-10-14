@@ -71,6 +71,9 @@ jobs:
 
             - run: pnpm install --frozen-lockfile
 
+            # src/locales is gitignored; start/build generate it, so tests need it explicitly.
+            - run: pnpm exec d2-app-scripts i18n generate
+
             - run: pnpm test
 
     # Smoke tests against a disposable DHIS2 2.41 + CAPS stack (e2e/stack).
