@@ -42,13 +42,3 @@
     justify-content: center;
     padding: var(--spacers-dp24, 24px);
 }
-
-.assetList {
-    margin: 0;
-    padding-left: var(--spacers-dp16, 16px);
-}
-
-.assetHref {
-    font-size: 0.8125rem;
-    overflow-wrap: anywhere;
-}

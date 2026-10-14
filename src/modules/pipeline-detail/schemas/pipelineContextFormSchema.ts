@@ -5,6 +5,8 @@ import {
     getContextCapableSteps,
 } from '@/modules/handlers/utils/contextCapableSteps'
 import { getHandlerContextSchema } from '@/modules/handlers/utils/handlerContextSchemas'
+import { CLIMATE_OPENEO_CREATE_HANDLER } from '@/modules/prediction-coverage/utils/predictionCoverage'
+import { climateContextPeriodIssue } from '@/shared/components/HandlerConfigForms/ClimateOpenEoCreateConfig/utils/climatePeriod'
 import type { PipelineStep } from '@/shared/types/caps'
 
 export const pipelineContextFormSchema = z.object({
@@ -33,6 +35,17 @@ export function createPipelineContextFormSchema(
             const schema = getHandlerContextSchema(handlers, step.handlerKey)
             if (!schema) {
                 continue
+            }
+            const periodIssue =
+                step.handlerKey === CLIMATE_OPENEO_CREATE_HANDLER
+                    ? climateContextPeriodIssue(slice)
+                    : null
+            if (periodIssue) {
+                ctx.addIssue({
+                    code: 'custom',
+                    message: periodIssue.message,
+                    path: ['stepContexts', step.id, ...periodIssue.path],
+                })
             }
             const result = schema.safeParse(slice)
             if (!result.success) {

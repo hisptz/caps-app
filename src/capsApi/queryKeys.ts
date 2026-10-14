@@ -92,6 +92,7 @@ export const capsKeys = {
             [...capsKeys.climateDataSources.all(), 'detail', id] as const,
     },
     climateJobs: {
+        active: () => [...capsKeys.all, 'climate-jobs-active'] as const,
         detail: (jobId: string | undefined) =>
             [...capsKeys.all, 'climate-jobs', jobId] as const,
     },

@@ -20,6 +20,7 @@ import {
 } from '@/modules/climate-data/hooks/useClimateIngestionMutations'
 import {
     isActiveJobStatus,
+    useActiveClimateJobsQuery,
     useClimateJobsPolling,
 } from '@/modules/climate-data/hooks/useClimateJobPolling'
 import { useClimateJobsTracker } from '@/modules/climate-data/hooks/useClimateJobsTracker'
@@ -52,12 +53,14 @@ const ClimateDataPage: React.FC = () => {
         jobIds,
         jobIdByDatasetId,
         addJob,
+        mergeJobs,
         removeJob,
     } = useClimateJobsTracker()
 
     const datasetsQuery = useClimateCollectionsQuery(engine)
     const templatesQuery = useClimateDataSourcesQuery(engine)
     const systemInfoQuery = useSystemInfoQuery(engine)
+    const activeJobsQuery = useActiveClimateJobsQuery(engine)
     const jobResults = useClimateJobsPolling(engine, jobIds)
     const {
         createIngestionMutation,
@@ -75,6 +78,27 @@ const ClimateDataPage: React.FC = () => {
             setShowCreateModal(true)
         }
     }, [searchParams, climateReadOnly])
+
+    const resumedActiveJobs = useRef(false)
+    useEffect(() => {
+        // Skip the cached list from a previous visit; wait for this visit's fetch.
+        if (
+            resumedActiveJobs.current ||
+            !activeJobsQuery.isFetchedAfterMount ||
+            !activeJobsQuery.data
+        ) {
+            return
+        }
+        resumedActiveJobs.current = true
+        if (activeJobsQuery.data.length > 0) {
+            mergeJobs(
+                activeJobsQuery.data.map(({ jobId, datasetId }) => ({
+                    jobId,
+                    datasetId,
+                }))
+            )
+        }
+    }, [activeJobsQuery.data, activeJobsQuery.isFetchedAfterMount, mergeJobs])
 
     const settledJobIds = useRef<Set<string>>(new Set())
     const dismissTimers = useRef<Map<string, ReturnType<typeof setTimeout>>>(

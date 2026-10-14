@@ -122,14 +122,6 @@ describe('toClimateCollection', () => {
             },
             providers: [{ name: 'UCSB Climate Hazards Center' }],
             license: 'CC-BY-4.0',
-            assets: [
-                {
-                    key: 'zarr',
-                    href: 'http://ocs.example/zarr/chirps3_precipitation_daily',
-                    title: 'Zarr store',
-                    type: 'application/vnd.zarr; version=3',
-                },
-            ],
         })
     })
 
@@ -187,6 +179,5 @@ describe('toClimateCollection', () => {
             end: null,
         })
         expect(result.variable).toBeUndefined()
-        expect(result.assets).toEqual([])
     })
 })

@@ -280,7 +280,6 @@ export type ClimateCollection = {
     extent: { temporal: ClimateTemporalExtent; bbox?: number[] }
     providers: Array<{ name: string; url?: string }>
     license?: string
-    assets: Array<{ key: string; href: string; title?: string; type?: string }>
 }
 
 export type ClimateTemplateSpatialExtent = {
@@ -363,6 +362,18 @@ export type ClimateJobRecord = {
     error?: { type: string; message: string } | null
     cancelRequested: boolean
     links?: Array<{ href: string; rel: string; title?: string }>
+}
+
+export type ActiveClimateJob = {
+    jobId: string
+    kind: 'ingestion' | 'sync'
+    datasetId: string | null
+    status: ClimateJobStatus
+    createdAt: string
+}
+
+export type ActiveClimateJobsResponse = {
+    jobs: ActiveClimateJob[]
 }
 
 export type SyncClimateDatasetRequest = {

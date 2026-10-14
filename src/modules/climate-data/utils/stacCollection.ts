@@ -80,11 +80,5 @@ export function toClimateCollection(
         },
         providers: collection.providers ?? [],
         license: collection.license,
-        assets: Object.entries(collection.assets ?? {}).map(([key, asset]) => ({
-            key,
-            href: asset.href,
-            title: asset.title,
-            type: asset.type,
-        })),
     }
 }

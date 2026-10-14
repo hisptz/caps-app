@@ -93,7 +93,8 @@ export function ClimateDatasetDetailModal({
                         </DetailRow>
                         <DetailRow label={i18n.t('Temporal extent')}>
                             {formatClimateTemporalExtent(
-                                detail.extent.temporal
+                                detail.extent.temporal,
+                                detail.periodType
                             )}
                         </DetailRow>
                         {detail.extent.bbox && (
@@ -115,20 +116,6 @@ export function ClimateDatasetDetailModal({
                         {detail.license && (
                             <DetailRow label={i18n.t('License')}>
                                 {detail.license}
-                            </DetailRow>
-                        )}
-                        {detail.assets.length > 0 && (
-                            <DetailRow label={i18n.t('Data access')}>
-                                <ul className={classes.assetList}>
-                                    {detail.assets.map((asset) => (
-                                        <li key={asset.key}>
-                                            {asset.title ?? asset.key}:{' '}
-                                            <code className={classes.assetHref}>
-                                                {asset.href}
-                                            </code>
-                                        </li>
-                                    ))}
-                                </ul>
                             </DetailRow>
                         )}
                     </div>

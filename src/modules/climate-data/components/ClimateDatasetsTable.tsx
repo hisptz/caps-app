@@ -83,7 +83,8 @@ export function ClimateDatasetsTable({
                                 </DataTableCell>
                                 <DataTableCell>
                                     {formatClimateTemporalExtent(
-                                        dataset.extent.temporal
+                                        dataset.extent.temporal,
+                                        dataset.periodType
                                     )}
                                 </DataTableCell>
                                 <DataTableCell>

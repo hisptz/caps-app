@@ -6,6 +6,7 @@ import {
     capsPutJson,
 } from '@/capsApi/client'
 import {
+    ActiveClimateJobsResponse,
     ClimateAsyncJobAcceptedResponse,
     ClimateDataSource,
     ClimateIngestionResponse,
@@ -389,6 +390,13 @@ export function getClimateSyncPlan(engine: CapsDataEngine, datasetId: string) {
     return capsFetchJson<ClimateSyncDetail>(
         engine,
         `/climate/sync/${datasetId}/plan`
+    )
+}
+
+export function listActiveClimateJobs(engine: CapsDataEngine) {
+    return capsFetchJson<ActiveClimateJobsResponse>(
+        engine,
+        '/climate/ingestions/jobs'
     )
 }
 
