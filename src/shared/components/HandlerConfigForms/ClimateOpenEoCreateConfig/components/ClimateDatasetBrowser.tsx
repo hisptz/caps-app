@@ -3,14 +3,14 @@ import i18n from '@dhis2/d2-i18n'
 import { NoticeBox, SimpleSingleSelectField } from '@dhis2/ui'
 import React from 'react'
 import { useController } from 'react-hook-form'
-import { useClimateDatasetsQuery } from '@/modules/climate-data/hooks/useClimateDatasetsQuery'
+import { useClimateCollectionsQuery } from '@/modules/climate-data/hooks/useClimateCollectionsQuery'
 
 export function ClimateDatasetBrowser(): React.ReactElement {
     const { field, fieldState } = useController({
         name: 'handlerConfig.datasetId',
     })
     const engine = useDataEngine()
-    const datasetsQuery = useClimateDatasetsQuery(engine)
+    const datasetsQuery = useClimateCollectionsQuery(engine)
 
     if (datasetsQuery.error) {
         return (
@@ -20,7 +20,7 @@ export function ClimateDatasetBrowser(): React.ReactElement {
         )
     }
 
-    const datasets = datasetsQuery.data?.items ?? []
+    const datasets = datasetsQuery.data ?? []
 
     return (
         <SimpleSingleSelectField
@@ -34,8 +34,8 @@ export function ClimateDatasetBrowser(): React.ReactElement {
                 field.onChange(value)
             }}
             options={datasets.map((dataset) => ({
-                label: dataset.short_name ?? dataset.dataset_name,
-                value: dataset.dataset_id,
+                label: dataset.title,
+                value: dataset.id,
             }))}
         />
     )

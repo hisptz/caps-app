@@ -18,7 +18,7 @@ import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form'
 import classes from './ClimateDataModals.module.css'
 import type { CapsDataEngine } from '@/capsApi/client'
 import type {
-    ClimateDatasetTemplate,
+    ClimateDataSource,
     CreateClimateIngestionRequest,
 } from '@/capsApi/types'
 import { IngestionPeriodSelector } from '@/modules/climate-data/components/IngestionPeriodSelector'
@@ -38,7 +38,7 @@ type Props = {
     open: boolean
     onClose: () => void
     engine: CapsDataEngine
-    templates: ClimateDatasetTemplate[]
+    templates: ClimateDataSource[]
     templatesLoading: boolean
     createMutation: UseMutationResult<
         unknown,

@@ -6,3 +6,7 @@ build
 .env
 # Added by code-review-graph
 .code-review-graph/
+# Playwright
+e2e/.auth
+test-results
+playwright-report

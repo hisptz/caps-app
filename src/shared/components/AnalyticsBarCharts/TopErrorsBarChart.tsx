@@ -1,16 +1,13 @@
 import i18n from '@dhis2/d2-i18n'
-import type { Options } from 'highcharts'
-import Highcharts from 'highcharts'
-import HighchartsReact from 'highcharts-react-official'
 import React, { useId, useMemo } from 'react'
 import classes from './AnalyticsBarCharts.module.css'
-import 'highcharts/modules/accessibility'
 import {
     barChartBase,
     COLOR_WARNING,
     escapeHtml,
     truncate,
 } from './analyticsBarChartUtils'
+import { EChart, type EChartOption } from '@/shared/components/EChart'
 import type { TopError } from '@/shared/types/caps'
 
 type TopErrorsBarChartProps = {
@@ -26,7 +23,10 @@ export const TopErrorsBarChart: React.FC<TopErrorsBarChartProps> = ({
         if (errors.length === 0) {
             return {
                 summaryText: i18n.t('No error data for this period.'),
-                chartOptions: null as Options | null,
+                chartOptions: null as {
+                    option: EChartOption
+                    height: number
+                } | null,
             }
         }
         const total = errors.reduce((a, e) => a + e.occurrenceCount, 0)
@@ -40,32 +40,27 @@ export const TopErrorsBarChart: React.FC<TopErrorsBarChartProps> = ({
         const categories = errors.map((e) => truncate(e.errorMessage, 44))
         const height = Math.min(420, 100 + errors.length * 38)
         const opts = barChartBase({
-            height,
-            summary,
             categories,
+            tooltipFormatter: (index) => {
+                const err = errors[index]
+                if (!err) {
+                    return ''
+                }
+                return `<div style="max-width:360px;white-space:pre-wrap">${escapeHtml(err.errorMessage)}</div><br/><b>${i18n.t('Occurrences')}: ${err.occurrenceCount}</b>`
+            },
             series: [
                 {
                     type: 'bar',
                     name: i18n.t('Occurrences'),
                     data: errors.map((e) => e.occurrenceCount),
-                    color: COLOR_WARNING,
-                    tooltip: {
-                        headerFormat: '',
-                        pointFormatter: function () {
-                            const err = errors[this.index]
-                            if (!err) {
-                                return ''
-                            }
-                            return `<span style="white-space:pre-wrap">${escapeHtml(err.errorMessage)}</span><br/><br/><b>${i18n.t('Occurrences')}: ${err.occurrenceCount}</b>`
-                        },
-                    },
-                    dataLabels: {
-                        format: '{y}',
-                    },
+                    itemStyle: { color: COLOR_WARNING },
                 },
             ],
         })
-        return { summaryText: summary, chartOptions: opts }
+        return {
+            summaryText: summary,
+            chartOptions: { option: opts, height },
+        }
     }, [errors])
 
     if (errors.length === 0 || !chartOptions) {
@@ -86,9 +81,9 @@ export const TopErrorsBarChart: React.FC<TopErrorsBarChartProps> = ({
                 role="img"
                 aria-labelledby={summaryId}
             >
-                <HighchartsReact
-                    highcharts={Highcharts}
-                    options={chartOptions}
+                <EChart
+                    option={chartOptions.option}
+                    height={chartOptions.height}
                 />
             </div>
             <div className={classes.srOnly}>

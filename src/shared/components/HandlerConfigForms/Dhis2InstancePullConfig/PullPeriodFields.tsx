@@ -76,13 +76,18 @@ function NumberField({
 export function PullPeriodFields({
     name,
     allowRelative = true,
+    lockedMode,
 }: {
     name: string
     allowRelative?: boolean
+    /** Shows only this mode's fields, for a form that picks the mode itself. */
+    lockedMode?: Mode
 }): React.ReactElement {
     const { setValue } = useFormContext()
     const period = useWatch({ name }) as PullPeriod | undefined
-    const mode: Mode = allowRelative ? (period?.mode ?? 'relative') : 'fixed'
+    const mode: Mode =
+        lockedMode ?? (allowRelative ? (period?.mode ?? 'relative') : 'fixed')
+    const showModeSwitch = allowRelative && lockedMode === undefined
     const periodType: PullPeriodType = period?.periodType ?? 'MONTHLY'
     const window = period ? relativeWindow(period) : null
 
@@ -96,7 +101,7 @@ export function PullPeriodFields({
     return (
         <>
             <div className={classes.inlineControls}>
-                {allowRelative && (
+                {showModeSwitch && (
                     <ConfigLabeledControl label={i18n.t('Periods to pull')}>
                         <SegmentedControl
                             name={`${name}-mode`}

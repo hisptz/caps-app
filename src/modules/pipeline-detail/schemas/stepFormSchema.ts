@@ -2,6 +2,8 @@ import i18n from '@dhis2/d2-i18n'
 import { z } from 'zod'
 import type { HandlerDescriptor } from '@/capsApi/types'
 import { getHandlerConfigSchema } from '@/modules/handlers/utils/handlerConfigSchemas'
+import { CLIMATE_OPENEO_CREATE_HANDLER } from '@/modules/prediction-coverage/utils/predictionCoverage'
+import { climatePeriodIssue } from '@/shared/components/HandlerConfigForms/ClimateOpenEoCreateConfig/utils/climatePeriod'
 import type { PipelineStep } from '@/shared/types/caps'
 
 /** Base fields for add/edit step modals. */
@@ -68,6 +70,19 @@ export function createPipelineStepFormSchema(handlers: HandlerDescriptor[]) {
                     path: ['handlerConfig'],
                 })
                 return
+            }
+
+            if (data.handlerKey === CLIMATE_OPENEO_CREATE_HANDLER) {
+                const issue = climatePeriodIssue(
+                    data.handlerConfig.period as Record<string, unknown>
+                )
+                if (issue) {
+                    ctx.addIssue({
+                        code: 'custom',
+                        message: issue.message,
+                        path: ['handlerConfig', 'period', ...issue.path],
+                    })
+                }
             }
 
             const result = configSchema.safeParse(data.handlerConfig)

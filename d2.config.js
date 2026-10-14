@@ -2,6 +2,7 @@
 const config = {
     type: 'app',
     title: 'CAPS',
+    minDHIS2Version: '2.41',
     entryPoints: {
         app: './src/app/App.tsx',
     },

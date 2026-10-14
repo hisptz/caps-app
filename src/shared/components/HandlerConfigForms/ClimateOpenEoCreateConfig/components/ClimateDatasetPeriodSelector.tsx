@@ -7,47 +7,56 @@ import {
 import { CircularLoader, Field, InputField, NoticeBox } from '@dhis2/ui'
 import { capitalize } from 'lodash-es'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { useController, useWatch } from 'react-hook-form'
+import { useController, useFormContext, useWatch } from 'react-hook-form'
+import { ConfigLabeledControl } from '../../ConfigLabeledControl'
 import {
     filterPeriodsWithinCoverage,
     generatePeriodsForYears,
     getCoverageYearRange,
     getDatasetTemporalExtent,
+    type HandlerPeriodType,
     normalizeDatasetPeriodType,
 } from '../utils/climateDatasetPeriodUtils'
-import { useClimateDatasetDetailQuery } from '@/modules/climate-data/hooks/useClimateDatasetDetailQuery'
+import {
+    type PeriodMode,
+    periodForMode,
+    periodModeOf,
+} from '../utils/climatePeriod'
+import { PERIOD_UNIT_LABEL, RollingPeriodFields } from './RollingPeriodFields'
+import type { ClimateTemporalExtent } from '@/capsApi/types'
+import { useClimateCollectionQuery } from '@/modules/climate-data/hooks/useClimateCollectionsQuery'
 import {
     formSectionGrids,
+    SegmentedControl,
     SingleSelectControl,
 } from '@/shared/components/ui/FormPrimitives'
 
-export function ClimateDatasetPeriodSelector(): React.ReactElement | null {
-    const engine = useDataEngine()
-    const datasetId = useWatch({ name: 'handlerConfig.datasetId' })
-    const periodTypeField = useController({
-        name: 'handlerConfig.period.periodType',
-    })
+const PERIOD_FIELD = 'handlerConfig.period'
+
+const MODE_OPTIONS = [
+    { value: 'fixed', label: i18n.t('Fixed range') },
+    { value: 'rolling', label: i18n.t('Latest periods') },
+] as const
+
+function FixedPeriodFields({
+    datasetId,
+    periodType,
+    temporalExtent,
+    minYear,
+    maxYear,
+}: {
+    datasetId: string
+    periodType: HandlerPeriodType
+    temporalExtent: ClimateTemporalExtent | undefined
+    minYear: number
+    maxYear: number
+}): React.ReactElement {
     const periodIdField = useController({
         name: 'handlerConfig.period.id',
     })
     const periodEndIdField = useController({
         name: 'handlerConfig.period.endId',
     })
-
-    const {
-        data: dataset,
-        isLoading,
-        error,
-    } = useClimateDatasetDetailQuery(engine, datasetId)
-
-    const temporalExtent = getDatasetTemporalExtent(dataset)
-    const normalizedPeriodType = normalizeDatasetPeriodType(
-        dataset?.period_type
-    )
-    const { minYear, maxYear } = getCoverageYearRange(
-        temporalExtent?.start,
-        temporalExtent?.end
-    )
 
     const [year, setYear] = useState(maxYear)
     const previousDatasetIdRef = useRef<string | undefined>(undefined)
@@ -57,11 +66,6 @@ export function ClimateDatasetPeriodSelector(): React.ReactElement | null {
     }, [datasetId, maxYear])
 
     useEffect(() => {
-        if (!normalizedPeriodType) {
-            return
-        }
-        periodTypeField.field.onChange(normalizedPeriodType)
-
         if (
             previousDatasetIdRef.current !== undefined &&
             previousDatasetIdRef.current !== datasetId
@@ -69,22 +73,12 @@ export function ClimateDatasetPeriodSelector(): React.ReactElement | null {
             periodIdField.field.onChange('')
             periodEndIdField.field.onChange(undefined)
         }
-
         previousDatasetIdRef.current = datasetId
-    }, [
-        datasetId,
-        normalizedPeriodType,
-        periodTypeField.field.onChange,
-        periodIdField.field.onChange,
-    ])
+    }, [datasetId, periodIdField.field.onChange])
 
     const periodOptions = useMemo(() => {
-        if (!normalizedPeriodType) {
-            return []
-        }
-
         const periods = generateFixedPeriods({
-            periodType: normalizedPeriodType.toUpperCase() as
+            periodType: periodType.toUpperCase() as
                 | 'DAILY'
                 | 'WEEKLY'
                 | 'MONTHLY',
@@ -97,7 +91,7 @@ export function ClimateDatasetPeriodSelector(): React.ReactElement | null {
             temporalExtent?.start,
             temporalExtent?.end
         ).map((period) => ({ label: period.name, value: period.id }))
-    }, [normalizedPeriodType, year, temporalExtent?.start, temporalExtent?.end])
+    }, [periodType, year, temporalExtent?.start, temporalExtent?.end])
 
     useEffect(() => {
         const currentId = periodIdField.field.value
@@ -126,7 +120,7 @@ export function ClimateDatasetPeriodSelector(): React.ReactElement | null {
         : undefined
 
     const endPeriodOptions = useMemo(() => {
-        if (!normalizedPeriodType || !periodIdField.field.value) {
+        if (!periodIdField.field.value) {
             return []
         }
 
@@ -140,7 +134,7 @@ export function ClimateDatasetPeriodSelector(): React.ReactElement | null {
 
         return filterPeriodsWithinCoverage(
             generatePeriodsForYears(
-                normalizedPeriodType,
+                periodType,
                 startYear,
                 Math.max(startYear, maxYear)
             ),
@@ -154,7 +148,7 @@ export function ClimateDatasetPeriodSelector(): React.ReactElement | null {
             )
             .map((period) => ({ label: period.name, value: period.id }))
     }, [
-        normalizedPeriodType,
+        periodType,
         periodIdField.field.value,
         startPeriodStartDate,
         maxYear,
@@ -184,45 +178,6 @@ export function ClimateDatasetPeriodSelector(): React.ReactElement | null {
         return options
     }, [minYear, maxYear])
 
-    if (!datasetId) {
-        return null
-    }
-
-    if (isLoading) {
-        return (
-            <div
-                style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    minHeight: 120,
-                }}
-            >
-                <CircularLoader small />
-            </div>
-        )
-    }
-
-    if (error) {
-        return (
-            <NoticeBox error title={i18n.t('Could not load dataset coverage')}>
-                {i18n.t(
-                    'Select a dataset to configure the period within its available coverage.'
-                )}
-            </NoticeBox>
-        )
-    }
-
-    if (!normalizedPeriodType) {
-        return (
-            <NoticeBox warning title={i18n.t('Unsupported period type')}>
-                {i18n.t(
-                    'This dataset uses a period type that is not supported for pipeline steps.'
-                )}
-            </NoticeBox>
-        )
-    }
-
     const coverageHint = temporalExtent
         ? i18n.t('Available coverage: {{start}} – {{end}}', {
               start: temporalExtent.start,
@@ -231,15 +186,7 @@ export function ClimateDatasetPeriodSelector(): React.ReactElement | null {
         : undefined
 
     return (
-        <div className={formSectionGrids.grid2}>
-            <InputField
-                label={i18n.t('Period type')}
-                name="handlerConfig.period.periodType"
-                value={capitalize(normalizedPeriodType)}
-                disabled
-                readOnly
-                helpText={i18n.t('Derived from the selected dataset')}
-            />
+        <>
             <Field
                 label={i18n.t('Start period')}
                 helpText={coverageHint}
@@ -315,6 +262,132 @@ export function ClimateDatasetPeriodSelector(): React.ReactElement | null {
                     disabled={endPeriodOptions.length === 0}
                 />
             </Field>
-        </div>
+        </>
+    )
+}
+
+export function ClimateDatasetPeriodSelector(): React.ReactElement | null {
+    const engine = useDataEngine()
+    const { setValue } = useFormContext()
+    const datasetId = useWatch({ name: 'handlerConfig.datasetId' })
+    const period = useWatch({ name: PERIOD_FIELD }) as
+        | Record<string, unknown>
+        | undefined
+    const periodTypeField = useController({
+        name: 'handlerConfig.period.periodType',
+    })
+
+    const {
+        data: dataset,
+        isLoading,
+        error,
+    } = useClimateCollectionQuery(engine, datasetId)
+
+    const temporalExtent = getDatasetTemporalExtent(dataset)
+    const normalizedPeriodType = normalizeDatasetPeriodType(dataset?.periodType)
+    const { minYear, maxYear } = getCoverageYearRange(
+        temporalExtent?.start,
+        temporalExtent?.end
+    )
+    const mode = periodModeOf(period)
+
+    useEffect(() => {
+        if (normalizedPeriodType) {
+            periodTypeField.field.onChange(normalizedPeriodType)
+        }
+    }, [normalizedPeriodType, periodTypeField.field.onChange])
+
+    function switchMode(next: PeriodMode): void {
+        setValue(PERIOD_FIELD, periodForMode(next, normalizedPeriodType), {
+            shouldDirty: true,
+        })
+    }
+
+    if (!datasetId) {
+        return null
+    }
+
+    if (isLoading) {
+        return (
+            <div
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    minHeight: 120,
+                }}
+            >
+                <CircularLoader small />
+            </div>
+        )
+    }
+
+    if (error) {
+        return (
+            <NoticeBox error title={i18n.t('Could not load dataset coverage')}>
+                {i18n.t(
+                    'Select a dataset to configure the period within its available coverage.'
+                )}
+            </NoticeBox>
+        )
+    }
+
+    if (!normalizedPeriodType) {
+        return (
+            <NoticeBox warning title={i18n.t('Unsupported period type')}>
+                {i18n.t(
+                    'This dataset uses a period type that is not supported for pipeline steps.'
+                )}
+            </NoticeBox>
+        )
+    }
+
+    return (
+        <>
+            <ConfigLabeledControl
+                label={i18n.t('Period')}
+                helpText={
+                    mode === 'rolling'
+                        ? i18n.t(
+                              'Each run covers recent {{unit}}, for scheduled pipelines.',
+                              { unit: PERIOD_UNIT_LABEL[normalizedPeriodType] }
+                          )
+                        : i18n.t('Every run covers the same periods.')
+                }
+            >
+                <SegmentedControl
+                    name="climate-openeo-period-mode"
+                    value={mode}
+                    options={MODE_OPTIONS}
+                    onChange={switchMode}
+                    aria-label={i18n.t('Period')}
+                />
+            </ConfigLabeledControl>
+            <div className={formSectionGrids.grid2}>
+                <InputField
+                    label={i18n.t('Period type')}
+                    name="handlerConfig.period.periodType"
+                    value={capitalize(normalizedPeriodType)}
+                    disabled
+                    readOnly
+                    helpText={i18n.t('Derived from the selected dataset')}
+                />
+                {mode === 'rolling' ? (
+                    <RollingPeriodFields
+                        name={PERIOD_FIELD}
+                        periodType={normalizedPeriodType}
+                        temporalExtent={temporalExtent}
+                    />
+                ) : (
+                    <FixedPeriodFields
+                        datasetId={datasetId}
+                        periodType={normalizedPeriodType}
+                        temporalExtent={temporalExtent}
+                        minYear={minYear}
+                        maxYear={maxYear}
+                    />
+                )}
+            </div>
+        </>
     )
 }

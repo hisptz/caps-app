@@ -1,6 +1,9 @@
 import { useQueries, useQuery } from '@tanstack/react-query'
 import type { CapsDataEngine } from '@/capsApi/client'
-import { getClimateIngestionJob } from '@/capsApi/endpoints'
+import {
+    getClimateIngestionJob,
+    listActiveClimateJobs,
+} from '@/capsApi/endpoints'
 import { capsKeys } from '@/capsApi/queryKeys'
 import type { ClimateJobRecord, ClimateJobStatus } from '@/capsApi/types'
 
@@ -39,6 +42,21 @@ export function useClimateJobPolling(
             }
             return JOB_POLL_INTERVAL_MS
         },
+    })
+}
+
+/**
+ * Jobs CAPS knows are still running server-side, so the page can resume tracking them
+ * after a refresh or when opened without `?jobs=`. Fetched once per mount; the per-job
+ * polling takes over from there.
+ */
+export function useActiveClimateJobsQuery(engine: CapsDataEngine) {
+    return useQuery({
+        queryKey: capsKeys.climateJobs.active(),
+        queryFn: async () => (await listActiveClimateJobs(engine)).jobs,
+        staleTime: 0,
+        refetchOnWindowFocus: false,
+        refetchOnMount: 'always',
     })
 }
 

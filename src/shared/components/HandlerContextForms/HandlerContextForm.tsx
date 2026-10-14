@@ -34,6 +34,7 @@ export function HandlerContextForm({
                 <ClimateOpenEoCreateContextForm
                     stepId={stepId}
                     handlerConfig={handlerConfig}
+                    mode={mode}
                 />
             )
         case 'dhis2-instance-pull':
