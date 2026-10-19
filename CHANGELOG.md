@@ -1,3 +1,9 @@
+# [2.1.0](https://github.com/hisptz/caps-app/compare/v2.0.0...v2.1.0) (2026-10-14)
+
+### Features
+
+- Implement Open climate service in caps ([#13](https://github.com/hisptz/caps-app/issues/13)) ([e0bc466](https://github.com/hisptz/caps-app/commit/e0bc4660b3482134470e985be04086ed1fa93eaf))
+
 # [2.0.0](https://github.com/hisptz/caps-app/compare/v1.2.0...v2.0.0) (2026-10-06)
 
 - feat!: cross-instance DHIS2 data pull ([50ed820](https://github.com/hisptz/caps-app/commit/50ed82061548b823289e04c9c302d3ad3a660cde))
