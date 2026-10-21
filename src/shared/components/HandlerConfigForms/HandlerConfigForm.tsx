@@ -7,6 +7,8 @@ import { Dhis2DataUploadConfig } from './Dhis2DataUploadConfig'
 import type { Dhis2DataUploadConfigProps } from './Dhis2DataUploadConfig'
 import { Dhis2InstancePullConfig } from './Dhis2InstancePullConfig/Dhis2InstancePullConfig'
 import type { Dhis2InstancePullConfigProps } from './Dhis2InstancePullConfig/Dhis2InstancePullConfig'
+import type { Dhis2NotifyConfigProps } from './Dhis2NotifyConfig'
+import { Dhis2NotifyConfig } from './Dhis2NotifyConfig'
 import { PredictionDataDownloadConfig } from './PredictionDataDownloadConfig'
 import type { PredictionDataDownloadConfigProps } from './PredictionDataDownloadConfig'
 import { PredictionTriggerConfig } from './PredictionTriggerConfig/PredictionTriggerConfig'
@@ -90,6 +92,13 @@ export function HandlerConfigForm({
             return (
                 <Dhis2DataUploadConfig
                     value={value as Dhis2DataUploadConfigProps['value']}
+                    onChange={onChange}
+                />
+            )
+        case 'dhis2-notify':
+            return (
+                <Dhis2NotifyConfig
+                    value={value as Dhis2NotifyConfigProps['value']}
                     onChange={onChange}
                 />
             )

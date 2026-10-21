@@ -1,0 +1,18 @@
+.placeholders {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 4px 12px;
+    margin: 0;
+    font-size: 13px;
+    color: var(--colors-grey700);
+}
+
+.placeholders dt,
+.placeholders dd {
+    margin: 0;
+}
+
+.placeholders code {
+    font-size: 12px;
+    color: var(--colors-grey900);
+}

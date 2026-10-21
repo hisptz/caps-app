@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-14T10:40:06.841Z\n"
-"PO-Revision-Date: 2026-10-14T10:40:06.844Z\n"
+"POT-Creation-Date: 2026-10-20T08:35:06.885Z\n"
+"PO-Revision-Date: 2026-10-20T08:35:06.888Z\n"
 
 msgid "Enter a valid HTTP or HTTPS URL."
 msgstr "Enter a valid HTTP or HTTPS URL."
@@ -511,11 +511,11 @@ msgid "Climate data may be stale"
 msgstr "Climate data may be stale"
 
 msgid ""
-"Not synced by an earlier step — {{steps}}. Scheduled runs will use whatever "
-"was last synced by hand."
+"{{steps}} - Is not synced by an open climate service sync handler. "
+"Scheduled runs will use whatever was last synced by hand."
 msgstr ""
-"Not synced by an earlier step — {{steps}}. Scheduled runs will use whatever "
-"was last synced by hand."
+"{{steps}} - Is not synced by an open climate service sync handler. "
+"Scheduled runs will use whatever was last synced by hand."
 
 msgid "Move \"{{name}}\" above these steps."
 msgstr "Move \"{{name}}\" above these steps."
@@ -769,6 +769,9 @@ msgstr "Unknown handler key"
 msgid "Handler configuration is required"
 msgstr "Handler configuration is required"
 
+msgid "Select at least one user or user group"
+msgstr "Select at least one user or user group"
+
 msgid "in the past"
 msgstr "in the past"
 
@@ -862,6 +865,27 @@ msgstr "Concurrency policy"
 
 msgid "What to do when a new run is triggered while another is still running."
 msgstr "What to do when a new run is triggered while another is still running."
+
+msgid "Notifications"
+msgstr "Notifications"
+
+msgid "Who to tell when a run fails"
+msgstr "Who to tell when a run fails"
+
+msgid "Notify user groups on failure"
+msgstr "Notify user groups on failure"
+
+msgid ""
+"Selected users and group members get a DHIS2 message when a run fails, plus "
+"an email copy if email is configured on the server. To notify on success, "
+"add a DHIS2 Notify step."
+msgstr ""
+"Selected users and group members get a DHIS2 message when a run fails, plus "
+"an email copy if email is configured on the server. To notify on success, "
+"add a DHIS2 Notify step."
+
+msgid "Notify users on failure"
+msgstr "Notify users on failure"
 
 msgid "Trigger pipeline"
 msgstr "Trigger pipeline"
@@ -2283,6 +2307,30 @@ msgstr "Searching the source instance failed. Test the connection in Settings."
 msgid "Scheduled runs pull the step’s periods or latest periods, not a fixed range"
 msgstr "Scheduled runs pull the step’s periods or latest periods, not a fixed range"
 
+msgid "Recipients"
+msgstr "Recipients"
+
+msgid ""
+"Members receive a DHIS2 message. DHIS2 also emails a copy when email (SMTP) "
+"is configured on the server and the user has message email notifications "
+"turned on."
+msgstr ""
+"Members receive a DHIS2 message. DHIS2 also emails a copy when email (SMTP) "
+"is configured on the server and the user has message email notifications "
+"turned on."
+
+msgid "User groups"
+msgstr "User groups"
+
+msgid "Users"
+msgstr "Users"
+
+msgid "Subject"
+msgstr "Subject"
+
+msgid "Fail the run if the message cannot be sent"
+msgstr "Fail the run if the message cannot be sent"
+
 msgid "Datasets"
 msgstr "Datasets"
 
@@ -2736,6 +2784,18 @@ msgid ""
 msgstr ""
 "The prediction setup this step uses no longer exists in CHAP. Edit the step "
 "and choose another evaluation."
+
+msgid "Search user groups"
+msgstr "Search user groups"
+
+msgid "No matching user groups found"
+msgstr "No matching user groups found"
+
+msgid "Search users by name or username"
+msgstr "Search users by name or username"
+
+msgid "No matching users found"
+msgstr "No matching users found"
 
 msgid "just now"
 msgstr "just now"

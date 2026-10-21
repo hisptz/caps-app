@@ -1,0 +1,22 @@
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.results {
+    margin-top: 4px;
+    max-height: 240px;
+    overflow-y: auto;
+    border: 1px solid var(--colors-grey300);
+    border-radius: 3px;
+    background: var(--colors-white);
+}
+
+.message {
+    margin: 0;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: var(--colors-grey700);
+}
