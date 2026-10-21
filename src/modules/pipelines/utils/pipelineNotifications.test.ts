@@ -74,12 +74,20 @@ describe('dhis2-notify step validation', () => {
         ])
     })
 
-    it('accepts a config with only a user or only a user group', () => {
-        for (const recipients of [{ userGroups: ['g1'] }, { users: ['u1'] }]) {
-            expect(
-                schema.safeParse({ ...base, handlerConfig: { recipients } })
-                    .success
-            ).toBe(true)
-        }
+    it('requires a user group; users alone are not enough', () => {
+        expect(
+            schema.safeParse({
+                ...base,
+                handlerConfig: { recipients: { users: ['u1'] } },
+            }).success
+        ).toBe(false)
+        expect(
+            schema.safeParse({
+                ...base,
+                handlerConfig: {
+                    recipients: { userGroups: ['g1'], users: ['u1'] },
+                },
+            }).success
+        ).toBe(true)
     })
 })

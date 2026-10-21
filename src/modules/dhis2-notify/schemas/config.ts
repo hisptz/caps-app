@@ -10,14 +10,6 @@ export const dhis2RecipientsSchema = z.object({
 
 export type Dhis2RecipientsValue = z.infer<typeof dhis2RecipientsSchema>
 
-export function hasRecipients(value: unknown): boolean {
-    const parsed = dhis2RecipientsSchema.safeParse(value ?? {})
-    return (
-        parsed.success &&
-        parsed.data.users.length + parsed.data.userGroups.length > 0
-    )
-}
-
 /** Mirrors caps-engine worker `dhis2NotifyConfigSchema`. */
 export const dhis2NotifyConfigSchema = z.object({
     recipients: dhis2RecipientsSchema.default({ users: [], userGroups: [] }),

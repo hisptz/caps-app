@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-20T08:35:06.885Z\n"
-"PO-Revision-Date: 2026-10-20T08:35:06.888Z\n"
+"POT-Creation-Date: 2026-10-21T13:23:13.595Z\n"
+"PO-Revision-Date: 2026-10-21T13:23:13.596Z\n"
 
 msgid "Enter a valid HTTP or HTTPS URL."
 msgstr "Enter a valid HTTP or HTTPS URL."
@@ -504,6 +504,97 @@ msgstr ""
 "The source data element has decimal values, but destination one only takes "
 "whole numbers. Pick one with value type Number."
 
+msgid "Pipeline"
+msgstr "Pipeline"
+
+msgid "Step"
+msgstr "Step"
+
+msgid "Run"
+msgstr "Run"
+
+msgid "Date"
+msgstr "Date"
+
+msgid "prediction ready"
+msgstr "prediction ready"
+
+msgid "The latest prediction has finished in CHAP and is ready to review."
+msgstr "The latest prediction has finished in CHAP and is ready to review."
+
+msgid "CHAP job"
+msgstr "CHAP job"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "prediction downloaded"
+msgstr "prediction downloaded"
+
+msgid "Prediction results were downloaded from CHAP."
+msgstr "Prediction results were downloaded from CHAP."
+
+msgid "Predicted values"
+msgstr "Predicted values"
+
+msgid "data imported to DHIS2"
+msgstr "data imported to DHIS2"
+
+msgid "New predicted values have been imported into DHIS2."
+msgstr "New predicted values have been imported into DHIS2."
+
+msgid "Imported"
+msgstr "Imported"
+
+msgid "Updated"
+msgstr "Updated"
+
+msgid "Ignored"
+msgstr "Ignored"
+
+msgid "analytics updated"
+msgstr "analytics updated"
+
+msgid ""
+"DHIS2 analytics tables have been regenerated. Dashboards and reports now "
+"include the latest data."
+msgstr ""
+"DHIS2 analytics tables have been regenerated. Dashboards and reports now "
+"include the latest data."
+
+msgid "alerts generated"
+msgstr "alerts generated"
+
+msgid "The latest values were compared against alert thresholds."
+msgstr "The latest values were compared against alert thresholds."
+
+msgid "Alerts generated"
+msgstr "Alerts generated"
+
+msgid "alerts uploaded to DHIS2"
+msgstr "alerts uploaded to DHIS2"
+
+msgid "Alert events have been uploaded to DHIS2."
+msgstr "Alert events have been uploaded to DHIS2."
+
+msgid "Created"
+msgstr "Created"
+
+msgid "climate data ready"
+msgstr "climate data ready"
+
+msgid "Climate data has been processed by the Open Climate Service."
+msgstr "Climate data has been processed by the Open Climate Service."
+
+msgid "Values"
+msgstr "Values"
+
+msgid "run update"
+msgstr "run update"
+
+msgid "The pipeline has completed the steps before this notification."
+msgstr "The pipeline has completed the steps before this notification."
+
 msgid "Could not retry the step. Try again."
 msgstr "Could not retry the step. Try again."
 
@@ -627,9 +718,6 @@ msgstr "Could not add schedule."
 
 msgid "Add schedule"
 msgstr "Add schedule"
-
-msgid "Pipeline"
-msgstr "Pipeline"
 
 msgid "Could not add schedule"
 msgstr "Could not add schedule"
@@ -769,8 +857,8 @@ msgstr "Unknown handler key"
 msgid "Handler configuration is required"
 msgstr "Handler configuration is required"
 
-msgid "Select at least one user or user group"
-msgstr "Select at least one user or user group"
+msgid "Select at least one user group"
+msgstr "Select at least one user group"
 
 msgid "in the past"
 msgstr "in the past"
@@ -844,9 +932,6 @@ msgstr "Execution behaviour"
 
 msgid "How runs are scheduled & overlap"
 msgstr "How runs are scheduled & overlap"
-
-msgid "Status"
-msgstr "Status"
 
 msgid "Active"
 msgstr "Active"
@@ -1117,9 +1202,6 @@ msgstr "Execution Trends"
 
 msgid "Execution trends summary table"
 msgstr "Execution trends summary table"
-
-msgid "Date"
-msgstr "Date"
 
 msgid "Completed"
 msgstr "Completed"
@@ -2307,6 +2389,25 @@ msgstr "Searching the source instance failed. Test the connection in Settings."
 msgid "Scheduled runs pull the step’s periods or latest periods, not a fixed range"
 msgstr "Scheduled runs pull the step’s periods or latest periods, not a fixed range"
 
+msgid "Name of the pipeline"
+msgstr "Name of the pipeline"
+
+msgid "Name of this step"
+msgstr "Name of this step"
+
+msgid "ID of the run"
+msgstr "ID of the run"
+
+msgid "Today’s date in the DHIS2 server time zone"
+msgstr "Today’s date in the DHIS2 server time zone"
+
+msgid ""
+"A field of the previous step’s output, e.g. input.imported after DHIS2 Data "
+"Upload"
+msgstr ""
+"A field of the previous step’s output, e.g. input.imported after DHIS2 Data "
+"Upload"
+
 msgid "Recipients"
 msgstr "Recipients"
 
@@ -2325,8 +2426,18 @@ msgstr "User groups"
 msgid "Users"
 msgstr "Users"
 
+msgid ""
+"Starts from suggested text for the step this one follows; edit it as you "
+"like. Placeholders are filled in when the step runs."
+msgstr ""
+"Starts from suggested text for the step this one follows; edit it as you "
+"like. Placeholders are filled in when the step runs."
+
 msgid "Subject"
 msgstr "Subject"
+
+msgid "Use suggested text"
+msgstr "Use suggested text"
 
 msgid "Fail the run if the message cannot be sent"
 msgstr "Fail the run if the message cannot be sent"

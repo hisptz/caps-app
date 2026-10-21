@@ -3,7 +3,7 @@ import { z } from 'zod'
 import type { HandlerDescriptor } from '@/capsApi/types'
 import {
     DHIS2_NOTIFY_HANDLER,
-    hasRecipients,
+    dhis2RecipientsSchema,
 } from '@/modules/dhis2-notify/schemas/config'
 import { getHandlerConfigSchema } from '@/modules/handlers/utils/handlerConfigSchemas'
 import { CLIMATE_OPENEO_CREATE_HANDLER } from '@/modules/prediction-coverage/utils/predictionCoverage'
@@ -89,14 +89,14 @@ export function createPipelineStepFormSchema(handlers: HandlerDescriptor[]) {
                 }
             }
 
-            // The engine's "at least one recipient" refine is not carried in the JSON Schema.
             if (
                 data.handlerKey === DHIS2_NOTIFY_HANDLER &&
-                !hasRecipients(data.handlerConfig.recipients)
+                !dhis2RecipientsSchema.safeParse(data.handlerConfig.recipients)
+                    .data?.userGroups.length
             ) {
                 ctx.addIssue({
                     code: 'custom',
-                    message: i18n.t('Select at least one user or user group'),
+                    message: i18n.t('Select at least one user group'),
                     path: ['handlerConfig', 'recipients', 'userGroups'],
                 })
             }
