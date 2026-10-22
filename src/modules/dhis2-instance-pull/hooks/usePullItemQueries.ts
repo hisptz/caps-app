@@ -19,7 +19,6 @@ const ITEM_TYPES: PullItemType[] = [
     'INDICATOR',
     'PROGRAM_INDICATOR',
 ]
-const TYPE_FILTER = `dimensionItemType:in:[${ITEM_TYPES.join(',')}]`
 const PAGE_SIZE = 50
 
 type DataItemsPage = {
@@ -29,17 +28,26 @@ type DataItemsPage = {
 
 export function useSourceDataItemSearch(
     routeCode: string | undefined,
-    keyword: string
+    keyword: string,
+    itemTypes: ReadonlyArray<PullItemType> = ITEM_TYPES
 ) {
     const engine = useDataEngine()
     const trimmed = keyword.trim()
+    const typeFilter = `dimensionItemType:in:[${itemTypes.join(',')}]`
     return useInfiniteQuery({
-        queryKey: ['dhis2', 'source-data-items', routeCode, 'search', trimmed],
+        queryKey: [
+            'dhis2',
+            'source-data-items',
+            routeCode,
+            'search',
+            typeFilter,
+            trimmed,
+        ],
         enabled: Boolean(routeCode),
         keepPreviousData: true,
         staleTime: 5 * 60_000,
         queryFn: async ({ pageParam = 1 }) => {
-            const filter = [TYPE_FILTER]
+            const filter = [typeFilter]
             if (trimmed) {
                 filter.push(`identifiable:token:${trimmed}`)
             }

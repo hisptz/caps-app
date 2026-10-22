@@ -7,6 +7,7 @@ import {
     type SourceDataItem,
     useSourceDataItemSearch,
 } from '@/modules/dhis2-instance-pull/hooks/usePullItemQueries'
+import type { PullItemType } from '@/modules/dhis2-instance-pull/schemas/config'
 
 export function SourceItemSelector({
     routeCode,
@@ -16,6 +17,8 @@ export function SourceItemSelector({
     error,
     validationText,
     resolving = false,
+    itemTypes,
+    label = i18n.t('Source'),
 }: {
     routeCode: string | undefined
     value: string | undefined
@@ -25,10 +28,13 @@ export function SourceItemSelector({
     validationText?: string
     /** The saved item's name is still being looked up. */
     resolving?: boolean
+    /** Item types offered; all pullable types when left out. */
+    itemTypes?: ReadonlyArray<PullItemType>
+    label?: string
 }): React.ReactElement {
     const [keyword, setKeyword] = useState('')
     const [searched] = useDebounceValue(keyword, 400)
-    const search = useSourceDataItemSearch(routeCode, searched)
+    const search = useSourceDataItemSearch(routeCode, searched, itemTypes)
 
     const byId = useMemo(() => {
         const map = new Map<string, SourceDataItem>()
@@ -63,7 +69,7 @@ export function SourceItemSelector({
         <SimpleSingleSelectField
             name="source-item"
             dense
-            label={i18n.t('Source')}
+            label={label}
             value={value}
             options={options}
             filterable
@@ -77,7 +83,7 @@ export function SourceItemSelector({
             }}
             noMatchText={
                 search.isError
-                    ? i18n.t('The source instance could not be searched')
+                    ? i18n.t('The connected instance could not be searched')
                     : i18n.t('No matching data items')
             }
             loading={search.isFetching || (resolving && !byId.has(value ?? ''))}
@@ -92,7 +98,7 @@ export function SourceItemSelector({
             validationText={
                 search.isError
                     ? i18n.t(
-                          'Searching the source instance failed. Test the connection in Settings.'
+                          'Searching the connected instance failed. Test the connection in Settings.'
                       )
                     : validationText
             }

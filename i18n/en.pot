@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-21T13:23:13.595Z\n"
-"PO-Revision-Date: 2026-10-21T13:23:13.596Z\n"
+"POT-Creation-Date: 2026-10-22T09:50:30.204Z\n"
+"PO-Revision-Date: 2026-10-22T09:50:30.204Z\n"
 
 msgid "Enter a valid HTTP or HTTPS URL."
 msgstr "Enter a valid HTTP or HTTPS URL."
@@ -425,6 +425,24 @@ msgstr "Enter the username"
 msgid "Enter the password"
 msgstr "Enter the password"
 
+msgid "Merge"
+msgstr "Merge"
+
+msgid "Import new values and update existing"
+msgstr "Import new values and update existing"
+
+msgid "Append"
+msgstr "Append"
+
+msgid "Import new values only"
+msgstr "Import new values only"
+
+msgid "Update"
+msgstr "Update"
+
+msgid "Only update existing values, ignore new values"
+msgstr "Only update existing values, ignore new values"
+
 msgid "request failed"
 msgstr "request failed"
 
@@ -504,96 +522,183 @@ msgstr ""
 "The source data element has decimal values, but destination one only takes "
 "whole numbers. Pick one with value type Number."
 
-msgid "Pipeline"
-msgstr "Pipeline"
+msgid "Add at least one data element to push"
+msgstr "Add at least one data element to push"
 
-msgid "Step"
-msgstr "Step"
+msgid ""
+"The staging data element holds {{stagingType}} values, but the target’s "
+"holds {{targetType}}. Pick a target data element with the same value type."
+msgstr ""
+"The staging data element holds {{stagingType}} values, but the target’s "
+"holds {{targetType}}. Pick a target data element with the same value type."
 
-msgid "Run"
-msgstr "Run"
+msgid ""
+"The staging data element has decimal values, but the target’s only takes "
+"whole numbers. Pick one with value type Number."
+msgstr ""
+"The staging data element has decimal values, but the target’s only takes "
+"whole numbers. Pick one with value type Number."
+
+msgid ""
+"The staging data element has categories but the target’s has none, and its "
+"values can’t be added up into a total (aggregation type {{type}}). Pick a "
+"target data element with the same categories."
+msgstr ""
+"The staging data element has categories but the target’s has none, and its "
+"values can’t be added up into a total (aggregation type {{type}}). Pick a "
+"target data element with the same categories."
+
+msgid "unknown"
+msgstr "unknown"
+
+msgid ""
+"The target data element has categories but the staging one has none, so "
+"there’s no breakdown to fill it. Pick a target data element without "
+"categories."
+msgstr ""
+"The target data element has categories but the staging one has none, so "
+"there’s no breakdown to fill it. Pick a target data element without "
+"categories."
+
+msgid ""
+"None of the staging option combos match the target data element’s, by ID or "
+"by name."
+msgstr ""
+"None of the staging option combos match the target data element’s, by ID or "
+"by name."
+
+msgid "Values updated in the last {{days}} days"
+msgstr "Values updated in the last {{days}} days"
+
+msgid ""
+"Scheduled runs push the step’s values, recently updated values or latest "
+"periods, not a fixed range"
+msgstr ""
+"Scheduled runs push the step’s values, recently updated values or latest "
+"periods, not a fixed range"
+
+msgid "Pipeline name"
+msgstr "Pipeline name"
+
+msgid "Name of the pipeline"
+msgstr "Name of the pipeline"
+
+msgid "Run link"
+msgstr "Run link"
+
+msgid "Link to this run in the CAPS app"
+msgstr "Link to this run in the CAPS app"
 
 msgid "Date"
 msgstr "Date"
 
-msgid "prediction ready"
-msgstr "prediction ready"
+msgid "Today’s date in the DHIS2 server time zone"
+msgstr "Today’s date in the DHIS2 server time zone"
 
-msgid "The latest prediction has finished in CHAP and is ready to review."
-msgstr "The latest prediction has finished in CHAP and is ready to review."
+msgid "Step name"
+msgstr "Step name"
 
-msgid "CHAP job"
-msgstr "CHAP job"
+msgid "Name of this notify step"
+msgstr "Name of this notify step"
 
-msgid "Status"
-msgstr "Status"
+msgid "Job status"
+msgstr "Job status"
 
-msgid "prediction downloaded"
-msgstr "prediction downloaded"
+msgid "Final status of the CHAP job"
+msgstr "Final status of the CHAP job"
 
-msgid "Prediction results were downloaded from CHAP."
-msgstr "Prediction results were downloaded from CHAP."
+msgid "CHAP job ID"
+msgstr "CHAP job ID"
 
-msgid "Predicted values"
-msgstr "Predicted values"
+msgid "Value count"
+msgstr "Value count"
 
-msgid "data imported to DHIS2"
-msgstr "data imported to DHIS2"
-
-msgid "New predicted values have been imported into DHIS2."
-msgstr "New predicted values have been imported into DHIS2."
+msgid "Number of values downloaded"
+msgstr "Number of values downloaded"
 
 msgid "Imported"
 msgstr "Imported"
 
+msgid "Values newly imported into DHIS2"
+msgstr "Values newly imported into DHIS2"
+
 msgid "Updated"
 msgstr "Updated"
+
+msgid "Existing values that were updated"
+msgstr "Existing values that were updated"
 
 msgid "Ignored"
 msgstr "Ignored"
 
-msgid "analytics updated"
-msgstr "analytics updated"
+msgid "Values DHIS2 ignored"
+msgstr "Values DHIS2 ignored"
 
-msgid ""
-"DHIS2 analytics tables have been regenerated. Dashboards and reports now "
-"include the latest data."
-msgstr ""
-"DHIS2 analytics tables have been regenerated. Dashboards and reports now "
-"include the latest data."
+msgid "Import status"
+msgstr "Import status"
 
-msgid "alerts generated"
-msgstr "alerts generated"
+msgid "DHIS2 import status, e.g. SUCCESS or WARNING"
+msgstr "DHIS2 import status, e.g. SUCCESS or WARNING"
 
-msgid "The latest values were compared against alert thresholds."
-msgstr "The latest values were compared against alert thresholds."
+msgid "Values sent"
+msgstr "Values sent"
 
-msgid "Alerts generated"
-msgstr "Alerts generated"
+msgid "Values sent to the target instance"
+msgstr "Values sent to the target instance"
 
-msgid "alerts uploaded to DHIS2"
-msgstr "alerts uploaded to DHIS2"
+msgid "Values newly imported into the target instance"
+msgstr "Values newly imported into the target instance"
 
-msgid "Alert events have been uploaded to DHIS2."
-msgstr "Alert events have been uploaded to DHIS2."
+msgid "Existing values on the target that were updated"
+msgstr "Existing values on the target that were updated"
+
+msgid "Values the target instance ignored"
+msgstr "Values the target instance ignored"
+
+msgid "Target import status, e.g. SUCCESS or WARNING"
+msgstr "Target import status, e.g. SUCCESS or WARNING"
+
+msgid "Alert count"
+msgstr "Alert count"
+
+msgid "Number of alerts generated"
+msgstr "Number of alerts generated"
 
 msgid "Created"
 msgstr "Created"
 
+msgid "Alert events created in DHIS2"
+msgstr "Alert events created in DHIS2"
+
+msgid "Alert events updated in DHIS2"
+msgstr "Alert events updated in DHIS2"
+
+msgid "new prediction ready"
+msgstr "new prediction ready"
+
+msgid "prediction results downloaded"
+msgstr "prediction results downloaded"
+
+msgid "new data in DHIS2"
+msgstr "new data in DHIS2"
+
+msgid "data sent to another instance"
+msgstr "data sent to another instance"
+
+msgid "dashboards updated"
+msgstr "dashboards updated"
+
+msgid "alerts generated"
+msgstr "alerts generated"
+
+msgid "alerts sent to DHIS2"
+msgstr "alerts sent to DHIS2"
+
 msgid "climate data ready"
 msgstr "climate data ready"
 
-msgid "Climate data has been processed by the Open Climate Service."
-msgstr "Climate data has been processed by the Open Climate Service."
-
-msgid "Values"
-msgstr "Values"
-
 msgid "run update"
 msgstr "run update"
-
-msgid "The pipeline has completed the steps before this notification."
-msgstr "The pipeline has completed the steps before this notification."
 
 msgid "Could not retry the step. Try again."
 msgstr "Could not retry the step. Try again."
@@ -718,6 +823,9 @@ msgstr "Could not add schedule."
 
 msgid "Add schedule"
 msgstr "Add schedule"
+
+msgid "Pipeline"
+msgstr "Pipeline"
 
 msgid "Could not add schedule"
 msgstr "Could not add schedule"
@@ -932,6 +1040,9 @@ msgstr "Execution behaviour"
 
 msgid "How runs are scheduled & overlap"
 msgstr "How runs are scheduled & overlap"
+
+msgid "Status"
+msgstr "Status"
 
 msgid "Active"
 msgstr "Active"
@@ -2116,6 +2227,19 @@ msgstr "Scheduled runs use the step’s period or latest periods, not a fixed ra
 msgid "Add"
 msgstr "Add"
 
+msgid "No connected instances"
+msgstr "No connected instances"
+
+msgid "Instance not found"
+msgstr "Instance not found"
+
+msgid ""
+"The route {{code}} no longer exists on the destination. Pick another "
+"instance."
+msgstr ""
+"The route {{code}} no longer exists on the destination. Pick another "
+"instance."
+
 msgid "Search by name or id"
 msgstr "Search by name or id"
 
@@ -2159,24 +2283,6 @@ msgstr "Polling"
 msgid "Controls how CAPS waits for DHIS2 task completion."
 msgstr "Controls how CAPS waits for DHIS2 task completion."
 
-msgid "Merge"
-msgstr "Merge"
-
-msgid "Import new values and update existing"
-msgstr "Import new values and update existing"
-
-msgid "Append"
-msgstr "Append"
-
-msgid "Import new values only"
-msgstr "Import new values only"
-
-msgid "Update"
-msgstr "Update"
-
-msgid "Only update existing values, ignore new values"
-msgstr "Only update existing values, ignore new values"
-
 msgid "Import strategy"
 msgstr "Import strategy"
 
@@ -2193,21 +2299,8 @@ msgstr "Source instance"
 msgid "The DHIS2 instance to pull from, connected in Settings."
 msgstr "The DHIS2 instance to pull from, connected in Settings."
 
-msgid "No connected instances"
-msgstr "No connected instances"
-
 msgid "Connect the source instance under Settings › Connected instances first."
 msgstr "Connect the source instance under Settings › Connected instances first."
-
-msgid "Instance not found"
-msgstr "Instance not found"
-
-msgid ""
-"The route {{code}} no longer exists on the destination. Pick another "
-"instance."
-msgstr ""
-"The route {{code}} no longer exists on the destination. Pick another "
-"instance."
 
 msgid "Data items"
 msgstr "Data items"
@@ -2377,36 +2470,157 @@ msgstr "Loading…"
 msgid "Search by name, code or ID"
 msgstr "Search by name, code or ID"
 
-msgid "The source instance could not be searched"
-msgstr "The source instance could not be searched"
+msgid "The connected instance could not be searched"
+msgstr "The connected instance could not be searched"
 
 msgid "No matching data items"
 msgstr "No matching data items"
 
-msgid "Searching the source instance failed. Test the connection in Settings."
-msgstr "Searching the source instance failed. Test the connection in Settings."
+msgid "Searching the connected instance failed. Test the connection in Settings."
+msgstr "Searching the connected instance failed. Test the connection in Settings."
 
 msgid "Scheduled runs pull the step’s periods or latest periods, not a fixed range"
 msgstr "Scheduled runs pull the step’s periods or latest periods, not a fixed range"
 
-msgid "Name of the pipeline"
-msgstr "Name of the pipeline"
+msgid "Raw data"
+msgstr "Raw data"
 
-msgid "Name of this step"
-msgstr "Name of this step"
+msgid "Values exactly as entered at the selected org units"
+msgstr "Values exactly as entered at the selected org units"
 
-msgid "ID of the run"
-msgstr "ID of the run"
-
-msgid "Today’s date in the DHIS2 server time zone"
-msgstr "Today’s date in the DHIS2 server time zone"
+msgid "Totals rolled up to the selected org units; run analytics first"
+msgstr "Totals rolled up to the selected org units; run analytics first"
 
 msgid ""
-"A field of the previous step’s output, e.g. input.imported after DHIS2 Data "
-"Upload"
+"Raw data is read as stored at these org units; values at lower levels "
+"aren’t added up."
 msgstr ""
-"A field of the previous step’s output, e.g. input.imported after DHIS2 Data "
-"Upload"
+"Raw data is read as stored at these org units; values at lower levels "
+"aren’t added up."
+
+msgid "Values from lower levels are added up into these org units."
+msgstr "Values from lower levels are added up into these org units."
+
+msgid "Target instance"
+msgstr "Target instance"
+
+msgid ""
+"The DHIS2 instance to push to, connected in Settings. Its route needs "
+"permission to write data values there."
+msgstr ""
+"The DHIS2 instance to push to, connected in Settings. Its route needs "
+"permission to write data values there."
+
+msgid "Connect the target instance under Settings › Connected instances first."
+msgstr "Connect the target instance under Settings › Connected instances first."
+
+msgid "Data elements"
+msgstr "Data elements"
+
+msgid ""
+"Values of these staging data elements are sent. Each goes into the target "
+"data element with the same ID unless you pick another."
+msgstr ""
+"Values of these staging data elements are sent. Each goes into the target "
+"data element with the same ID unless you pick another."
+
+msgid "Could not check the target"
+msgstr "Could not check the target"
+
+msgid ""
+"Which data elements exist on the target is unknown; the step checks again "
+"before sending anything."
+msgstr ""
+"Which data elements exist on the target is unknown; the step checks again "
+"before sending anything."
+
+msgid "Add data element"
+msgstr "Add data element"
+
+msgid ""
+"Chosen from staging. Each is sent to the target org unit with the same "
+"code; org units without a match are skipped."
+msgstr ""
+"Chosen from staging. Each is sent to the target org unit with the same "
+"code; org units without a match are skipped."
+
+msgid ""
+"Chosen from staging. Each is sent to the target org unit with the same ID; "
+"org units without a match are skipped."
+msgstr ""
+"Chosen from staging. Each is sent to the target org unit with the same ID; "
+"org units without a match are skipped."
+
+msgid "Match org units on the target by"
+msgstr "Match org units on the target by"
+
+msgid "Use code when staging and the target have different IDs for the same places."
+msgstr "Use code when staging and the target have different IDs for the same places."
+
+msgid "Data to push"
+msgstr "Data to push"
+
+msgid ""
+"Values are merged into the target by default, so sending a value again "
+"updates it."
+msgstr ""
+"Values are merged into the target by default, so sending a value again "
+"updates it."
+
+msgid "Data from staging"
+msgstr "Data from staging"
+
+msgid "How the target should treat values that already exist."
+msgstr "How the target should treat values that already exist."
+
+msgid "Lower these if requests time out."
+msgstr "Lower these if requests time out."
+
+msgid "Org units per read from staging"
+msgstr "Org units per read from staging"
+
+msgid "Periods per analytics read"
+msgstr "Periods per analytics read"
+
+msgid "Values per request to the target"
+msgstr "Values per request to the target"
+
+msgid "Staging data element"
+msgstr "Staging data element"
+
+msgid "Remove data element"
+msgstr "Remove data element"
+
+msgid "Checking target…"
+msgstr "Checking target…"
+
+msgid "{{id}} doesn’t exist on the target."
+msgstr "{{id}} doesn’t exist on the target."
+
+msgid "No data element with this ID on the target."
+msgstr "No data element with this ID on the target."
+
+msgid "Can’t push"
+msgstr "Can’t push"
+
+msgid "Target data element"
+msgstr "Target data element"
+
+msgid "Recently updated"
+msgstr "Recently updated"
+
+msgid "Values to push"
+msgstr "Values to push"
+
+msgid "Updated in the last (days)"
+msgstr "Updated in the last (days)"
+
+msgid ""
+"Every value stored or changed on staging in this time is sent, whatever its "
+"period. Make it at least as long as the time between runs."
+msgstr ""
+"Every value stored or changed on staging in this time is sent, whatever its "
+"period. Make it at least as long as the time between runs."
 
 msgid "Recipients"
 msgstr "Recipients"
@@ -2428,10 +2642,10 @@ msgstr "Users"
 
 msgid ""
 "Starts from suggested text for the step this one follows; edit it as you "
-"like. Placeholders are filled in when the step runs."
+"like."
 msgstr ""
 "Starts from suggested text for the step this one follows; edit it as you "
-"like. Placeholders are filled in when the step runs."
+"like."
 
 msgid "Subject"
 msgstr "Subject"
@@ -2533,6 +2747,18 @@ msgstr "Search organisation unit levels"
 
 msgid "No matching organisation unit levels found"
 msgstr "No matching organisation unit levels found"
+
+msgid "Insert a placeholder"
+msgstr "Insert a placeholder"
+
+msgid "filled in when the step runs"
+msgstr "filled in when the step runs"
+
+msgid "From the step \"{{name}}\""
+msgstr "From the step \"{{name}}\""
+
+msgid "From the previous step"
+msgstr "From the previous step"
 
 msgid "Poll interval (ms)"
 msgstr "Poll interval (ms)"
@@ -2866,6 +3092,39 @@ msgid ""
 msgstr ""
 "This step pulls a fixed range. Choose latest periods so each scheduled run "
 "moves forward."
+
+msgid "Step’s setting"
+msgstr "Step’s setting"
+
+msgid "Choose for this schedule"
+msgstr "Choose for this schedule"
+
+msgid "Choose for this run"
+msgstr "Choose for this run"
+
+msgid ""
+"Scheduled runs push what the step is set to, including later edits to the "
+"step, unless you choose otherwise here."
+msgstr ""
+"Scheduled runs push what the step is set to, including later edits to the "
+"step, unless you choose otherwise here."
+
+msgid ""
+"This run pushes what the step is set to unless you choose otherwise here, "
+"e.g. a fixed range to backfill history."
+msgstr ""
+"This run pushes what the step is set to unless you choose otherwise here, "
+"e.g. a fixed range to backfill history."
+
+msgid "Every scheduled run pushes the same periods"
+msgstr "Every scheduled run pushes the same periods"
+
+msgid ""
+"This step pushes a fixed range. Choose recently updated values or latest "
+"periods for this schedule so each run moves forward."
+msgstr ""
+"This step pushes a fixed range. Choose recently updated values or latest "
+"periods for this schedule so each run moves forward."
 
 msgid "Override org units for this run"
 msgstr "Override org units for this run"

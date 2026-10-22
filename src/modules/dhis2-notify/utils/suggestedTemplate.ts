@@ -86,9 +86,24 @@ export function suggestedNotifyTemplate(args: {
                     ]
                 ),
             }
+        case 'dhis2-instance-push':
+            return {
+                subject: subject(i18n.t('data sent to another instance')),
+                message: body(
+                    withPlaceholders(
+                        'The pipeline "{{pipeline}}" has sent {{sent}} values to another DHIS2 instance.',
+                        { ...PIPELINE, sent: '{{input.sent}}' }
+                    ),
+                    [
+                        `${i18n.t('Imported')}: {{input.imported}}`,
+                        `${i18n.t('Updated')}: {{input.updated}}`,
+                        `${i18n.t('Ignored')}: {{input.ignored}}`,
+                    ]
+                ),
+            }
         case 'dhis2-analytics-run':
             return {
-                subject: subject(i18n.t('dashboards updated')),
+                subject: subject(i18n.t('analytics updated')),
                 message: body(
                     withPlaceholders(
                         'DHIS2 analytics have been updated by the pipeline "{{pipeline}}". Dashboards and reports now show the latest data.',

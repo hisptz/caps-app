@@ -89,6 +89,34 @@ export function stepOutputPlaceholders(
                     i18n.t('DHIS2 import status, e.g. SUCCESS or WARNING')
                 ),
             ]
+        case 'dhis2-instance-push':
+            return [
+                inputField(
+                    'sent',
+                    i18n.t('Values sent'),
+                    i18n.t('Values sent to the target instance')
+                ),
+                inputField(
+                    'imported',
+                    i18n.t('Imported'),
+                    i18n.t('Values newly imported into the target instance')
+                ),
+                inputField(
+                    'updated',
+                    i18n.t('Updated'),
+                    i18n.t('Existing values on the target that were updated')
+                ),
+                inputField(
+                    'ignored',
+                    i18n.t('Ignored'),
+                    i18n.t('Values the target instance ignored')
+                ),
+                inputField(
+                    'status',
+                    i18n.t('Import status'),
+                    i18n.t('Target import status, e.g. SUCCESS or WARNING')
+                ),
+            ]
         case 'alert-generation':
             return [
                 inputField(
