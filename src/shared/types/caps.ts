@@ -61,6 +61,7 @@ export interface Pipeline {
     description: string | null
     isActive: boolean
     concurrencyPolicy: ConcurrencyPolicy
+    config?: Record<string, unknown> | null
     createdAt: string
     updatedAt: string
     _count: {

@@ -6,6 +6,9 @@ export const pipelineFormSchema = z.object({
     description: z.string().optional(),
     concurrencyPolicy: z.enum(['ALLOW', 'SKIP', 'REPLACE']),
     isActive: z.boolean(),
+    /** Stored at `config.notifications.onFailure`. */
+    failureUserGroups: z.array(z.string()),
+    failureUsers: z.array(z.string()),
 })
 
 export type PipelineFormValues = z.infer<typeof pipelineFormSchema>
@@ -15,4 +18,6 @@ export const defaultPipelineFormValues: PipelineFormValues = {
     description: '',
     concurrencyPolicy: 'SKIP',
     isActive: true,
+    failureUserGroups: [],
+    failureUsers: [],
 }

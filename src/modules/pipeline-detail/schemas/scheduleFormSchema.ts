@@ -1,6 +1,8 @@
 import i18n from '@dhis2/d2-i18n'
 import { z } from 'zod'
 import type { HandlerDescriptor, UpdateScheduleBody } from '@/capsApi/types'
+import { DHIS2_INSTANCE_PUSH_HANDLER } from '@/modules/dhis2-instance-push/schemas/config'
+import { schedulePushPeriodIssue } from '@/modules/dhis2-instance-push/utils/schedulePeriod'
 import {
     buildDefaultStepContexts,
     getContextCapableSteps,
@@ -53,7 +55,9 @@ export function createScheduleFormSchema(
                     ? scheduleContextPeriodIssue(slice)
                     : step.handlerKey === 'dhis2-instance-pull'
                       ? schedulePullPeriodIssue(slice)
-                      : null
+                      : step.handlerKey === DHIS2_INSTANCE_PUSH_HANDLER
+                        ? schedulePushPeriodIssue(slice)
+                        : null
             if (periodIssue) {
                 ctx.addIssue({
                     code: 'custom',

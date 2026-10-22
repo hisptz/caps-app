@@ -23,6 +23,10 @@ import {
     pipelineFormSchema,
     type PipelineFormValues,
 } from '@/modules/pipelines/schemas/pipelineFormSchema'
+import {
+    readFailureRecipients,
+    withFailureRecipients,
+} from '@/modules/pipelines/utils/pipelineNotifications'
 import type { Pipeline } from '@/shared/types/caps'
 
 type Props = {
@@ -32,11 +36,14 @@ type Props = {
 }
 
 function pipelineToFormValues(p: Pipeline): PipelineFormValues {
+    const failureRecipients = readFailureRecipients(p.config)
     return {
         name: p.name,
         description: p.description ?? '',
         concurrencyPolicy: p.concurrencyPolicy,
         isActive: p.isActive,
+        failureUserGroups: failureRecipients.userGroups,
+        failureUsers: failureRecipients.users,
     }
 }
 
@@ -81,6 +88,10 @@ export function PipelineEditModal({
                     description: values.description?.trim() || undefined,
                     isActive: values.isActive,
                     concurrencyPolicy: values.concurrencyPolicy,
+                    config: withFailureRecipients(pipeline.config, {
+                        users: values.failureUsers,
+                        userGroups: values.failureUserGroups,
+                    }),
                 },
             },
             {

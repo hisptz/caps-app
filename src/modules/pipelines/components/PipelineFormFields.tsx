@@ -9,6 +9,8 @@ import {
     FormSection,
     RadioCardGroup,
 } from '@/shared/components/ui/FormPrimitives'
+import { UserGroupSelector } from '@/shared/components/UserGroupSelector/UserGroupSelector'
+import { UserSelector } from '@/shared/components/UserSelector/UserSelector'
 
 type Props = {
     namePlaceholder?: string
@@ -137,6 +139,42 @@ export function PipelineFormFields({
                                 </p>
                             )}
                         </div>
+                    )}
+                />
+            </FormSection>
+
+            <FormSection
+                num={3}
+                title={i18n.t('Notifications')}
+                description={
+                    showHelperText
+                        ? i18n.t('Who to tell when a run fails')
+                        : undefined
+                }
+            >
+                <Controller
+                    name="failureUserGroups"
+                    control={control}
+                    render={({ field }) => (
+                        <UserGroupSelector
+                            label={i18n.t('Notify user groups on failure')}
+                            selected={field.value}
+                            onChange={field.onChange}
+                            helpText={i18n.t(
+                                'Selected users and group members get a DHIS2 message when a run fails, plus an email copy if email is configured on the server. To notify on success, add a DHIS2 Notify step.'
+                            )}
+                        />
+                    )}
+                />
+                <Controller
+                    name="failureUsers"
+                    control={control}
+                    render={({ field }) => (
+                        <UserSelector
+                            label={i18n.t('Notify users on failure')}
+                            selected={field.value}
+                            onChange={field.onChange}
+                        />
                     )}
                 />
             </FormSection>

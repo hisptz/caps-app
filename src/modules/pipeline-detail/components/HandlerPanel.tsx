@@ -158,7 +158,10 @@ export function HandlerPanel({
                                     <HandlerTag label={primaryTag} />
                                 </span>
                             )}
-                            <span className={classes.handlerCardDesc}>
+                            <span
+                                className={classes.handlerCardDesc}
+                                title={h.description}
+                            >
                                 {h.description}
                             </span>
                         </button>
