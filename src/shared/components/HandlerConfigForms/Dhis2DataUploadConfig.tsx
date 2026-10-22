@@ -1,6 +1,7 @@
 import i18n from '@dhis2/d2-i18n'
 import React, { useEffect, useMemo } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
+import { IMPORT_STRATEGY_OPTIONS } from '@/modules/dhis2-data-upload/constants'
 import {
     defaultDhis2DataUploadConfig,
     isDhis2DataUploadConfig,
@@ -10,33 +11,12 @@ import type { PipelineStepFormWithHandlerValues } from '@/modules/pipeline-detai
 import {
     FormSection,
     RadioCardGroup,
-    type RadioCardOption,
 } from '@/shared/components/ui/FormPrimitives'
 
 export interface Dhis2DataUploadConfigProps {
     value: Record<string, unknown> | null
     onChange: (v: Record<string, unknown>) => void
 }
-
-const IMPORT_STRATEGY_OPTIONS: ReadonlyArray<
-    RadioCardOption<DataValueImportStrategy>
-> = [
-    {
-        value: 'CREATE_AND_UPDATE',
-        title: i18n.t('Merge'),
-        description: i18n.t('Import new values and update existing'),
-    },
-    {
-        value: 'CREATE',
-        title: i18n.t('Append'),
-        description: i18n.t('Import new values only'),
-    },
-    {
-        value: 'UPDATE',
-        title: i18n.t('Update'),
-        description: i18n.t('Only update existing values, ignore new values'),
-    },
-]
 
 export function Dhis2DataUploadConfig({
     value,

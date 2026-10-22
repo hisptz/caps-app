@@ -24,6 +24,7 @@ import {
     pipelineFormSchema,
     type PipelineFormValues,
 } from '@/modules/pipelines/schemas/pipelineFormSchema'
+import { withFailureRecipients } from '@/modules/pipelines/utils/pipelineNotifications'
 
 type Props = {
     open: boolean
@@ -61,6 +62,10 @@ export function PipelineCreateModal({
                 description: values.description?.trim() || undefined,
                 isActive: values.isActive,
                 concurrencyPolicy: values.concurrencyPolicy,
+                config: withFailureRecipients(undefined, {
+                    users: values.failureUsers,
+                    userGroups: values.failureUserGroups,
+                }),
             },
             {
                 onSuccess: () => {

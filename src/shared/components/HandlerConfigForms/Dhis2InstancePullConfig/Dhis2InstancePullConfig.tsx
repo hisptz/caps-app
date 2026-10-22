@@ -1,13 +1,6 @@
 import i18n from '@dhis2/d2-i18n'
-import {
-    Button,
-    IconAdd16,
-    InputField,
-    NoticeBox,
-    SingleSelectField,
-    SingleSelectOption,
-} from '@dhis2/ui'
-import React, { useEffect, useMemo, useState } from 'react'
+import { Button, IconAdd16, InputField, NoticeBox } from '@dhis2/ui'
+import React, { useEffect, useState } from 'react'
 import {
     Controller,
     useFieldArray,
@@ -15,12 +8,11 @@ import {
     useWatch,
 } from 'react-hook-form'
 import { ConfigLabeledControl } from '../ConfigLabeledControl'
+import { ConnectedInstanceSection } from '../ConnectedInstanceSection'
 import { OrganisationUnitConfigSection } from '../OrganisationUnitConfigSection'
 import classes from './Dhis2InstancePullConfig.module.css'
 import { PullPeriodFields } from './PullPeriodFields'
 import { SourceItemRow } from './SourceItemRow'
-import { useSourceRoutesQuery } from '@/modules/connected-instances/hooks/useSourceRoutes'
-import { baseUrlFromRouteUrl } from '@/modules/connected-instances/schemas/routeForm'
 import {
     useSourceDataElementCombos,
     useSourceDataItemsById,
@@ -53,7 +45,6 @@ export function Dhis2InstancePullConfig({
     const { control, getValues, setValue, formState } =
         useFormContext<PipelineStepFormWithHandlerValues>()
     const [showAdvanced, setShowAdvanced] = useState(false)
-    const routesQuery = useSourceRoutesQuery()
 
     useEffect(() => {
         const raw = getValues('handlerConfig') ?? value
@@ -103,16 +94,6 @@ export function Dhis2InstancePullConfig({
         sourceDataElementIds
     )
 
-    const routes = routesQuery.data ?? []
-    const selectedRoute = routes.find((r) => r.code === routeCode)
-    const routeOptions = useMemo(() => {
-        const options = routes.map((r) => ({ value: r.code, label: r.name }))
-        if (routeCode && !routes.some((r) => r.code === routeCode)) {
-            options.unshift({ value: routeCode, label: routeCode })
-        }
-        return options
-    }, [routes, routeCode])
-
     const itemsError = (
         formState.errors.handlerConfig as
             | { items?: { message?: string } }
@@ -121,73 +102,15 @@ export function Dhis2InstancePullConfig({
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <FormSection
+            <ConnectedInstanceSection
                 title={i18n.t('Source instance')}
                 description={i18n.t(
                     'The DHIS2 instance to pull from, connected in Settings.'
                 )}
-                tight
-            >
-                {routesQuery.isSuccess && routes.length === 0 ? (
-                    <NoticeBox warning title={i18n.t('No connected instances')}>
-                        {i18n.t(
-                            'Connect the source instance under Settings › Connected instances first.'
-                        )}
-                    </NoticeBox>
-                ) : (
-                    <Controller
-                        name="handlerConfig.routeCode"
-                        control={control}
-                        render={({ field, fieldState }) => (
-                            <SingleSelectField
-                                label={i18n.t('Instance')}
-                                required
-                                loading={routesQuery.isLoading}
-                                selected={
-                                    field.value
-                                        ? String(field.value)
-                                        : undefined
-                                }
-                                onChange={({ selected }) =>
-                                    field.onChange(selected)
-                                }
-                                helpText={
-                                    selectedRoute
-                                        ? baseUrlFromRouteUrl(selectedRoute.url)
-                                        : undefined
-                                }
-                                error={
-                                    Boolean(fieldState.error) ||
-                                    routesQuery.isError
-                                }
-                                validationText={
-                                    routesQuery.isError
-                                        ? i18n.t(
-                                              'Could not load connected instances'
-                                          )
-                                        : fieldState.error?.message
-                                }
-                            >
-                                {routeOptions.map((option) => (
-                                    <SingleSelectOption
-                                        key={option.value}
-                                        value={option.value}
-                                        label={option.label}
-                                    />
-                                ))}
-                            </SingleSelectField>
-                        )}
-                    />
+                noInstancesText={i18n.t(
+                    'Connect the source instance under Settings › Connected instances first.'
                 )}
-                {routeCode && !selectedRoute && routesQuery.isSuccess && (
-                    <NoticeBox error title={i18n.t('Instance not found')}>
-                        {i18n.t(
-                            'The route {{code}} no longer exists on the destination. Pick another instance.',
-                            { code: routeCode }
-                        )}
-                    </NoticeBox>
-                )}
-            </FormSection>
+            />
 
             <FormSection
                 title={i18n.t('Data items')}

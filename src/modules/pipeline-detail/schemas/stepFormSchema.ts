@@ -1,6 +1,10 @@
 import i18n from '@dhis2/d2-i18n'
 import { z } from 'zod'
 import type { HandlerDescriptor } from '@/capsApi/types'
+import {
+    DHIS2_NOTIFY_HANDLER,
+    dhis2RecipientsSchema,
+} from '@/modules/dhis2-notify/schemas/config'
 import { getHandlerConfigSchema } from '@/modules/handlers/utils/handlerConfigSchemas'
 import { CLIMATE_OPENEO_CREATE_HANDLER } from '@/modules/prediction-coverage/utils/predictionCoverage'
 import { climatePeriodIssue } from '@/shared/components/HandlerConfigForms/ClimateOpenEoCreateConfig/utils/climatePeriod'
@@ -83,6 +87,18 @@ export function createPipelineStepFormSchema(handlers: HandlerDescriptor[]) {
                         path: ['handlerConfig', 'period', ...issue.path],
                     })
                 }
+            }
+
+            if (
+                data.handlerKey === DHIS2_NOTIFY_HANDLER &&
+                !dhis2RecipientsSchema.safeParse(data.handlerConfig.recipients)
+                    .data?.userGroups.length
+            ) {
+                ctx.addIssue({
+                    code: 'custom',
+                    message: i18n.t('Select at least one user group'),
+                    path: ['handlerConfig', 'recipients', 'userGroups'],
+                })
             }
 
             const result = configSchema.safeParse(data.handlerConfig)

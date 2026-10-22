@@ -29,6 +29,7 @@ export function buildDefaultStepContexts(
         // here would freeze a schedule to the step as it was when the schedule was saved.
         if (
             step.handlerKey === 'dhis2-instance-pull' ||
+            step.handlerKey === 'dhis2-instance-push' ||
             step.handlerKey === 'climate-openeo-create'
         ) {
             result[step.id] = {}
