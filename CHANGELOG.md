@@ -1,3 +1,9 @@
+## [2.3.1](https://github.com/hisptz/caps-app/compare/v2.3.0...v2.3.1) (2026-10-28)
+
+### Bug Fixes
+
+- add configuration form for prediction-poll pipeline steps ([#16](https://github.com/hisptz/caps-app/issues/16)) ([b34a69d](https://github.com/hisptz/caps-app/commit/b34a69d43812917785b921fcf5eeaf324f02cb14))
+
 # [2.3.0](https://github.com/hisptz/caps-app/compare/v2.2.0...v2.3.0) (2026-10-22)
 
 ### Features
