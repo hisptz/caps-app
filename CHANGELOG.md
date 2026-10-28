@@ -1,3 +1,15 @@
+# [2.3.0](https://github.com/hisptz/caps-app/compare/v2.2.0...v2.3.0) (2026-10-22)
+
+### Features
+
+- Support for notification trigger and pushing data to other instances ([#15](https://github.com/hisptz/caps-app/issues/15)) ([b1402a0](https://github.com/hisptz/caps-app/commit/b1402a0d2374097625dfb15608881ec698a6e3ed))
+
+# [2.2.0](https://github.com/hisptz/caps-app/compare/v2.1.0...v2.2.0) (2026-10-19)
+
+### Features
+
+- Implement Open climate service in caps ([#12](https://github.com/hisptz/caps-app/issues/12)) ([1ff96bd](https://github.com/hisptz/caps-app/commit/1ff96bde33df387a21709f3db38f1847dce682a1))
+
 # [2.1.0](https://github.com/hisptz/caps-app/compare/v2.0.0...v2.1.0) (2026-10-14)
 
 ### Features
