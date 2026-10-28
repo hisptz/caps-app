@@ -13,6 +13,8 @@ import type { Dhis2NotifyConfigProps } from './Dhis2NotifyConfig'
 import { Dhis2NotifyConfig } from './Dhis2NotifyConfig'
 import { PredictionDataDownloadConfig } from './PredictionDataDownloadConfig'
 import type { PredictionDataDownloadConfigProps } from './PredictionDataDownloadConfig'
+import { PredictionPollConfig } from './PredictionPollConfig'
+import type { PredictionPollConfigProps } from './PredictionPollConfig'
 import { PredictionTriggerConfig } from './PredictionTriggerConfig/PredictionTriggerConfig'
 import type { PredictionTriggerConfigProps } from './PredictionTriggerConfig/PredictionTriggerConfig'
 import { ThresholdGenerationConfig } from './ThresholdGenerationConfig'
@@ -38,6 +40,13 @@ export function HandlerConfigForm({
             return (
                 <PredictionTriggerConfig
                     value={value as PredictionTriggerConfigProps['value']}
+                    onChange={onChange}
+                />
+            )
+        case 'prediction-poll':
+            return (
+                <PredictionPollConfig
+                    value={value as PredictionPollConfigProps['value']}
                     onChange={onChange}
                 />
             )
