@@ -36,6 +36,21 @@ export const capsKeys = {
             [...capsKeys.all, 'pipeline', id] as const,
     },
 
+    connectors: {
+        /** Prefix match: invalidates every connectors query. */
+        all: () => [...capsKeys.all, 'connectors'] as const,
+        byPipeline: (pipelineId: string | undefined) =>
+            [...capsKeys.connectors.all(), 'pipeline', pipelineId] as const,
+        runs: (connectorId: string, page: number, pageSize: number) =>
+            [
+                ...capsKeys.connectors.all(),
+                'runs',
+                connectorId,
+                page,
+                pageSize,
+            ] as const,
+    },
+
     executions: {
         /** Prefix match: invalidates every executions list query. */
         all: () => [...capsKeys.all, 'executions'] as const,

@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-22T09:50:30.204Z\n"
-"PO-Revision-Date: 2026-10-22T09:50:30.204Z\n"
+"POT-Creation-Date: 2026-10-30T17:54:27.605Z\n"
+"PO-Revision-Date: 2026-10-30T17:54:27.605Z\n"
 
 msgid "Enter a valid HTTP or HTTPS URL."
 msgstr "Enter a valid HTTP or HTTPS URL."
@@ -685,8 +685,8 @@ msgstr "new data in DHIS2"
 msgid "data sent to another instance"
 msgstr "data sent to another instance"
 
-msgid "dashboards updated"
-msgstr "dashboards updated"
+msgid "analytics updated"
+msgstr "analytics updated"
 
 msgid "alerts generated"
 msgstr "alerts generated"
@@ -721,6 +721,303 @@ msgstr "Add an Open Climate Service Sync step above these steps."
 
 msgid "Add {{datasets}} to \"{{step}}\""
 msgstr "Add {{datasets}} to \"{{step}}\""
+
+msgid "Step"
+msgstr "Step"
+
+msgid "Choose a step"
+msgstr "Choose a step"
+
+msgid "Result"
+msgstr "Result"
+
+msgid "Choose a result"
+msgstr "Choose a result"
+
+msgid "Comparison"
+msgstr "Comparison"
+
+msgid "Number"
+msgstr "Number"
+
+msgid "Remove condition"
+msgstr "Remove condition"
+
+msgid "Succeeds"
+msgstr "Succeeds"
+
+msgid "Fails"
+msgstr "Fails"
+
+msgid "Either way"
+msgstr "Either way"
+
+msgid "Always start"
+msgstr "Always start"
+
+msgid "Only if…"
+msgstr "Only if…"
+
+msgid "{{name}} (inactive)"
+msgstr "{{name}} (inactive)"
+
+msgid "Identification"
+msgstr "Identification"
+
+msgid "e.g. Notify when alerts raised"
+msgstr "e.g. Notify when alerts raised"
+
+msgid "Start"
+msgstr "Start"
+
+msgid "Which pipeline to start, and when"
+msgstr "Which pipeline to start, and when"
+
+msgid "Pipeline to start"
+msgstr "Pipeline to start"
+
+msgid "No pipelines match"
+msgstr "No pipelines match"
+
+msgid "Start it when this pipeline"
+msgstr "Start it when this pipeline"
+
+msgid "Wait first (minutes)"
+msgstr "Wait first (minutes)"
+
+msgid "0 = start right away"
+msgstr "0 = start right away"
+
+msgid "Active"
+msgstr "Active"
+
+msgid "Off (never starts anything)"
+msgstr "Off (never starts anything)"
+
+msgid "Condition (optional)"
+msgstr "Condition (optional)"
+
+msgid "Decides whether the pipeline starts"
+msgstr "Decides whether the pipeline starts"
+
+msgid "Rule type"
+msgstr "Rule type"
+
+msgid "The pipeline starts every time this one finishes as chosen above."
+msgstr "The pipeline starts every time this one finishes as chosen above."
+
+msgid "Nothing to check"
+msgstr "Nothing to check"
+
+msgid ""
+"None of this pipeline’s steps report a count to check, so this connector "
+"can only always start."
+msgstr ""
+"None of this pipeline’s steps report a count to check, so this connector "
+"can only always start."
+
+msgid ""
+"Each condition compares a count from one of this pipeline’s steps in the "
+"run that just finished with a number, e.g. “Values imported is more than 0”."
+msgstr ""
+"Each condition compares a count from one of this pipeline’s steps in the "
+"run that just finished with a number, e.g. “Values imported is more than 0”."
+
+msgid "How to combine conditions"
+msgstr "How to combine conditions"
+
+msgid "All must be true"
+msgstr "All must be true"
+
+msgid "Any one is enough"
+msgstr "Any one is enough"
+
+msgid "Add condition"
+msgstr "Add condition"
+
+msgid "This rule was written outside the app"
+msgstr "This rule was written outside the app"
+
+msgid ""
+"It is kept as it is when you save. Choosing Always start or Only if… "
+"replaces it."
+msgstr ""
+"It is kept as it is when you save. Choosing Always start or Only if… "
+"replaces it."
+
+msgid "Otherwise start (optional)"
+msgstr "Otherwise start (optional)"
+
+msgid "Nothing"
+msgstr "Nothing"
+
+msgid "Clear"
+msgstr "Clear"
+
+msgid "Started instead when the condition is not met. Leave empty to start nothing."
+msgstr "Started instead when the condition is not met. Leave empty to start nothing."
+
+msgid "Not checked yet"
+msgstr "Not checked yet"
+
+msgid "Open the run it started"
+msgstr "Open the run it started"
+
+msgid "Condition not met, so the otherwise pipeline started"
+msgstr "Condition not met, so the otherwise pipeline started"
+
+msgid "Could not save the connector. Try again."
+msgstr "Could not save the connector. Try again."
+
+msgid "Edit connector"
+msgstr "Edit connector"
+
+msgid "Add connector"
+msgstr "Add connector"
+
+msgid "Starts another pipeline after “{{name}}” finishes"
+msgstr "Starts another pipeline after “{{name}}” finishes"
+
+msgid "Could not save connector"
+msgstr "Could not save connector"
+
+msgid "Could not cancel the run. Try again."
+msgstr "Could not cancel the run. Try again."
+
+msgid "History of “{{name}}”"
+msgstr "History of “{{name}}”"
+
+msgid ""
+"Each time “{{source}}” finishes, this connector checks its rule and then "
+"either starts “{{target}}” or skips it. One row per check."
+msgstr ""
+"Each time “{{source}}” finishes, this connector checks its rule and then "
+"either starts “{{target}}” or skips it. One row per check."
+
+msgid "Could not cancel run"
+msgstr "Could not cancel run"
+
+msgid "No history yet"
+msgstr "No history yet"
+
+msgid ""
+"Nothing has been checked yet. A row appears here each time “{{source}}” "
+"finishes in a way this connector reacts to."
+msgstr ""
+"Nothing has been checked yet. A row appears here each time “{{source}}” "
+"finishes in a way this connector reacts to."
+
+msgid "Connector history table"
+msgstr "Connector history table"
+
+msgid "Finished run"
+msgstr "Finished run"
+
+msgid "Run it started"
+msgstr "Run it started"
+
+msgid "Details"
+msgstr "Details"
+
+msgid "When"
+msgstr "When"
+
+msgid "Refresh"
+msgstr "Refresh"
+
+msgid "Otherwise"
+msgstr "Otherwise"
+
+msgid "Delete connector?"
+msgstr "Delete connector?"
+
+msgid ""
+"This removes \"{{name}}\" and its run history. Runs it already started are "
+"kept. This cannot be undone."
+msgstr ""
+"This removes \"{{name}}\" and its run history. Runs it already started are "
+"kept. This cannot be undone."
+
+msgid "Could not delete connector"
+msgstr "Could not delete connector"
+
+msgid "Deleting…"
+msgstr "Deleting…"
+
+msgid "A path cannot have empty parts, e.g. \"a..b\""
+msgstr "A path cannot have empty parts, e.g. \"a..b\""
+
+msgid "This path uses a reserved name"
+msgstr "This path uses a reserved name"
+
+msgid "Choose what to check"
+msgstr "Choose what to check"
+
+msgid "Choose which result to check"
+msgstr "Choose which result to check"
+
+msgid "Enter a number"
+msgstr "Enter a number"
+
+msgid "Enter where the value goes"
+msgstr "Enter where the value goes"
+
+msgid "Enter where the value comes from"
+msgstr "Enter where the value comes from"
+
+msgid "Choose the pipeline to run"
+msgstr "Choose the pipeline to run"
+
+msgid "Enter whole minutes from 0 to {{max}} (7 days)"
+msgstr "Enter whole minutes from 0 to {{max}} (7 days)"
+
+msgid "Add at least one condition"
+msgstr "Add at least one condition"
+
+msgid "Choose a different pipeline from the one above"
+msgstr "Choose a different pipeline from the one above"
+
+msgid "This target is already mapped"
+msgstr "This target is already mapped"
+
+msgid "When it succeeds"
+msgstr "When it succeeds"
+
+msgid "When it fails"
+msgstr "When it fails"
+
+msgid "When it finishes (either way)"
+msgstr "When it finishes (either way)"
+
+msgid "{{when}}, wait {{delay}}"
+msgstr "{{when}}, wait {{delay}}"
+
+msgid "Checks at {{date}}"
+msgstr "Checks at {{date}}"
+
+msgid "is more than"
+msgstr "is more than"
+
+msgid "is at least"
+msgstr "is at least"
+
+msgid "is less than"
+msgstr "is less than"
+
+msgid "equals"
+msgstr "equals"
+
+msgid "Always"
+msgstr "Always"
+
+msgid "Custom rule (set outside the app)"
+msgstr "Custom rule (set outside the app)"
+
+msgid "and"
+msgstr "and"
+
+msgid "or"
+msgstr "or"
 
 msgid "e.g. Download ERA5 Data"
 msgstr "e.g. Download ERA5 Data"
@@ -887,9 +1184,6 @@ msgstr "Overrides merged onto each step handler config for this run"
 msgid "Trigger"
 msgstr "Trigger"
 
-msgid "Identification"
-msgstr "Identification"
-
 msgid "e.g. Daily 2AM"
 msgstr "e.g. Daily 2AM"
 
@@ -1043,9 +1337,6 @@ msgstr "How runs are scheduled & overlap"
 
 msgid "Status"
 msgstr "Status"
-
-msgid "Active"
-msgstr "Active"
 
 msgid "Inactive"
 msgstr "Inactive"
@@ -1335,14 +1626,41 @@ msgstr "Could not load dashboard"
 msgid "Dashboard"
 msgstr "Dashboard"
 
-msgid "Refresh"
-msgstr "Refresh"
-
 msgid "Total Runs (24h)"
 msgstr "Total Runs (24h)"
 
 msgid "Running / Awaiting"
 msgstr "Running / Awaiting"
+
+msgid "Overdue Connectors"
+msgstr "Overdue Connectors"
+
+msgid ""
+"These connectors should have been checked over 10 minutes ago, so the "
+"pipelines they start have not started. Check that the CAPS worker is "
+"running."
+msgstr ""
+"These connectors should have been checked over 10 minutes ago, so the "
+"pipelines they start have not started. Check that the CAPS worker is "
+"running."
+
+msgid "Overdue connector runs table"
+msgstr "Overdue connector runs table"
+
+msgid "Connector"
+msgstr "Connector"
+
+msgid "From"
+msgstr "From"
+
+msgid "Starts"
+msgstr "Starts"
+
+msgid "Should have checked at"
+msgstr "Should have checked at"
+
+msgid "{{target}} or {{otherwise}}"
+msgstr "{{target}} or {{otherwise}}"
 
 msgid "Recent Failures"
 msgstr "Recent Failures"
@@ -1425,8 +1743,8 @@ msgstr "Step retry started"
 msgid "Invalid execution"
 msgstr "Invalid execution"
 
-msgid "The execution link is not a valid identifier."
-msgstr "The execution link is not a valid identifier."
+msgid "The @@ECONNECTOR@@ a valid identifier."
+msgstr "The @@ECONNECTOR@@ a valid identifier."
 
 msgid "Back to executions"
 msgstr "Back to executions"
@@ -1485,6 +1803,28 @@ msgstr "Stack trace"
 
 msgid "{{n}} conflicts"
 msgstr "{{n}} conflicts"
+
+msgid "Connectors"
+msgstr "Connectors"
+
+msgid "Started by a connector"
+msgstr "Started by a connector"
+
+msgid ""
+"The connector “{{connector}}” started this run when a run of “{{pipeline}}” "
+"finished."
+msgstr ""
+"The connector “{{connector}}” started this run when a run of “{{pipeline}}” "
+"finished."
+
+msgid "Open that run"
+msgstr "Open that run"
+
+msgid "What this pipeline’s connectors did when this run finished."
+msgstr "What this pipeline’s connectors did when this run finished."
+
+msgid "Connector results table"
+msgstr "Connector results table"
 
 msgid "Execution Logs"
 msgstr "Execution Logs"
@@ -1611,8 +1951,8 @@ msgstr "Executions table"
 msgid "Invalid pipeline"
 msgstr "Invalid pipeline"
 
-msgid "The pipeline link is not a valid identifier."
-msgstr "The pipeline link is not a valid identifier."
+msgid "The @@PCONNECTOR@@ a valid identifier."
+msgstr "The @@PCONNECTOR@@ a valid identifier."
 
 msgid "Back to pipelines"
 msgstr "Back to pipelines"
@@ -1635,9 +1975,6 @@ msgstr "Could not delete pipeline"
 msgid "This will remove \"{{name}}\" and cannot be undone."
 msgstr "This will remove \"{{name}}\" and cannot be undone."
 
-msgid "Deleting…"
-msgstr "Deleting…"
-
 msgid "Delete schedule?"
 msgstr "Delete schedule?"
 
@@ -1649,6 +1986,71 @@ msgstr "Delete step?"
 
 msgid "Could not delete step"
 msgstr "Could not delete step"
+
+msgid "Could not update the connector. Try again."
+msgstr "Could not update the connector. Try again."
+
+msgid "Could not load connectors"
+msgstr "Could not load connectors"
+
+msgid "Try again later."
+msgstr "Try again later."
+
+msgid "Connector action failed"
+msgstr "Connector action failed"
+
+msgid "Pipelines this one starts"
+msgstr "Pipelines this one starts"
+
+msgid "No connectors yet"
+msgstr "No connectors yet"
+
+msgid ""
+"Add a connector to start another pipeline automatically when this one "
+"finishes. A rule can limit it to certain results."
+msgstr ""
+"Add a connector to start another pipeline automatically when this one "
+"finishes. A rule can limit it to certain results."
+
+msgid "Outgoing connectors table"
+msgstr "Outgoing connectors table"
+
+msgid "Only if"
+msgstr "Only if"
+
+msgid "Last result"
+msgstr "Last result"
+
+msgid "View history"
+msgstr "View history"
+
+msgid "Deactivate connector"
+msgstr "Deactivate connector"
+
+msgid "Activate connector"
+msgstr "Activate connector"
+
+msgid "Delete connector"
+msgstr "Delete connector"
+
+msgid "Pipelines that start this one"
+msgstr "Pipelines that start this one"
+
+msgid ""
+"These connectors belong to other pipelines. Open that pipeline to change "
+"them."
+msgstr ""
+"These connectors belong to other pipelines. Open that pipeline to change "
+"them."
+
+msgid "Incoming connectors table"
+msgstr "Incoming connectors table"
+
+msgid "Otherwise, if not ({{rule}})"
+msgstr "Otherwise, if not ({{rule}})"
+
+msgid "Could not delete the connector. Try again."
+msgstr "Could not delete the connector. Try again."
 
 msgid "Pipelines"
 msgstr "Pipelines"
@@ -2130,9 +2532,6 @@ msgstr "Search periods"
 msgid "No periods match"
 msgstr "No periods match"
 
-msgid "Clear"
-msgstr "Clear"
-
 msgid "Could not load dataset coverage"
 msgstr "Could not load dataset coverage"
 
@@ -2394,9 +2793,6 @@ msgstr "A run today pulls {{first}}."
 
 msgid "A run today pulls {{first}} to {{last}}."
 msgstr "A run today pulls {{first}} to {{last}}."
-
-msgid "From"
-msgstr "From"
 
 msgid "To"
 msgstr "To"
@@ -2826,6 +3222,24 @@ msgstr "At least one mapping is required."
 msgid "No mappings yet. Add one below."
 msgstr "No mappings yet. Add one below."
 
+msgid "Prediction polling"
+msgstr "Prediction polling"
+
+msgid "Control how often CAPS checks the prediction job and when it times out."
+msgstr "Control how often CAPS checks the prediction job and when it times out."
+
+msgid "Poll interval (seconds)"
+msgstr "Poll interval (seconds)"
+
+msgid "Time between prediction job status checks (5–3600 seconds)."
+msgstr "Time between prediction job status checks (5–3600 seconds)."
+
+msgid "Timeout (hours)"
+msgstr "Timeout (hours)"
+
+msgid "Maximum time to wait for the prediction job (0.25–72 hours)."
+msgstr "Maximum time to wait for the prediction job (0.25–72 hours)."
+
 msgid ""
 "The CHAP Modeling app is not installed on this instance; ask an "
 "administrator to install it."
@@ -3211,6 +3625,18 @@ msgstr "Timed out"
 
 msgid "Skipped"
 msgstr "Skipped"
+
+msgid "Waiting to check"
+msgstr "Waiting to check"
+
+msgid "Started"
+msgstr "Started"
+
+msgid "Rule not met"
+msgstr "Rule not met"
+
+msgid "connector"
+msgstr "connector"
 
 msgctxt "URL configuration."
 msgid "Check CLIMATE_API_BASE"

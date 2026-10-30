@@ -1,4 +1,6 @@
 import type {
+    ConnectorRunListRow,
+    ConnectorTriggerOn,
     AnalyticsTrend,
     Evaluation,
     PredictionSetup,
@@ -11,6 +13,31 @@ import type {
     TopError,
     TopFailingStep,
 } from '@/shared/types/caps'
+
+/** POST /connectors */
+export interface CreateConnectorBody {
+    name: string
+    description?: string
+    sourcePipelineId: string
+    targetPipelineId: string
+    otherwisePipelineId?: string | null
+    on: ConnectorTriggerOn
+    condition?: unknown
+    inputMapping: Record<string, string>
+    delayMinutes: number
+    isActive: boolean
+}
+
+/** PUT /connectors/:id — the source pipeline cannot change. */
+export type UpdateConnectorBody = Partial<
+    Omit<CreateConnectorBody, 'sourcePipelineId' | 'description'>
+> & { description?: string | null }
+
+/** GET /connectors/:id/runs */
+export interface ListConnectorRunsResponse {
+    items: ConnectorRunListRow[]
+    pagination: CapsPagination
+}
 
 /** Pagination object returned by CAPS list endpoints */
 export interface CapsPagination {
@@ -190,6 +217,21 @@ export interface UpdateScheduleBody {
 /** JSON Schema object from GET /handlers (draft-2020-12). */
 export type HandlerJsonSchema = Record<string, unknown>
 
+/** Connector conditions compare counts with a number */
+export type HandlerOutputType = 'number'
+
+/** One field of a step's result (`step_<n>_output.<key>`). */
+export type HandlerOutputField = {
+    key: string
+    label: string
+    type: HandlerOutputType
+}
+
+/** A step's result: listed fields, or its input passed through unchanged. */
+export type HandlerOutputs =
+    | { fields: HandlerOutputField[] }
+    | { passThrough: true }
+
 export type HandlerDescriptor = {
     key: string
     displayName: string
@@ -200,6 +242,8 @@ export type HandlerDescriptor = {
         config?: HandlerJsonSchema
         context?: HandlerJsonSchema
     }
+    /** Missing on engines older than pipeline connectors */
+    outputs?: HandlerOutputs
 }
 
 export type ListHandlersResponse = {

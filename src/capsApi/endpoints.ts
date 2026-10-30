@@ -38,8 +38,16 @@ import {
     RetryStepExecutionResponse,
     SourceRouteTestResponse,
 } from '@/capsApi/types'
-import type { CreateScheduleBody, UpdateScheduleBody } from '@/capsApi/types'
 import type {
+    CreateConnectorBody,
+    CreateScheduleBody,
+    ListConnectorRunsResponse,
+    UpdateConnectorBody,
+    UpdateScheduleBody,
+} from '@/capsApi/types'
+import type {
+    ConnectorRunStatus,
+    PipelineConnector,
     DashboardData,
     Pipeline,
     PipelineExecutionStatus,
@@ -320,6 +328,69 @@ export function updateSchedule(
 
 export function deleteSchedule(engine: CapsDataEngine, scheduleId: string) {
     return capsDeleteJson<PipelineSchedule>(engine, `/schedules/${scheduleId}`)
+}
+
+export function listPipelineConnectors(
+    engine: CapsDataEngine,
+    pipelineId: string
+) {
+    return capsFetchJson<PipelineConnector[]>(engine, '/connectors', {
+        searchParams: { pipelineId },
+    })
+}
+
+export function createConnector(
+    engine: CapsDataEngine,
+    body: CreateConnectorBody
+) {
+    return capsPostJson<PipelineConnector>(engine, '/connectors', { body })
+}
+
+export function updateConnector(
+    engine: CapsDataEngine,
+    connectorId: string,
+    body: UpdateConnectorBody
+) {
+    return capsPutJson<PipelineConnector>(
+        engine,
+        `/connectors/${connectorId}`,
+        { body }
+    )
+}
+
+export function deleteConnector(engine: CapsDataEngine, connectorId: string) {
+    return capsDeleteJson<PipelineConnector>(
+        engine,
+        `/connectors/${connectorId}`
+    )
+}
+
+export function listConnectorRuns(
+    engine: CapsDataEngine,
+    connectorId: string,
+    params?: { status?: ConnectorRunStatus; page?: number; pageSize?: number }
+) {
+    return capsFetchJson<ListConnectorRunsResponse>(
+        engine,
+        `/connectors/${connectorId}/runs`,
+        {
+            searchParams: {
+                status: params?.status,
+                page: params?.page,
+                pageSize: params?.pageSize,
+            },
+        }
+    )
+}
+
+export function cancelConnectorRun(
+    engine: CapsDataEngine,
+    connectorRunId: string
+) {
+    return capsPostJson<{ connectorRunId: string; status: ConnectorRunStatus }>(
+        engine,
+        `/connectors/runs/${connectorRunId}/cancel`
+    )
 }
 
 export function listHandlers(engine: CapsDataEngine) {
