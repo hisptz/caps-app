@@ -23,6 +23,7 @@ import { PageLoader } from '@/shared/components/ui/PageLoader'
 import { StatusTag } from '@/shared/components/ui/StatusTag'
 import tableNavLinkClasses from '@/shared/components/ui/TableNavLink/TableNavLink.module.css'
 import { TableScroll } from '@/shared/components/ui/TableScroll'
+import { formatTriggeredBy } from '@/shared/utils/label.utils'
 
 type Props = {
     executions: PipelineExecutionSummary[]
@@ -132,7 +133,9 @@ export function PipelineExecutionsTab({
                                             <StatusTag status={exec.status} />
                                         </DataTableCell>
                                         <DataTableCell>
-                                            {exec.triggeredBy ?? '—'}
+                                            {formatTriggeredBy(
+                                                exec.triggeredBy
+                                            )}
                                         </DataTableCell>
                                         <DataTableCell>
                                             {formatDate(exec.startedAt)}

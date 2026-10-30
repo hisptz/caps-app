@@ -76,6 +76,10 @@ const capsStatusLabels: Record<string, () => string> = {
     TIMED_OUT: () => i18n.t('Timed out'),
     SKIPPED: () => i18n.t('Skipped'),
     ACTIVE: () => i18n.t('Active'),
+    INACTIVE: () => i18n.t('Inactive'),
+    WAITING: () => i18n.t('Waiting to check'),
+    FIRED: () => i18n.t('Started'),
+    NOT_MET: () => i18n.t('Rule not met'),
 }
 
 function titleCaseFromSnake(raw: string): string {
@@ -94,4 +98,17 @@ export function formatCapsStatusLabel(status: string): string {
         return label()
     }
     return titleCaseFromSnake(status)
+}
+
+/**
+ * `triggeredBy` as shown in tables. Runs started by a connector ("connector") are
+ * translated; other values (scheduler, api, …) are shown as they are.
+ */
+export function formatTriggeredBy(
+    triggeredBy: string | null | undefined
+): string {
+    if (!triggeredBy) {
+        return '—'
+    }
+    return triggeredBy === 'connector' ? i18n.t('connector') : triggeredBy
 }

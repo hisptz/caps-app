@@ -8,6 +8,7 @@ import {
     ErrorDetailsModal,
     type ErrorTarget,
 } from './components/ErrorDetailsModal'
+import { ExecutionConnectorsSection } from './components/ExecutionConnectorsSection'
 import { ExecutionLogsSection } from './components/ExecutionLogsSection'
 import { ExecutionStepsSection } from './components/ExecutionStepsSection'
 import { ExecutionSummaryHeader } from './components/ExecutionSummaryHeader'
@@ -132,7 +133,7 @@ const ExecutionDetailPage: React.FC = () => {
         return (
             <div className={shellClasses.pageRoot}>
                 <NoticeBox error title={i18n.t('Invalid execution')}>
-                    {i18n.t('The execution link is not a valid identifier.')}
+                    {i18n.t('The @@ECONNECTOR@@ a valid identifier.')}
                 </NoticeBox>
                 <Button onClick={() => navigate('/executions')}>
                     {i18n.t('Back to executions')}
@@ -218,6 +219,11 @@ const ExecutionDetailPage: React.FC = () => {
                 onToggleTask={toggleTask}
                 onViewError={setErrorTarget}
                 onRetryClick={openRetryModal}
+            />
+
+            <ExecutionConnectorsSection
+                incoming={execution.incomingConnectorRun}
+                outgoing={execution.outgoingConnectorRuns ?? []}
             />
 
             <ExecutionLogsSection logs={logs} />

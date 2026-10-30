@@ -110,6 +110,12 @@ export interface PipelineExecution {
     createdAt: string
     pipeline?: EmbeddedPipeline
     stepExecutions?: StepExecution[]
+    /** Connectors passed through to reach this execution (0 = started directly). */
+    chainDepth?: number
+    /** Detail only: the connector run that started this execution. */
+    incomingConnectorRun?: IncomingConnectorRun | null
+    /** Detail only: what this execution's connectors decided when it finished. */
+    outgoingConnectorRuns?: OutgoingConnectorRun[]
 }
 
 export type StepAttemptKind = 'AUTOMATIC' | 'MANUAL'
@@ -211,6 +217,126 @@ export interface DashboardData {
     }
     stuckExecutions: PipelineExecution[]
     recentFailures: PipelineExecution[]
+    /** Connector runs whose evaluation is more than 10 minutes late. */
+    overdueConnectorRuns?: OverdueConnectorRun[]
+}
+
+/** Which source outcome makes a connector run. */
+export type ConnectorTriggerOn = 'COMPLETED' | 'FAILED' | 'FINISHED'
+
+export type ConnectorRunStatus =
+    | 'WAITING'
+    | 'FIRED'
+    | 'NOT_MET'
+    | 'SKIPPED'
+    | 'FAILED'
+    | 'CANCELLED'
+
+export interface PipelineRef {
+    id: string
+    name: string
+    isActive?: boolean
+}
+
+/**
+ * Starts the target pipeline when the source pipeline finishes and the rule is met, or the
+ * otherwise pipeline (if any) when it is not.
+ * `condition` is JSONLogic over `{ context, status }` of the source execution.
+ */
+export interface PipelineConnector {
+    id: string
+    name: string
+    description: string | null
+    sourcePipelineId: string
+    targetPipelineId: string
+    /** Started instead of the target when the rule is not met; null = nothing. */
+    otherwisePipelineId: string | null
+    on: ConnectorTriggerOn
+    condition: unknown
+    /** Target context path -> dot path into the source execution's context. */
+    inputMapping: Record<string, string>
+    delayMinutes: number
+    isActive: boolean
+    createdAt: string
+    updatedAt: string
+    sourcePipeline?: PipelineRef
+    targetPipeline?: PipelineRef
+    otherwisePipeline?: PipelineRef | null
+    _count?: { runs: number }
+    /** The latest connector run only (newest first, at most one). */
+    runs?: LatestConnectorRun[]
+}
+
+export type LatestConnectorRun = Pick<
+    ConnectorRun,
+    | 'id'
+    | 'status'
+    | 'startedOtherwise'
+    | 'reason'
+    | 'checkAt'
+    | 'evaluatedAt'
+    | 'createdAt'
+> & {
+    targetExecution: { id: string; status: PipelineExecutionStatus } | null
+}
+
+/** One decision a connector made for one finished source execution. */
+export interface ConnectorRun {
+    id: string
+    connectorId: string
+    sourceExecutionId: string
+    targetExecutionId: string | null
+    status: ConnectorRunStatus
+    /** FIRED because the rule was not met: the otherwise pipeline was started. */
+    startedOtherwise: boolean
+    sourceStatus: PipelineExecutionStatus
+    checkAt: string
+    evaluatedAt: string | null
+    reason: string | null
+    createdAt: string
+    updatedAt: string
+}
+
+export type IncomingConnectorRun = ConnectorRun & {
+    connector: { id: string; name: string }
+    sourceExecution: {
+        id: string
+        status: PipelineExecutionStatus
+        pipeline: { id: string; name: string }
+    }
+}
+
+export type OutgoingConnectorRun = ConnectorRun & {
+    connector: {
+        id: string
+        name: string
+        targetPipeline: { id: string; name: string }
+        otherwisePipeline: { id: string; name: string } | null
+    }
+    targetExecution: { id: string; status: PipelineExecutionStatus } | null
+}
+
+export type OverdueConnectorRun = ConnectorRun & {
+    connector: {
+        id: string
+        name: string
+        sourcePipeline: { name: string }
+        targetPipeline: { name: string }
+        otherwisePipeline: { name: string } | null
+    }
+}
+
+export type ConnectorRunListRow = ConnectorRun & {
+    sourceExecution: {
+        id: string
+        status: PipelineExecutionStatus
+        finishedAt: string | null
+    }
+    targetExecution: {
+        id: string
+        status: PipelineExecutionStatus
+        createdAt: string
+    } | null
 }
 
 export interface AnalyticsTrend {

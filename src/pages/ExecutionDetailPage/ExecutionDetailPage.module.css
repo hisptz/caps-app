@@ -342,3 +342,9 @@
     font-weight: 600;
     margin-bottom: 8px;
 }
+
+.sectionHint {
+    margin: 0 0 8px;
+    font-size: 13px;
+    color: var(--caps-color-text-caption, #718096);
+}

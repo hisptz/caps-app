@@ -15,6 +15,7 @@ import { formatDate } from '@/modules/pipeline-detail/utils/formatLabels'
 import tableNavLinkClasses from '@/shared/components/ui/TableNavLink/TableNavLink.module.css'
 import { TableScroll } from '@/shared/components/ui/TableScroll'
 import type { PipelineExecution } from '@/shared/types/caps'
+import { formatTriggeredBy } from '@/shared/utils/label.utils'
 
 type Props = {
     recentFailures: PipelineExecution[]
@@ -63,7 +64,7 @@ export function RecentFailuresSection({
                                         {formatDate(exec.finishedAt)}
                                     </DataTableCell>
                                     <DataTableCell>
-                                        {exec.triggeredBy ?? '—'}
+                                        {formatTriggeredBy(exec.triggeredBy)}
                                     </DataTableCell>
                                     <DataTableCell>
                                         <Link
