@@ -82,6 +82,7 @@ export function stepOutputFields(
 
 export function stepLabel(step: PipelineStep, stepIndex: number): string {
     return i18n.t('Step {{number}}: {{name}}', {
+        nsSeparator: '~~',
         number: stepIndex + 1,
         name: step.name,
         interpolation: { escapeValue: false },

@@ -258,6 +258,64 @@ export interface SourceRouteTestResponse {
     code?: string
 }
 
+export type OrgUnitMatchValue = 'id' | 'code'
+
+export type RemoteItemType = 'DATA_ELEMENT' | 'INDICATOR' | 'PROGRAM_INDICATOR'
+
+/** PULL: instance → staging. PUSH: staging → instance. */
+export type MappingDirection = 'PULL' | 'PUSH'
+
+/** A remote item of a connected instance paired with a staging data element. */
+export interface InstanceMapping {
+    remoteItem: string
+    remoteItemType: RemoteItemType
+    stagingDataElement: string
+    direction: MappingDirection
+}
+
+/** A pull or push step that goes through a connected instance. */
+export interface InstanceStepUsage {
+    stepId: string
+    stepName: string
+    handlerKey: string
+    direction: MappingDirection
+    pipelineId: string
+    pipelineName: string
+    fromTemplate: boolean
+    /** Staging data elements a mapped step moves. */
+    mapped: string[] | null
+    /** Older steps that still list their own items: how many. */
+    legacyItems: number | null
+}
+
+/** GET /instances/:code */
+export interface InstanceDetail {
+    routeCode: string
+    /** False until the instance's settings are saved once. */
+    configured: boolean
+    orgUnitMatch: OrgUnitMatchValue
+    mappings: InstanceMapping[]
+    steps: InstanceStepUsage[]
+}
+
+/** GET /instances */
+export interface InstanceSummary {
+    routeCode: string
+    orgUnitMatch: OrgUnitMatchValue
+    mappings: number
+    updatedAt: string
+}
+
+export interface PutInstanceBody {
+    orgUnitMatch: OrgUnitMatchValue
+    mappings: InstanceMapping[]
+}
+
+/** GET /mappings: every instance's mappings. */
+export interface MappingWithInstance extends InstanceMapping {
+    routeCode: string
+}
+
 export interface CreatePipelineBody {
     name: string
     description?: string

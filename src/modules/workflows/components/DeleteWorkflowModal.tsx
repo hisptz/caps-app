@@ -34,7 +34,7 @@ export function DeleteWorkflowModal({
                 <p>
                     {i18n.t(
                         'This removes "{{name}}", its schedule and its run history. Its pipelines, their connectors and their own runs are kept. This cannot be undone.',
-                        { name: workflow.name, ...NO_ESCAPE }
+                        { name: workflow.name, interpolation: NO_ESCAPE }
                     )}
                 </p>
                 {error && (

@@ -123,7 +123,7 @@ export function ConnectorModal({
                         'Starts another pipeline after “{{name}}” finishes',
                         {
                             name: sourcePipeline.name,
-                            ...NO_ESCAPE,
+                            interpolation: NO_ESCAPE,
                         }
                     )}
                 </p>

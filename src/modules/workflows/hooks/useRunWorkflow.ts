@@ -30,6 +30,7 @@ export function useRunWorkflow() {
                             ? i18n.t(
                                   'Workflow started: {{started}} pipeline(s) started, {{skipped}} did not start',
                                   {
+                                      nsSeparator: '~~',
                                       started: started.length,
                                       skipped: skipped.length,
                                   }
@@ -37,6 +38,7 @@ export function useRunWorkflow() {
                             : i18n.t(
                                   'Workflow started: {{started}} pipeline(s)',
                                   {
+                                      nsSeparator: '~~',
                                       started: started.length,
                                   }
                               )
@@ -46,6 +48,7 @@ export function useRunWorkflow() {
                               i18n.t(
                                   '{{count}} step(s) kept their own periods: {{steps}}',
                                   {
+                                      nsSeparator: '~~',
                                       count: outsideRange.length,
                                       steps: outsideRange
                                           .map((s) => s.stepName)

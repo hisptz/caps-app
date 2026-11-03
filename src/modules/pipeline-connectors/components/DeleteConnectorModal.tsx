@@ -34,7 +34,7 @@ export function DeleteConnectorModal({
                 <p>
                     {i18n.t(
                         'This removes "{{name}}" and its run history. Runs it already started are kept. This cannot be undone.',
-                        { name: connector.name, ...NO_ESCAPE }
+                        { name: connector.name, interpolation: NO_ESCAPE }
                     )}
                 </p>
                 {error && (

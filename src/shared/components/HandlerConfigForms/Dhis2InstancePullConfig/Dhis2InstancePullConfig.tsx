@@ -1,3 +1,4 @@
+import { useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { Button, IconAdd16, InputField, NoticeBox } from '@dhis2/ui'
 import React, { useEffect, useState } from 'react'
@@ -11,8 +12,10 @@ import { ConfigLabeledControl } from '../ConfigLabeledControl'
 import { ConnectedInstanceSection } from '../ConnectedInstanceSection'
 import { OrganisationUnitConfigSection } from '../OrganisationUnitConfigSection'
 import classes from './Dhis2InstancePullConfig.module.css'
+import { MappedItemsField } from './MappedItemsField'
 import { PullPeriodFields } from './PullPeriodFields'
 import { SourceItemRow } from './SourceItemRow'
+import { useInstanceQuery } from '@/modules/connected-instances/hooks/useInstanceMappings'
 import {
     useSourceDataElementCombos,
     useSourceDataItemsById,
@@ -62,10 +65,29 @@ export function Dhis2InstancePullConfig({
         | PullItem[]
         | undefined
     const items = watchedItems ?? EMPTY_ITEMS
-    const orgUnitMatch = (useWatch({
+    // Older steps list their own items; the rest pick from the instance's mappings.
+    const legacy = Array.isArray(watchedItems)
+    const engine = useDataEngine()
+    const instanceQuery = useInstanceQuery(engine, routeCode || undefined)
+    const instance = instanceQuery.data
+    const stepOrgUnitMatch = (useWatch({
         control,
         name: 'handlerConfig.orgUnitMatch',
     }) ?? 'id') as OrgUnitMatch
+    const orgUnitMatch = instance?.configured
+        ? instance.orgUnitMatch
+        : stepOrgUnitMatch
+    /** Drops the step's own items; it then picks from the instance's mappings. */
+    function switchToMappings() {
+        const config = { ...(getValues('handlerConfig') ?? {}) }
+        delete config.items
+        setValue(
+            'handlerConfig',
+            { ...config, mapped: [] },
+            { shouldDirty: true }
+        )
+    }
+
     const itemsArray = useFieldArray({
         control,
         // Typed loosely: handlerConfig is a record in the step form schema.
@@ -112,84 +134,120 @@ export function Dhis2InstancePullConfig({
                 )}
             />
 
-            <FormSection
-                title={i18n.t('Data items')}
-                description={i18n.t(
-                    'Each item is written to the destination data element with the same ID.'
-                )}
-                tight
-            >
-                {staging.isError && (
-                    <NoticeBox
-                        warning
-                        title={i18n.t('Could not check the destination')}
-                    >
-                        {i18n.t(
-                            'Which items already exist on the destination is unknown; it’s checked again on save.'
-                        )}
+            {!legacy && (
+                <FormSection
+                    title={i18n.t('Data items')}
+                    description={i18n.t(
+                        'Pick what this step pulls from the instance’s mappings.'
+                    )}
+                    tight
+                >
+                    {routeCode ? (
+                        <MappedItemsField
+                            routeCode={routeCode}
+                            instance={instance}
+                            loading={instanceQuery.isLoading}
+                            direction="PULL"
+                        />
+                    ) : (
+                        <p className={classes.hint}>
+                            {i18n.t('Pick a source instance first.')}
+                        </p>
+                    )}
+                </FormSection>
+            )}
+
+            {legacy && (
+                <FormSection
+                    title={i18n.t('Data items')}
+                    description={i18n.t(
+                        'Each item is written to the destination data element with the same ID.'
+                    )}
+                    tight
+                >
+                    <NoticeBox title={i18n.t('This step lists its own items')}>
+                        <p>
+                            {i18n.t(
+                                'Data items now belong to the connected instance. Map them under Settings › Connected instances › Mappings, then switch this step to pick from them.'
+                            )}
+                        </p>
+                        <Button small onClick={switchToMappings}>
+                            {i18n.t('Use instance mappings')}
+                        </Button>
                     </NoticeBox>
-                )}
-                {items.length > 0 && (
-                    <ul className={classes.items}>
-                        {itemsArray.fields.map((row, index) => (
-                            <SourceItemRow
-                                key={row.id}
-                                index={index}
-                                routeCode={routeCode || undefined}
-                                selected={
-                                    items[index]?.from
-                                        ? sourceItems.data?.get(
-                                              items[index].from
-                                          )
-                                        : undefined
-                                }
-                                staging={stagingNames}
-                                stagingPending={
-                                    staging.isFetching &&
-                                    (staging.isPreviousData || !staging.data)
-                                }
-                                sourcePending={
-                                    sourceItems.isFetching ||
-                                    sourceCombos.isFetching
-                                }
-                                stagingCombo={
-                                    items[index]
-                                        ? staging.data?.get(
-                                              items[index].into ??
+                    {staging.isError && (
+                        <NoticeBox
+                            warning
+                            title={i18n.t('Could not check the destination')}
+                        >
+                            {i18n.t(
+                                'Which items already exist on the destination is unknown; it’s checked again on save.'
+                            )}
+                        </NoticeBox>
+                    )}
+                    {items.length > 0 && (
+                        <ul className={classes.items}>
+                            {itemsArray.fields.map((row, index) => (
+                                <SourceItemRow
+                                    key={row.id}
+                                    index={index}
+                                    routeCode={routeCode || undefined}
+                                    selected={
+                                        items[index]?.from
+                                            ? sourceItems.data?.get(
                                                   items[index].from
-                                          )?.combo
-                                        : undefined
-                                }
-                                sourceCombo={
-                                    items[index]?.from
-                                        ? sourceCombos.data?.get(
-                                              items[index].from
-                                          )?.combo
-                                        : undefined
-                                }
-                                onRemove={() => itemsArray.remove(index)}
-                            />
-                        ))}
-                    </ul>
-                )}
-                {itemsError && <NoticeBox error>{itemsError}</NoticeBox>}
-                <div>
-                    <Button
-                        small
-                        secondary
-                        icon={<IconAdd16 />}
-                        disabled={!routeCode}
-                        onClick={() =>
-                            itemsArray.append({
-                                from: '',
-                                fromType: 'DATA_ELEMENT',
-                            } as never)
-                        }
-                    >
-                        {i18n.t('Add item')}
-                    </Button>
-                </div>
-            </FormSection>
+                                              )
+                                            : undefined
+                                    }
+                                    staging={stagingNames}
+                                    stagingPending={
+                                        staging.isFetching &&
+                                        (staging.isPreviousData ||
+                                            !staging.data)
+                                    }
+                                    sourcePending={
+                                        sourceItems.isFetching ||
+                                        sourceCombos.isFetching
+                                    }
+                                    stagingCombo={
+                                        items[index]
+                                            ? staging.data?.get(
+                                                  items[index].into ??
+                                                      items[index].from
+                                              )?.combo
+                                            : undefined
+                                    }
+                                    sourceCombo={
+                                        items[index]?.from
+                                            ? sourceCombos.data?.get(
+                                                  items[index].from
+                                              )?.combo
+                                            : undefined
+                                    }
+                                    onRemove={() => itemsArray.remove(index)}
+                                />
+                            ))}
+                        </ul>
+                    )}
+                    {itemsError && <NoticeBox error>{itemsError}</NoticeBox>}
+                    <div>
+                        <Button
+                            small
+                            secondary
+                            icon={<IconAdd16 />}
+                            disabled={!routeCode}
+                            onClick={() =>
+                                itemsArray.append({
+                                    from: '',
+                                    fromType: 'DATA_ELEMENT',
+                                } as never)
+                            }
+                        >
+                            {i18n.t('Add item')}
+                        </Button>
+                    </div>
+                </FormSection>
+            )}
 
             <FormSection
                 title={i18n.t('Organisation units')}
@@ -204,31 +262,50 @@ export function Dhis2InstancePullConfig({
                 }
                 tight
             >
-                <Controller
-                    name="handlerConfig.orgUnitMatch"
-                    control={control}
-                    render={({ field }) => (
-                        <ConfigLabeledControl
-                            label={i18n.t('Match org units on the source by')}
-                            helpText={i18n.t(
-                                'Use code when the source and destination have different IDs for the same places.'
-                            )}
-                        >
-                            <SegmentedControl<OrgUnitMatch>
-                                name="org-unit-match"
-                                value={(field.value as OrgUnitMatch) ?? 'id'}
-                                options={[
-                                    { value: 'id', label: i18n.t('ID') },
-                                    { value: 'code', label: i18n.t('Code') },
-                                ]}
-                                onChange={field.onChange}
-                                aria-label={i18n.t(
+                {instance?.configured ? (
+                    <p className={classes.hint}>
+                        {orgUnitMatch === 'code'
+                            ? i18n.t(
+                                  'Matched on the source by code, as set for this instance under Settings › Connected instances.'
+                              )
+                            : i18n.t(
+                                  'Matched on the source by ID, as set for this instance under Settings › Connected instances.'
+                              )}
+                    </p>
+                ) : (
+                    <Controller
+                        name="handlerConfig.orgUnitMatch"
+                        control={control}
+                        render={({ field }) => (
+                            <ConfigLabeledControl
+                                label={i18n.t(
                                     'Match org units on the source by'
                                 )}
-                            />
-                        </ConfigLabeledControl>
-                    )}
-                />
+                                helpText={i18n.t(
+                                    'Use code when the source and destination have different IDs for the same places.'
+                                )}
+                            >
+                                <SegmentedControl<OrgUnitMatch>
+                                    name="org-unit-match"
+                                    value={
+                                        (field.value as OrgUnitMatch) ?? 'id'
+                                    }
+                                    options={[
+                                        { value: 'id', label: i18n.t('ID') },
+                                        {
+                                            value: 'code',
+                                            label: i18n.t('Code'),
+                                        },
+                                    ]}
+                                    onChange={field.onChange}
+                                    aria-label={i18n.t(
+                                        'Match org units on the source by'
+                                    )}
+                                />
+                            </ConfigLabeledControl>
+                        )}
+                    />
+                )}
                 <OrganisationUnitConfigSection />
             </FormSection>
 

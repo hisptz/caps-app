@@ -40,7 +40,10 @@ export function DuplicatePipelineModal({
     useEffect(() => {
         if (open) {
             setName(
-                i18n.t('{{name}} (copy)', { name: pipeline.name, ...NO_ESCAPE })
+                i18n.t('{{name}} (copy)', {
+                    name: pipeline.name,
+                    interpolation: NO_ESCAPE,
+                })
             )
             setError(null)
         }

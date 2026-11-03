@@ -21,6 +21,16 @@ export const capsKeys = {
         all: () => [...capsKeys.all, 'handlers'] as const,
     },
 
+    instances: {
+        /** Prefix match: invalidates every instance query. */
+        all: () => [...capsKeys.all, 'instances'] as const,
+        list: () => [...capsKeys.instances.all(), 'list'] as const,
+        detail: (routeCode: string | undefined) =>
+            [...capsKeys.instances.all(), 'detail', routeCode] as const,
+        allMappings: () =>
+            [...capsKeys.instances.all(), 'all-mappings'] as const,
+    },
+
     pipelines: {
         all: () => [...capsKeys.all, 'pipelines'] as const,
         list: (page: number, pageSize: number) =>

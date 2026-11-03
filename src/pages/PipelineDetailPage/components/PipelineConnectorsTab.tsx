@@ -374,7 +374,8 @@ export function PipelineConnectorsTab({
                                                           rule: describeRule(
                                                               connector.condition
                                                           ),
-                                                          ...NO_ESCAPE,
+                                                          interpolation:
+                                                              NO_ESCAPE,
                                                       }
                                                   )
                                                 : describeRule(

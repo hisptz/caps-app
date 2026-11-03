@@ -231,7 +231,7 @@ const ExecutionDetailPage: React.FC = () => {
                         {
                             workflow: execution.workflowRun.workflow.name,
                             time: formatDate(execution.workflowRun.createdAt),
-                            ...NO_ESCAPE,
+                            interpolation: NO_ESCAPE,
                         }
                     )}{' '}
                     <Link

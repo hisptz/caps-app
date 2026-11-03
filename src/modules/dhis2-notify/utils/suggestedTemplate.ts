@@ -32,7 +32,7 @@ function body(intro: string, details: string[] = []): string {
         intro,
         ...(details.length > 0 ? ['', ...details] : []),
         '',
-        i18n.t('View this run in CAPS:'),
+        i18n.t('View this run in CAPS:', { nsSeparator: '~~' }),
         '{{runUrl}}',
         '',
         withPlaceholders('Sent automatically by CAPS on {{date}}.', {

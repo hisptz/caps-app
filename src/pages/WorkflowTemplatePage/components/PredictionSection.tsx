@@ -167,7 +167,8 @@ export function OrgUnitsSection(): React.ReactElement {
                                         field.onChange(selected.at(-1) ?? '')
                                     }
                                     helpText={i18n.t(
-                                        'Usually districts: climate is averaged over each one'
+                                        'Usually districts: climate is averaged over each one',
+                                        { nsSeparator: '~~' }
                                     )}
                                 />
                                 {fieldState.error && (

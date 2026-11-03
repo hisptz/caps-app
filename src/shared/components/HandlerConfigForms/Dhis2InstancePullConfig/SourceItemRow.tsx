@@ -99,6 +99,7 @@ function Breakdown({
                             {i18n.t(
                                 'Not on the destination: {{names}}. Pick a target without categories or with matching option combos.',
                                 {
+                                    nsSeparator: '~~',
                                     names: status.unmatched
                                         .map((c) => c.name || c.id)
                                         .join(', '),
@@ -131,6 +132,9 @@ function stateHint(state: RowState): string | null {
 
 export function SourceItemRow({
     index,
+    name,
+    draftsName = 'handlerDrafts',
+    targetLabel = i18n.t('Destination data element'),
     routeCode,
     selected,
     staging,
@@ -141,6 +145,12 @@ export function SourceItemRow({
     onRemove,
 }: {
     index: number
+    /** Form path of the item; the pull step's `handlerConfig.items.<index>` by default. */
+    name?: string
+    /** Form path of per-item choices that aren't saved with the item. */
+    draftsName?: string
+    /** Label of the staging-side data element picker. */
+    targetLabel?: string
     routeCode: string | undefined
     selected: SourceDataItem | undefined
     staging: ReadonlyMap<string, string> | undefined
@@ -155,11 +165,11 @@ export function SourceItemRow({
     onRemove: () => void
 }): React.ReactElement {
     const { setValue } = useFormContext()
-    const base = `handlerConfig.items.${index}`
+    const base = name ?? `handlerConfig.items.${index}`
     const item = (useWatch({ name: base }) ?? {}) as Partial<PullItem>
     const { fieldState: fromState } = useController({ name: `${base}.from` })
     const { field: aggregation } = useController({
-        name: `handlerDrafts.${item.from ?? '_'}.aggregationType`,
+        name: `${draftsName}.${item.from ?? '_'}.aggregationType`,
         defaultValue: 'AVERAGE',
     })
     const [changingTarget, setChangingTarget] = useState(false)
@@ -289,7 +299,7 @@ export function SourceItemRow({
                             <div className={classes.targetPicker}>
                                 <DataElementSelector
                                     name={`${base}.into`}
-                                    label={i18n.t('Destination data element')}
+                                    label={targetLabel}
                                     dense
                                 />
                             </div>

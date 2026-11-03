@@ -37,6 +37,10 @@ import {
     RetryStepExecutionBody,
     RetryStepExecutionResponse,
     SourceRouteTestResponse,
+    InstanceDetail,
+    InstanceSummary,
+    PutInstanceBody,
+    MappingWithInstance,
 } from '@/capsApi/types'
 import type {
     CreateConnectorBody,
@@ -581,6 +585,35 @@ export function testSourceRoute(engine: CapsDataEngine, routeCode: string) {
         engine,
         `/source-routes/${routeCode}/test`
     )
+}
+
+export function listInstances(engine: CapsDataEngine) {
+    return capsFetchJson<InstanceSummary[]>(engine, '/instances')
+}
+
+export function getInstance(engine: CapsDataEngine, routeCode: string) {
+    return capsFetchJson<InstanceDetail>(engine, `/instances/${routeCode}`)
+}
+
+export function putInstance(
+    engine: CapsDataEngine,
+    routeCode: string,
+    body: PutInstanceBody
+) {
+    return capsPutJson<InstanceDetail>(engine, `/instances/${routeCode}`, {
+        body,
+    })
+}
+
+export function deleteInstance(engine: CapsDataEngine, routeCode: string) {
+    return capsDeleteJson<{ routeCode: string; removedMappings: number }>(
+        engine,
+        `/instances/${routeCode}`
+    )
+}
+
+export function listAllMappings(engine: CapsDataEngine) {
+    return capsFetchJson<MappingWithInstance[]>(engine, '/mappings')
 }
 
 export function listEvaluations(engine: CapsDataEngine) {

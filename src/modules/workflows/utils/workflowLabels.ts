@@ -19,7 +19,7 @@ export function describeWorkflowSchedule(
     return i18n.t('{{cron}} · next {{next}}', {
         cron: workflow.cronExpr,
         next: formatDate(workflow.nextRunAt),
-        ...NO_ESCAPE,
+        interpolation: NO_ESCAPE,
     })
 }
 

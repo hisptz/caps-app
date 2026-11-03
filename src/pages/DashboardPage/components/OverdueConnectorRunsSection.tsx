@@ -80,7 +80,7 @@ export function OverdueConnectorRunsSection({
                                                       run.connector
                                                           .otherwisePipeline
                                                           .name,
-                                                  ...NO_ESCAPE,
+                                                  interpolation: NO_ESCAPE,
                                               }
                                           )
                                         : run.connector.targetPipeline.name}

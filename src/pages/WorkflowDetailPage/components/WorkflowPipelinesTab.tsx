@@ -202,6 +202,7 @@ export function WorkflowPipelinesTab({ workflow }: Props): React.ReactElement {
                                     <DataTableRow key={connector.id}>
                                         <DataTableCell>
                                             {i18n.t('{{pipeline}}: {{when}}', {
+                                                nsSeparator: '~~',
                                                 pipeline:
                                                     connector.sourcePipeline
                                                         ?.name ??
@@ -209,7 +210,7 @@ export function WorkflowPipelinesTab({ workflow }: Props): React.ReactElement {
                                                 when: describeConnectorTrigger(
                                                     connector
                                                 ),
-                                                ...NO_ESCAPE,
+                                                interpolation: NO_ESCAPE,
                                             })}
                                         </DataTableCell>
                                         <DataTableCell>
@@ -258,6 +259,7 @@ export function WorkflowPipelinesTab({ workflow }: Props): React.ReactElement {
                                                 {i18n.t(
                                                     '{{pipelines}}: {{when}}',
                                                     {
+                                                        nsSeparator: '~~',
                                                         pipelines: merge.sources
                                                             .map(
                                                                 (s) =>
@@ -268,7 +270,8 @@ export function WorkflowPipelinesTab({ workflow }: Props): React.ReactElement {
                                                             )
                                                             .join(', '),
                                                         when: whenLabel(merge),
-                                                        ...NO_ESCAPE,
+                                                        interpolation:
+                                                            NO_ESCAPE,
                                                     }
                                                 )}
                                             </div>

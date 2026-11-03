@@ -105,9 +105,10 @@ export function WorkflowRunModal({
                                     {run.skipped.map((skip) => (
                                         <li key={skip.pipelineId}>
                                             {i18n.t('{{name}}: {{reason}}', {
+                                                nsSeparator: '~~',
                                                 name: skip.pipelineName,
                                                 reason: skip.reason,
-                                                ...NO_ESCAPE,
+                                                interpolation: NO_ESCAPE,
                                             })}
                                         </li>
                                     ))}
@@ -201,7 +202,7 @@ export function WorkflowRunModal({
                                                     time: formatDate(
                                                         waiting.checkAt
                                                     ),
-                                                    ...NO_ESCAPE,
+                                                    interpolation: NO_ESCAPE,
                                                 }
                                             )}
                                         </li>

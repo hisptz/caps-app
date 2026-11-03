@@ -6,7 +6,7 @@ import type {
     PipelineConnector,
 } from '@/shared/types/caps'
 
-export const NO_ESCAPE = { interpolation: { escapeValue: false } } as const
+export const NO_ESCAPE = { escapeValue: false } as const
 const ON_LABELS: Record<ConnectorTriggerOn, () => string> = {
     COMPLETED: () => i18n.t('When it succeeds'),
     FAILED: () => i18n.t('When it fails'),
@@ -33,7 +33,11 @@ export function describeConnectorTrigger(
     const when = ON_LABELS[connector.on]()
     const delay = formatDelay(connector.delayMinutes)
     return delay
-        ? i18n.t('{{when}}, wait {{delay}}', { when, delay, ...NO_ESCAPE })
+        ? i18n.t('{{when}}, wait {{delay}}', {
+              when,
+              delay,
+              interpolation: NO_ESCAPE,
+          })
         : when
 }
 
@@ -44,7 +48,7 @@ export function describeConnectorRunTime(
     return run.status === 'WAITING'
         ? i18n.t('Checks at {{date}}', {
               date: formatDate(run.checkAt),
-              ...NO_ESCAPE,
+              interpolation: NO_ESCAPE,
           })
         : formatDate(run.evaluatedAt)
 }

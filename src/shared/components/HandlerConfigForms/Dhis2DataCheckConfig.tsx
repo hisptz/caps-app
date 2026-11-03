@@ -149,7 +149,8 @@ export function Dhis2DataCheckConfig({
 
             <NoticeBox title={i18n.t('What it reports')}>
                 {i18n.t(
-                    'Values found, values expected (data elements × org units × periods) and completeness (%). It reads the data as entered, not analytics, and finding nothing is a normal result: the step succeeds and reports 0. Use a connector to act on it, e.g. “Completeness is at least 80”.'
+                    'Values found, values expected (data elements × org units × periods) and completeness (%). It reads the data as entered, not analytics, and finding nothing is a normal result: the step succeeds and reports 0. Use a connector to act on it, e.g. “Completeness is at least 80”.',
+                    { nsSeparator: '~~' }
                 )}
             </NoticeBox>
         </div>

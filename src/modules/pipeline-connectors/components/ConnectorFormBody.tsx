@@ -51,7 +51,10 @@ const RULE_MODE_OPTIONS = [
 
 function pipelineOptionLabel(pipeline: PipelineRef): string {
     return pipeline.isActive === false
-        ? i18n.t('{{name}} (inactive)', { name: pipeline.name, ...NO_ESCAPE })
+        ? i18n.t('{{name}} (inactive)', {
+              name: pipeline.name,
+              interpolation: NO_ESCAPE,
+          })
         : pipeline.name
 }
 

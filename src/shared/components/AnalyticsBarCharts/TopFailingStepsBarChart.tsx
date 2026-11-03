@@ -32,10 +32,7 @@ export const TopFailingStepsBarChart: React.FC<
         const total = steps.reduce((a, s) => a + s.failureCount, 0)
         const summary = i18n.t(
             'Top failing steps: {{count}} steps, {{failures}} total failures in this period.',
-            {
-                count: steps.length,
-                failures: total,
-            }
+            { nsSeparator: '~~', count: steps.length, failures: total }
         )
         const categories = steps.map((s) =>
             truncate(`${s.stepName} — ${s.pipelineName}`, 48)

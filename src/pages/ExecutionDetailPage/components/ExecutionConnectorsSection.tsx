@@ -45,7 +45,7 @@ export function ExecutionConnectorsSection({
                         {
                             connector: incoming.connector.name,
                             pipeline: incoming.sourceExecution.pipeline.name,
-                            ...NO_ESCAPE,
+                            interpolation: NO_ESCAPE,
                         }
                     )}{' '}
                     <Link

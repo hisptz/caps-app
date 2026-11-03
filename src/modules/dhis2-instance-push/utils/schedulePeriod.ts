@@ -13,11 +13,16 @@ export function describePushPeriod(
         case 'relative':
             return i18n.t(
                 'Latest periods: {{count}}, skipping the most recent {{offset}}',
-                { count: period.count, offset: period.offset }
+                {
+                    nsSeparator: '~~',
+                    count: period.count,
+                    offset: period.offset,
+                }
             )
         case 'fixed':
             return period.start && period.end
                 ? i18n.t('Fixed range: {{start}} to {{end}}', {
+                      nsSeparator: '~~',
                       start: period.start,
                       end: period.end,
                   })

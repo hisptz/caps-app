@@ -72,10 +72,11 @@ function sourceSteps(
             labels.set(
                 step.id,
                 i18n.t('{{pipeline}} › Step {{number}}: {{name}}', {
+                    nsSeparator: '~~',
                     pipeline: pipeline.name,
                     number: index + 1,
                     name: step.name,
-                    ...NO_ESCAPE,
+                    interpolation: NO_ESCAPE,
                 })
             )
         })

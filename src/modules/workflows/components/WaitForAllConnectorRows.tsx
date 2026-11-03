@@ -94,7 +94,7 @@ export function OutgoingWaitForAllRows({
                         <div>
                             {i18n.t('together with {{others}}', {
                                 others: sourceNames(merge, pipelineId),
-                                ...NO_ESCAPE,
+                                interpolation: NO_ESCAPE,
                             })}
                         </div>
                     </DataTableCell>

@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-11-03T11:41:07.800Z\n"
-"PO-Revision-Date: 2026-11-03T11:41:07.801Z\n"
+"POT-Creation-Date: 2026-11-03T17:19:11.861Z\n"
+"PO-Revision-Date: 2026-11-03T17:19:11.861Z\n"
 
 msgid "Enter a valid HTTP or HTTPS URL."
 msgstr "Enter a valid HTTP or HTTPS URL."
@@ -164,6 +164,9 @@ msgstr "Overwrite existing dataset"
 msgid "Start ingestion"
 msgstr "Start ingestion"
 
+msgid "Available coverage: {{start}} – {{end}}"
+msgstr "Available coverage: {{start}} – {{end}}"
+
 msgid "Present"
 msgstr "Present"
 
@@ -251,8 +254,8 @@ msgstr "Could not delete the connected instance."
 msgid "Connected instances"
 msgstr "Connected instances"
 
-msgid "Other DHIS2 instances that pipelines can pull data from."
-msgstr "Other DHIS2 instances that pipelines can pull data from."
+msgid "Other DHIS2 instances that pipelines pull data from or push data to."
+msgstr "Other DHIS2 instances that pipelines pull data from or push data to."
 
 msgid "Connect instance"
 msgstr "Connect instance"
@@ -264,20 +267,29 @@ msgid "The DHIS2 routes could not be read."
 msgstr "The DHIS2 routes could not be read."
 
 msgid ""
-"No instances connected yet. Connect one to add a DHIS2 Instance Pull step "
-"to a pipeline."
+"No instances connected yet. Connect one to add a DHIS2 Instance Pull or "
+"Push step to a pipeline."
 msgstr ""
-"No instances connected yet. Connect one to add a DHIS2 Instance Pull step "
-"to a pipeline."
+"No instances connected yet. Connect one to add a DHIS2 Instance Pull or "
+"Push step to a pipeline."
 
 msgid "Disabled"
 msgstr "Disabled"
+
+msgid "No authorities: anyone with access can run it"
+msgstr "No authorities: anyone with access can run it"
+
+msgid "No mappings yet"
+msgstr "No mappings yet"
 
 msgid "Timeout {{seconds}} s"
 msgstr "Timeout {{seconds}} s"
 
 msgid "Test"
 msgstr "Test"
+
+msgid "Mappings"
+msgstr "Mappings"
 
 msgid "Edit"
 msgstr "Edit"
@@ -288,20 +300,110 @@ msgstr "Delete"
 msgid "{{name}} saved."
 msgstr "{{name}} saved."
 
+msgid "Mappings for {{name}} saved."
+msgstr "Mappings for {{name}} saved."
+
 msgid "Disconnect instance?"
 msgstr "Disconnect instance?"
 
 msgid ""
-"This deletes the route {{code}} and its stored credentials from staging. "
-"Pipeline steps that pull from {{name}} will fail until another instance is "
-"picked."
+"This deletes the route {{code}}, its stored credentials and its mappings "
+"from staging. Pipeline steps that pull from or push to {{name}} will fail "
+"until another instance is picked."
 msgstr ""
-"This deletes the route {{code}} and its stored credentials from staging. "
-"Pipeline steps that pull from {{name}} will fail until another instance is "
-"picked."
+"This deletes the route {{code}}, its stored credentials and its mappings "
+"from staging. Pipeline steps that pull from or push to {{name}} will fail "
+"until another instance is picked."
 
 msgid "Disconnect"
 msgstr "Disconnect"
+
+msgid ""
+"Only one instance can pull into a staging data element. Already pulled into "
+"from another instance: {{list}}"
+msgstr ""
+"Only one instance can pull into a staging data element. Already pulled into "
+"from another instance: {{list}}"
+
+msgid "Could not check the data elements: {{message}}"
+msgstr "Could not check the data elements: {{message}}"
+
+msgid ""
+"Some mappings that steps use were removed or moved to the other direction. "
+"Take them out of these steps first: {{list}}"
+msgstr ""
+"Some mappings that steps use were removed or moved to the other direction. "
+"Take them out of these steps first: {{list}}"
+
+msgid "Could not save the mappings."
+msgstr "Could not save the mappings."
+
+msgid "Mappings · {{name}}"
+msgstr "Mappings · {{name}}"
+
+msgid "Could not load mappings"
+msgstr "Could not load mappings"
+
+msgid "Match org units by"
+msgstr "Match org units by"
+
+msgid ""
+"For every pull and push with this instance. Org units without a code are "
+"skipped."
+msgstr ""
+"For every pull and push with this instance. Org units without a code are "
+"skipped."
+
+msgid ""
+"For every pull and push with this instance. Use code when it and staging "
+"have different IDs for the same places."
+msgstr ""
+"For every pull and push with this instance. Use code when it and staging "
+"have different IDs for the same places."
+
+msgid "ID"
+msgstr "ID"
+
+msgid "Code"
+msgstr "Code"
+
+msgid "Pull from this instance"
+msgstr "Pull from this instance"
+
+msgid ""
+"Values come from this instance into staging. Only one instance can pull "
+"into a staging data element."
+msgstr ""
+"Values come from this instance into staging. Only one instance can pull "
+"into a staging data element."
+
+msgid "Add pull"
+msgstr "Add pull"
+
+msgid "Staging data element"
+msgstr "Staging data element"
+
+msgid "Push to this instance"
+msgstr "Push to this instance"
+
+msgid ""
+"Values go from staging into data elements on this instance. Several "
+"instances can receive the same staging data element."
+msgstr ""
+"Values go from staging into data elements on this instance. Several "
+"instances can receive the same staging data element."
+
+msgid "Add push"
+msgstr "Add push"
+
+msgid "Used by: {{steps}}"
+msgstr "Used by: {{steps}}"
+
+msgid "Could not save"
+msgstr "Could not save"
+
+msgid "Save mappings"
+msgstr "Save mappings"
 
 msgid "Access token"
 msgstr "Access token"
@@ -317,9 +419,6 @@ msgstr "Edit connected instance"
 
 msgid "Connect a DHIS2 instance"
 msgstr "Connect a DHIS2 instance"
-
-msgid "Could not save"
-msgstr "Could not save"
 
 msgid "Instance"
 msgstr "Instance"
@@ -410,11 +509,20 @@ msgstr "Saving…"
 msgid "Save changes"
 msgstr "Save changes"
 
+msgid "This item on the instance is already mapped"
+msgstr "This item on the instance is already mapped"
+
+msgid "This staging data element is already mapped"
+msgstr "This staging data element is already mapped"
+
 msgid "Name is required"
 msgstr "Name is required"
 
 msgid "Use lowercase letters, digits and dashes, e.g. play"
 msgstr "Use lowercase letters, digits and dashes, e.g. play"
+
+msgid "Enter the instance URL, e.g. https://play.im.dhis2.org/dev"
+msgstr "Enter the instance URL, e.g. https://play.im.dhis2.org/dev"
 
 msgid "Enter the personal access token"
 msgstr "Enter the personal access token"
@@ -443,8 +551,18 @@ msgstr "Update"
 msgid "Only update existing values, ignore new values"
 msgstr "Only update existing values, ignore new values"
 
+msgid "Could not read {{id}} from the source instance: {{message}}"
+msgstr "Could not read {{id}} from the source instance: {{message}}"
+
 msgid "request failed"
 msgstr "request failed"
+
+msgid ""
+"These destination data elements no longer exist: {{ids}}. Pick another data "
+"element for those rows."
+msgstr ""
+"These destination data elements no longer exist: {{ids}}. Pick another data "
+"element for those rows."
 
 msgid "[CAPS] Imported from other instances"
 msgstr "[CAPS] Imported from other instances"
@@ -459,11 +577,40 @@ msgstr ""
 "If destination already has this data element, use “Write into a different "
 "data element” on that row."
 
+msgid "Destination refused to create the data elements: {{message}}"
+msgstr "Destination refused to create the data elements: {{message}}"
+
 msgid "check that you may add data elements and data element groups"
 msgstr "check that you may add data elements and data element groups"
 
 msgid "the metadata import failed"
 msgstr "the metadata import failed"
+
+msgid ""
+"The data elements were created, but could not be added to the CAPS imported "
+"group: {{message}}"
+msgstr ""
+"The data elements were created, but could not be added to the CAPS imported "
+"group: {{message}}"
+
+msgid "Pick a destination data element for every item. These have none yet: {{ids}}"
+msgstr "Pick a destination data element for every item. These have none yet: {{ids}}"
+
+msgid ""
+"Could not read the source’s data elements to check option combos: "
+"{{message}}"
+msgstr ""
+"Could not read the source’s data elements to check option combos: "
+"{{message}}"
+
+msgid ""
+"These items can’t be written into their destination data elements: {{ids}}. "
+"Each item says why; pick another destination data element, or fix it on "
+"destination instance."
+msgstr ""
+"These items can’t be written into their destination data elements: {{ids}}. "
+"Each item says why; pick another destination data element, or fix it on "
+"destination instance."
 
 msgid "Must be a DHIS2 ID"
 msgstr "Must be a DHIS2 ID"
@@ -480,6 +627,12 @@ msgstr "Pick a connected instance"
 msgid "Add at least one item to pull"
 msgstr "Add at least one item to pull"
 
+msgid "Pick at least one data element"
+msgstr "Pick at least one data element"
+
+msgid "Pick the mapped data elements to pull"
+msgstr "Pick the mapped data elements to pull"
+
 msgid ""
 "This staging data element has categories, but indicators and program "
 "indicators only give totals. Pick one without categories."
@@ -521,6 +674,22 @@ msgid ""
 msgstr ""
 "The source data element has decimal values, but destination one only takes "
 "whole numbers. Pick one with value type Number."
+
+msgid ""
+"Could not read the data elements on this instance to check the push "
+"mappings."
+msgstr ""
+"Could not read the data elements on this instance to check the push "
+"mappings."
+
+msgid "{{id}} doesn’t exist on staging"
+msgstr "{{id}} doesn’t exist on staging"
+
+msgid "{{id}} doesn’t exist on this instance"
+msgstr "{{id}} doesn’t exist on this instance"
+
+msgid "Some push mappings can’t work: {{problems}}"
+msgstr "Some push mappings can’t work: {{problems}}"
 
 msgid "Add at least one data element to push"
 msgstr "Add at least one data element to push"
@@ -569,6 +738,9 @@ msgstr ""
 
 msgid "Values updated in the last {{days}} days"
 msgstr "Values updated in the last {{days}} days"
+
+msgid "Fixed range: {{start}} to {{end}}"
+msgstr "Fixed range: {{start}} to {{end}}"
 
 msgid ""
 "Scheduled runs push the step’s values, recently updated values or latest "
@@ -672,6 +844,9 @@ msgstr "Alert events created in DHIS2"
 
 msgid "Alert events updated in DHIS2"
 msgstr "Alert events updated in DHIS2"
+
+msgid "View this run in CAPS:"
+msgstr "View this run in CAPS:"
 
 msgid "new prediction ready"
 msgstr "new prediction ready"
@@ -1019,6 +1194,9 @@ msgstr "and"
 msgid "or"
 msgstr "or"
 
+msgid "Step {{number}}: {{name}}"
+msgstr "Step {{number}}: {{name}}"
+
 msgid "e.g. Download ERA5 Data"
 msgstr "e.g. Download ERA5 Data"
 
@@ -1048,6 +1226,9 @@ msgstr "Handler configuration has errors"
 
 msgid "Every hour"
 msgstr "Every hour"
+
+msgid "Daily 02:00"
+msgstr "Daily 02:00"
 
 msgid "Weekly Mon"
 msgstr "Weekly Mon"
@@ -1228,6 +1409,9 @@ msgstr "Pipeline has active executions and cannot be deleted."
 
 msgid "Could not delete pipeline. Try again."
 msgstr "Could not delete pipeline. Try again."
+
+msgid "Could not check the staging data elements: {{message}}"
+msgstr "Could not check the staging data elements: {{message}}"
 
 msgid "Could not pause schedule. Try again."
 msgstr "Could not pause schedule. Try again."
@@ -1426,6 +1610,9 @@ msgstr ""
 "Written to a data element the setup does not read — {{steps}}. Pick the "
 "covariate in each step so it writes where \"{{prediction}}\" reads."
 
+msgid "Covariates no step downloads: {{covariates}}."
+msgstr "Covariates no step downloads: {{covariates}}."
+
 msgid ""
 "Run after \"{{prediction}}\", so each prediction uses the previous run’s "
 "data — {{steps}}. Move them above it."
@@ -1490,6 +1677,13 @@ msgstr "Not configured"
 
 msgid "CAPS backend base URL"
 msgstr "CAPS backend base URL"
+
+msgid ""
+"Full URL of the CAPS service (scheme and host, no trailing slash). Example: "
+"https://caps.example.org"
+msgstr ""
+"Full URL of the CAPS service (scheme and host, no trailing slash). Example: "
+"https://caps.example.org"
 
 msgid "Save"
 msgstr "Save"
@@ -1631,6 +1825,9 @@ msgstr "The copy gets the same steps and settings."
 
 msgid "Duplicate"
 msgstr "Duplicate"
+
+msgid "{{pipeline}} › Step {{number}}: {{name}}"
+msgstr "{{pipeline}} › Step {{number}}: {{name}}"
 
 msgid "Connector updated"
 msgstr "Connector updated"
@@ -1803,6 +2000,9 @@ msgstr "Started by"
 msgid "Some pipelines did not start"
 msgstr "Some pipelines did not start"
 
+msgid "{{name}}: {{reason}}"
+msgstr "{{name}}: {{reason}}"
+
 msgid "Pipeline runs table"
 msgstr "Pipeline runs table"
 
@@ -1930,6 +2130,12 @@ msgstr "Did not start next"
 
 msgid "Took otherwise"
 msgstr "Took otherwise"
+
+msgid "Workflow started: {{started}} pipeline(s) started, {{skipped}} did not start"
+msgstr "Workflow started: {{started}} pipeline(s) started, {{skipped}} did not start"
+
+msgid "Workflow started: {{started}} pipeline(s)"
+msgstr "Workflow started: {{started}} pipeline(s)"
 
 msgid "Could not start the workflow"
 msgstr "Could not start the workflow"
@@ -2695,6 +2901,12 @@ msgstr "Add or change connectors on the Flow tab, or on a pipeline’s Connector
 msgid "Workflow connectors table"
 msgstr "Workflow connectors table"
 
+msgid "{{pipeline}}: {{when}}"
+msgstr "{{pipeline}}: {{when}}"
+
+msgid "{{pipelines}}: {{when}}"
+msgstr "{{pipelines}}: {{when}}"
+
 msgid "Could not load runs"
 msgstr "Could not load runs"
 
@@ -2842,6 +3054,9 @@ msgstr "Connected on the Settings page"
 msgid "Pull"
 msgstr "Pull"
 
+msgid "Into staging data element (empty: same ID)"
+msgstr "Into staging data element (empty: same ID)"
+
 msgid "Add data to pull"
 msgstr "Add data to pull"
 
@@ -2898,6 +3113,9 @@ msgstr ""
 msgid "Org unit level"
 msgstr "Org unit level"
 
+msgid "Usually districts: climate is averaged over each one"
+msgstr "Usually districts: climate is averaged over each one"
+
 msgid "What it creates"
 msgstr "What it creates"
 
@@ -2927,6 +3145,13 @@ msgstr "Could not load workflows"
 
 msgid "No workflows yet"
 msgstr "No workflows yet"
+
+msgid ""
+"A workflow runs several pipelines as one process: one start launches its "
+"first pipelines together, and connectors start the rest."
+msgstr ""
+"A workflow runs several pipelines as one process: one start launches its "
+"first pipelines together, and connectors start the rest."
 
 msgid "Workflows table"
 msgstr "Workflows table"
@@ -3106,6 +3331,9 @@ msgstr "No duration data."
 
 msgid "No error data for this period."
 msgstr "No error data for this period."
+
+msgid "Top errors: {{kinds}} distinct messages, {{occurrences}} total occurrences."
+msgstr "Top errors: {{kinds}} distinct messages, {{occurrences}} total occurrences."
 
 msgid "Occurrences"
 msgstr "Occurrences"
@@ -3355,6 +3583,9 @@ msgstr "At most {{max}}"
 msgid "Enter 0 to {{max}}"
 msgstr "Enter 0 to {{max}}"
 
+msgid "Fixed range: {{start}}"
+msgstr "Fixed range: {{start}}"
+
 msgid "Scheduled runs use the step’s period or latest periods, not a fixed range"
 msgstr "Scheduled runs use the step’s period or latest periods, not a fixed range"
 
@@ -3444,6 +3675,17 @@ msgstr "Usually the last full month, so each run checks the month that just ende
 msgid "What it reports"
 msgstr "What it reports"
 
+msgid ""
+"Values found, values expected (data elements × org units × periods) and "
+"completeness (%). It reads the data as entered, not analytics, and finding "
+"nothing is a normal result: the step succeeds and reports 0. Use a "
+"connector to act on it, e.g. “Completeness is at least 80”."
+msgstr ""
+"Values found, values expected (data elements × org units × periods) and "
+"completeness (%). It reads the data as entered, not analytics, and finding "
+"nothing is a normal result: the step succeeds and reports 0. Use a "
+"connector to act on it, e.g. “Completeness is at least 80”."
+
 msgid "Import strategy"
 msgstr "Import strategy"
 
@@ -3466,8 +3708,27 @@ msgstr "Connect the source instance under Settings › Connected instances first
 msgid "Data items"
 msgstr "Data items"
 
+msgid "Pick what this step pulls from the instance’s mappings."
+msgstr "Pick what this step pulls from the instance’s mappings."
+
+msgid "Pick a source instance first."
+msgstr "Pick a source instance first."
+
 msgid "Each item is written to the destination data element with the same ID."
 msgstr "Each item is written to the destination data element with the same ID."
+
+msgid "This step lists its own items"
+msgstr "This step lists its own items"
+
+msgid ""
+"Data items now belong to the connected instance. Map them under Settings › "
+"Connected instances › Mappings, then switch this step to pick from them."
+msgstr ""
+"Data items now belong to the connected instance. Map them under Settings › "
+"Connected instances › Mappings, then switch this step to pick from them."
+
+msgid "Use instance mappings"
+msgstr "Use instance mappings"
 
 msgid "Could not check the destination"
 msgstr "Could not check the destination"
@@ -3496,6 +3757,20 @@ msgstr ""
 "Chosen from the destination. Each is pulled from the source org unit with "
 "the same ID."
 
+msgid ""
+"Matched on the source by code, as set for this instance under Settings › "
+"Connected instances."
+msgstr ""
+"Matched on the source by code, as set for this instance under Settings › "
+"Connected instances."
+
+msgid ""
+"Matched on the source by ID, as set for this instance under Settings › "
+"Connected instances."
+msgstr ""
+"Matched on the source by ID, as set for this instance under Settings › "
+"Connected instances."
+
 msgid "Match org units on the source by"
 msgstr "Match org units on the source by"
 
@@ -3505,12 +3780,6 @@ msgid ""
 msgstr ""
 "Use code when the source and destination have different IDs for the same "
 "places."
-
-msgid "ID"
-msgstr "ID"
-
-msgid "Code"
-msgstr "Code"
 
 msgid ""
 "Values are merged into the destination, so pulling a period again updates "
@@ -3534,6 +3803,34 @@ msgstr "Periods per request"
 
 msgid "Org units per request"
 msgstr "Org units per request"
+
+msgid "Nothing is mapped to pull from this instance"
+msgstr "Nothing is mapped to pull from this instance"
+
+msgid "Nothing is mapped to push to this instance"
+msgstr "Nothing is mapped to push to this instance"
+
+msgid ""
+"Add mappings under Settings › Connected instances › Mappings, then pick "
+"them here."
+msgstr ""
+"Add mappings under Settings › Connected instances › Mappings, then pick "
+"them here."
+
+msgid "Data elements"
+msgstr "Data elements"
+
+msgid "No mapped data element matches"
+msgstr "No mapped data element matches"
+
+msgid "No longer mapped this way, so the step would fail: {{names}}"
+msgstr "No longer mapped this way, so the step would fail: {{names}}"
+
+msgid "{{name}} (not mapped)"
+msgstr "{{name}} (not mapped)"
+
+msgid "Take them out of the step"
+msgstr "Take them out of the step"
 
 msgid "Periods to pull"
 msgstr "Periods to pull"
@@ -3577,6 +3874,13 @@ msgstr "Missing"
 msgid "{{matched}}/{{total}} option combos matched"
 msgstr "{{matched}}/{{total}} option combos matched"
 
+msgid ""
+"Not on the destination: {{names}}. Pick a target without categories or with "
+"matching option combos."
+msgstr ""
+"Not on the destination: {{names}}. Pick a target without categories or with "
+"matching option combos."
+
 msgid "No data element with this ID on the destination."
 msgstr "No data element with this ID on the destination."
 
@@ -3589,6 +3893,9 @@ msgstr "Created on save"
 msgid "{{id}} no longer exists on the destination."
 msgstr "{{id}} no longer exists on the destination."
 
+msgid "Destination data element"
+msgstr "Destination data element"
+
 msgid "Remove item"
 msgstr "Remove item"
 
@@ -3600,9 +3907,6 @@ msgstr "Change"
 
 msgid "Use same ID"
 msgstr "Use same ID"
-
-msgid "Destination data element"
-msgstr "Destination data element"
 
 msgid "Checking categories…"
 msgstr "Checking categories…"
@@ -3669,8 +3973,11 @@ msgstr ""
 msgid "Connect the target instance under Settings › Connected instances first."
 msgstr "Connect the target instance under Settings › Connected instances first."
 
-msgid "Data elements"
-msgstr "Data elements"
+msgid "Pick what this step pushes from the instance’s mappings."
+msgstr "Pick what this step pushes from the instance’s mappings."
+
+msgid "Pick a target instance first."
+msgstr "Pick a target instance first."
 
 msgid ""
 "Values of these staging data elements are sent. Each goes into the target "
@@ -3678,6 +3985,13 @@ msgid ""
 msgstr ""
 "Values of these staging data elements are sent. Each goes into the target "
 "data element with the same ID unless you pick another."
+
+msgid ""
+"Data elements now belong to the connected instance. Map them under Settings "
+"› Connected instances › Mappings, then switch this step to pick from them."
+msgstr ""
+"Data elements now belong to the connected instance. Map them under Settings "
+"› Connected instances › Mappings, then switch this step to pick from them."
 
 msgid "Could not check the target"
 msgstr "Could not check the target"
@@ -3702,6 +4016,20 @@ msgid ""
 msgstr ""
 "Chosen from staging. Each is sent to the target org unit with the same ID; "
 "org units without a match are skipped."
+
+msgid ""
+"Matched on the target by code, as set for this instance under Settings › "
+"Connected instances."
+msgstr ""
+"Matched on the target by code, as set for this instance under Settings › "
+"Connected instances."
+
+msgid ""
+"Matched on the target by ID, as set for this instance under Settings › "
+"Connected instances."
+msgstr ""
+"Matched on the target by ID, as set for this instance under Settings › "
+"Connected instances."
 
 msgid "Match org units on the target by"
 msgstr "Match org units on the target by"
@@ -3737,8 +4065,15 @@ msgstr "Periods per analytics read"
 msgid "Values per request to the target"
 msgstr "Values per request to the target"
 
-msgid "Staging data element"
-msgstr "Staging data element"
+msgid ""
+"The target has no categories: option combo values are added up into its "
+"total."
+msgstr ""
+"The target has no categories: option combo values are added up into its "
+"total."
+
+msgid "Not on the target, so their values are left out: {{names}}."
+msgstr "Not on the target, so their values are left out: {{names}}."
 
 msgid "Checking target…"
 msgstr "Checking target…"

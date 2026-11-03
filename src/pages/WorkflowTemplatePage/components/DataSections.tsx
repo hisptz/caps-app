@@ -284,7 +284,8 @@ export function DiseaseSection(): React.ReactElement {
                                 <DataElementSelector
                                     name={`diseaseItems.${index}.into`}
                                     label={i18n.t(
-                                        'Into staging data element (empty: same ID)'
+                                        'Into staging data element (empty: same ID)',
+                                        { nsSeparator: '~~' }
                                     )}
                                 />
                             </div>

@@ -280,7 +280,10 @@ export function FlowSidePanel({
         ...workflow.merges
             .filter((m) => m.targetPipelineId === node.refId)
             .map((m) =>
-                i18n.t('connector “{{name}}”', { name: m.name, ...NO_ESCAPE })
+                i18n.t('connector “{{name}}”', {
+                    name: m.name,
+                    interpolation: NO_ESCAPE,
+                })
             ),
     ]
     const remove = () => {

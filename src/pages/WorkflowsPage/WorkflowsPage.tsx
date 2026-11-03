@@ -89,7 +89,8 @@ const WorkflowsPage: React.FC = () => {
             {!isLoading && !isError && workflows.length === 0 && (
                 <NoticeBox title={i18n.t('No workflows yet')}>
                     {i18n.t(
-                        'A workflow runs several pipelines as one process: one start launches its first pipelines together, and connectors start the rest.'
+                        'A workflow runs several pipelines as one process: one start launches its first pipelines together, and connectors start the rest.',
+                        { nsSeparator: '~~' }
                     )}
                 </NoticeBox>
             )}

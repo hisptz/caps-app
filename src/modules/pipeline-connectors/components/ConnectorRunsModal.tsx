@@ -73,7 +73,7 @@ export function ConnectorRunsModal({
             <ModalTitle>
                 {i18n.t('History of “{{name}}”', {
                     name: connector.name,
-                    ...NO_ESCAPE,
+                    interpolation: NO_ESCAPE,
                 })}
             </ModalTitle>
             <ModalContent>
@@ -83,7 +83,7 @@ export function ConnectorRunsModal({
                         {
                             source: connector.sourcePipeline?.name ?? '',
                             target: connector.targetPipeline?.name ?? '',
-                            ...NO_ESCAPE,
+                            interpolation: NO_ESCAPE,
                         }
                     )}
                 </p>
@@ -100,7 +100,7 @@ export function ConnectorRunsModal({
                             'Nothing has been checked yet. A row appears here each time “{{source}}” finishes in a way this connector reacts to.',
                             {
                                 source: connector.sourcePipeline?.name ?? '',
-                                ...NO_ESCAPE,
+                                interpolation: NO_ESCAPE,
                             }
                         )}
                     </NoticeBox>

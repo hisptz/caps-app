@@ -31,12 +31,15 @@ function optionLabel(pipeline: Pipeline): string {
         return i18n.t('{{name}} (in “{{workflow}}”)', {
             name: pipeline.name,
             workflow: pipeline.workflow.name,
-            ...NO_ESCAPE,
+            interpolation: NO_ESCAPE,
         })
     }
     return pipeline.isActive
         ? pipeline.name
-        : i18n.t('{{name}} (inactive)', { name: pipeline.name, ...NO_ESCAPE })
+        : i18n.t('{{name}} (inactive)', {
+              name: pipeline.name,
+              interpolation: NO_ESCAPE,
+          })
 }
 
 export function AddWorkflowPipelineModal({

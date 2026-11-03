@@ -34,7 +34,7 @@ export function DeleteMergeModal({
                 <p>
                     {i18n.t(
                         'This removes "{{name}}" and its decisions. Runs it already started are kept. This cannot be undone.',
-                        { name: merge.name, ...NO_ESCAPE }
+                        { name: merge.name, interpolation: NO_ESCAPE }
                     )}
                 </p>
                 {error && (
