@@ -10,8 +10,15 @@ import type {
     PipelineExecution,
     PipelineSchedule,
     PipelineStep,
+    MergeTriggerRule,
+    SkippedWorkflowStart,
     TopError,
     TopFailingStep,
+    WorkflowRun,
+    ClimatePredictionParams,
+    RunPeriodRange,
+    StepOutsideRange,
+    WorkflowDetail,
 } from '@/shared/types/caps'
 
 /** POST /connectors */
@@ -32,6 +39,80 @@ export interface CreateConnectorBody {
 export type UpdateConnectorBody = Partial<
     Omit<CreateConnectorBody, 'sourcePipelineId' | 'description'>
 > & { description?: string | null }
+
+/** POST /workflows */
+export interface CreateWorkflowBody {
+    name: string
+    description?: string
+    isActive: boolean
+    cronExpr?: string | null
+}
+
+/** PUT /workflows/:id */
+export type UpdateWorkflowBody = Partial<
+    Omit<CreateWorkflowBody, 'description'>
+> & { description?: string | null }
+
+/** GET /workflows/:id/runs */
+export interface ListWorkflowRunsResponse {
+    items: WorkflowRun[]
+    pagination: CapsPagination
+}
+
+/** POST /workflows/:id/run */
+export interface StartWorkflowResponse {
+    workflowRunId: string
+    started: Array<{ pipelineId: string; executionId: string }>
+    skipped: SkippedWorkflowStart[]
+    /** Steps that kept their own window in a fixed-range run */
+    outsideRange: StepOutsideRange[]
+}
+
+/** POST /workflows/:id/run */
+export interface RunWorkflowBody {
+    period?: RunPeriodRange
+}
+
+/** POST /templates/:template/workflows */
+export interface CreateWorkflowFromTemplateBody {
+    params: ClimatePredictionParams
+    backfill?: RunPeriodRange
+}
+
+export interface CreateWorkflowFromTemplateResponse {
+    workflow: WorkflowDetail
+    backfillRun: StartWorkflowResponse | null
+}
+
+/** PUT /workflows/:id/template */
+export interface UpdateWorkflowTemplateSetupBody {
+    params: ClimatePredictionParams
+    /** Overwrite pipelines changed by hand */
+    force?: boolean
+}
+
+/** POST /merges */
+export interface CreateMergeBody {
+    name: string
+    description?: string
+    workflowId: string
+    sourcePipelineIds: string[]
+    targetPipelineId: string
+    triggerRule: MergeTriggerRule
+    timeoutMinutes: number
+    condition?: unknown
+    isActive: boolean
+}
+
+/** PUT /merges/:id — the workflow cannot change. */
+export type UpdateMergeBody = Partial<
+    Omit<CreateMergeBody, 'workflowId' | 'description'>
+> & { description?: string | null }
+
+/** POST /pipelines/:id/duplicate */
+export interface DuplicatePipelineBody {
+    name: string
+}
 
 /** GET /connectors/:id/runs */
 export interface ListConnectorRunsResponse {

@@ -101,7 +101,7 @@ export function formatCapsStatusLabel(status: string): string {
 }
 
 /**
- * `triggeredBy` as shown in tables. Runs started by a connector ("connector") are
+ * `triggeredBy` as shown in tables. Runs started by a connector or a workflow are
  * translated; other values (scheduler, api, …) are shown as they are.
  */
 export function formatTriggeredBy(
@@ -110,5 +110,13 @@ export function formatTriggeredBy(
     if (!triggeredBy) {
         return '—'
     }
-    return triggeredBy === 'connector' ? i18n.t('connector') : triggeredBy
+    switch (triggeredBy) {
+        case 'connector':
+        case 'merge':
+            return i18n.t('connector')
+        case 'workflow':
+            return i18n.t('workflow')
+        default:
+            return triggeredBy
+    }
 }

@@ -51,6 +51,29 @@ export const capsKeys = {
             ] as const,
     },
 
+    workflows: {
+        all: () => [...capsKeys.all, 'workflows'] as const,
+        list: () => [...capsKeys.workflows.all(), 'list'] as const,
+        detail: (id: string | undefined) =>
+            [...capsKeys.workflows.all(), 'detail', id] as const,
+        runs: (id: string | undefined, page: number, pageSize: number) =>
+            [...capsKeys.workflows.all(), 'runs', id, page, pageSize] as const,
+        run: (runId: string | undefined) =>
+            [...capsKeys.workflows.all(), 'run', runId] as const,
+        templateSetup: (id: string | undefined) =>
+            [...capsKeys.workflows.all(), 'template', id] as const,
+        templates: () => [...capsKeys.workflows.all(), 'templates'] as const,
+        templatePreview: (template: string, params: unknown) =>
+            [...capsKeys.workflows.all(), 'preview', template, params] as const,
+        pipelineMerges: (pipelineId: string | undefined) =>
+            [
+                ...capsKeys.workflows.all(),
+                'merges',
+                'pipeline',
+                pipelineId,
+            ] as const,
+    },
+
     executions: {
         /** Prefix match: invalidates every executions list query. */
         all: () => [...capsKeys.all, 'executions'] as const,

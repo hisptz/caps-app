@@ -41,6 +41,17 @@ import {
 import type {
     CreateConnectorBody,
     CreateScheduleBody,
+    CreateMergeBody,
+    CreateWorkflowBody,
+    DuplicatePipelineBody,
+    ListWorkflowRunsResponse,
+    StartWorkflowResponse,
+    RunWorkflowBody,
+    CreateWorkflowFromTemplateBody,
+    CreateWorkflowFromTemplateResponse,
+    UpdateWorkflowTemplateSetupBody,
+    UpdateMergeBody,
+    UpdateWorkflowBody,
     ListConnectorRunsResponse,
     UpdateConnectorBody,
     UpdateScheduleBody,
@@ -52,7 +63,16 @@ import type {
     Pipeline,
     PipelineExecutionStatus,
     PipelineSchedule,
+    PipelineMerge,
     PipelineStep,
+    Workflow,
+    WorkflowDetail,
+    WorkflowListItem,
+    WorkflowRunDetail,
+    WorkflowTemplate,
+    WorkflowTemplateSetup,
+    TemplatePreview,
+    ClimatePredictionParams,
 } from '@/shared/types/caps'
 
 export function listPipelines(
@@ -253,6 +273,165 @@ export function updatePipeline(
 
 export function deletePipeline(engine: CapsDataEngine, id: string) {
     return capsDeleteJson<void>(engine, `/pipelines/${id}`)
+}
+
+/** Copies the pipeline and its steps; not its schedules, connectors or workflow. */
+export function duplicatePipeline(
+    engine: CapsDataEngine,
+    id: string,
+    body: DuplicatePipelineBody
+) {
+    return capsPostJson<PipelineDetailResponse>(
+        engine,
+        `/pipelines/${id}/duplicate`,
+        { body }
+    )
+}
+
+export function listWorkflows(engine: CapsDataEngine) {
+    return capsFetchJson<WorkflowListItem[]>(engine, '/workflows')
+}
+
+export function getWorkflow(engine: CapsDataEngine, id: string) {
+    return capsFetchJson<WorkflowDetail>(engine, `/workflows/${id}`)
+}
+
+export function createWorkflow(
+    engine: CapsDataEngine,
+    body: CreateWorkflowBody
+) {
+    return capsPostJson<Workflow>(engine, '/workflows', { body })
+}
+
+export function updateWorkflow(
+    engine: CapsDataEngine,
+    id: string,
+    body: UpdateWorkflowBody
+) {
+    return capsPutJson<Workflow>(engine, `/workflows/${id}`, { body })
+}
+
+export function deleteWorkflow(engine: CapsDataEngine, id: string) {
+    return capsDeleteJson<Workflow>(engine, `/workflows/${id}`)
+}
+
+export function addWorkflowPipeline(
+    engine: CapsDataEngine,
+    id: string,
+    pipelineId: string
+) {
+    return capsPutJson<WorkflowDetail>(
+        engine,
+        `/workflows/${id}/pipelines/${pipelineId}`
+    )
+}
+
+export function removeWorkflowPipeline(
+    engine: CapsDataEngine,
+    id: string,
+    pipelineId: string
+) {
+    return capsDeleteJson<WorkflowDetail>(
+        engine,
+        `/workflows/${id}/pipelines/${pipelineId}`
+    )
+}
+
+export function runWorkflow(
+    engine: CapsDataEngine,
+    id: string,
+    body?: RunWorkflowBody
+) {
+    return capsPostJson<StartWorkflowResponse>(
+        engine,
+        `/workflows/${id}/run`,
+        body ? { body } : undefined
+    )
+}
+
+export function listWorkflowTemplates(engine: CapsDataEngine) {
+    return capsFetchJson<WorkflowTemplate[]>(engine, '/templates')
+}
+
+/** Checks the parameters and shows what they would create; saves nothing. */
+export function previewWorkflowTemplate(
+    engine: CapsDataEngine,
+    template: string,
+    params: ClimatePredictionParams
+) {
+    return capsPostJson<TemplatePreview>(
+        engine,
+        `/templates/${template}/preview`,
+        { body: { params } }
+    )
+}
+
+export function createWorkflowFromTemplate(
+    engine: CapsDataEngine,
+    template: string,
+    body: CreateWorkflowFromTemplateBody
+) {
+    return capsPostJson<CreateWorkflowFromTemplateResponse>(
+        engine,
+        `/templates/${template}/workflows`,
+        { body }
+    )
+}
+
+export function getWorkflowTemplateSetup(engine: CapsDataEngine, id: string) {
+    return capsFetchJson<WorkflowTemplateSetup>(
+        engine,
+        `/workflows/${id}/template`
+    )
+}
+
+export function updateWorkflowTemplateSetup(
+    engine: CapsDataEngine,
+    id: string,
+    body: UpdateWorkflowTemplateSetupBody
+) {
+    return capsPutJson<WorkflowDetail>(engine, `/workflows/${id}/template`, {
+        body,
+    })
+}
+
+export function listWorkflowRuns(
+    engine: CapsDataEngine,
+    id: string,
+    params?: { page?: number; pageSize?: number }
+) {
+    return capsFetchJson<ListWorkflowRunsResponse>(
+        engine,
+        `/workflows/${id}/runs`,
+        { searchParams: { page: params?.page, pageSize: params?.pageSize } }
+    )
+}
+
+/** Merges that wait for this pipeline or start it */
+export function listPipelineMerges(engine: CapsDataEngine, pipelineId: string) {
+    return capsFetchJson<PipelineMerge[]>(engine, '/merges', {
+        searchParams: { pipelineId },
+    })
+}
+
+export function createMerge(engine: CapsDataEngine, body: CreateMergeBody) {
+    return capsPostJson<PipelineMerge>(engine, '/merges', { body })
+}
+
+export function updateMerge(
+    engine: CapsDataEngine,
+    id: string,
+    body: UpdateMergeBody
+) {
+    return capsPutJson<PipelineMerge>(engine, `/merges/${id}`, { body })
+}
+
+export function deleteMerge(engine: CapsDataEngine, id: string) {
+    return capsDeleteJson<PipelineMerge>(engine, `/merges/${id}`)
+}
+
+export function getWorkflowRun(engine: CapsDataEngine, runId: string) {
+    return capsFetchJson<WorkflowRunDetail>(engine, `/workflows/runs/${runId}`)
 }
 
 export function createStep(

@@ -132,14 +132,14 @@ export function ConnectorFormBody({
             <FormSection
                 num={2}
                 title={i18n.t('Start')}
-                description={i18n.t('Which pipeline to start, and when')}
+                description={i18n.t('Which pipeline to connect, and when')}
             >
                 <Controller
                     name="targetPipelineId"
                     control={control}
                     render={({ field, fieldState }) => (
                         <SingleSelectField
-                            label={i18n.t('Pipeline to start')}
+                            label={i18n.t('Pipeline to connect')}
                             required
                             filterable
                             noMatchText={i18n.t('No pipelines match')}
@@ -172,12 +172,12 @@ export function ConnectorFormBody({
                         render={({ field }) => (
                             <div>
                                 <span className={classes.fieldLabel}>
-                                    {i18n.t('Start it when this pipeline')}
+                                    {i18n.t('Connect to it when this pipeline')}
                                 </span>
                                 <SegmentedControl
                                     name="connector-on"
                                     aria-label={i18n.t(
-                                        'Start it when this pipeline'
+                                        'Connect to it when this pipeline'
                                     )}
                                     value={field.value}
                                     onChange={field.onChange}

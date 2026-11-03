@@ -32,6 +32,8 @@ import { useScheduleMutations } from '@/modules/pipeline-detail/hooks/useSchedul
 import { useStepMutations } from '@/modules/pipeline-detail/hooks/useStepMutations'
 import { useTriggerPipeline } from '@/modules/pipeline-detail/hooks/useTriggerPipeline'
 import { PipelineEditModal } from '@/modules/pipelines/components/PipelineEditModal'
+import { DuplicatePipelineModal } from '@/modules/workflows/components/DuplicatePipelineModal'
+import { usePipelineMergesQuery } from '@/modules/workflows/hooks/useWorkflows'
 import { PageLoader } from '@/shared/components/ui/PageLoader'
 import shellClasses from '@/shared/components/ui/PageShell/PageShell.module.css'
 import type { PipelineSchedule, PipelineStep } from '@/shared/types/caps'
@@ -52,6 +54,7 @@ const PipelineDetailPage: React.FC = () => {
     const [showDeletePipeline, setShowDeletePipeline] = useState(false)
 
     const [showEditPipeline, setShowEditPipeline] = useState(false)
+    const [showDuplicate, setShowDuplicate] = useState(false)
     const [deletePipelineError, setDeletePipelineError] = useState<
         string | null
     >(null)
@@ -104,6 +107,10 @@ const PipelineDetailPage: React.FC = () => {
         engine,
         id,
         idReady
+    )
+    const { data: mergesData } = usePipelineMergesQuery(
+        engine,
+        idReady ? id : undefined
     )
 
     const { deletePipelineMutation } = usePipelinePageMutations({
@@ -207,6 +214,7 @@ const PipelineDetailPage: React.FC = () => {
                 onTrigger={() => void handleTrigger()}
                 onTriggerWithContext={() => setShowTriggerContext(true)}
                 onEdit={() => setShowEditPipeline(true)}
+                onDuplicate={() => setShowDuplicate(true)}
                 onDelete={() => setShowDeletePipeline(true)}
             />
 
@@ -238,7 +246,9 @@ const PipelineDetailPage: React.FC = () => {
                     onClick={() => setActiveTab('connectors')}
                 >
                     {i18n.t('Connectors ({{count}})', {
-                        count: connectorsData?.outgoing.length ?? 0,
+                        count:
+                            (connectorsData?.outgoing.length ?? 0) +
+                            (mergesData?.waitedFor.length ?? 0),
                     })}
                 </Tab>
                 <Tab
@@ -429,6 +439,12 @@ const PipelineDetailPage: React.FC = () => {
                 pipeline={pipeline}
                 open={showEditPipeline}
                 onClose={() => setShowEditPipeline(false)}
+            />
+
+            <DuplicatePipelineModal
+                open={showDuplicate}
+                pipeline={pipeline}
+                onClose={() => setShowDuplicate(false)}
             />
 
             {showDeletePipeline && (

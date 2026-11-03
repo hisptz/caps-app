@@ -5,6 +5,7 @@ import {
     DropdownButton,
     FlyoutMenu,
     IconArrowLeft16,
+    IconCopy16,
     IconDelete16,
     IconEdit16,
     IconLaunch16,
@@ -12,8 +13,10 @@ import {
     NoticeBox,
 } from '@dhis2/ui'
 import React from 'react'
+import { Link } from 'react-router'
 import classes from '../PipelineDetailPage.module.css'
 import type { PipelineDetailResponse } from '@/capsApi/types'
+import tableNavLinkClasses from '@/shared/components/ui/TableNavLink/TableNavLink.module.css'
 
 type Props = {
     pipeline: PipelineDetailResponse
@@ -23,6 +26,7 @@ type Props = {
     onTrigger: () => void
     onTriggerWithContext: () => void
     onEdit: () => void
+    onDuplicate: () => void
     onDelete: () => void
 }
 
@@ -34,6 +38,7 @@ export function PipelineDetailHeader({
     onTrigger,
     onTriggerWithContext,
     onEdit,
+    onDuplicate,
     onDelete,
 }: Props): React.ReactElement {
     return (
@@ -56,6 +61,17 @@ export function PipelineDetailHeader({
                     {pipeline.description && (
                         <p className={classes.description}>
                             {pipeline.description}
+                        </p>
+                    )}
+                    {pipeline.workflow && (
+                        <p className={classes.description}>
+                            {i18n.t('Part of the workflow')}{' '}
+                            <Link
+                                to={`/workflows/${pipeline.workflow.id}`}
+                                className={tableNavLinkClasses.link}
+                            >
+                                {pipeline.workflow.name}
+                            </Link>
                         </p>
                     )}
                 </div>
@@ -81,6 +97,9 @@ export function PipelineDetailHeader({
                     </DropdownButton>
                     <Button icon={<IconEdit16 />} onClick={onEdit}>
                         {i18n.t('Edit')}
+                    </Button>
+                    <Button icon={<IconCopy16 />} onClick={onDuplicate}>
+                        {i18n.t('Duplicate')}
                     </Button>
                     <Button
                         destructive

@@ -41,6 +41,12 @@ const AppMenu = () => {
                         onClick={() => navigate('/pipelines')}
                         label={i18n.t('Pipelines')}
                     />
+                    {/* <MenuItem
+                        active={isActive('/workflows')}
+                        icon={<IconArrowRightMulti24 />}
+                        onClick={() => navigate('/workflows')}
+                        label={i18n.t('Workflows')}
+                    /> */}
                     <MenuItem
                         active={isActive('/executions')}
                         icon={<IconClockHistory24 />}

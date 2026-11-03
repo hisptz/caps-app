@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-10-30T17:54:27.605Z\n"
-"PO-Revision-Date: 2026-10-30T17:54:27.605Z\n"
+"POT-Creation-Date: 2026-11-03T11:41:07.800Z\n"
+"PO-Revision-Date: 2026-11-03T11:41:07.801Z\n"
 
 msgid "Enter a valid HTTP or HTTPS URL."
 msgstr "Enter a valid HTTP or HTTPS URL."
@@ -770,17 +770,17 @@ msgstr "e.g. Notify when alerts raised"
 msgid "Start"
 msgstr "Start"
 
-msgid "Which pipeline to start, and when"
-msgstr "Which pipeline to start, and when"
+msgid "Which pipeline to connect, and when"
+msgstr "Which pipeline to connect, and when"
 
-msgid "Pipeline to start"
-msgstr "Pipeline to start"
+msgid "Pipeline to connect"
+msgstr "Pipeline to connect"
 
 msgid "No pipelines match"
 msgstr "No pipelines match"
 
-msgid "Start it when this pipeline"
-msgstr "Start it when this pipeline"
+msgid "Connect to it when this pipeline"
+msgstr "Connect to it when this pipeline"
 
 msgid "Wait first (minutes)"
 msgstr "Wait first (minutes)"
@@ -1569,6 +1569,449 @@ msgstr ""
 msgid "Save and continue"
 msgstr "Save and continue"
 
+msgid "{{name}} (in “{{workflow}}”)"
+msgstr "{{name}} (in “{{workflow}}”)"
+
+msgid "Choose a pipeline"
+msgstr "Choose a pipeline"
+
+msgid "Could not add the pipeline"
+msgstr "Could not add the pipeline"
+
+msgid "Add pipeline"
+msgstr "Add pipeline"
+
+msgid ""
+"A pipeline can be in one workflow. To use the same pipeline in another "
+"workflow too, duplicate it from its page and add the copy."
+msgstr ""
+"A pipeline can be in one workflow. To use the same pipeline in another "
+"workflow too, duplicate it from its page and add the copy."
+
+msgid "Add"
+msgstr "Add"
+
+msgid ""
+"This removes \"{{name}}\" and its decisions. Runs it already started are "
+"kept. This cannot be undone."
+msgstr ""
+"This removes \"{{name}}\" and its decisions. Runs it already started are "
+"kept. This cannot be undone."
+
+msgid "Delete workflow?"
+msgstr "Delete workflow?"
+
+msgid ""
+"This removes \"{{name}}\", its schedule and its run history. Its pipelines, "
+"their connectors and their own runs are kept. This cannot be undone."
+msgstr ""
+"This removes \"{{name}}\", its schedule and its run history. Its pipelines, "
+"their connectors and their own runs are kept. This cannot be undone."
+
+msgid "Could not delete workflow"
+msgstr "Could not delete workflow"
+
+msgid "{{name}} (copy)"
+msgstr "{{name}} (copy)"
+
+msgid "Pipeline duplicated"
+msgstr "Pipeline duplicated"
+
+msgid "Could not duplicate the pipeline"
+msgstr "Could not duplicate the pipeline"
+
+msgid "Duplicate pipeline"
+msgstr "Duplicate pipeline"
+
+msgid "Name of the copy"
+msgstr "Name of the copy"
+
+msgid "The copy gets the same steps and settings."
+msgstr "The copy gets the same steps and settings."
+
+msgid "Duplicate"
+msgstr "Duplicate"
+
+msgid "Connector updated"
+msgstr "Connector updated"
+
+msgid "Connector created"
+msgstr "Connector created"
+
+msgid "Edit connector · waits for all"
+msgstr "Edit connector · waits for all"
+
+msgid "New connector · waits for all"
+msgstr "New connector · waits for all"
+
+msgid ""
+"In each run of this workflow, wait for the chosen pipelines to finish, then "
+"start one more."
+msgstr ""
+"In each run of this workflow, wait for the chosen pipelines to finish, then "
+"start one more."
+
+msgid "Could not save the connector"
+msgstr "Could not save the connector"
+
+msgid "e.g. Predict when all data is in"
+msgstr "e.g. Predict when all data is in"
+
+msgid "Wait for"
+msgstr "Wait for"
+
+msgid "Then start"
+msgstr "Then start"
+
+msgid "Continue when"
+msgstr "Continue when"
+
+msgid "All succeeded"
+msgstr "All succeeded"
+
+msgid "All done, whatever the result"
+msgstr "All done, whatever the result"
+
+msgid "Time limit (hours)"
+msgstr "Time limit (hours)"
+
+msgid ""
+"Counted from the first pipeline to finish; after it the merge stops and "
+"says which pipeline is missing."
+msgstr ""
+"Counted from the first pipeline to finish; after it the merge stops and "
+"says which pipeline is missing."
+
+msgid "Condition"
+msgstr "Condition"
+
+msgid ""
+"Choose the pipelines to wait for first; their step results can be checked "
+"here."
+msgstr ""
+"Choose the pipelines to wait for first; their step results can be checked "
+"here."
+
+msgid "Create connector"
+msgstr "Create connector"
+
+msgid "Choose a period"
+msgstr "Choose a period"
+
+msgid "The range ends before it starts"
+msgstr "The range ends before it starts"
+
+msgid "Run {{name}} for a fixed range"
+msgstr "Run {{name}} for a fixed range"
+
+msgid ""
+"The first pipelines fetch data for these periods instead of their usual "
+"recent window. Use it to backfill history into staging."
+msgstr ""
+"The first pipelines fetch data for these periods instead of their usual "
+"recent window. Use it to backfill history into staging."
+
+msgid "From"
+msgstr "From"
+
+msgid "To"
+msgstr "To"
+
+msgid ""
+"Steps on another period type (e.g. daily climate data) keep their own "
+"window."
+msgstr ""
+"Steps on another period type (e.g. daily climate data) keep their own "
+"window."
+
+msgid "Run"
+msgstr "Run"
+
+msgid "When all have finished (up to {{hours}} h)"
+msgstr "When all have finished (up to {{hours}} h)"
+
+msgid "When all succeed (up to {{hours}} h)"
+msgstr "When all succeed (up to {{hours}} h)"
+
+msgid "Waits for all"
+msgstr "Waits for all"
+
+msgid "Edit in workflow"
+msgstr "Edit in workflow"
+
+msgid "together with {{others}}"
+msgstr "together with {{others}}"
+
+msgid "Could not save the workflow. Try again."
+msgstr "Could not save the workflow. Try again."
+
+msgid "Workflow updated"
+msgstr "Workflow updated"
+
+msgid "Workflow created"
+msgstr "Workflow created"
+
+msgid "Edit workflow"
+msgstr "Edit workflow"
+
+msgid "New workflow"
+msgstr "New workflow"
+
+msgid ""
+"A workflow runs several pipelines as one process. Add its pipelines after "
+"creating it."
+msgstr ""
+"A workflow runs several pipelines as one process. Add its pipelines after "
+"creating it."
+
+msgid "Could not save the workflow"
+msgstr "Could not save the workflow"
+
+msgid "e.g. Malawi monthly climate & health"
+msgstr "e.g. Malawi monthly climate & health"
+
+msgid "Inactive (does not run, even by hand)"
+msgstr "Inactive (does not run, even by hand)"
+
+msgid "Run on a schedule"
+msgstr "Run on a schedule"
+
+msgid "Off, start it with the Run button"
+msgstr "Off, start it with the Run button"
+
+msgid "Create workflow"
+msgstr "Create workflow"
+
+msgid "Workflow run"
+msgstr "Workflow run"
+
+msgid "Could not load the run"
+msgstr "Could not load the run"
+
+msgid "Started"
+msgstr "Started"
+
+msgid "Finished"
+msgstr "Finished"
+
+msgid "Fixed range"
+msgstr "Fixed range"
+
+msgid "Started by"
+msgstr "Started by"
+
+msgid "Some pipelines did not start"
+msgstr "Some pipelines did not start"
+
+msgid "Pipeline runs table"
+msgstr "Pipeline runs table"
+
+msgid "Connectors still deciding"
+msgstr "Connectors still deciding"
+
+msgid "“{{connector}}” may start {{target}}; it checks at {{time}}"
+msgstr "“{{connector}}” may start {{target}}; it checks at {{time}}"
+
+msgid "Outside this workflow"
+msgstr "Outside this workflow"
+
+msgid "Schedule"
+msgstr "Schedule"
+
+msgid "Starts"
+msgstr "Starts"
+
+msgid ""
+"Each start is one workflow run. The pipelines above start together; "
+"connectors and merges start the rest."
+msgstr ""
+"Each start is one workflow run. The pipelines above start together; "
+"connectors and merges start the rest."
+
+msgid ""
+"A connector in this workflow starts this pipeline, but it is not part of "
+"the workflow, so its runs are not counted in workflow runs."
+msgstr ""
+"A connector in this workflow starts this pipeline, but it is not part of "
+"the workflow, so its runs are not counted in workflow runs."
+
+msgid "Open pipeline"
+msgstr "Open pipeline"
+
+msgid "Connector"
+msgstr "Connector"
+
+msgid "Only if"
+msgstr "Only if"
+
+msgid "Last run"
+msgstr "Last run"
+
+msgid "Open source pipeline"
+msgstr "Open source pipeline"
+
+msgid "Connector · waits for all"
+msgstr "Connector · waits for all"
+
+msgid "Waits for"
+msgstr "Waits for"
+
+msgid "Then starts"
+msgstr "Then starts"
+
+msgid "Continues"
+msgstr "Continues"
+
+msgid "connector “{{name}}”"
+msgstr "connector “{{name}}”"
+
+msgid "Could not remove the pipeline"
+msgstr "Could not remove the pipeline"
+
+msgid "the workflow start"
+msgstr "the workflow start"
+
+msgid "Steps"
+msgstr "Steps"
+
+msgid "Inactive, it will not start"
+msgstr "Inactive, it will not start"
+
+msgid "Did not run"
+msgstr "Did not run"
+
+msgid "Add connector from here"
+msgstr "Add connector from here"
+
+msgid "Remove from workflow"
+msgstr "Remove from workflow"
+
+msgid "Run button"
+msgstr "Run button"
+
+msgid "Starts the run"
+msgstr "Starts the run"
+
+msgid "{{steps}} steps"
+msgstr "{{steps}} steps"
+
+msgid "Overview of the whole workflow"
+msgstr "Overview of the whole workflow"
+
+msgid "Succeeded"
+msgstr "Succeeded"
+
+msgid "Waiting"
+msgstr "Waiting"
+
+msgid "Failed"
+msgstr "Failed"
+
+msgid "Not run"
+msgstr "Not run"
+
+msgid "Cancelled"
+msgstr "Cancelled"
+
+msgid "Waiting {{arrived}}/{{total}}"
+msgstr "Waiting {{arrived}}/{{total}}"
+
+msgid "Started next"
+msgstr "Started next"
+
+msgid "Condition not met"
+msgstr "Condition not met"
+
+msgid "Timed out"
+msgstr "Timed out"
+
+msgid "Did not start next"
+msgstr "Did not start next"
+
+msgid "Took otherwise"
+msgstr "Took otherwise"
+
+msgid "Could not start the workflow"
+msgstr "Could not start the workflow"
+
+msgid "Choose at least two pipelines to wait for"
+msgstr "Choose at least two pipelines to wait for"
+
+msgid "Choose the pipeline to start"
+msgstr "Choose the pipeline to start"
+
+msgid "Enter whole hours from 1 to {{max}} (7 days)"
+msgstr "Enter whole hours from 1 to {{max}} (7 days)"
+
+msgid "The pipeline to start cannot also be one it waits for"
+msgstr "The pipeline to start cannot also be one it waits for"
+
+msgid "Choose a dataset"
+msgstr "Choose a dataset"
+
+msgid "Choose a data element"
+msgstr "Choose a data element"
+
+msgid "Choose what to pull"
+msgstr "Choose what to pull"
+
+msgid "Add at least one climate variable"
+msgstr "Add at least one climate variable"
+
+msgid "Enter a valid cron expression"
+msgstr "Enter a valid cron expression"
+
+msgid "Refresh at most 36 months per run"
+msgstr "Refresh at most 36 months per run"
+
+msgid "Choose an org unit level, or a prediction setup to take the org units from"
+msgstr "Choose an org unit level, or a prediction setup to take the org units from"
+
+msgid "Choose the instance to pull from"
+msgstr "Choose the instance to pull from"
+
+msgid "Add the disease data to pull"
+msgstr "Add the disease data to pull"
+
+msgid "Indicators need a staging data element to go into"
+msgstr "Indicators need a staging data element to go into"
+
+msgid "Enter a 5-part cron expression, e.g. 0 6 1 * *"
+msgstr "Enter a 5-part cron expression, e.g. 0 6 1 * *"
+
+msgid "on failure"
+msgstr "on failure"
+
+msgid "either way"
+msgstr "either way"
+
+msgid "wait {{minutes}} min"
+msgstr "wait {{minutes}} min"
+
+msgid "yes"
+msgstr "yes"
+
+msgid "otherwise"
+msgstr "otherwise"
+
+msgid "if …"
+msgstr "if …"
+
+msgid "Started by hand only"
+msgstr "Started by hand only"
+
+msgid "{{cron}} · next {{next}}"
+msgstr "{{cron}} · next {{next}}"
+
+msgid "All done"
+msgstr "All done"
+
+msgid "{{hours}} h"
+msgstr "{{hours}} h"
+
+msgid "{{minutes}} min"
+msgstr "{{minutes}} min"
+
 msgid "Analytics"
 msgstr "Analytics"
 
@@ -1608,9 +2051,6 @@ msgstr "Execution trends summary table"
 msgid "Completed"
 msgstr "Completed"
 
-msgid "Failed"
-msgstr "Failed"
-
 msgid "Success Rate"
 msgstr "Success Rate"
 
@@ -1646,15 +2086,6 @@ msgstr ""
 
 msgid "Overdue connector runs table"
 msgstr "Overdue connector runs table"
-
-msgid "Connector"
-msgstr "Connector"
-
-msgid "From"
-msgstr "From"
-
-msgid "Starts"
-msgstr "Starts"
 
 msgid "Should have checked at"
 msgstr "Should have checked at"
@@ -1757,6 +2188,15 @@ msgstr "Step retry accepted"
 
 msgid "Context"
 msgstr "Context"
+
+msgid "Part of a workflow run"
+msgstr "Part of a workflow run"
+
+msgid "This run belongs to the run of “{{workflow}}” started {{time}}."
+msgstr "This run belongs to the run of “{{workflow}}” started {{time}}."
+
+msgid "Open the workflow"
+msgstr "Open the workflow"
 
 msgid "Cancel execution?"
 msgstr "Cancel execution?"
@@ -1939,9 +2379,6 @@ msgstr "Pending"
 msgid "Awaiting Step"
 msgstr "Awaiting Step"
 
-msgid "Cancelled"
-msgstr "Cancelled"
-
 msgid "Paused"
 msgstr "Paused"
 
@@ -1999,11 +2436,11 @@ msgstr "Try again later."
 msgid "Connector action failed"
 msgstr "Connector action failed"
 
-msgid "Pipelines this one starts"
-msgstr "Pipelines this one starts"
+msgid "Pipelines that this pipeline starts"
+msgstr "Pipelines that this pipeline starts"
 
-msgid "No connectors yet"
-msgstr "No connectors yet"
+msgid "No connectors start from this pipeline"
+msgstr "No connectors start from this pipeline"
 
 msgid ""
 "Add a connector to start another pipeline automatically when this one "
@@ -2014,9 +2451,6 @@ msgstr ""
 
 msgid "Outgoing connectors table"
 msgstr "Outgoing connectors table"
-
-msgid "Only if"
-msgstr "Only if"
 
 msgid "Last result"
 msgstr "Last result"
@@ -2054,6 +2488,9 @@ msgstr "Could not delete the connector. Try again."
 
 msgid "Pipelines"
 msgstr "Pipelines"
+
+msgid "Part of the workflow"
+msgstr "Part of the workflow"
 
 msgid "Trigger with context…"
 msgstr "Trigger with context…"
@@ -2184,11 +2621,318 @@ msgstr "Pipelines table"
 msgid "Concurrency"
 msgstr "Concurrency"
 
-msgid "Steps"
-msgstr "Steps"
-
 msgid "Schedules"
 msgstr "Schedules"
+
+msgid "Could not load the workflow"
+msgstr "Could not load the workflow"
+
+msgid "Could not delete the workflow"
+msgstr "Could not delete the workflow"
+
+msgid "Workflows"
+msgstr "Workflows"
+
+msgid "Run for a fixed range…"
+msgstr "Run for a fixed range…"
+
+msgid "Edit setup"
+msgstr "Edit setup"
+
+msgid "Flow"
+msgstr "Flow"
+
+msgid "Pipelines ({{pipelines}})"
+msgstr "Pipelines ({{pipelines}})"
+
+msgid "Runs"
+msgstr "Runs"
+
+msgid "New connector"
+msgstr "New connector"
+
+msgid "When this pipeline finishes"
+msgstr "When this pipeline finishes"
+
+msgid "Could not delete the connector"
+msgstr "Could not delete the connector"
+
+msgid "From one pipeline…"
+msgstr "From one pipeline…"
+
+msgid "Waits for several pipelines…"
+msgstr "Waits for several pipelines…"
+
+msgid ""
+"A run starts the pipelines marked “Starts the run” together; connectors "
+"start the others."
+msgstr ""
+"A run starts the pipelines marked “Starts the run” together; connectors "
+"start the others."
+
+msgid ""
+"Add the pipelines this workflow runs. Link them with connectors on each "
+"pipeline’s Connectors tab."
+msgstr ""
+"Add the pipelines this workflow runs. Link them with connectors on each "
+"pipeline’s Connectors tab."
+
+msgid "Workflow pipelines table"
+msgstr "Workflow pipelines table"
+
+msgid "In a run"
+msgstr "In a run"
+
+msgid "Remove"
+msgstr "Remove"
+
+msgid "How they connect"
+msgstr "How they connect"
+
+msgid "Add or change connectors on the Flow tab, or on a pipeline’s Connectors tab."
+msgstr "Add or change connectors on the Flow tab, or on a pipeline’s Connectors tab."
+
+msgid "Workflow connectors table"
+msgstr "Workflow connectors table"
+
+msgid "Could not load runs"
+msgstr "Could not load runs"
+
+msgid "No runs yet"
+msgstr "No runs yet"
+
+msgid "Each start of the workflow, by its schedule or the Run button, shows here."
+msgstr "Each start of the workflow, by its schedule or the Run button, shows here."
+
+msgid "Workflow runs table"
+msgstr "Workflow runs table"
+
+msgid "Pipeline runs"
+msgstr "Pipeline runs"
+
+msgid "{{runs}} ({{skipped}} did not start)"
+msgstr "{{runs}} ({{skipped}} did not start)"
+
+msgid "Workflow setup updated"
+msgstr "Workflow setup updated"
+
+msgid "Could not update the setup"
+msgstr "Could not update the setup"
+
+msgid "Workflow created; backfilling history now"
+msgstr "Workflow created; backfilling history now"
+
+msgid "Could not create the workflow"
+msgstr "Could not create the workflow"
+
+msgid "Could not load the setup"
+msgstr "Could not load the setup"
+
+msgid "Template not found"
+msgstr "Template not found"
+
+msgid "Workflow"
+msgstr "Workflow"
+
+msgid "New workflow from {{template}}"
+msgstr "New workflow from {{template}}"
+
+msgid "Changed by hand"
+msgstr "Changed by hand"
+
+msgid "Saving replaces changes made to {{names}} since the setup made them."
+msgstr "Saving replaces changes made to {{names}} since the setup made them."
+
+msgid "Not saved"
+msgstr "Not saved"
+
+msgid "Pipelines changed by hand"
+msgstr "Pipelines changed by hand"
+
+msgid "Saving replaces the steps of {{names}}."
+msgstr "Saving replaces the steps of {{names}}."
+
+msgid "Replace their changes"
+msgstr "Replace their changes"
+
+msgid "Save setup"
+msgstr "Save setup"
+
+msgid "History"
+msgstr "History"
+
+msgid "Backfill history when created"
+msgstr "Backfill history when created"
+
+msgid ""
+"A new staging instance has no history to evaluate a model on. This runs the "
+"data pipelines once over the range; later runs refresh only recent periods. "
+"You can also do it later with Run for a fixed range."
+msgstr ""
+"A new staging instance has no history to evaluate a model on. This runs the "
+"data pipelines once over the range; later runs refresh only recent periods. "
+"You can also do it later with Run for a fixed range."
+
+msgid "Its pipelines are named after it, e.g. \"Malawi · Climate data\""
+msgstr "Its pipelines are named after it, e.g. \"Malawi · Climate data\""
+
+msgid "How the data is reported; with a prediction setup, it must match the setup"
+msgstr "How the data is reported; with a prediction setup, it must match the setup"
+
+msgid "Months each run refreshes"
+msgstr "Months each run refreshes"
+
+msgid "Weeks each run refreshes"
+msgstr "Weeks each run refreshes"
+
+msgid "Recent periods fetched again on every run, so late reports are picked up"
+msgstr "Recent periods fetched again on every run, so late reports are picked up"
+
+msgid "Average"
+msgstr "Average"
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Lowest"
+msgstr "Lowest"
+
+msgid "Highest"
+msgstr "Highest"
+
+msgid "from Open Climate Service"
+msgstr "from Open Climate Service"
+
+msgid "Dataset"
+msgstr "Dataset"
+
+msgid "\"{{id}}\" is not in Open Climate Service"
+msgstr "\"{{id}}\" is not in Open Climate Service"
+
+msgid "Datasets ingested on the Climate data page"
+msgstr "Datasets ingested on the Climate data page"
+
+msgid "Into staging data element"
+msgstr "Into staging data element"
+
+msgid "Over each org unit, take"
+msgstr "Over each org unit, take"
+
+msgid "Add climate variable"
+msgstr "Add climate variable"
+
+msgid "Disease data"
+msgstr "Disease data"
+
+msgid "Already in staging"
+msgstr "Already in staging"
+
+msgid "Entered or imported here some other way"
+msgstr "Entered or imported here some other way"
+
+msgid "Pull from another instance"
+msgstr "Pull from another instance"
+
+msgid "e.g. the HMIS; pulled at the same time as the climate data"
+msgstr "e.g. the HMIS; pulled at the same time as the climate data"
+
+msgid "Connected on the Settings page"
+msgstr "Connected on the Settings page"
+
+msgid "Pull"
+msgstr "Pull"
+
+msgid "Add data to pull"
+msgstr "Add data to pull"
+
+msgid "Prediction"
+msgstr "Prediction"
+
+msgid "from CHAP"
+msgstr "from CHAP"
+
+msgid "CHAP could not be reached"
+msgstr "CHAP could not be reached"
+
+msgid "Prediction setup"
+msgstr "Prediction setup"
+
+msgid "Its org units and inputs are used; you only say where each input comes from"
+msgstr "Its org units and inputs are used; you only say where each input comes from"
+
+msgid ""
+"Without one, the workflow gets the data ready so a model can be evaluated. "
+"Choose the setup here later."
+msgstr ""
+"Without one, the workflow gets the data ready so a model can be evaluated. "
+"Choose the setup here later."
+
+msgid "None yet, only get the data ready"
+msgstr "None yet, only get the data ready"
+
+msgid "Periods to predict ahead"
+msgstr "Periods to predict ahead"
+
+msgid "Tell the modeller when a prediction is ready"
+msgstr "Tell the modeller when a prediction is ready"
+
+msgid "Users"
+msgstr "Users"
+
+msgid "User groups"
+msgstr "User groups"
+
+msgid "Leave both empty to send no message"
+msgstr "Leave both empty to send no message"
+
+msgid "Org units"
+msgstr "Org units"
+
+msgid ""
+"Taken from the prediction setup, so the data matches what the model was "
+"evaluated on."
+msgstr ""
+"Taken from the prediction setup, so the data matches what the model was "
+"evaluated on."
+
+msgid "Org unit level"
+msgstr "Org unit level"
+
+msgid "What it creates"
+msgstr "What it creates"
+
+msgid "Fill in the form to see the pipelines and check them."
+msgstr "Fill in the form to see the pipelines and check them."
+
+msgid "To fix before saving"
+msgstr "To fix before saving"
+
+msgid "Worth checking"
+msgstr "Worth checking"
+
+msgid "{{sources}} run at the same time; {{target}} starts once all have succeeded."
+msgstr "{{sources}} run at the same time; {{target}} starts once all have succeeded."
+
+msgid "{{target}} starts once {{source}} has succeeded."
+msgstr "{{target}} starts once {{source}} has succeeded."
+
+msgid "From template {{name}}"
+msgstr "From template {{name}}"
+
+msgid "Empty workflow"
+msgstr "Empty workflow"
+
+msgid "Could not load workflows"
+msgstr "Could not load workflows"
+
+msgid "No workflows yet"
+msgstr "No workflows yet"
+
+msgid "Workflows table"
+msgstr "Workflows table"
+
+msgid "Never run"
+msgstr "Never run"
 
 msgid "About CAPS"
 msgstr "About CAPS"
@@ -2448,9 +3192,6 @@ msgstr "Aggregation type"
 msgid "Sum"
 msgstr "Sum"
 
-msgid "Average"
-msgstr "Average"
-
 msgid "Organisation units"
 msgstr "Organisation units"
 
@@ -2487,9 +3228,6 @@ msgstr "Min"
 msgid "Max"
 msgstr "Max"
 
-msgid "Dataset"
-msgstr "Dataset"
-
 msgid "Managed climate dataset from the Open Climate Service"
 msgstr "Managed climate dataset from the Open Climate Service"
 
@@ -2516,9 +3254,6 @@ msgstr "At least one of levels / ids"
 
 msgid "Climate dataset"
 msgstr "Climate dataset"
-
-msgid "Fixed range"
-msgstr "Fixed range"
 
 msgid "Latest periods"
 msgstr "Latest periods"
@@ -2623,9 +3358,6 @@ msgstr "Enter 0 to {{max}}"
 msgid "Scheduled runs use the step’s period or latest periods, not a fixed range"
 msgstr "Scheduled runs use the step’s period or latest periods, not a fixed range"
 
-msgid "Add"
-msgstr "Add"
-
 msgid "No connected instances"
 msgstr "No connected instances"
 
@@ -2681,6 +3413,36 @@ msgstr "Polling"
 
 msgid "Controls how CAPS waits for DHIS2 task completion."
 msgstr "Controls how CAPS waits for DHIS2 task completion."
+
+msgid "What to look for"
+msgstr "What to look for"
+
+msgid "The data elements to check. A value for any category option counts."
+msgstr "The data elements to check. A value for any category option counts."
+
+msgid "Data element {{number}}"
+msgstr "Data element {{number}}"
+
+msgid "Remove data element"
+msgstr "Remove data element"
+
+msgid "Add data element"
+msgstr "Add data element"
+
+msgid "Where"
+msgstr "Where"
+
+msgid "The org units that should have data."
+msgstr "The org units that should have data."
+
+msgid "Which periods"
+msgstr "Which periods"
+
+msgid "Usually the last full month, so each run checks the month that just ended."
+msgstr "Usually the last full month, so each run checks the month that just ended."
+
+msgid "What it reports"
+msgstr "What it reports"
 
 msgid "Import strategy"
 msgstr "Import strategy"
@@ -2793,9 +3555,6 @@ msgstr "A run today pulls {{first}}."
 
 msgid "A run today pulls {{first}} to {{last}}."
 msgstr "A run today pulls {{first}} to {{last}}."
-
-msgid "To"
-msgstr "To"
 
 msgid "Can’t pull"
 msgstr "Can’t pull"
@@ -2930,9 +3689,6 @@ msgstr ""
 "Which data elements exist on the target is unknown; the step checks again "
 "before sending anything."
 
-msgid "Add data element"
-msgstr "Add data element"
-
 msgid ""
 "Chosen from staging. Each is sent to the target org unit with the same "
 "code; org units without a match are skipped."
@@ -2984,9 +3740,6 @@ msgstr "Values per request to the target"
 msgid "Staging data element"
 msgstr "Staging data element"
 
-msgid "Remove data element"
-msgstr "Remove data element"
-
 msgid "Checking target…"
 msgstr "Checking target…"
 
@@ -3029,12 +3782,6 @@ msgstr ""
 "Members receive a DHIS2 message. DHIS2 also emails a copy when email (SMTP) "
 "is configured on the server and the user has message email notifications "
 "turned on."
-
-msgid "User groups"
-msgstr "User groups"
-
-msgid "Users"
-msgstr "Users"
 
 msgid ""
 "Starts from suggested text for the step this one follows; edit it as you "
@@ -3617,26 +4364,20 @@ msgstr "Rebuild dataset with newer data"
 msgid "Static dataset - cannot be synced"
 msgstr "Static dataset - cannot be synced"
 
-msgid "Succeeded"
-msgstr "Succeeded"
-
-msgid "Timed out"
-msgstr "Timed out"
-
 msgid "Skipped"
 msgstr "Skipped"
 
 msgid "Waiting to check"
 msgstr "Waiting to check"
 
-msgid "Started"
-msgstr "Started"
-
 msgid "Rule not met"
 msgstr "Rule not met"
 
 msgid "connector"
 msgstr "connector"
+
+msgid "workflow"
+msgstr "workflow"
 
 msgctxt "URL configuration."
 msgid "Check CLIMATE_API_BASE"

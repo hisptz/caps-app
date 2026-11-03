@@ -42,6 +42,11 @@ import {
 } from '@/modules/pipeline-connectors/utils/connectorLabels'
 import { describeRule } from '@/modules/pipeline-connectors/utils/connectorRule'
 import { describeOutputPath } from '@/modules/pipeline-connectors/utils/stepOutputs'
+import {
+    IncomingWaitForAllRows,
+    OutgoingWaitForAllRows,
+} from '@/modules/workflows/components/WaitForAllConnectorRows'
+import { usePipelineMergesQuery } from '@/modules/workflows/hooks/useWorkflows'
 import { PageLoader } from '@/shared/components/ui/PageLoader'
 import { StatusTag } from '@/shared/components/ui/StatusTag'
 import tableNavLinkClasses from '@/shared/components/ui/TableNavLink/TableNavLink.module.css'
@@ -87,6 +92,10 @@ export function PipelineConnectorsTab({
 
     const outgoing = data?.outgoing ?? []
     const incoming = data?.incoming ?? []
+    // Connectors that wait for several pipelines of a workflow ("merges" in the engine)
+    const { data: merges } = usePipelineMergesQuery(engine, pipeline.id)
+    const waitedFor = merges?.waitedFor ?? []
+    const startedBy = merges?.startedBy ?? []
 
     const saveConnector = (values: ConnectorFormValues) =>
         editing
@@ -143,10 +152,12 @@ export function PipelineConnectorsTab({
             )}
 
             <h3 className={classes.sectionTitle}>
-                {i18n.t('Pipelines this one starts')}
+                {i18n.t('Pipelines that this pipeline starts')}
             </h3>
-            {outgoing.length === 0 ? (
-                <NoticeBox title={i18n.t('No connectors yet')}>
+            {outgoing.length + waitedFor.length === 0 ? (
+                <NoticeBox
+                    title={i18n.t('No connectors start from this pipeline')}
+                >
                     {i18n.t(
                         'Add a connector to start another pipeline automatically when this one finishes. A rule can limit it to certain results.'
                     )}
@@ -290,12 +301,17 @@ export function PipelineConnectorsTab({
                                     </DataTableCell>
                                 </DataTableRow>
                             ))}
+                            <OutgoingWaitForAllRows
+                                merges={waitedFor}
+                                pipelineId={pipeline.id}
+                                handlers={handlers ?? []}
+                            />
                         </DataTableBody>
                     </DataTable>
                 </TableScroll>
             )}
 
-            {incoming.length > 0 && (
+            {incoming.length + startedBy.length > 0 && (
                 <>
                     <h3 className={classes.sectionTitle}>
                         {i18n.t('Pipelines that start this one')}
@@ -376,6 +392,10 @@ export function PipelineConnectorsTab({
                                         </DataTableCell>
                                     </DataTableRow>
                                 ))}
+                                <IncomingWaitForAllRows
+                                    merges={startedBy}
+                                    handlers={handlers ?? []}
+                                />
                             </DataTableBody>
                         </DataTable>
                     </TableScroll>

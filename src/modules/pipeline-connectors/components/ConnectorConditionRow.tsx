@@ -25,6 +25,7 @@ type Props = {
     steps: PipelineStep[]
     handlers: HandlerDescriptor[]
     onRemove: () => void
+    labelStep?: (step: PipelineStep, index: number) => string
 }
 
 /**
@@ -37,6 +38,7 @@ export function ConnectorConditionRow({
     steps,
     handlers,
     onRemove,
+    labelStep = stepLabel,
 }: Props): React.ReactElement {
     const { control, setValue, getFieldState, formState } =
         useFormContext<ConnectorFormValues>()
@@ -110,7 +112,7 @@ export function ConnectorConditionRow({
                               <SingleSelectOption
                                   key={s.id}
                                   value={String(i)}
-                                  label={stepLabel(s, i)}
+                                  label={labelStep(s, i)}
                               />,
                           ]
                         : []

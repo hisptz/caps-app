@@ -29,7 +29,7 @@ export function targetPathIssue(path: string): string | null {
     return null
 }
 
-const conditionRowSchema = z
+export const conditionRowSchema = z
     .object({
         path: z
             .string()
