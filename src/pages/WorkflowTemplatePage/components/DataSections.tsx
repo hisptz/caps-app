@@ -7,7 +7,7 @@ import {
     SingleSelectField,
     SingleSelectOption,
 } from '@dhis2/ui'
-import React, { useState } from 'react'
+import React from 'react'
 import {
     Controller,
     useFieldArray,
@@ -16,11 +16,11 @@ import {
 } from 'react-hook-form'
 import classes from '../WorkflowTemplatePage.module.css'
 import { useClimateCollectionsQuery } from '@/modules/climate-data/hooks/useClimateCollectionsQuery'
+import { useInstanceQuery } from '@/modules/connected-instances/hooks/useInstanceMappings'
 import { useSourceRoutesQuery } from '@/modules/connected-instances/hooks/useSourceRoutes'
-import type { SourceDataItem } from '@/modules/dhis2-instance-pull/hooks/usePullItemQueries'
 import type { TemplateFormValues } from '@/modules/workflows/schemas/templateFormSchema'
 import { DataElementSelector } from '@/shared/components/HandlerConfigForms/DataElementSelector'
-import { SourceItemSelector } from '@/shared/components/HandlerConfigForms/Dhis2InstancePullConfig/SourceItemSelector'
+import { MappedItemsField } from '@/shared/components/HandlerConfigForms/Dhis2InstancePullConfig/MappedItemsField'
 import {
     FormSection,
     RadioCardGroup,
@@ -158,14 +158,12 @@ export function ClimateSection(): React.ReactElement {
 
 /** Disease cases: already in staging, or pulled from another instance first. */
 export function DiseaseSection(): React.ReactElement {
-    const { control, setValue, formState } =
-        useFormContext<TemplateFormValues>()
+    const { control, setValue } = useFormContext<TemplateFormValues>()
     const source = useWatch({ control, name: 'diseaseSource' })
     const routeCode = useWatch({ control, name: 'routeCode' })
-    const items = useFieldArray({ control, name: 'diseaseItems' })
     const routes = useSourceRoutesQuery()
-    // Names of items picked in this session; saved items show by ID until searched
-    const [picked, setPicked] = useState<Record<string, SourceDataItem>>({})
+    const engine = useDataEngine()
+    const instanceQuery = useInstanceQuery(engine, routeCode || undefined)
 
     return (
         <FormSection num={5} title={i18n.t('Disease data')}>
@@ -176,19 +174,7 @@ export function DiseaseSection(): React.ReactElement {
                     <RadioCardGroup
                         name="diseaseSource"
                         value={field.value}
-                        onChange={(value) => {
-                            field.onChange(value)
-                            if (
-                                value === 'instance' &&
-                                items.fields.length === 0
-                            ) {
-                                items.append({
-                                    from: '',
-                                    fromType: 'DATA_ELEMENT',
-                                    into: '',
-                                })
-                            }
-                        }}
+                        onChange={field.onChange}
                         options={[
                             {
                                 value: 'staging',
@@ -226,14 +212,8 @@ export function DiseaseSection(): React.ReactElement {
                                 }
                                 onChange={({ selected }) => {
                                     field.onChange(selected)
-                                    // Items belong to the old instance
-                                    setValue('diseaseItems', [
-                                        {
-                                            from: '',
-                                            fromType: 'DATA_ELEMENT',
-                                            into: '',
-                                        },
-                                    ])
+                                    // Picks belong to the old instance's mappings
+                                    setValue('diseaseMapped', [])
                                 }}
                                 error={Boolean(fieldState.error)}
                                 validationText={fieldState.error?.message}
@@ -251,75 +231,15 @@ export function DiseaseSection(): React.ReactElement {
                             </SingleSelectField>
                         )}
                     />
-                    {items.fields.map((row, index) => (
-                        <div key={row.id} className={classes.row}>
-                            <div className={classes.rowFields}>
-                                <Controller
-                                    name={`diseaseItems.${index}.from`}
-                                    control={control}
-                                    render={({ field, fieldState }) => (
-                                        <SourceItemSelector
-                                            label={i18n.t('Pull')}
-                                            routeCode={routeCode || undefined}
-                                            value={field.value || undefined}
-                                            selected={picked[field.value]}
-                                            onSelect={(item) => {
-                                                setPicked((all) => ({
-                                                    ...all,
-                                                    [item.id]: item,
-                                                }))
-                                                field.onChange(item.id)
-                                                setValue(
-                                                    `diseaseItems.${index}.fromType`,
-                                                    item.dimensionItemType
-                                                )
-                                            }}
-                                            error={Boolean(fieldState.error)}
-                                            validationText={
-                                                fieldState.error?.message
-                                            }
-                                        />
-                                    )}
-                                />
-                                <DataElementSelector
-                                    name={`diseaseItems.${index}.into`}
-                                    label={i18n.t(
-                                        'Into staging data element (empty: same ID)',
-                                        { nsSeparator: '~~' }
-                                    )}
-                                />
-                            </div>
-                            <Button
-                                small
-                                secondary
-                                icon={<IconDelete16 />}
-                                disabled={items.fields.length === 1}
-                                onClick={() => items.remove(index)}
-                                aria-label={i18n.t('Remove')}
-                            />
-                        </div>
-                    ))}
-                    {formState.errors.diseaseItems?.message && (
-                        <p className={classes.fieldError}>
-                            {formState.errors.diseaseItems.message}
-                        </p>
+                    {routeCode && (
+                        <MappedItemsField
+                            name="diseaseMapped"
+                            routeCode={routeCode}
+                            instance={instanceQuery.data}
+                            loading={instanceQuery.isLoading}
+                            direction="PULL"
+                        />
                     )}
-                    <div>
-                        <Button
-                            small
-                            icon={<IconAdd16 />}
-                            disabled={!routeCode}
-                            onClick={() =>
-                                items.append({
-                                    from: '',
-                                    fromType: 'DATA_ELEMENT',
-                                    into: '',
-                                })
-                            }
-                        >
-                            {i18n.t('Add data to pull')}
-                        </Button>
-                    </div>
                 </>
             )}
         </FormSection>

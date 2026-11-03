@@ -17,13 +17,6 @@ const climateRowSchema = z.object({
     aggregation: z.enum(['mean', 'min', 'max', 'sum']),
 })
 
-const diseaseItemSchema = z.object({
-    from: z.string().min(1, i18n.t('Choose what to pull')),
-    fromType: z.enum(['DATA_ELEMENT', 'INDICATOR', 'PROGRAM_INDICATOR']),
-    /** Staging data element; empty keeps the source ID (data elements only) */
-    into: z.string(),
-})
-
 export const templateFormSchema = z
     .object({
         name: z.string().trim().min(1, i18n.t('Name is required')).max(200),
@@ -46,7 +39,8 @@ export const templateFormSchema = z
             .min(1, i18n.t('Add at least one climate variable')),
         diseaseSource: z.enum(['staging', 'instance']),
         routeCode: z.string(),
-        diseaseItems: z.array(diseaseItemSchema),
+        /** Staging data elements pulled, picked from the instance's pull mappings */
+        diseaseMapped: z.array(z.string()),
         backfill: z.boolean(),
         backfillStart: z.string(),
         backfillEnd: z.string(),
@@ -90,24 +84,13 @@ export const templateFormSchema = z
                     message: i18n.t('Choose the instance to pull from'),
                 })
             }
-            if (values.diseaseItems.length === 0) {
+            if (values.diseaseMapped.length === 0) {
                 ctx.addIssue({
                     code: 'custom',
-                    path: ['diseaseItems'],
-                    message: i18n.t('Add the disease data to pull'),
+                    path: ['diseaseMapped'],
+                    message: i18n.t('Pick the disease data to pull'),
                 })
             }
-            values.diseaseItems.forEach((item, index) => {
-                if (item.fromType !== 'DATA_ELEMENT' && !item.into) {
-                    ctx.addIssue({
-                        code: 'custom',
-                        path: ['diseaseItems', index, 'into'],
-                        message: i18n.t(
-                            'Indicators need a staging data element to go into'
-                        ),
-                    })
-                }
-            })
         }
         if (values.backfill) {
             for (const key of ['backfillStart', 'backfillEnd'] as const) {
@@ -141,7 +124,7 @@ export function defaultTemplateFormValues(): TemplateFormValues {
         climate: [{ datasetId: '', dataElement: '', aggregation: 'mean' }],
         diseaseSource: 'staging',
         routeCode: '',
-        diseaseItems: [],
+        diseaseMapped: [],
         backfill: false,
         backfillStart: '',
         backfillEnd: '',
@@ -175,13 +158,7 @@ export function templateFormValuesToParams(
                 ? {
                       source: 'instance',
                       routeCode: values.routeCode,
-                      items: values.diseaseItems.map(
-                          ({ from, fromType, into }) => ({
-                              from,
-                              fromType,
-                              ...(into ? { into } : {}),
-                          })
-                      ),
+                      mapped: values.diseaseMapped,
                   }
                 : { source: 'staging' },
         prediction:
@@ -222,12 +199,11 @@ export function paramsToTemplateFormValues(
         climate: params.climate,
         diseaseSource: disease.source,
         routeCode: disease.source === 'instance' ? disease.routeCode : '',
-        diseaseItems:
+        // Older workflows list items: the staging data elements they fill are what to pick
+        diseaseMapped:
             disease.source === 'instance'
-                ? disease.items.map((item) => ({
-                      ...item,
-                      into: item.into ?? '',
-                  }))
+                ? (disease.mapped ??
+                  (disease.items ?? []).map((item) => item.into ?? item.from))
                 : [],
     }
 }
@@ -247,7 +223,7 @@ export function templateFormValuesToBackfill(
 
 const FIELD_FOR_PARAM: Array<[RegExp, (m: RegExpMatchArray) => string]> = [
     [/^climate\.(\d+)\.(datasetId|dataElement|aggregation)$/, (m) => m[0]],
-    [/^disease\.items\.(\d+)/, (m) => `diseaseItems.${m[1]}.from`],
+    [/^disease\.(mapped|items)/, () => 'diseaseMapped'],
     [/^disease\.routeCode$/, () => 'routeCode'],
     [/^prediction\.predictionSetupId$/, () => 'predictionSetupId'],
     [/^prediction\.periodsAhead$/, () => 'periodsAhead'],

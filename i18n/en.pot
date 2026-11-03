@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-11-03T17:19:11.861Z\n"
-"PO-Revision-Date: 2026-11-03T17:19:11.861Z\n"
+"POT-Creation-Date: 2026-11-03T22:33:14.422Z\n"
+"PO-Revision-Date: 2026-11-03T22:33:14.422Z\n"
 
 msgid "Enter a valid HTTP or HTTPS URL."
 msgstr "Enter a valid HTTP or HTTPS URL."
@@ -2158,9 +2158,6 @@ msgstr "Choose a dataset"
 msgid "Choose a data element"
 msgstr "Choose a data element"
 
-msgid "Choose what to pull"
-msgstr "Choose what to pull"
-
 msgid "Add at least one climate variable"
 msgstr "Add at least one climate variable"
 
@@ -2176,11 +2173,8 @@ msgstr "Choose an org unit level, or a prediction setup to take the org units fr
 msgid "Choose the instance to pull from"
 msgstr "Choose the instance to pull from"
 
-msgid "Add the disease data to pull"
-msgstr "Add the disease data to pull"
-
-msgid "Indicators need a staging data element to go into"
-msgstr "Indicators need a staging data element to go into"
+msgid "Pick the disease data to pull"
+msgstr "Pick the disease data to pull"
 
 msgid "Enter a 5-part cron expression, e.g. 0 6 1 * *"
 msgstr "Enter a 5-part cron expression, e.g. 0 6 1 * *"
@@ -3050,15 +3044,6 @@ msgstr "e.g. the HMIS; pulled at the same time as the climate data"
 
 msgid "Connected on the Settings page"
 msgstr "Connected on the Settings page"
-
-msgid "Pull"
-msgstr "Pull"
-
-msgid "Into staging data element (empty: same ID)"
-msgstr "Into staging data element (empty: same ID)"
-
-msgid "Add data to pull"
-msgstr "Add data to pull"
 
 msgid "Prediction"
 msgstr "Prediction"

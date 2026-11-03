@@ -46,7 +46,7 @@ describe('templateFormSchema', () => {
         if (!result.success) {
             expect(result.error.issues.map((i) => i.path.join('.'))).toEqual([
                 'routeCode',
-                'diseaseItems',
+                'diseaseMapped',
             ])
         }
     })
@@ -74,19 +74,12 @@ describe('templateFormValuesToParams', () => {
         })
     })
 
-    it('keeps the source ID when no staging data element is given', () => {
+    it('pulls the picked mapped data elements', () => {
         const params = templateFormValuesToParams(
             values({
                 diseaseSource: 'instance',
                 routeCode: 'caps-src-hmis',
-                diseaseItems: [
-                    { from: 'CasesDataE1', fromType: 'DATA_ELEMENT', into: '' },
-                    {
-                        from: 'IndicatorA1',
-                        fromType: 'INDICATOR',
-                        into: 'IntoDataEl1',
-                    },
-                ],
+                diseaseMapped: ['CasesDataE1', 'IntoDataEl1'],
                 predictionSetupId: '7',
                 notifyGroups: ['ModellersGr'],
             })
@@ -94,14 +87,7 @@ describe('templateFormValuesToParams', () => {
         expect(params.disease).toEqual({
             source: 'instance',
             routeCode: 'caps-src-hmis',
-            items: [
-                { from: 'CasesDataE1', fromType: 'DATA_ELEMENT' },
-                {
-                    from: 'IndicatorA1',
-                    fromType: 'INDICATOR',
-                    into: 'IntoDataEl1',
-                },
-            ],
+            mapped: ['CasesDataE1', 'IntoDataEl1'],
         })
         expect(params.prediction).toEqual({
             predictionSetupId: 7,
@@ -110,13 +96,30 @@ describe('templateFormValuesToParams', () => {
         })
     })
 
+    it('reopens an older workflow’s items as the staging data elements they fill', () => {
+        const reopened = paramsToTemplateFormValues({
+            ...templateFormValuesToParams(values()),
+            disease: {
+                source: 'instance',
+                routeCode: 'caps-src-hmis',
+                items: [
+                    { from: 'CasesDataE1', fromType: 'DATA_ELEMENT' },
+                    {
+                        from: 'IndicatorA1',
+                        fromType: 'INDICATOR',
+                        into: 'IntoDataEl1',
+                    },
+                ],
+            },
+        })
+        expect(reopened.diseaseMapped).toEqual(['CasesDataE1', 'IntoDataEl1'])
+    })
+
     it('round-trips through the saved parameters', () => {
         const original = values({
             diseaseSource: 'instance',
             routeCode: 'caps-src-hmis',
-            diseaseItems: [
-                { from: 'CasesDataE1', fromType: 'DATA_ELEMENT', into: '' },
-            ],
+            diseaseMapped: ['CasesDataE1'],
             predictionSetupId: '7',
             scheduled: false,
         })
@@ -145,7 +148,8 @@ describe('formFieldForIssue', () => {
     it('points engine issues at the form field they are about', () => {
         const field = (path: string) => formFieldForIssue({ path, message: '' })
         expect(field('climate.1.datasetId')).toBe('climate.1.datasetId')
-        expect(field('disease.items.0')).toBe('diseaseItems.0.from')
+        expect(field('disease.mapped')).toBe('diseaseMapped')
+        expect(field('disease.items.0')).toBe('diseaseMapped')
         expect(field('disease.routeCode')).toBe('routeCode')
         expect(field('prediction.predictionSetupId')).toBe('predictionSetupId')
         expect(field('periodType')).toBe('periodType')

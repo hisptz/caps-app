@@ -575,7 +575,10 @@ export type DiseaseParams =
     | {
           source: 'instance'
           routeCode: string
-          items: TemplatePullItem[]
+          /** Staging data elements pulled, from the instance's pull mappings */
+          mapped?: string[]
+          /** Workflows made before instance mappings list their own items */
+          items?: TemplatePullItem[]
           orgUnitMatch?: 'id' | 'code'
       }
 

@@ -20,19 +20,20 @@ import {
  * that direction (Settings › Connected instances › Mappings). Stored as `handlerConfig.mapped`.
  */
 export function MappedItemsField({
+    name = 'handlerConfig.mapped',
     routeCode,
     instance,
     loading,
     direction,
 }: {
+    /** Form path of the picked staging data element ids. */
+    name?: string
     routeCode: string
     instance: InstanceDetail | undefined
     loading: boolean
     direction: MappingDirection
 }): React.ReactElement {
-    const { field, fieldState } = useController({
-        name: 'handlerConfig.mapped',
-    })
+    const { field, fieldState } = useController({ name })
     const selected: string[] = Array.isArray(field.value) ? field.value : []
     const mappings = (instance?.mappings ?? []).filter(
         (m) => m.direction === direction
