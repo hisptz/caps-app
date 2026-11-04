@@ -1,3 +1,4 @@
+import { useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { Button, IconAdd16, InputField, NoticeBox } from '@dhis2/ui'
 import React, { useEffect, useState } from 'react'
@@ -10,9 +11,11 @@ import {
 import { ConfigLabeledControl } from '../ConfigLabeledControl'
 import { ConnectedInstanceSection } from '../ConnectedInstanceSection'
 import classes from '../Dhis2InstancePullConfig/Dhis2InstancePullConfig.module.css'
+import { MappedItemsField } from '../Dhis2InstancePullConfig/MappedItemsField'
 import { OrganisationUnitConfigSection } from '../OrganisationUnitConfigSection'
 import { PushItemRow } from './PushItemRow'
 import { PushPeriodFields } from './PushPeriodFields'
+import { useInstanceQuery } from '@/modules/connected-instances/hooks/useInstanceMappings'
 import { IMPORT_STRATEGY_OPTIONS } from '@/modules/dhis2-data-upload/constants'
 import type { DataValueImportStrategy } from '@/modules/dhis2-data-upload/schemas/config'
 import type { OrgUnitMatch } from '@/modules/dhis2-instance-pull/schemas/config'
@@ -88,14 +91,23 @@ export function Dhis2InstancePushConfig({
     const routeCode = useWatch({ control, name: 'handlerConfig.routeCode' }) as
         | string
         | undefined
-    const items =
-        (useWatch({ control, name: 'handlerConfig.items' }) as
-            | Partial<PushItem>[]
-            | undefined) ?? EMPTY_ITEMS
-    const orgUnitMatch = (useWatch({
+    const watchedItems = useWatch({ control, name: 'handlerConfig.items' }) as
+        | Partial<PushItem>[]
+        | undefined
+    const items = watchedItems ?? EMPTY_ITEMS
+    // Older steps list their own items; the rest pick from the instance's mappings.
+    const legacy = Array.isArray(watchedItems)
+    const stepOrgUnitMatch = (useWatch({
         control,
         name: 'handlerConfig.orgUnitMatch',
     }) ?? 'id') as OrgUnitMatch
+    const engine = useDataEngine()
+    const instanceQuery = useInstanceQuery(engine, routeCode || undefined)
+    const instance = instanceQuery.data
+    // Once the instance has settings, its match is used for every step.
+    const orgUnitMatch = instance?.configured
+        ? instance.orgUnitMatch
+        : stepOrgUnitMatch
     const source = (useWatch({ control, name: 'handlerConfig.source' }) ??
         'raw') as PushSource
 
@@ -117,6 +129,17 @@ export function Dhis2InstancePushConfig({
                 { shouldDirty: true, shouldValidate: true }
             )
         }
+    }
+
+    /** Drops the step's own items; it then picks from the instance's mappings. */
+    function switchToMappings() {
+        const config = { ...(getValues('handlerConfig') ?? {}) }
+        delete config.items
+        setValue(
+            'handlerConfig',
+            { ...config, mapped: [] },
+            { shouldDirty: true }
+        )
     }
 
     const itemsArray = useFieldArray({
@@ -157,52 +180,89 @@ export function Dhis2InstancePushConfig({
                 )}
             />
 
-            <FormSection
-                title={i18n.t('Data elements')}
-                description={i18n.t(
-                    'Values of these staging data elements are sent. Each goes into the target data element with the same ID unless you pick another.'
-                )}
-                tight
-            >
-                {target.isError && (
-                    <NoticeBox
-                        warning
-                        title={i18n.t('Could not check the target')}
-                    >
-                        {i18n.t(
-                            'Which data elements exist on the target is unknown; the step checks again before sending anything.'
-                        )}
+            {!legacy && (
+                <FormSection
+                    title={i18n.t('Data elements')}
+                    description={i18n.t(
+                        'Pick what this step pushes from the instance’s mappings.'
+                    )}
+                    tight
+                >
+                    {routeCode ? (
+                        <MappedItemsField
+                            routeCode={routeCode}
+                            instance={instance}
+                            loading={instanceQuery.isLoading}
+                            direction="PUSH"
+                        />
+                    ) : (
+                        <p className={classes.hint}>
+                            {i18n.t('Pick a target instance first.')}
+                        </p>
+                    )}
+                </FormSection>
+            )}
+
+            {legacy && (
+                <FormSection
+                    title={i18n.t('Data elements')}
+                    description={i18n.t(
+                        'Values of these staging data elements are sent. Each goes into the target data element with the same ID unless you pick another.'
+                    )}
+                    tight
+                >
+                    <NoticeBox title={i18n.t('This step lists its own items')}>
+                        <p>
+                            {i18n.t(
+                                'Data elements now belong to the connected instance. Map them under Settings › Connected instances › Mappings, then switch this step to pick from them.'
+                            )}
+                        </p>
+                        <Button small onClick={switchToMappings}>
+                            {i18n.t('Use instance mappings')}
+                        </Button>
                     </NoticeBox>
-                )}
-                {items.length > 0 && (
-                    <ul className={classes.items}>
-                        {itemsArray.fields.map((row, index) => (
-                            <PushItemRow
-                                key={row.id}
-                                index={index}
-                                routeCode={routeCode || undefined}
-                                staging={staging.data}
-                                target={target.data}
-                                targetPending={target.isFetching}
-                                source={source}
-                                onRemove={() => itemsArray.remove(index)}
-                            />
-                        ))}
-                    </ul>
-                )}
-                {itemsError && <NoticeBox error>{itemsError}</NoticeBox>}
-                <div>
-                    <Button
-                        small
-                        secondary
-                        icon={<IconAdd16 />}
-                        disabled={!routeCode}
-                        onClick={() => itemsArray.append({ from: '' } as never)}
-                    >
-                        {i18n.t('Add data element')}
-                    </Button>
-                </div>
-            </FormSection>
+                    {target.isError && (
+                        <NoticeBox
+                            warning
+                            title={i18n.t('Could not check the target')}
+                        >
+                            {i18n.t(
+                                'Which data elements exist on the target is unknown; the step checks again before sending anything.'
+                            )}
+                        </NoticeBox>
+                    )}
+                    {items.length > 0 && (
+                        <ul className={classes.items}>
+                            {itemsArray.fields.map((row, index) => (
+                                <PushItemRow
+                                    key={row.id}
+                                    index={index}
+                                    routeCode={routeCode || undefined}
+                                    staging={staging.data}
+                                    target={target.data}
+                                    targetPending={target.isFetching}
+                                    source={source}
+                                    onRemove={() => itemsArray.remove(index)}
+                                />
+                            ))}
+                        </ul>
+                    )}
+                    {itemsError && <NoticeBox error>{itemsError}</NoticeBox>}
+                    <div>
+                        <Button
+                            small
+                            secondary
+                            icon={<IconAdd16 />}
+                            disabled={!routeCode}
+                            onClick={() =>
+                                itemsArray.append({ from: '' } as never)
+                            }
+                        >
+                            {i18n.t('Add data element')}
+                        </Button>
+                    </div>
+                </FormSection>
+            )}
 
             <FormSection
                 title={i18n.t('Organisation units')}
@@ -221,31 +281,50 @@ export function Dhis2InstancePushConfig({
                 }
                 tight
             >
-                <Controller
-                    name="handlerConfig.orgUnitMatch"
-                    control={control}
-                    render={({ field }) => (
-                        <ConfigLabeledControl
-                            label={i18n.t('Match org units on the target by')}
-                            helpText={i18n.t(
-                                'Use code when staging and the target have different IDs for the same places.'
-                            )}
-                        >
-                            <SegmentedControl<OrgUnitMatch>
-                                name="push-org-unit-match"
-                                value={(field.value as OrgUnitMatch) ?? 'id'}
-                                options={[
-                                    { value: 'id', label: i18n.t('ID') },
-                                    { value: 'code', label: i18n.t('Code') },
-                                ]}
-                                onChange={field.onChange}
-                                aria-label={i18n.t(
+                {instance?.configured ? (
+                    <p className={classes.hint}>
+                        {orgUnitMatch === 'code'
+                            ? i18n.t(
+                                  'Matched on the target by code, as set for this instance under Settings › Connected instances.'
+                              )
+                            : i18n.t(
+                                  'Matched on the target by ID, as set for this instance under Settings › Connected instances.'
+                              )}
+                    </p>
+                ) : (
+                    <Controller
+                        name="handlerConfig.orgUnitMatch"
+                        control={control}
+                        render={({ field }) => (
+                            <ConfigLabeledControl
+                                label={i18n.t(
                                     'Match org units on the target by'
                                 )}
-                            />
-                        </ConfigLabeledControl>
-                    )}
-                />
+                                helpText={i18n.t(
+                                    'Use code when staging and the target have different IDs for the same places.'
+                                )}
+                            >
+                                <SegmentedControl<OrgUnitMatch>
+                                    name="push-org-unit-match"
+                                    value={
+                                        (field.value as OrgUnitMatch) ?? 'id'
+                                    }
+                                    options={[
+                                        { value: 'id', label: i18n.t('ID') },
+                                        {
+                                            value: 'code',
+                                            label: i18n.t('Code'),
+                                        },
+                                    ]}
+                                    onChange={field.onChange}
+                                    aria-label={i18n.t(
+                                        'Match org units on the target by'
+                                    )}
+                                />
+                            </ConfigLabeledControl>
+                        )}
+                    />
+                )}
                 <OrganisationUnitConfigSection />
             </FormSection>
 

@@ -40,7 +40,8 @@ export const sourceRouteFormSchema = z
         baseUrl: z.httpUrl({
             hostname: /.*/,
             message: i18n.t(
-                'Enter the instance URL, e.g. https://play.im.dhis2.org/dev'
+                'Enter the instance URL, e.g. https://play.im.dhis2.org/dev',
+                { nsSeparator: '~~' }
             ),
         } as unknown as Parameters<typeof z.httpUrl>[0]),
         responseTimeoutSeconds: z

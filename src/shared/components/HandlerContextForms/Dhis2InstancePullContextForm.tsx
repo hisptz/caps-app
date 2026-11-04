@@ -34,11 +34,12 @@ function describePullPeriod(
     if (period?.mode === 'relative') {
         return i18n.t(
             'Latest periods: {{count}}, skipping the most recent {{offset}}',
-            { count: period.count, offset: period.offset }
+            { nsSeparator: '~~', count: period.count, offset: period.offset }
         )
     }
     if (period?.mode === 'fixed' && period.start && period.end) {
         return i18n.t('Fixed range: {{start}} to {{end}}', {
+            nsSeparator: '~~',
             start: period.start,
             end: period.end,
         })

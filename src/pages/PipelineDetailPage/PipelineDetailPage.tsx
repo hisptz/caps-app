@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router'
 import { DeletePipelineModal } from './components/DeletePipelineModal'
 import { DeleteScheduleModal } from './components/DeleteScheduleModal'
 import { DeleteStepModal } from './components/DeleteStepModal'
+import { PipelineConnectorsTab } from './components/PipelineConnectorsTab'
 import { PipelineDetailHeader } from './components/PipelineDetailHeader'
 import { PipelineExecutionsTab } from './components/PipelineExecutionsTab'
 import { PipelineOverviewTab } from './components/PipelineOverviewTab'
@@ -20,6 +21,7 @@ import {
     usePipelineDetailQuery,
     usePipelineExecutionsTabQuery,
 } from '@/modules/monitoring/hooks/capsMonitoringHooks'
+import { usePipelineConnectorsQuery } from '@/modules/pipeline-connectors/hooks/usePipelineConnectors'
 import { PipelineAddScheduleModal } from '@/modules/pipeline-detail/components/PipelineAddScheduleModal'
 import { PipelineAddStepModal } from '@/modules/pipeline-detail/components/PipelineAddStepModal'
 import { PipelineEditScheduleModal } from '@/modules/pipeline-detail/components/PipelineEditScheduleModal'
@@ -30,11 +32,13 @@ import { useScheduleMutations } from '@/modules/pipeline-detail/hooks/useSchedul
 import { useStepMutations } from '@/modules/pipeline-detail/hooks/useStepMutations'
 import { useTriggerPipeline } from '@/modules/pipeline-detail/hooks/useTriggerPipeline'
 import { PipelineEditModal } from '@/modules/pipelines/components/PipelineEditModal'
+import { DuplicatePipelineModal } from '@/modules/workflows/components/DuplicatePipelineModal'
+import { usePipelineMergesQuery } from '@/modules/workflows/hooks/useWorkflows'
 import { PageLoader } from '@/shared/components/ui/PageLoader'
 import shellClasses from '@/shared/components/ui/PageShell/PageShell.module.css'
 import type { PipelineSchedule, PipelineStep } from '@/shared/types/caps'
 
-type TabKey = 'overview' | 'steps' | 'schedules' | 'executions'
+type TabKey = 'overview' | 'steps' | 'schedules' | 'connectors' | 'executions'
 
 const PipelineDetailPage: React.FC = () => {
     const engine = useDataEngine()
@@ -50,6 +54,7 @@ const PipelineDetailPage: React.FC = () => {
     const [showDeletePipeline, setShowDeletePipeline] = useState(false)
 
     const [showEditPipeline, setShowEditPipeline] = useState(false)
+    const [showDuplicate, setShowDuplicate] = useState(false)
     const [deletePipelineError, setDeletePipelineError] = useState<
         string | null
     >(null)
@@ -97,6 +102,17 @@ const PipelineDetailPage: React.FC = () => {
             execPageSize,
         })
 
+    // Shared with the Connectors tab (same query key), so the count stays in step
+    const { data: connectorsData } = usePipelineConnectorsQuery(
+        engine,
+        id,
+        idReady
+    )
+    const { data: mergesData } = usePipelineMergesQuery(
+        engine,
+        idReady ? id : undefined
+    )
+
     const { deletePipelineMutation } = usePipelinePageMutations({
         engine,
         pipelineId: id,
@@ -142,7 +158,7 @@ const PipelineDetailPage: React.FC = () => {
         return (
             <div className={shellClasses.pageRoot}>
                 <NoticeBox error title={i18n.t('Invalid pipeline')}>
-                    {i18n.t('The pipeline link is not a valid identifier.')}
+                    {i18n.t('The @@PCONNECTOR@@ a valid identifier.')}
                 </NoticeBox>
                 <Button onClick={() => navigate('/pipelines')}>
                     {i18n.t('Back to pipelines')}
@@ -198,6 +214,7 @@ const PipelineDetailPage: React.FC = () => {
                 onTrigger={() => void handleTrigger()}
                 onTriggerWithContext={() => setShowTriggerContext(true)}
                 onEdit={() => setShowEditPipeline(true)}
+                onDuplicate={() => setShowDuplicate(true)}
                 onDelete={() => setShowDeletePipeline(true)}
             />
 
@@ -222,6 +239,16 @@ const PipelineDetailPage: React.FC = () => {
                 >
                     {i18n.t('Schedules ({{count}})', {
                         count: schedules.length,
+                    })}
+                </Tab>
+                <Tab
+                    selected={activeTab === 'connectors'}
+                    onClick={() => setActiveTab('connectors')}
+                >
+                    {i18n.t('Connectors ({{count}})', {
+                        count:
+                            (connectorsData?.outgoing.length ?? 0) +
+                            (mergesData?.waitedFor.length ?? 0),
                     })}
                 </Tab>
                 <Tab
@@ -289,6 +316,10 @@ const PipelineDetailPage: React.FC = () => {
                             setDeleteScheduleError(null)
                         }}
                     />
+                )}
+
+                {activeTab === 'connectors' && (
+                    <PipelineConnectorsTab pipeline={pipeline} steps={steps} />
                 )}
 
                 {activeTab === 'executions' && (
@@ -408,6 +439,12 @@ const PipelineDetailPage: React.FC = () => {
                 pipeline={pipeline}
                 open={showEditPipeline}
                 onClose={() => setShowEditPipeline(false)}
+            />
+
+            <DuplicatePipelineModal
+                open={showDuplicate}
+                pipeline={pipeline}
+                onClose={() => setShowDuplicate(false)}
             />
 
             {showDeletePipeline && (

@@ -4,6 +4,7 @@ import { Button, CircularLoader, IconSync16, NoticeBox } from '@dhis2/ui'
 import { useQueryClient } from '@tanstack/react-query'
 import React from 'react'
 import { DashboardStatsRow } from './components/DashboardStatsRow'
+import { OverdueConnectorRunsSection } from './components/OverdueConnectorRunsSection'
 import { RecentFailuresSection } from './components/RecentFailuresSection'
 import { StuckExecutionsSection } from './components/StuckExecutionsSection'
 import classes from './DashboardPage.module.css'
@@ -74,6 +75,10 @@ const DashboardPage: React.FC = () => {
             <DashboardStatsRow last24h={last24h} />
 
             <StuckExecutionsSection stuckExecutions={stuckExecutions} />
+
+            <OverdueConnectorRunsSection
+                overdueConnectorRuns={data?.overdueConnectorRuns ?? []}
+            />
 
             <RecentFailuresSection recentFailures={recentFailures} />
         </div>

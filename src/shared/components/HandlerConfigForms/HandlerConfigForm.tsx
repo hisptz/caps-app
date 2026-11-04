@@ -3,6 +3,8 @@ import { AlertGenerationConfig } from './AlertGenerationConfig'
 import type { AlertGenerationConfigProps } from './AlertGenerationConfig'
 import { Dhis2AnalyticsRunConfig } from './Dhis2AnalyticsRunConfig'
 import type { Dhis2AnalyticsRunConfigProps } from './Dhis2AnalyticsRunConfig'
+import { Dhis2DataCheckConfig } from './Dhis2DataCheckConfig'
+import type { Dhis2DataCheckConfigProps } from './Dhis2DataCheckConfig'
 import { Dhis2DataUploadConfig } from './Dhis2DataUploadConfig'
 import type { Dhis2DataUploadConfigProps } from './Dhis2DataUploadConfig'
 import { Dhis2InstancePullConfig } from './Dhis2InstancePullConfig/Dhis2InstancePullConfig'
@@ -103,6 +105,13 @@ export function HandlerConfigForm({
             return (
                 <Dhis2InstancePushConfig
                     value={value as Dhis2InstancePushConfigProps['value']}
+                    onChange={onChange}
+                />
+            )
+        case 'dhis2-data-check':
+            return (
+                <Dhis2DataCheckConfig
+                    value={value as Dhis2DataCheckConfigProps['value']}
                     onChange={onChange}
                 />
             )

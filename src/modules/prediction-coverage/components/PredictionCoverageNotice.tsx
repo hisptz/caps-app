@@ -40,7 +40,7 @@ export function PredictionCoverageNotice({
     const notDownloaded = coverage.covariates
         .filter((c) => c.producers.length === 0)
         .map((c) => c.source.covariate)
-    const opts = { interpolation: { escapeValue: false } }
+    const noEscape = { escapeValue: false }
 
     return (
         <div style={{ marginBottom: 16 }}>
@@ -48,7 +48,7 @@ export function PredictionCoverageNotice({
                 warning
                 title={i18n.t(
                     'Steps do not match prediction setup "{{name}}"',
-                    { name: setup.name, ...opts }
+                    { name: setup.name, interpolation: noEscape }
                 )}
             >
                 <ul style={{ margin: 0, paddingInlineStart: 20 }}>
@@ -59,7 +59,7 @@ export function PredictionCoverageNotice({
                                 {
                                     steps: names(coverage.unmatchedDownloads),
                                     prediction: coverage.predictionStep.name,
-                                    ...opts,
+                                    interpolation: noEscape,
                                 }
                             )}
                             {notDownloaded.length > 0 &&
@@ -67,9 +67,10 @@ export function PredictionCoverageNotice({
                                     i18n.t(
                                         'Covariates no step downloads: {{covariates}}.',
                                         {
+                                            nsSeparator: '~~',
                                             covariates:
                                                 notDownloaded.join(', '),
-                                            ...opts,
+                                            interpolation: noEscape,
                                         }
                                     )}
                         </li>
@@ -81,7 +82,7 @@ export function PredictionCoverageNotice({
                                 {
                                     prediction: coverage.predictionStep.name,
                                     steps: names(coverage.lateDownloads),
-                                    ...opts,
+                                    interpolation: noEscape,
                                 }
                             )}
                         </li>
@@ -92,7 +93,7 @@ export function PredictionCoverageNotice({
                                 'No analytics run between the covariate downloads and "{{prediction}}". The prediction reads analytics, so new data is not seen until analytics runs. Add a DHIS2 analytics run step (without skipping aggregate tables) just above it.',
                                 {
                                     prediction: coverage.predictionStep.name,
-                                    ...opts,
+                                    interpolation: noEscape,
                                 }
                             )}
                         </li>
@@ -109,7 +110,7 @@ export function PredictionCoverageNotice({
                                                 `${c.step.name} (${c.periodType})`
                                         )
                                         .join(', '),
-                                    ...opts,
+                                    interpolation: noEscape,
                                 }
                             )}
                         </li>

@@ -1,0 +1,39 @@
+.modalBody {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.help {
+    margin: 0;
+    font-size: 14px;
+    color: var(--colors-grey700, #4a5768);
+    line-height: 1.5;
+}
+
+.muted {
+    color: var(--colors-grey600, #6e7a8a);
+}
+
+.meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    margin: 0 0 16px;
+    font-size: 14px;
+    color: var(--colors-grey700, #4a5768);
+}
+
+.metaLabel {
+    font-weight: 600;
+    margin-right: 6px;
+}
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}

@@ -55,30 +55,47 @@ export const pullItemSchema = z.object({
 export type PullItem = z.infer<typeof pullItemSchema>
 
 /**
- * Mirrors caps-engine worker `dhis2InstancePullConfigSchema`, except that `into` may be
- * missing on indicator rows until the step is saved (see `useCreateMissingDataElements`).
+ * Mirrors caps-engine worker `dhis2InstancePullConfigSchema`: a step names the `mapped`
+ * staging data elements to pull (the instance's mappings say where each comes from), or,
+ * for older steps, lists its own `items`. `into` may be missing on indicator rows until the
+ * step is saved (see `useCreateMissingDataElements`).
  */
-export const dhis2InstancePullConfigSchema = z.object({
-    routeCode: z.string().regex(SOURCE_ROUTE_CODE_PATTERN, {
-        message: i18n.t('Pick a connected instance'),
-    }),
-    items: z
-        .array(pullItemSchema)
-        .min(1, { message: i18n.t('Add at least one item to pull') }),
-    orgUnit: z.object({
-        ids: z.array(z.string()).optional(),
-        levels: z.array(z.number().int().positive()).optional(),
-        groups: z.array(z.string()).optional(),
-    }),
-    orgUnitMatch: orgUnitMatchSchema.default('id'),
-    period: pullPeriodSchema,
-    chunk: z
-        .object({
-            periods: z.number().int().min(1).max(60).default(12),
-            orgUnits: z.number().int().min(1).max(500).default(50),
-        })
-        .default({ periods: 12, orgUnits: 50 }),
-})
+export const dhis2InstancePullConfigSchema = z
+    .object({
+        routeCode: z.string().regex(SOURCE_ROUTE_CODE_PATTERN, {
+            message: i18n.t('Pick a connected instance'),
+        }),
+        items: z
+            .array(pullItemSchema)
+            .min(1, { message: i18n.t('Add at least one item to pull') })
+            .optional(),
+        mapped: z
+            .array(uidSchema)
+            .min(1, { message: i18n.t('Pick at least one data element') })
+            .optional(),
+        orgUnit: z.object({
+            ids: z.array(z.string()).optional(),
+            levels: z.array(z.number().int().positive()).optional(),
+            groups: z.array(z.string()).optional(),
+        }),
+        /** The connected instance's setting replaces this once it has one. */
+        orgUnitMatch: orgUnitMatchSchema.default('id'),
+        period: pullPeriodSchema,
+        chunk: z
+            .object({
+                periods: z.number().int().min(1).max(60).default(12),
+                orgUnits: z.number().int().min(1).max(500).default(50),
+            })
+            .default({ periods: 12, orgUnits: 50 }),
+    })
+    .refine(
+        (config) =>
+            (config.items === undefined) !== (config.mapped === undefined),
+        {
+            message: i18n.t('Pick the mapped data elements to pull'),
+            path: ['mapped'],
+        }
+    )
 
 export type Dhis2InstancePullConfigValue = z.infer<
     typeof dhis2InstancePullConfigSchema
@@ -95,7 +112,7 @@ export function pullItemTarget(item: PullItem): string | undefined {
 export function defaultDhis2InstancePullConfig(): Dhis2InstancePullConfigValue {
     return {
         routeCode: '',
-        items: [],
+        mapped: [],
         orgUnit: { levels: [] },
         orgUnitMatch: 'id',
         period: {
@@ -112,7 +129,8 @@ export function isDhis2InstancePullConfigShape(value: unknown): boolean {
     return (
         typeof value === 'object' &&
         value !== null &&
-        Array.isArray((value as { items?: unknown }).items) &&
+        (Array.isArray((value as { items?: unknown }).items) ||
+            Array.isArray((value as { mapped?: unknown }).mapped)) &&
         typeof (value as { period?: unknown }).period === 'object'
     )
 }

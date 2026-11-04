@@ -2,12 +2,13 @@ import { useAlert, useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { Button, NoticeBox } from '@dhis2/ui'
 import React, { useId, useRef, useState } from 'react'
-import { useNavigate, useParams } from 'react-router'
+import { Link, useNavigate, useParams } from 'react-router'
 import { CancelExecutionModal } from './components/CancelExecutionModal'
 import {
     ErrorDetailsModal,
     type ErrorTarget,
 } from './components/ErrorDetailsModal'
+import { ExecutionConnectorsSection } from './components/ExecutionConnectorsSection'
 import { ExecutionLogsSection } from './components/ExecutionLogsSection'
 import { ExecutionStepsSection } from './components/ExecutionStepsSection'
 import { ExecutionSummaryHeader } from './components/ExecutionSummaryHeader'
@@ -21,8 +22,11 @@ import {
     mapRetryStepError,
     useRetryStepExecutionMutation,
 } from '@/modules/monitoring/hooks/useRetryStepExecutionMutation'
+import { NO_ESCAPE } from '@/modules/pipeline-connectors/utils/connectorLabels'
+import { formatDate } from '@/modules/pipeline-detail/utils/formatLabels'
 import { PageLoader } from '@/shared/components/ui/PageLoader'
 import shellClasses from '@/shared/components/ui/PageShell/PageShell.module.css'
+import tableNavLinkClasses from '@/shared/components/ui/TableNavLink/TableNavLink.module.css'
 import type { StepExecution } from '@/shared/types/caps'
 
 type AlertShowProps = { text: string; error?: boolean; success?: boolean }
@@ -132,7 +136,7 @@ const ExecutionDetailPage: React.FC = () => {
         return (
             <div className={shellClasses.pageRoot}>
                 <NoticeBox error title={i18n.t('Invalid execution')}>
-                    {i18n.t('The execution link is not a valid identifier.')}
+                    {i18n.t('The @@ECONNECTOR@@ a valid identifier.')}
                 </NoticeBox>
                 <Button onClick={() => navigate('/executions')}>
                     {i18n.t('Back to executions')}
@@ -218,6 +222,30 @@ const ExecutionDetailPage: React.FC = () => {
                 onToggleTask={toggleTask}
                 onViewError={setErrorTarget}
                 onRetryClick={openRetryModal}
+            />
+
+            {execution.workflowRun && (
+                <NoticeBox title={i18n.t('Part of a workflow run')}>
+                    {i18n.t(
+                        'This run belongs to the run of “{{workflow}}” started {{time}}.',
+                        {
+                            workflow: execution.workflowRun.workflow.name,
+                            time: formatDate(execution.workflowRun.createdAt),
+                            interpolation: NO_ESCAPE,
+                        }
+                    )}{' '}
+                    <Link
+                        to={`/workflows/${execution.workflowRun.workflow.id}`}
+                        className={tableNavLinkClasses.link}
+                    >
+                        {i18n.t('Open the workflow')}
+                    </Link>
+                </NoticeBox>
+            )}
+
+            <ExecutionConnectorsSection
+                incoming={execution.incomingConnectorRun}
+                outgoing={execution.outgoingConnectorRuns ?? []}
             />
 
             <ExecutionLogsSection logs={logs} />

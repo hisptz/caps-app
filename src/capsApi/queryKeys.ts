@@ -21,6 +21,16 @@ export const capsKeys = {
         all: () => [...capsKeys.all, 'handlers'] as const,
     },
 
+    instances: {
+        /** Prefix match: invalidates every instance query. */
+        all: () => [...capsKeys.all, 'instances'] as const,
+        list: () => [...capsKeys.instances.all(), 'list'] as const,
+        detail: (routeCode: string | undefined) =>
+            [...capsKeys.instances.all(), 'detail', routeCode] as const,
+        allMappings: () =>
+            [...capsKeys.instances.all(), 'all-mappings'] as const,
+    },
+
     pipelines: {
         all: () => [...capsKeys.all, 'pipelines'] as const,
         list: (page: number, pageSize: number) =>
@@ -34,6 +44,44 @@ export const capsKeys = {
     pipeline: {
         detail: (id: string | undefined) =>
             [...capsKeys.all, 'pipeline', id] as const,
+    },
+
+    connectors: {
+        /** Prefix match: invalidates every connectors query. */
+        all: () => [...capsKeys.all, 'connectors'] as const,
+        byPipeline: (pipelineId: string | undefined) =>
+            [...capsKeys.connectors.all(), 'pipeline', pipelineId] as const,
+        runs: (connectorId: string, page: number, pageSize: number) =>
+            [
+                ...capsKeys.connectors.all(),
+                'runs',
+                connectorId,
+                page,
+                pageSize,
+            ] as const,
+    },
+
+    workflows: {
+        all: () => [...capsKeys.all, 'workflows'] as const,
+        list: () => [...capsKeys.workflows.all(), 'list'] as const,
+        detail: (id: string | undefined) =>
+            [...capsKeys.workflows.all(), 'detail', id] as const,
+        runs: (id: string | undefined, page: number, pageSize: number) =>
+            [...capsKeys.workflows.all(), 'runs', id, page, pageSize] as const,
+        run: (runId: string | undefined) =>
+            [...capsKeys.workflows.all(), 'run', runId] as const,
+        templateSetup: (id: string | undefined) =>
+            [...capsKeys.workflows.all(), 'template', id] as const,
+        templates: () => [...capsKeys.workflows.all(), 'templates'] as const,
+        templatePreview: (template: string, params: unknown) =>
+            [...capsKeys.workflows.all(), 'preview', template, params] as const,
+        pipelineMerges: (pipelineId: string | undefined) =>
+            [
+                ...capsKeys.workflows.all(),
+                'merges',
+                'pipeline',
+                pipelineId,
+            ] as const,
     },
 
     executions: {
