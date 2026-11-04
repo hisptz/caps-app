@@ -34,6 +34,7 @@
         "@hisptz/dhis2-utils": "^2.0.19",
         "@hookform/resolvers": "^5.2.2",
         "@tanstack/react-query": "4.42.0",
+        "@xyflow/react": "12.12.0",
         "cron-parser": "^5.5.0",
         "echarts": "^6.1.0",
         "lodash-es": "^4.18.1",

@@ -1,0 +1,336 @@
+.canvas {
+    position: relative;
+    height: 560px;
+    border: 1px solid var(--colors-grey300, #d5dde5);
+    border-radius: 4px;
+    background: var(--colors-grey050, #fbfcfd);
+    overflow: hidden;
+}
+
+.toolbar {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 5;
+    display: flex;
+    gap: 8px;
+}
+
+.legend {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    z-index: 5;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.92);
+    font-size: 12px;
+    color: var(--colors-grey700, #4a5768);
+}
+
+.legendItem {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--colors-grey400, #a0adba);
+}
+
+/* Nodes */
+
+.node {
+    width: 220px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 10px 12px;
+    border: 1px solid var(--colors-grey300, #d5dde5);
+    border-radius: 4px;
+    background: var(--colors-white, #ffffff);
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+}
+
+.node:hover {
+    border-color: var(--colors-grey500, #8194a9);
+}
+
+.selected,
+.selected:hover {
+    border-color: var(--colors-blue600, #147cd7);
+    box-shadow: 0 0 0 1px var(--colors-blue600, #147cd7);
+}
+
+.caption {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--colors-grey600, #6e7a8a);
+}
+
+.name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--colors-grey900, #212934);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2px 8px;
+    font-size: 12px;
+    color: var(--colors-grey700, #4a5768);
+}
+
+.status {
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+}
+
+/* Status colours: the left stripe and the status dot */
+
+.running .dot {
+    background: var(--colors-blue600, #147cd7);
+    animation: pulse 1.2s ease-in-out infinite;
+}
+
+.succeeded .dot {
+    background: var(--colors-green600, #1b7d3d);
+}
+
+.failed .dot {
+    background: var(--colors-red600, #c62828);
+}
+
+.waiting .dot {
+    background: var(--colors-yellow600, #e4a400);
+}
+
+.start {
+    width: 170px;
+    border-color: var(--colors-grey900, #212934);
+    background: var(--colors-grey900, #212934);
+}
+.start .caption {
+    color: #9fc3e7;
+}
+.start .name,
+.start .meta {
+    color: #ffffff;
+}
+
+.external {
+    border-style: dashed;
+    background: transparent;
+}
+
+.inactive {
+    opacity: 0.55;
+}
+
+.handle {
+    opacity: 0;
+    pointer-events: none;
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.35;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .running .dot {
+        animation: none;
+    }
+    .node {
+        transition: none;
+    }
+}
+
+/* Diagram + side panel */
+
+/* The panel floats over the canvas, so the diagram keeps its size */
+.panel {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 6;
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    border: 1px solid var(--colors-grey300, #d5dde5);
+    border-radius: 4px;
+    background: var(--colors-white, #ffffff);
+    box-shadow: 0 4px 12px rgba(33, 41, 52, 0.12);
+    max-height: calc(100% - 24px);
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.panelHeader {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.panelTitle {
+    margin: 2px 0 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--colors-grey900, #212934);
+    word-break: break-word;
+}
+
+.facts {
+    margin: 0;
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 6px 12px;
+    font-size: 13px;
+}
+
+.facts dt {
+    color: var(--colors-grey600, #6e7a8a);
+}
+
+.facts dd {
+    margin: 0;
+    color: var(--colors-grey900, #212934);
+}
+
+.list {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 13px;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+/* Decision and merge diamonds: connectors, not work */
+
+.gateway {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+}
+
+.diamond {
+    position: absolute;
+    inset: 7px;
+    transform: rotate(45deg);
+    border: 1.5px solid var(--colors-grey600, #6e7a8a);
+    border-radius: 3px;
+    background: var(--colors-white, #ffffff);
+    box-sizing: border-box;
+}
+
+.symbol {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--colors-grey800, #404b5a);
+}
+
+.gatewayLabel {
+    position: absolute;
+    top: 48px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.3;
+    color: var(--colors-grey800, #404b5a);
+    pointer-events: none;
+}
+
+.gatewayName {
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 150px;
+}
+
+.gateway.running .diamond {
+    border-color: var(--colors-blue600, #147cd7);
+}
+.gateway.succeeded .diamond {
+    border-color: var(--colors-green600, #1b7d3d);
+}
+.gateway.failed .diamond {
+    border-color: var(--colors-red600, #c62828);
+}
+.gateway.waiting .diamond {
+    border-color: var(--colors-yellow600, #e4a400);
+}
+
+.gateway.selected {
+    border: none;
+    box-shadow: none;
+}
+.gateway.selected .diamond {
+    border-color: var(--colors-blue600, #147cd7);
+    box-shadow: 0 0 0 2px var(--colors-blue200, #c5e3fc);
+}
+
+.gateway.inactive {
+    opacity: 0.55;
+}
+
+.edgeLabel {
+    position: absolute;
+    padding: 0 3px;
+    font-size: 11px;
+    line-height: 1.4;
+    white-space: nowrap;
+    color: var(--colors-grey700, #4a5768);
+    background: var(--colors-grey050, #fbfcfd);
+    pointer-events: none;
+}
+
+.minimap {
+    border: 1px solid var(--colors-grey300, #d5dde5);
+    border-radius: 4px;
+}

@@ -32,10 +32,7 @@ export const TopErrorsBarChart: React.FC<TopErrorsBarChartProps> = ({
         const total = errors.reduce((a, e) => a + e.occurrenceCount, 0)
         const summary = i18n.t(
             'Top errors: {{kinds}} distinct messages, {{occurrences}} total occurrences.',
-            {
-                kinds: errors.length,
-                occurrences: total,
-            }
+            { nsSeparator: '~~', kinds: errors.length, occurrences: total }
         )
         const categories = errors.map((e) => truncate(e.errorMessage, 44))
         const height = Math.min(420, 100 + errors.length * 38)

@@ -33,7 +33,8 @@ function Breakdown({
             return (
                 <p className={classes.mappingMeta}>
                     {i18n.t(
-                        'The target has no categories: option combo values are added up into its total.'
+                        'The target has no categories: option combo values are added up into its total.',
+                        { nsSeparator: '~~' }
                     )}
                 </p>
             )
@@ -61,6 +62,7 @@ function Breakdown({
                             {i18n.t(
                                 'Not on the target, so their values are left out: {{names}}.',
                                 {
+                                    nsSeparator: '~~',
                                     names: status.unmatched
                                         .map((c) => c.name || c.id)
                                         .join(', '),
@@ -76,6 +78,7 @@ function Breakdown({
 
 export function PushItemRow({
     index,
+    name,
     routeCode,
     staging,
     target,
@@ -84,6 +87,8 @@ export function PushItemRow({
     onRemove,
 }: {
     index: number
+    /** Form path of the item; the push step's `handlerConfig.items.<index>` by default. */
+    name?: string
     routeCode: string | undefined
     /** Staging data elements of the listed rows, once loaded. */
     staging: ReadonlyMap<string, PushDataElement> | undefined
@@ -95,7 +100,7 @@ export function PushItemRow({
     onRemove: () => void
 }): React.ReactElement {
     const { setValue } = useFormContext()
-    const base = `handlerConfig.items.${index}`
+    const base = name ?? `handlerConfig.items.${index}`
     const item = (useWatch({ name: base }) ?? {}) as Partial<PushItem>
     const [changingTarget, setChangingTarget] = useState(false)
 

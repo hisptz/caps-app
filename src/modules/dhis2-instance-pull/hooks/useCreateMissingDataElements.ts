@@ -8,7 +8,6 @@ import {
 import { dhis2ErrorMessage } from '@/modules/connected-instances/utils/dhis2ErrorMessage'
 import type {
     CreatedAggregationType,
-    Dhis2InstancePullConfigValue,
     PullItem,
     PullItemType,
 } from '@/modules/dhis2-instance-pull/schemas/config'
@@ -25,6 +24,9 @@ import {
 } from '@/modules/dhis2-instance-pull/utils/categoryCombos'
 
 type Engine = ReturnType<typeof useDataEngine>
+
+/** A pull step's items, or a connected instance's mappings in the same shape. */
+export type PullItemsConfig = { routeCode: string; items: PullItem[] }
 
 /** Per source item choices that aren't part of the saved step config. */
 export type InstancePullDrafts = Record<
@@ -92,6 +94,7 @@ async function readSourceItem(
             i18n.t(
                 'Could not read {{id}} from the source instance: {{message}}',
                 {
+                    nsSeparator: '~~',
                     id: item.from,
                     message: dhis2ErrorMessage(err, i18n.t('request failed')),
                 }
@@ -119,11 +122,11 @@ export function useCreateMissingDataElements() {
     const engine = useDataEngine()
 
     return useCallback(
-        async (
-            config: Dhis2InstancePullConfigValue,
+        async <C extends PullItemsConfig>(
+            config: C,
             drafts: InstancePullDrafts = {}
         ): Promise<{
-            config: Dhis2InstancePullConfigValue
+            config: C
             created: number
         }> => {
             const targets = config.items.flatMap((item) =>
@@ -145,7 +148,7 @@ export function useCreateMissingDataElements() {
                 throw new CreateMissingDataElementsError(
                     i18n.t(
                         'These destination data elements no longer exist: {{ids}}. Pick another data element for those rows.',
-                        { ids: missingTargets.join(', ') }
+                        { nsSeparator: '~~', ids: missingTargets.join(', ') }
                     )
                 )
             }
@@ -220,7 +223,7 @@ export function useCreateMissingDataElements() {
                 return new CreateMissingDataElementsError(
                     i18n.t(
                         'Destination refused to create the data elements: {{message}}',
-                        { message }
+                        { nsSeparator: '~~', message }
                     ) + hint
                 )
             }
@@ -269,6 +272,7 @@ export function useCreateMissingDataElements() {
                         i18n.t(
                             'The data elements were created, but could not be added to the CAPS imported group: {{message}}',
                             {
+                                nsSeparator: '~~',
                                 message: dhis2ErrorMessage(
                                     err,
                                     i18n.t('request failed')
@@ -318,7 +322,7 @@ export function useVerifyPullTargets() {
     const engine = useDataEngine()
 
     return useCallback(
-        async (config: Dhis2InstancePullConfigValue): Promise<void> => {
+        async (config: PullItemsConfig): Promise<void> => {
             const targets = config.items.flatMap((item) =>
                 item.into
                     ? [item.into]
@@ -338,6 +342,7 @@ export function useVerifyPullTargets() {
                     i18n.t(
                         'Pick a destination data element for every item. These have none yet: {{ids}}',
                         {
+                            nsSeparator: '~~',
                             ids: creations
                                 .map(({ index }) => config.items[index].from)
                                 .join(', '),
@@ -349,7 +354,7 @@ export function useVerifyPullTargets() {
                 throw new CreateMissingDataElementsError(
                     i18n.t(
                         'These destination data elements no longer exist: {{ids}}. Pick another data element for those rows.',
-                        { ids: missingTargets.join(', ') }
+                        { nsSeparator: '~~', ids: missingTargets.join(', ') }
                     )
                 )
             }
@@ -375,6 +380,7 @@ export function useVerifyPullTargets() {
                     i18n.t(
                         'Could not read the source’s data elements to check option combos: {{message}}',
                         {
+                            nsSeparator: '~~',
                             message: dhis2ErrorMessage(
                                 err,
                                 i18n.t('request failed')
@@ -402,7 +408,10 @@ export function useVerifyPullTargets() {
                 throw new CreateMissingDataElementsError(
                     i18n.t(
                         'These items can’t be written into their destination data elements: {{ids}}. Each item says why; pick another destination data element, or fix it on destination instance.',
-                        { ids: blocked.map((item) => item.from).join(', ') }
+                        {
+                            nsSeparator: '~~',
+                            ids: blocked.map((item) => item.from).join(', '),
+                        }
                     )
                 )
             }

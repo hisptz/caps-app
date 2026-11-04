@@ -33,6 +33,11 @@ const STATUS_VISUALS: Record<string, StatusVisual> = {
     TIMED_OUT: { Icon: IconClockHistory16, animation: null },
     SKIPPED: { Icon: IconArrowRightMulti16, animation: null },
     ACTIVE: { Icon: IconLaunch16, animation: null },
+    INACTIVE: { Icon: IconBlock16, animation: null },
+    // Connector runs
+    WAITING: { Icon: IconClockHistory16, animation: 'pulse' },
+    FIRED: { Icon: IconLaunch16, animation: null },
+    NOT_MET: { Icon: IconArrowRightMulti16, animation: null },
 }
 
 export function getStatusVisual(status: string): StatusVisual | null {

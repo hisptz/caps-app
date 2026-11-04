@@ -194,6 +194,7 @@ function FixedRunPeriodFields({
 
     const coverageHint = temporalExtent
         ? i18n.t('Available coverage: {{start}} – {{end}}', {
+              nsSeparator: '~~',
               start: temporalExtent.start,
               end: temporalExtent.end,
           })

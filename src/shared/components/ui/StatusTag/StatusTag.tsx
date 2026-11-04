@@ -23,6 +23,10 @@ const statusConfig: Record<
     PENDING: { neutral: true },
     PAUSED: { neutral: true },
     SKIPPED: { neutral: true },
+    INACTIVE: { neutral: true },
+    WAITING: { neutral: true },
+    FIRED: { positive: true },
+    NOT_MET: { neutral: true },
 }
 
 export const StatusTag: React.FC<StatusTagProps> = ({ status }) => {

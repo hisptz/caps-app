@@ -208,12 +208,18 @@ export function describePeriod(period: Period): string | undefined {
         }
         return offset === DEFAULT_ROLLING_OFFSET
             ? i18n.t('Latest periods: the last {{count}} complete {{unit}}', {
+                  nsSeparator: '~~',
                   count,
                   unit: i18n.t(UNIT[periodType]),
               })
             : i18n.t(
                   'Latest periods: {{count}} {{unit}}, skipping the most recent {{offset}}',
-                  { count, offset, unit: i18n.t(UNIT[periodType]) }
+                  {
+                      nsSeparator: '~~',
+                      count,
+                      offset,
+                      unit: i18n.t(UNIT[periodType]),
+                  }
               )
     }
     if (typeof period?.id !== 'string' || period.id === '') {
@@ -221,10 +227,14 @@ export function describePeriod(period: Period): string | undefined {
     }
     return typeof period.endId === 'string' && period.endId !== ''
         ? i18n.t('Fixed range: {{start}} to {{end}}', {
+              nsSeparator: '~~',
               start: period.id,
               end: period.endId,
           })
-        : i18n.t('Fixed range: {{start}}', { start: period.id })
+        : i18n.t('Fixed range: {{start}}', {
+              nsSeparator: '~~',
+              start: period.id,
+          })
 }
 
 /** `climatePeriodIssue` for a run or schedule override, which may leave the period out. */

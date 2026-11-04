@@ -12,7 +12,7 @@ import {
 
 const CRON_PRESETS: ReadonlyArray<{ label: string; cron: string }> = [
     { label: i18n.t('Every hour'), cron: '0 * * * *' },
-    { label: i18n.t('Daily 02:00'), cron: '0 2 * * *' },
+    { label: i18n.t('Daily 02:00', { nsSeparator: '~~' }), cron: '0 2 * * *' },
     { label: i18n.t('Weekly Mon'), cron: '0 2 * * 1' },
     { label: i18n.t('Monthly 1st'), cron: '0 2 1 * *' },
 ]

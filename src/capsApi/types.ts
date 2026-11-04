@@ -1,4 +1,6 @@
 import type {
+    ConnectorRunListRow,
+    ConnectorTriggerOn,
     AnalyticsTrend,
     Evaluation,
     PredictionSetup,
@@ -8,9 +10,115 @@ import type {
     PipelineExecution,
     PipelineSchedule,
     PipelineStep,
+    MergeTriggerRule,
+    SkippedWorkflowStart,
     TopError,
     TopFailingStep,
+    WorkflowRun,
+    ClimatePredictionParams,
+    RunPeriodRange,
+    StepOutsideRange,
+    WorkflowDetail,
 } from '@/shared/types/caps'
+
+/** POST /connectors */
+export interface CreateConnectorBody {
+    name: string
+    description?: string
+    sourcePipelineId: string
+    targetPipelineId: string
+    otherwisePipelineId?: string | null
+    on: ConnectorTriggerOn
+    condition?: unknown
+    inputMapping: Record<string, string>
+    delayMinutes: number
+    isActive: boolean
+}
+
+/** PUT /connectors/:id — the source pipeline cannot change. */
+export type UpdateConnectorBody = Partial<
+    Omit<CreateConnectorBody, 'sourcePipelineId' | 'description'>
+> & { description?: string | null }
+
+/** POST /workflows */
+export interface CreateWorkflowBody {
+    name: string
+    description?: string
+    isActive: boolean
+    cronExpr?: string | null
+}
+
+/** PUT /workflows/:id */
+export type UpdateWorkflowBody = Partial<
+    Omit<CreateWorkflowBody, 'description'>
+> & { description?: string | null }
+
+/** GET /workflows/:id/runs */
+export interface ListWorkflowRunsResponse {
+    items: WorkflowRun[]
+    pagination: CapsPagination
+}
+
+/** POST /workflows/:id/run */
+export interface StartWorkflowResponse {
+    workflowRunId: string
+    started: Array<{ pipelineId: string; executionId: string }>
+    skipped: SkippedWorkflowStart[]
+    /** Steps that kept their own window in a fixed-range run */
+    outsideRange: StepOutsideRange[]
+}
+
+/** POST /workflows/:id/run */
+export interface RunWorkflowBody {
+    period?: RunPeriodRange
+}
+
+/** POST /templates/:template/workflows */
+export interface CreateWorkflowFromTemplateBody {
+    params: ClimatePredictionParams
+    backfill?: RunPeriodRange
+}
+
+export interface CreateWorkflowFromTemplateResponse {
+    workflow: WorkflowDetail
+    backfillRun: StartWorkflowResponse | null
+}
+
+/** PUT /workflows/:id/template */
+export interface UpdateWorkflowTemplateSetupBody {
+    params: ClimatePredictionParams
+    /** Overwrite pipelines changed by hand */
+    force?: boolean
+}
+
+/** POST /merges */
+export interface CreateMergeBody {
+    name: string
+    description?: string
+    workflowId: string
+    sourcePipelineIds: string[]
+    targetPipelineId: string
+    triggerRule: MergeTriggerRule
+    timeoutMinutes: number
+    condition?: unknown
+    isActive: boolean
+}
+
+/** PUT /merges/:id — the workflow cannot change. */
+export type UpdateMergeBody = Partial<
+    Omit<CreateMergeBody, 'workflowId' | 'description'>
+> & { description?: string | null }
+
+/** POST /pipelines/:id/duplicate */
+export interface DuplicatePipelineBody {
+    name: string
+}
+
+/** GET /connectors/:id/runs */
+export interface ListConnectorRunsResponse {
+    items: ConnectorRunListRow[]
+    pagination: CapsPagination
+}
 
 /** Pagination object returned by CAPS list endpoints */
 export interface CapsPagination {
@@ -150,6 +258,64 @@ export interface SourceRouteTestResponse {
     code?: string
 }
 
+export type OrgUnitMatchValue = 'id' | 'code'
+
+export type RemoteItemType = 'DATA_ELEMENT' | 'INDICATOR' | 'PROGRAM_INDICATOR'
+
+/** PULL: instance → staging. PUSH: staging → instance. */
+export type MappingDirection = 'PULL' | 'PUSH'
+
+/** A remote item of a connected instance paired with a staging data element. */
+export interface InstanceMapping {
+    remoteItem: string
+    remoteItemType: RemoteItemType
+    stagingDataElement: string
+    direction: MappingDirection
+}
+
+/** A pull or push step that goes through a connected instance. */
+export interface InstanceStepUsage {
+    stepId: string
+    stepName: string
+    handlerKey: string
+    direction: MappingDirection
+    pipelineId: string
+    pipelineName: string
+    fromTemplate: boolean
+    /** Staging data elements a mapped step moves. */
+    mapped: string[] | null
+    /** Older steps that still list their own items: how many. */
+    legacyItems: number | null
+}
+
+/** GET /instances/:code */
+export interface InstanceDetail {
+    routeCode: string
+    /** False until the instance's settings are saved once. */
+    configured: boolean
+    orgUnitMatch: OrgUnitMatchValue
+    mappings: InstanceMapping[]
+    steps: InstanceStepUsage[]
+}
+
+/** GET /instances */
+export interface InstanceSummary {
+    routeCode: string
+    orgUnitMatch: OrgUnitMatchValue
+    mappings: number
+    updatedAt: string
+}
+
+export interface PutInstanceBody {
+    orgUnitMatch: OrgUnitMatchValue
+    mappings: InstanceMapping[]
+}
+
+/** GET /mappings: every instance's mappings. */
+export interface MappingWithInstance extends InstanceMapping {
+    routeCode: string
+}
+
 export interface CreatePipelineBody {
     name: string
     description?: string
@@ -190,6 +356,21 @@ export interface UpdateScheduleBody {
 /** JSON Schema object from GET /handlers (draft-2020-12). */
 export type HandlerJsonSchema = Record<string, unknown>
 
+/** Connector conditions compare counts with a number */
+export type HandlerOutputType = 'number'
+
+/** One field of a step's result (`step_<n>_output.<key>`). */
+export type HandlerOutputField = {
+    key: string
+    label: string
+    type: HandlerOutputType
+}
+
+/** A step's result: listed fields, or its input passed through unchanged. */
+export type HandlerOutputs =
+    | { fields: HandlerOutputField[] }
+    | { passThrough: true }
+
 export type HandlerDescriptor = {
     key: string
     displayName: string
@@ -200,6 +381,8 @@ export type HandlerDescriptor = {
         config?: HandlerJsonSchema
         context?: HandlerJsonSchema
     }
+    /** Missing on engines older than pipeline connectors */
+    outputs?: HandlerOutputs
 }
 
 export type ListHandlersResponse = {

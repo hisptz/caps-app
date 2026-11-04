@@ -16,6 +16,7 @@ import {
     formatDate,
 } from '@/modules/pipeline-detail/utils/formatLabels'
 import { StatusGlyph, StatusTag } from '@/shared/components/ui/StatusTag'
+import { formatTriggeredBy } from '@/shared/utils/label.utils'
 
 type Props = {
     execution: ExecutionDetailResponse
@@ -78,7 +79,7 @@ export function ExecutionSummaryHeader({
                         </div>
                         <div className={classes.summaryRow}>
                             <dt>{i18n.t('Triggered By')}</dt>
-                            <dd>{execution.triggeredBy ?? '—'}</dd>
+                            <dd>{formatTriggeredBy(execution.triggeredBy)}</dd>
                         </div>
                         <div className={classes.summaryRow}>
                             <dt>{i18n.t('Started At')}</dt>

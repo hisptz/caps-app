@@ -56,7 +56,13 @@ export const dhis2InstancePushConfigSchema = z.object({
     }),
     items: z
         .array(pushItemSchema)
-        .min(1, { message: i18n.t('Add at least one data element to push') }),
+        .min(1, { message: i18n.t('Add at least one data element to push') })
+        .optional(),
+    /** Staging data elements to push, as the instance's mappings say where each goes. */
+    mapped: z
+        .array(uidSchema)
+        .min(1, { message: i18n.t('Pick at least one data element') })
+        .optional(),
     source: pushSourceSchema.default('raw'),
     /** Staging org units whose values are sent. */
     orgUnit: z.object({
@@ -88,7 +94,7 @@ export type Dhis2InstancePushConfigValue = z.infer<
 export function defaultDhis2InstancePushConfig(): Dhis2InstancePushConfigValue {
     return {
         routeCode: '',
-        items: [],
+        mapped: [],
         source: 'raw',
         orgUnit: { levels: [] },
         orgUnitMatch: 'id',
@@ -102,7 +108,8 @@ export function isDhis2InstancePushConfigShape(value: unknown): boolean {
     return (
         typeof value === 'object' &&
         value !== null &&
-        Array.isArray((value as { items?: unknown }).items) &&
+        (Array.isArray((value as { items?: unknown }).items) ||
+            Array.isArray((value as { mapped?: unknown }).mapped)) &&
         typeof (value as { period?: unknown }).period === 'object'
     )
 }

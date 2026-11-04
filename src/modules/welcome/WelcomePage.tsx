@@ -91,7 +91,8 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onRouteCreated }) => {
                                     disabled={form.formState.isSubmitting}
                                     label={i18n.t('CAPS backend base URL')}
                                     helpText={i18n.t(
-                                        'Full URL of the CAPS service (scheme and host, no trailing slash). Example: https://caps.example.org'
+                                        'Full URL of the CAPS service (scheme and host, no trailing slash). Example: https://caps.example.org',
+                                        { nsSeparator: '~~' }
                                     )}
                                     value={field.value}
                                     onChange={({ value }) =>

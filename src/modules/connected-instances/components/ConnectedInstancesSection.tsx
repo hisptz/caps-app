@@ -1,4 +1,4 @@
-import { useAlert } from '@dhis2/app-runtime'
+import { useAlert, useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import {
     Button,
@@ -14,8 +14,13 @@ import {
 } from '@dhis2/ui'
 import React, { useState } from 'react'
 import classes from './ConnectedInstances.module.css'
+import { InstanceMappingsModal } from './InstanceMappingsModal'
 import { SourceRouteModal } from './SourceRouteModal'
 import type { SourceRouteTestResponse } from '@/capsApi/types'
+import {
+    useDeleteInstance,
+    useInstancesQuery,
+} from '@/modules/connected-instances/hooks/useInstanceMappings'
 import {
     useDeleteSourceRoute,
     useSourceRoutesQuery,
@@ -78,6 +83,10 @@ export function ConnectedInstancesSection(): React.ReactElement {
     const routesQuery = useSourceRoutesQuery()
     const testMutation = useTestSourceRoute()
     const deleteMutation = useDeleteSourceRoute()
+    const engine = useDataEngine()
+    const instancesQuery = useInstancesQuery(engine)
+    const deleteInstanceMutation = useDeleteInstance(engine)
+    const [mappingRoute, setMappingRoute] = useState<SourceRoute | null>(null)
     const [modal, setModal] = useState<ModalState>({ mode: 'closed' })
     const [deleting, setDeleting] = useState<SourceRoute | null>(null)
     const [results, setResults] = useState<
@@ -86,6 +95,9 @@ export function ConnectedInstancesSection(): React.ReactElement {
     const [testingCode, setTestingCode] = useState<string | null>(null)
 
     const routes = routesQuery.data ?? []
+    const mappingCounts = new Map(
+        (instancesQuery.data ?? []).map((i) => [i.routeCode, i.mappings])
+    )
 
     function runTest(route: SourceRoute) {
         setTestingCode(route.code)
@@ -117,6 +129,8 @@ export function ConnectedInstancesSection(): React.ReactElement {
         const target = deleting
         deleteMutation.mutate(target.id, {
             onSuccess: () => {
+                // The route is gone; its mappings would only block those staging data elements.
+                deleteInstanceMutation.mutate(target.code)
                 show({
                     text: i18n.t('{{name}} disconnected.', {
                         name: target.name,
@@ -146,7 +160,7 @@ export function ConnectedInstancesSection(): React.ReactElement {
                     </h2>
                     <p className={settingsClasses.cardSub}>
                         {i18n.t(
-                            'Other DHIS2 instances that pipelines can pull data from.'
+                            'Other DHIS2 instances that pipelines pull data from or push data to.'
                         )}
                     </p>
                 </div>
@@ -174,7 +188,7 @@ export function ConnectedInstancesSection(): React.ReactElement {
                 {routesQuery.isSuccess && routes.length === 0 && (
                     <p className={classes.empty}>
                         {i18n.t(
-                            'No instances connected yet. Connect one to add a DHIS2 Instance Pull step to a pipeline.'
+                            'No instances connected yet. Connect one to add a DHIS2 Instance Pull or Push step to a pipeline.'
                         )}
                     </p>
                 )}
@@ -204,8 +218,31 @@ export function ConnectedInstancesSection(): React.ReactElement {
                                                 .length === 0 && (
                                                 <Tag neutral>
                                                     {i18n.t(
-                                                        'No authorities: anyone with access can run it'
+                                                        'No authorities: anyone with access can run it',
+                                                        { nsSeparator: '~~' }
                                                     )}
+                                                </Tag>
+                                            )}
+                                            {instancesQuery.isSuccess && (
+                                                <Tag
+                                                    neutral={mappingCounts.has(
+                                                        route.code
+                                                    )}
+                                                >
+                                                    {mappingCounts.has(
+                                                        route.code
+                                                    )
+                                                        ? i18n.t(
+                                                              '{{count}} mappings',
+                                                              {
+                                                                  count: mappingCounts.get(
+                                                                      route.code
+                                                                  ),
+                                                              }
+                                                          )
+                                                        : i18n.t(
+                                                              'No mappings yet'
+                                                          )}
                                                 </Tag>
                                             )}
                                             <Tag neutral>
@@ -229,6 +266,15 @@ export function ConnectedInstancesSection(): React.ReactElement {
                                             onClick={() => runTest(route)}
                                         >
                                             {i18n.t('Test')}
+                                        </Button>
+                                        <Button
+                                            small
+                                            secondary
+                                            onClick={() =>
+                                                setMappingRoute(route)
+                                            }
+                                        >
+                                            {i18n.t('Mappings')}
                                         </Button>
                                         <Button
                                             small
@@ -276,6 +322,21 @@ export function ConnectedInstancesSection(): React.ReactElement {
                 }}
             />
 
+            {mappingRoute && (
+                <InstanceMappingsModal
+                    route={mappingRoute}
+                    onClose={() => setMappingRoute(null)}
+                    onSaved={() =>
+                        show({
+                            text: i18n.t('Mappings for {{name}} saved.', {
+                                name: mappingRoute.name,
+                            }),
+                            success: true,
+                        })
+                    }
+                />
+            )}
+
             {deleting && (
                 <Modal
                     small
@@ -285,7 +346,7 @@ export function ConnectedInstancesSection(): React.ReactElement {
                     <ModalTitle>{i18n.t('Disconnect instance?')}</ModalTitle>
                     <ModalContent>
                         {i18n.t(
-                            'This deletes the route {{code}} and its stored credentials from staging. Pipeline steps that pull from {{name}} will fail until another instance is picked.',
+                            'This deletes the route {{code}}, its stored credentials and its mappings from staging. Pipeline steps that pull from or push to {{name}} will fail until another instance is picked.',
                             { code: deleting.code, name: deleting.name }
                         )}
                     </ModalContent>

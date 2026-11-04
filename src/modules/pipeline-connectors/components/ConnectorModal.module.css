@@ -1,0 +1,96 @@
+.subtitle {
+    margin: 0 0 4px;
+    font-size: 13px;
+    color: var(--colors-grey600, #6e7a8a);
+    line-height: 1.45;
+}
+
+.modalBody {
+    display: flex;
+    flex-direction: column;
+    padding: 4px 0 8px;
+}
+
+.help {
+    margin: 0;
+    font-size: 13px;
+    color: var(--colors-grey600, #6e7a8a);
+    line-height: 1.45;
+}
+
+.rows {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.conditionRow {
+    display: grid;
+    gap: 8px;
+    align-items: start;
+}
+
+.conditionRow {
+    grid-template-columns:
+        minmax(0, 1.3fr) minmax(0, 1.2fr) minmax(0, 1fr)
+        minmax(0, 0.8fr) auto;
+}
+
+.removeButton {
+    padding-top: 2px;
+}
+
+@media (max-width: 720px) {
+    .conditionRow {
+        grid-template-columns: 1fr;
+    }
+}
+
+.fieldLabel {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: var(--colors-grey800, #4a5768);
+}
+
+.error {
+    margin: 0;
+    font-size: 12px;
+    color: var(--colors-red700, #c1374b);
+}
+
+.muted {
+    color: var(--colors-grey600, #6e7a8a);
+    font-style: italic;
+}
+
+.result {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.resultLine {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.resultNote {
+    font-size: 12px;
+    color: var(--colors-grey600, #6e7a8a);
+}
+
+.rulePreview {
+    margin: 8px 0 0;
+    padding: 8px;
+    max-height: 160px;
+    overflow: auto;
+    background: var(--colors-white, #ffffff);
+    border: 1px solid var(--colors-grey300, #d5dde5);
+    border-radius: 3px;
+    font-family: 'Roboto Mono', Menlo, Consolas, monospace;
+    font-size: 12px;
+    white-space: pre-wrap;
+}

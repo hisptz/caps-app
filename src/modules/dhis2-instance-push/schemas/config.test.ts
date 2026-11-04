@@ -20,13 +20,13 @@ describe('dhis2InstancePushConfigSchema', () => {
         })
     })
 
-    it('needs a connected instance and at least one data element', () => {
+    it('needs a connected instance and at least one mapped data element', () => {
         const result = dhis2InstancePushConfigSchema.safeParse(
             defaultDhis2InstancePushConfig()
         )
         expect(result.success).toBe(false)
         const paths = result.error!.issues.map((issue) => issue.path[0])
-        expect(paths).toEqual(expect.arrayContaining(['routeCode', 'items']))
+        expect(paths).toEqual(expect.arrayContaining(['routeCode', 'mapped']))
     })
 
     it('accepts the period ranges pull uses', () => {

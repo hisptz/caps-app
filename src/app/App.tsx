@@ -12,6 +12,9 @@ import ExecutionsPage from '@/pages/ExecutionsPage'
 import PipelineDetailPage from '@/pages/PipelineDetailPage'
 import PipelinesPage from '@/pages/PipelinesPage'
 import SettingsPage from '@/pages/SettingsPage'
+import WorkflowDetailPage from '@/pages/WorkflowDetailPage'
+import WorkflowsPage from '@/pages/WorkflowsPage'
+import WorkflowTemplatePage from '@/pages/WorkflowTemplatePage'
 import { queryClient } from '@/queryClient'
 import AboutPage from '@/shared/components/About'
 import AppMenu from '@/shared/components/AppMenu'
@@ -44,6 +47,22 @@ const App = () => {
                                 <Route
                                     path="/pipelines/:id"
                                     element={<PipelineDetailPage />}
+                                />
+                                <Route
+                                    path="/workflows"
+                                    element={<WorkflowsPage />}
+                                />
+                                <Route
+                                    path="/workflows/new/:template"
+                                    element={<WorkflowTemplatePage />}
+                                />
+                                <Route
+                                    path="/workflows/:id/setup"
+                                    element={<WorkflowTemplatePage />}
+                                />
+                                <Route
+                                    path="/workflows/:id"
+                                    element={<WorkflowDetailPage />}
                                 />
                                 <Route
                                     path="/executions"

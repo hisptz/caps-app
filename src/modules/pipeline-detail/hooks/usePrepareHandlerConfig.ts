@@ -4,10 +4,10 @@ import { CREATE_MISSING_DATA_ELEMENTS } from '@/modules/dhis2-instance-pull/cons
 import {
     CreateMissingDataElementsError,
     type InstancePullDrafts,
+    type PullItemsConfig,
     useCreateMissingDataElements,
     useVerifyPullTargets,
 } from '@/modules/dhis2-instance-pull/hooks/useCreateMissingDataElements'
-import type { Dhis2InstancePullConfigValue } from '@/modules/dhis2-instance-pull/schemas/config'
 import type { PipelineStepFormWithHandlerValues } from '@/modules/pipeline-detail/schemas/stepFormSchema'
 
 export type PreparedHandlerConfig =
@@ -22,21 +22,22 @@ export function usePrepareHandlerConfig() {
         async (
             values: PipelineStepFormWithHandlerValues
         ): Promise<PreparedHandlerConfig> => {
+            // Mapped steps have nothing to check here: their instance's mappings were checked on save.
             if (
                 values.handlerKey !== 'dhis2-instance-pull' ||
-                !values.handlerConfig
+                !values.handlerConfig ||
+                !Array.isArray(values.handlerConfig.items)
             ) {
                 return { ok: true, handlerConfig: values.handlerConfig }
             }
+            const pullConfig = values.handlerConfig as PullItemsConfig
             try {
                 if (!CREATE_MISSING_DATA_ELEMENTS) {
-                    await verifyPullTargets(
-                        values.handlerConfig as Dhis2InstancePullConfigValue
-                    )
+                    await verifyPullTargets(pullConfig)
                     return { ok: true, handlerConfig: values.handlerConfig }
                 }
                 const { config } = await createMissingDataElements(
-                    values.handlerConfig as Dhis2InstancePullConfigValue,
+                    pullConfig,
                     (values.handlerDrafts ?? {}) as InstancePullDrafts
                 )
                 return { ok: true, handlerConfig: config }
@@ -49,6 +50,7 @@ export function usePrepareHandlerConfig() {
                             : i18n.t(
                                   'Could not check the staging data elements: {{message}}',
                                   {
+                                      nsSeparator: '~~',
                                       message:
                                           err instanceof Error
                                               ? err.message
