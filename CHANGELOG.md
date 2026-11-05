@@ -1,3 +1,9 @@
+# [2.4.0](https://github.com/hisptz/caps-app/compare/v2.3.1...v2.4.0) (2026-11-04)
+
+### Features
+
+- support for composable pipelines ([#18](https://github.com/hisptz/caps-app/issues/18)) ([#19](https://github.com/hisptz/caps-app/issues/19)) ([032e037](https://github.com/hisptz/caps-app/commit/032e0371762ca22aaafbe911d632b47a9b8356a6))
+
 ## [2.3.1](https://github.com/hisptz/caps-app/compare/v2.3.0...v2.3.1) (2026-10-28)
 
 ### Bug Fixes
