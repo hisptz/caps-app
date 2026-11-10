@@ -83,16 +83,36 @@ function nodeClass(props: Props, kind: string | undefined): string {
 
 export function PipelineFlowNode(props: Props): React.ReactElement {
     const { onAddNext } = props.data
+    if (!onAddNext) {
+        return (
+            <div className={nodeClass(props, undefined)}>
+                <Handles />
+                <Body data={props.data} />
+            </div>
+        )
+    }
     return (
         <div className={nodeClass(props, undefined)}>
-            <Handles />
+            {/* Drop target: covers the box while a line is being dragged */}
+            <Handle
+                type="target"
+                position={Position.Left}
+                className={classes.dropTarget}
+                isConnectableStart={false}
+            />
             <Body data={props.data} />
-            {onAddNext && (
+            {/* Click the "+" to pick what runs next, or drag it onto another box */}
+            <Handle
+                type="source"
+                position={Position.Right}
+                className={classes.addNextHandle}
+            >
                 <button
                     type="button"
-                    // nodrag/nopan: React Flow leaves the click to the button
-                    className={`${classes.addNext} nodrag nopan`}
-                    title={i18n.t('Run another pipeline after this one')}
+                    className={classes.addNext}
+                    title={i18n.t(
+                        'Run another pipeline after this one. Click to choose it, or drag onto a pipeline.'
+                    )}
                     aria-label={i18n.t('Run another pipeline after {{name}}', {
                         name: props.data.name,
                     })}
@@ -103,7 +123,7 @@ export function PipelineFlowNode(props: Props): React.ReactElement {
                 >
                     +
                 </button>
-            )}
+            </Handle>
         </div>
     )
 }

@@ -49,6 +49,8 @@ type Props = {
     onSubmit: (values: ConnectorFormValues) => Promise<unknown>
     /** Inside a workflow: pipelines owned by another workflow are shown but cannot be picked */
     workflowId?: string
+    /** New connectors: the pipeline to start, e.g. the box a line was dragged onto */
+    initialTargetId?: string
 }
 
 export function ConnectorModal({
@@ -61,6 +63,7 @@ export function ConnectorModal({
     isPending,
     onSubmit,
     workflowId,
+    initialTargetId,
 }: Props): React.ReactElement | null {
     const engine = useDataEngine()
     const form = useForm<ConnectorFormValues>({
@@ -85,10 +88,13 @@ export function ConnectorModal({
                 ? connectorToFormValues(connector, (rows) =>
                       loaded ? rowsArePickable(rows, steps, loaded) : true
                   )
-                : defaultConnectorFormValues
+                : {
+                      ...defaultConnectorFormValues,
+                      targetPipelineId: initialTargetId ?? '',
+                  }
         )
         form.clearErrors()
-    }, [open, connector, form, handlersReady])
+    }, [open, connector, form, handlersReady, initialTargetId])
 
     const { data: pipelinesData, isLoading: pipelinesLoading } =
         useConnectorTargetOptionsQuery(engine, open)

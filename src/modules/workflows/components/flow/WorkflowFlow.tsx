@@ -8,6 +8,7 @@ import {
     MiniMap,
     ReactFlow,
     useReactFlow,
+    type Connection,
     type Edge,
     type Node,
 } from '@xyflow/react'
@@ -39,19 +40,35 @@ import type { WorkflowDetail, WorkflowRunDetail } from '@/shared/types/caps'
 
 type Props = {
     workflow: WorkflowDetail
-    /** Colours the nodes; absent before the first run */
     latestRun?: WorkflowRunDetail
     selectedNodeId: string | null
     onSelect: (node: WorkflowGraphNode | null) => void
     toolbar?: React.ReactNode
-    /** Floats over the canvas on the right, e.g. the selected box's details */
     panel?: React.ReactNode
-    /** Floats over the canvas under the toolbar, e.g. the Add pipeline picker */
     overlay?: React.ReactNode
-    /** Shown instead of the diagram while the workflow has no pipelines */
     emptyState?: React.ReactNode
-    /** Shows a "+" on each pipeline box to add what runs after it */
     onAddNext?: (pipelineId: string) => void
+    onConnectPipelines?: (sourceId: string, targetId: string) => void
+}
+
+const PIPELINE_PREFIX = 'pipeline:'
+
+/** The pipeline ids at both ends of a dragged line, when both are pipeline boxes. */
+function pipelineEnds(
+    connection: Pick<Connection, 'source' | 'target'>
+): { sourceId: string; targetId: string } | null {
+    const { source, target } = connection
+    if (
+        !source?.startsWith(PIPELINE_PREFIX) ||
+        !target?.startsWith(PIPELINE_PREFIX) ||
+        source === target
+    ) {
+        return null
+    }
+    return {
+        sourceId: source.slice(PIPELINE_PREFIX.length),
+        targetId: target.slice(PIPELINE_PREFIX.length),
+    }
 }
 
 const EDGE_COLOR: Record<WorkflowGraphEdgeKind, string> = {
@@ -225,6 +242,7 @@ export function WorkflowFlow({
     overlay,
     emptyState,
     onAddNext,
+    onConnectPipelines,
 }: Props): React.ReactElement {
     const canvasRef = useRef<HTMLDivElement>(null)
     const graph = useMemo(() => buildWorkflowGraph(workflow), [workflow])
@@ -311,7 +329,23 @@ export function WorkflowFlow({
                 }}
                 minZoom={0.3}
                 maxZoom={1.6}
-                nodesConnectable={false}
+                nodesConnectable={Boolean(onConnectPipelines)}
+                // A click on the "+" opens the form; only a drag draws a line
+                connectOnClick={false}
+                isValidConnection={(connection) =>
+                    pipelineEnds(connection) !== null
+                }
+                onConnect={(connection) => {
+                    const ends = pipelineEnds(connection)
+                    if (ends && onConnectPipelines) {
+                        onConnectPipelines(ends.sourceId, ends.targetId)
+                    }
+                }}
+                connectionLineStyle={{
+                    stroke: '#147cd7',
+                    strokeWidth: 1.6,
+                    strokeDasharray: '6 4',
+                }}
                 elementsSelectable
                 proOptions={{ hideAttribution: true }}
                 onNodeClick={(_, node) =>

@@ -43,7 +43,13 @@ type Props = {
 
 type ConnectorEditor =
     | { step: 'closed' }
-    | { step: 'form'; sourceId: string; connector: PipelineConnector | null }
+    | {
+          step: 'form'
+          sourceId: string
+          connector: PipelineConnector | null
+          /** Set when a line was dragged onto this pipeline */
+          targetId?: string
+      }
 
 /** The workflow as a diagram, coloured by its latest run, with a panel for the selected box. */
 export function WorkflowFlowTab({ workflow }: Props): React.ReactElement {
@@ -208,12 +214,13 @@ export function WorkflowFlowTab({ workflow }: Props): React.ReactElement {
     }
 
     // A connector can start any other pipeline, even one outside the workflow
-    const addConnectorFrom = (pipelineId: string) => {
+    const addConnectorFrom = (pipelineId: string, targetId?: string) => {
         setShowAddPipeline(false)
         setConnectorEditor({
             step: 'form',
             sourceId: pipelineId,
             connector: null,
+            targetId,
         })
     }
 
@@ -225,6 +232,7 @@ export function WorkflowFlowTab({ workflow }: Props): React.ReactElement {
                 selectedNodeId={selectedNode?.id ?? null}
                 onSelect={setSelected}
                 onAddNext={addConnectorFrom}
+                onConnectPipelines={addConnectorFrom}
                 overlay={
                     showAddPipeline && (
                         <AddPipelinesPanel
@@ -358,6 +366,7 @@ export function WorkflowFlowTab({ workflow }: Props): React.ReactElement {
                     }
                     onSubmit={saveConnector}
                     workflowId={workflow.id}
+                    initialTargetId={connectorEditor.targetId}
                 />
             )}
             {deletingConnector && (

@@ -152,14 +152,21 @@
     pointer-events: none;
 }
 
-/* "+" on a pipeline box's right edge: add what runs next */
-.addNext {
-    position: absolute;
-    top: 50%;
-    right: -12px;
+/* "+" on a pipeline box's right edge: click to add what runs next, or drag to a box.
+   The node prefix outranks React Flow's own handle styles. */
+.node .addNextHandle {
     width: 24px;
     height: 24px;
-    transform: translateY(-50%);
+    min-width: 0;
+    min-height: 0;
+    border: none;
+    background: transparent;
+    cursor: grab;
+}
+
+.addNext {
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -170,7 +177,7 @@
     color: var(--colors-grey800, #404b5a);
     font-size: 16px;
     line-height: 1;
-    cursor: pointer;
+    cursor: inherit;
     opacity: 0;
     transition: opacity 0.12s;
 }
@@ -190,6 +197,31 @@
 .addNext:focus-visible {
     outline: 2px solid var(--colors-blue600, #147cd7);
     outline-offset: 1px;
+}
+
+/* Hidden until a line is being dragged; then the whole box takes the drop */
+.node .dropTarget {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.node .dropTarget:global(.connectionindicator) {
+    inset: 0;
+    width: auto;
+    height: auto;
+    transform: none;
+    opacity: 1;
+    pointer-events: all;
+    border: 2px dashed var(--colors-blue400, #48a9f6);
+    border-radius: 4px;
+    background: rgba(20, 124, 215, 0.04);
+    cursor: copy;
+}
+
+.node .dropTarget:global(.connectionindicator.valid) {
+    border-style: solid;
+    border-color: var(--colors-blue600, #147cd7);
+    background: rgba(20, 124, 215, 0.1);
 }
 
 @keyframes pulse {
