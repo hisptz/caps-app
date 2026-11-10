@@ -1,0 +1,50 @@
+.intro {
+    margin: -8px 0 16px;
+    font-size: 14px;
+    color: var(--colors-grey700, #4a5768);
+}
+
+.choices {
+    max-width: 920px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.choicesTitle {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.searchField {
+    display: block;
+    flex: 1 1 280px;
+    min-width: 0;
+}
+
+.filterField {
+    flex: 0 0 auto;
+    min-width: 120px;
+}
+
+.visuallyHidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+.noticeText {
+    margin: 0 0 8px;
+}

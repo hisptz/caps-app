@@ -26,6 +26,7 @@ import {
     type ConnectorFormValues,
 } from '@/modules/pipeline-connectors/schemas/connectorFormSchema'
 import { NO_ESCAPE } from '@/modules/pipeline-connectors/utils/connectorLabels'
+import { findDuplicateConnector } from '@/modules/pipeline-connectors/utils/duplicateConnector'
 import { rowsArePickable } from '@/modules/pipeline-connectors/utils/stepOutputs'
 import type { PipelineConnector, PipelineStep } from '@/shared/types/caps'
 
@@ -39,6 +40,8 @@ type Props = {
     sourceSteps: PipelineStep[]
     /** Null to create a new connector */
     connector: PipelineConnector | null
+    /** Connectors that already exist, to refuse a second one doing the same thing */
+    existingConnectors?: PipelineConnector[]
     isPending: boolean
     onSubmit: (values: ConnectorFormValues) => Promise<unknown>
 }
@@ -49,6 +52,7 @@ export function ConnectorModal({
     sourcePipeline,
     sourceSteps,
     connector,
+    existingConnectors = [],
     isPending,
     onSubmit,
 }: Props): React.ReactElement | null {
@@ -92,6 +96,37 @@ export function ConnectorModal({
     )
 
     async function submit(values: ConnectorFormValues) {
+        const duplicate = findDuplicateConnector(
+            {
+                sourcePipelineId: sourcePipeline.id,
+                targetPipelineId: values.targetPipelineId,
+                on: values.on,
+            },
+            existingConnectors,
+            connector?.id
+        )
+        if (duplicate) {
+            const target = targetOptions.find(
+                (p) => p.id === values.targetPipelineId
+            )
+            form.setError(
+                'targetPipelineId',
+                {
+                    type: 'duplicate',
+                    message: i18n.t(
+                        '“{{source}}” already starts “{{target}}” through the connector “{{connector}}”. A second one would start it twice. Edit that connector instead.',
+                        {
+                            source: sourcePipeline.name,
+                            target: target?.name ?? i18n.t('this pipeline'),
+                            connector: duplicate.name,
+                            interpolation: NO_ESCAPE,
+                        }
+                    ),
+                },
+                { shouldFocus: true }
+            )
+            return
+        }
         try {
             await onSubmit(values)
             onClose()

@@ -18,14 +18,18 @@ import { useQueryClient } from '@tanstack/react-query'
 import React, { useState } from 'react'
 import { capsKeys } from '@/capsApi/queryKeys'
 import { ConnectorModal } from '@/modules/pipeline-connectors/components/ConnectorModal'
+import { ConnectorRunsModal } from '@/modules/pipeline-connectors/components/ConnectorRunsModal'
+import { DeleteConnectorModal } from '@/modules/pipeline-connectors/components/DeleteConnectorModal'
 import { useConnectorMutations } from '@/modules/pipeline-connectors/hooks/usePipelineConnectors'
 import {
     connectorFormValuesToCreateBody,
     connectorFormValuesToUpdateBody,
     type ConnectorFormValues,
 } from '@/modules/pipeline-connectors/schemas/connectorFormSchema'
-import { AddWorkflowPipelineModal } from '@/modules/workflows/components/AddWorkflowPipelineModal'
+import { AddPipelinesPanel } from '@/modules/workflows/components/AddPipelinesPanel'
+import pickerClasses from '@/modules/workflows/components/AddPipelinesPanel.module.css'
 import { DeleteMergeModal } from '@/modules/workflows/components/DeleteMergeModal'
+import flowClasses from '@/modules/workflows/components/flow/Flow.module.css'
 import { FlowSidePanel } from '@/modules/workflows/components/flow/FlowSidePanel'
 import { WorkflowFlow } from '@/modules/workflows/components/flow/WorkflowFlow'
 import { MergeModal } from '@/modules/workflows/components/MergeModal'
@@ -111,8 +115,15 @@ export function WorkflowFlowTab({ workflow }: Props): React.ReactElement {
     const [deleting, setDeleting] = useState<PipelineMerge | null>(null)
     const [deleteError, setDeleteError] = useState<string | null>(null)
     const { deleteMergeMutation } = useMergeMutations(engine)
-    const { createConnectorMutation, updateConnectorMutation } =
-        useConnectorMutations(engine)
+    const {
+        createConnectorMutation,
+        updateConnectorMutation,
+        deleteConnectorMutation,
+    } = useConnectorMutations(engine)
+    const [deletingConnector, setDeletingConnector] =
+        useState<PipelineConnector | null>(null)
+    const [connectorRuns, setConnectorRuns] =
+        useState<PipelineConnector | null>(null)
 
     const { data: runs } = useWorkflowRunsQuery(engine, workflow.id, {
         page: 1,
@@ -180,7 +191,32 @@ export function WorkflowFlowTab({ workflow }: Props): React.ReactElement {
         })
     }
 
+    const confirmDeleteConnector = () => {
+        if (!deletingConnector) {
+            return
+        }
+        setDeleteError(null)
+        deleteConnectorMutation.mutate(deletingConnector.id, {
+            onSuccess: async () => {
+                setDeletingConnector(null)
+                setSelected(null)
+                // The workflow lists its connectors; refresh the diagram
+                await queryClient.invalidateQueries({
+                    queryKey: capsKeys.workflows.all(),
+                })
+            },
+            onError: (err) =>
+                setDeleteError(
+                    err instanceof Error
+                        ? err.message
+                        : i18n.t('Could not delete the connector')
+                ),
+        })
+    }
+
     const canMerge = workflow.pipelines.length >= 3
+    // A connector can start any other pipeline, even one outside the workflow
+    const canConnect = workflow.pipelines.length >= 1
 
     return (
         <>
@@ -189,46 +225,132 @@ export function WorkflowFlowTab({ workflow }: Props): React.ReactElement {
                 latestRun={latestRun}
                 selectedNodeId={selectedNode?.id ?? null}
                 onSelect={setSelected}
+                overlay={
+                    showAddPipeline && (
+                        <AddPipelinesPanel
+                            workflowId={workflow.id}
+                            className={pickerClasses.underFlowToolbar}
+                            onClose={() => setShowAddPipeline(false)}
+                        />
+                    )
+                }
+                emptyState={
+                    <div
+                        className={[
+                            flowClasses.emptyInner,
+                            showAddPipeline ? flowClasses.dimmed : '',
+                        ]
+                            .filter(Boolean)
+                            .join(' ')}
+                    >
+                        <svg
+                            width="56"
+                            height="56"
+                            viewBox="0 0 56 56"
+                            aria-hidden="true"
+                            fill="none"
+                            stroke="#8a95a3"
+                            strokeWidth="1.6"
+                        >
+                            <rect
+                                x="2"
+                                y="21"
+                                width="16"
+                                height="14"
+                                rx="2"
+                                strokeDasharray="4 3"
+                            />
+                            <rect
+                                x="38"
+                                y="21"
+                                width="16"
+                                height="14"
+                                rx="2"
+                                strokeDasharray="4 3"
+                            />
+                            <path d="M20 28h16" strokeDasharray="4 3" />
+                            <path d="M33 24.5l3.5 3.5-3.5 3.5" />
+                        </svg>
+                        <h2 className={flowClasses.emptyTitle}>
+                            {i18n.t('This workflow has no pipelines yet')}
+                        </h2>
+                        {!showAddPipeline && (
+                            <>
+                                <p className={flowClasses.emptyText}>
+                                    {i18n.t(
+                                        'Add the pipelines this workflow should run, then draw a connector between them to set what waits for what.'
+                                    )}
+                                </p>
+                                <Button
+                                    primary
+                                    icon={<IconAdd16 />}
+                                    onClick={() => setShowAddPipeline(true)}
+                                >
+                                    {i18n.t('Add pipeline')}
+                                </Button>
+                            </>
+                        )}
+                    </div>
+                }
                 toolbar={
                     <>
                         <Button
                             small
                             icon={<IconAdd16 />}
-                            onClick={() => setShowAddPipeline(true)}
+                            toggled={showAddPipeline}
+                            aria-expanded={showAddPipeline}
+                            onClick={() => {
+                                setSelected(null)
+                                setShowAddPipeline((open) => !open)
+                            }}
                         >
                             {i18n.t('Add pipeline')}
                         </Button>
-                        <DropdownButton
-                            small
-                            icon={<IconAdd16 />}
-                            disabled={workflow.pipelines.length === 0}
-                            component={
-                                <FlyoutMenu dense>
-                                    <MenuItem
-                                        label={i18n.t('From one pipeline…')}
-                                        onClick={() =>
-                                            setConnectorEditor({
-                                                step: 'source',
-                                            })
-                                        }
-                                    />
-                                    <MenuItem
-                                        label={i18n.t(
-                                            'Waits for several pipelines…'
-                                        )}
-                                        disabled={!canMerge}
-                                        onClick={() =>
-                                            setMergeModal({
-                                                open: true,
-                                                merge: null,
-                                            })
-                                        }
-                                    />
-                                </FlyoutMenu>
+                        <span
+                            title={
+                                canConnect
+                                    ? undefined
+                                    : i18n.t('Add a pipeline first')
                             }
                         >
-                            {i18n.t('Add connector')}
-                        </DropdownButton>
+                            <DropdownButton
+                                small
+                                icon={<IconAdd16 />}
+                                disabled={!canConnect}
+                                component={
+                                    <FlyoutMenu dense>
+                                        <MenuItem
+                                            label={i18n.t('From one pipeline…')}
+                                            onClick={() =>
+                                                setConnectorEditor({
+                                                    step: 'source',
+                                                })
+                                            }
+                                        />
+                                        <MenuItem
+                                            label={
+                                                canMerge
+                                                    ? i18n.t(
+                                                          'Waits for several pipelines…'
+                                                      )
+                                                    : i18n.t(
+                                                          'Waits for several pipelines (needs 3 in the workflow)'
+                                                      )
+                                            }
+                                            disabled={!canMerge}
+                                            onClick={() =>
+                                                setMergeModal({
+                                                    open: true,
+                                                    merge: null,
+                                                })
+                                            }
+                                        />
+                                    </FlyoutMenu>
+                                }
+                            >
+                                {i18n.t('Add connector')}
+                            </DropdownButton>
+                        </span>
                     </>
                 }
                 panel={
@@ -252,6 +374,11 @@ export function WorkflowFlowTab({ workflow }: Props): React.ReactElement {
                                     connector,
                                 })
                             }
+                            onDeleteConnector={(connector) => {
+                                setDeleteError(null)
+                                setDeletingConnector(connector)
+                            }}
+                            onShowConnectorRuns={setConnectorRuns}
                             onAddConnector={(pipelineId) =>
                                 setConnectorEditor({
                                     step: 'form',
@@ -264,11 +391,6 @@ export function WorkflowFlowTab({ workflow }: Props): React.ReactElement {
                 }
             />
 
-            <AddWorkflowPipelineModal
-                open={showAddPipeline}
-                workflowId={workflow.id}
-                onClose={() => setShowAddPipeline(false)}
-            />
             <MergeModal
                 open={mergeModal.open}
                 workflow={workflow}
@@ -295,11 +417,27 @@ export function WorkflowFlowTab({ workflow }: Props): React.ReactElement {
                     sourcePipeline={editorSource}
                     sourceSteps={editorSource.steps}
                     connector={connectorEditor.connector}
+                    existingConnectors={workflow.connectors}
                     isPending={
                         createConnectorMutation.isPending ||
                         updateConnectorMutation.isPending
                     }
                     onSubmit={saveConnector}
+                />
+            )}
+            {deletingConnector && (
+                <DeleteConnectorModal
+                    connector={deletingConnector}
+                    error={deleteError}
+                    isPending={deleteConnectorMutation.isPending}
+                    onClose={() => setDeletingConnector(null)}
+                    onConfirm={confirmDeleteConnector}
+                />
+            )}
+            {connectorRuns && (
+                <ConnectorRunsModal
+                    connector={connectorRuns}
+                    onClose={() => setConnectorRuns(null)}
                 />
             )}
             {deleting && (

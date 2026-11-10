@@ -1,0 +1,130 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.gridWide {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 16px;
+}
+
+.card {
+    font: inherit;
+    text-align: left;
+    color: var(--colors-grey900, #212934);
+    background: var(--colors-white, #ffffff);
+    border: 1px solid var(--colors-grey300, #d5dde5);
+    border-radius: 6px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    cursor: pointer;
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.card:hover:not(:disabled) {
+    border-color: var(--colors-blue600, #147cd7);
+    box-shadow: 0 2px 8px rgba(33, 41, 52, 0.08);
+}
+
+.card:focus-visible {
+    outline: 3px solid var(--colors-blue600, #147cd7);
+    outline-offset: 2px;
+}
+
+.card:disabled {
+    cursor: not-allowed;
+    background: var(--colors-grey050, #fbfcfd);
+    color: var(--colors-grey600, #6e7a8a);
+}
+
+.large {
+    padding: 24px;
+    gap: 12px;
+}
+
+.featured {
+    border-color: var(--colors-blue700, #1565c0);
+}
+
+.top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    background: #e8f1fb;
+    color: var(--colors-blue700, #1565c0);
+    display: grid;
+    place-items: center;
+}
+
+.large .icon {
+    width: 40px;
+    height: 40px;
+}
+
+.neutralIcon {
+    background: #eef1f4;
+    color: var(--colors-grey800, #404b5a);
+}
+
+.card:disabled .icon {
+    background: var(--colors-grey200, #eef1f4);
+    color: var(--colors-grey500, #8a95a3);
+}
+
+.badge {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 3px;
+    background: #e3effb;
+    color: var(--colors-blue800, #0d47a1);
+}
+
+.card:disabled .badge {
+    background: var(--colors-grey200, #eef1f4);
+    color: var(--colors-grey700, #4a5768);
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.large .title {
+    font-size: 17px;
+}
+
+.description {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--colors-grey700, #4a5768);
+}
+
+.action {
+    margin-top: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--colors-blue800, #0d47a1);
+}
+
+.meta {
+    margin-top: 2px;
+    font-size: 12px;
+    color: var(--colors-grey700, #4a5768);
+}

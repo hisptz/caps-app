@@ -110,25 +110,41 @@ const WorkflowDetailPage: React.FC = () => {
                     )}
                 </div>
                 <ButtonStrip>
-                    <SplitButton
-                        primary
-                        disabled={
-                            isRunning ||
-                            !workflow.isActive ||
+                    <span
+                        title={
                             workflow.pipelines.length === 0
-                        }
-                        onClick={() => run(workflow.id)}
-                        component={
-                            <FlyoutMenu dense>
-                                <MenuItem
-                                    label={i18n.t('Run for a fixed range…')}
-                                    onClick={() => setShowRange(true)}
-                                />
-                            </FlyoutMenu>
+                                ? i18n.t(
+                                      'Add a pipeline before triggering the workflow'
+                                  )
+                                : !workflow.isActive
+                                  ? i18n.t(
+                                        'Inactive workflows do not run; edit it to switch it on'
+                                    )
+                                  : undefined
                         }
                     >
-                        {i18n.t('Run')}
-                    </SplitButton>
+                        <SplitButton
+                            primary
+                            disabled={
+                                isRunning ||
+                                !workflow.isActive ||
+                                workflow.pipelines.length === 0
+                            }
+                            onClick={() => run(workflow.id)}
+                            component={
+                                <FlyoutMenu dense>
+                                    <MenuItem
+                                        label={i18n.t(
+                                            'Trigger for a fixed range…'
+                                        )}
+                                        onClick={() => setShowRange(true)}
+                                    />
+                                </FlyoutMenu>
+                            }
+                        >
+                            {i18n.t('Trigger')}
+                        </SplitButton>
+                    </span>
                     {workflow.template && (
                         <Button
                             icon={<IconSettings16 />}
@@ -189,7 +205,7 @@ const WorkflowDetailPage: React.FC = () => {
                     selected={activeTab === 'runs'}
                     onClick={() => setActiveTab('runs')}
                 >
-                    {i18n.t('Runs')}
+                    {i18n.t('Executions')}
                 </Tab>
             </TabBar>
 

@@ -27,7 +27,8 @@ function IssueList({ issues }: { issues: TemplateIssue[] }) {
 const SHORT_NAME: Record<TemplatePipelineRole, string> = {
     climate: i18n.t('Climate data'),
     disease: i18n.t('Disease data'),
-    prediction: i18n.t('Prediction'),
+    // The pipeline after the data: analytics, and the prediction when there is one
+    prediction: i18n.t('Analytics and prediction'),
 }
 
 /** What the parameters will create, with the engine's checks, updated as the form changes. */
@@ -37,6 +38,9 @@ export function TemplatePreviewPanel({
     incomplete,
 }: Props): React.ReactElement {
     const plan = preview?.plan
+    const join = plan?.join ?? null
+    // Every pipeline the join does not start begins the run
+    const startsRun = (role: TemplatePipelineRole) => join?.target !== role
     return (
         <aside className={classes.preview}>
             <div className={classes.previewHead}>
@@ -87,7 +91,7 @@ export function TemplatePreviewPanel({
                             >
                                 <div className={classes.pipelineHead}>
                                     <strong>{pipeline.name}</strong>
-                                    {pipeline.role !== 'prediction' && (
+                                    {startsRun(pipeline.role) && (
                                         <Tag neutral>
                                             {i18n.t('Starts the run')}
                                         </Tag>
@@ -95,31 +99,38 @@ export function TemplatePreviewPanel({
                                 </div>
                                 <ol className={classes.steps}>
                                     {pipeline.steps.map((step, index) => (
-                                        <li key={index}>{step.name}</li>
+                                        <li
+                                            key={index}
+                                            title={step.description}
+                                        >
+                                            {step.name}
+                                        </li>
                                     ))}
                                 </ol>
                             </li>
                         ))}
                     </ol>
-                    <p className={classes.join}>
-                        {plan.join.kind === 'merge'
-                            ? i18n.t(
-                                  '{{sources}} run at the same time; {{target}} starts once all have succeeded.',
-                                  {
-                                      sources: plan.join.sources
-                                          .map((role) => SHORT_NAME[role])
-                                          .join(' and '),
-                                      target: SHORT_NAME[plan.join.target],
-                                  }
-                              )
-                            : i18n.t(
-                                  '{{target}} starts once {{source}} has succeeded.',
-                                  {
-                                      source: SHORT_NAME[plan.join.source],
-                                      target: SHORT_NAME[plan.join.target],
-                                  }
-                              )}
-                    </p>
+                    {join && (
+                        <p className={classes.join}>
+                            {join.kind === 'merge'
+                                ? i18n.t(
+                                      '{{sources}} run at the same time; {{target}} starts once all have succeeded.',
+                                      {
+                                          sources: join.sources
+                                              .map((role) => SHORT_NAME[role])
+                                              .join(' and '),
+                                          target: SHORT_NAME[join.target],
+                                      }
+                                  )
+                                : i18n.t(
+                                      '{{target}} starts once {{source}} has succeeded.',
+                                      {
+                                          source: SHORT_NAME[join.source],
+                                          target: SHORT_NAME[join.target],
+                                      }
+                                  )}
+                        </p>
+                    )}
                 </>
             )}
         </aside>

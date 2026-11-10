@@ -25,7 +25,7 @@ function pipeline(id: string) {
  */
 const workflow = {
     id: 'w',
-    name: 'Malawi',
+    name: 'Weekly malaria',
     description: null,
     isActive: true,
     cronExpr: null,

@@ -35,6 +35,9 @@ type Props = {
     onEditMerge: (merge: PipelineMerge) => void
     onDeleteMerge: (merge: PipelineMerge) => void
     onEditConnector: (connector: PipelineConnector) => void
+    onDeleteConnector: (connector: PipelineConnector) => void
+    /** The connector's past runs, with any still waiting */
+    onShowConnectorRuns: (connector: PipelineConnector) => void
     /** Start a new connector from this pipeline */
     onAddConnector: (pipelineId: string) => void
 }
@@ -48,6 +51,8 @@ export function FlowSidePanel({
     onEditMerge,
     onDeleteMerge,
     onEditConnector,
+    onDeleteConnector,
+    onShowConnectorRuns,
     onAddConnector,
 }: Props): React.ReactElement {
     const engine = useDataEngine()
@@ -184,6 +189,19 @@ export function FlowSidePanel({
                 <div className={classes.actions}>
                     <Button small onClick={() => onEditConnector(connector)}>
                         {i18n.t('Edit')}
+                    </Button>
+                    <Button
+                        small
+                        onClick={() => onShowConnectorRuns(connector)}
+                    >
+                        {i18n.t('Run history')}
+                    </Button>
+                    <Button
+                        small
+                        destructive
+                        onClick={() => onDeleteConnector(connector)}
+                    >
+                        {i18n.t('Delete')}
                     </Button>
                     <Link
                         to={`/pipelines/${connector.sourcePipelineId}`}

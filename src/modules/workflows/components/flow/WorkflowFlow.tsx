@@ -46,6 +46,10 @@ type Props = {
     toolbar?: React.ReactNode
     /** Floats over the canvas on the right, e.g. the selected box's details */
     panel?: React.ReactNode
+    /** Floats over the canvas under the toolbar, e.g. the Add pipeline picker */
+    overlay?: React.ReactNode
+    /** Shown instead of the diagram while the workflow has no pipelines */
+    emptyState?: React.ReactNode
 }
 
 const EDGE_COLOR: Record<WorkflowGraphEdgeKind, string> = {
@@ -72,7 +76,7 @@ function nodeData(
                 caption: i18n.t('Start'),
                 name: workflow.cronExpr
                     ? i18n.t('Schedule')
-                    : i18n.t('Run button'),
+                    : i18n.t('Trigger button'),
                 detail: workflow.cronExpr ?? undefined,
                 inactive: !workflow.isActive,
             }
@@ -80,7 +84,7 @@ function nodeData(
             const pipeline = workflow.pipelines.find((p) => p.id === node.refId)
             return {
                 caption: workflow.entryPipelineIds.includes(node.refId!)
-                    ? i18n.t('Starts the run')
+                    ? i18n.t('Starts the execution')
                     : i18n.t('Pipeline'),
                 name: node.label,
                 detail: i18n.t('{{steps}} steps', {
@@ -216,6 +220,8 @@ export function WorkflowFlow({
     onSelect,
     toolbar,
     panel,
+    overlay,
+    emptyState,
 }: Props): React.ReactElement {
     const canvasRef = useRef<HTMLDivElement>(null)
     const graph = useMemo(() => buildWorkflowGraph(workflow), [workflow])
@@ -265,10 +271,24 @@ export function WorkflowFlow({
         [graph, runningNodes]
     )
 
+    if (workflow.pipelines.length === 0 && emptyState) {
+        return (
+            <div className={`${classes.canvas} ${classes.emptyCanvas}`}>
+                {toolbar && <div className={classes.toolbar}>{toolbar}</div>}
+                {overlay}
+                <div className={classes.empty}>{emptyState}</div>
+                <div className={classes.legend} aria-hidden>
+                    <span>{describeWorkflowSchedule(workflow)}</span>
+                </div>
+            </div>
+        )
+    }
+
     return (
         <div className={classes.canvas} ref={canvasRef}>
             {toolbar && <div className={classes.toolbar}>{toolbar}</div>}
             {panel}
+            {overlay}
             <ReactFlow
                 nodes={nodes}
                 edges={edges}

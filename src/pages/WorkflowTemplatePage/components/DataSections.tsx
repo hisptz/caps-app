@@ -33,7 +33,11 @@ const AGGREGATIONS = [
     { value: 'max', label: i18n.t('Highest') },
 ] as const
 
-export function ClimateSection(): React.ReactElement {
+export function ClimateSection({
+    num = 4,
+}: {
+    num?: number
+}): React.ReactElement {
     const engine = useDataEngine()
     const { control, formState } = useFormContext<TemplateFormValues>()
     const rows = useFieldArray({ control, name: 'climate' })
@@ -45,7 +49,7 @@ export function ClimateSection(): React.ReactElement {
 
     return (
         <FormSection
-            num={4}
+            num={num}
             title={i18n.t('Climate data')}
             description={i18n.t('from Open Climate Service')}
         >
@@ -128,7 +132,6 @@ export function ClimateSection(): React.ReactElement {
                         small
                         secondary
                         icon={<IconDelete16 />}
-                        disabled={rows.fields.length === 1}
                         onClick={() => rows.remove(index)}
                         aria-label={i18n.t('Remove')}
                     />
@@ -156,8 +159,13 @@ export function ClimateSection(): React.ReactElement {
     )
 }
 
-/** Disease cases: already in staging, or pulled from another instance first. */
-export function DiseaseSection(): React.ReactElement {
+export function DiseaseSection({
+    num = 5,
+    pullOnly = false,
+}: {
+    num?: number
+    pullOnly?: boolean
+}): React.ReactElement {
     const { control, setValue } = useFormContext<TemplateFormValues>()
     const source = useWatch({ control, name: 'diseaseSource' })
     const routeCode = useWatch({ control, name: 'routeCode' })
@@ -166,34 +174,39 @@ export function DiseaseSection(): React.ReactElement {
     const instanceQuery = useInstanceQuery(engine, routeCode || undefined)
 
     return (
-        <FormSection num={5} title={i18n.t('Disease data')}>
-            <Controller
-                name="diseaseSource"
-                control={control}
-                render={({ field }) => (
-                    <RadioCardGroup
-                        name="diseaseSource"
-                        value={field.value}
-                        onChange={field.onChange}
-                        options={[
-                            {
-                                value: 'staging',
-                                title: i18n.t('Already in staging'),
-                                description: i18n.t(
-                                    'Entered or imported here some other way'
-                                ),
-                            },
-                            {
-                                value: 'instance',
-                                title: i18n.t('Pull from another instance'),
-                                description: i18n.t(
-                                    'e.g. the HMIS; pulled at the same time as the climate data'
-                                ),
-                            },
-                        ]}
-                    />
-                )}
-            />
+        <FormSection
+            num={num}
+            title={pullOnly ? i18n.t('Data to pull') : i18n.t('Disease data')}
+        >
+            {!pullOnly && (
+                <Controller
+                    name="diseaseSource"
+                    control={control}
+                    render={({ field }) => (
+                        <RadioCardGroup
+                            name="diseaseSource"
+                            value={field.value}
+                            onChange={field.onChange}
+                            options={[
+                                {
+                                    value: 'staging',
+                                    title: i18n.t('Already in staging'),
+                                    description: i18n.t(
+                                        'Entered or imported here some other way'
+                                    ),
+                                },
+                                {
+                                    value: 'instance',
+                                    title: i18n.t('Pull from another instance'),
+                                    description: i18n.t(
+                                        'e.g. the HMIS; pulled at the same time as the climate data'
+                                    ),
+                                },
+                            ]}
+                        />
+                    )}
+                />
+            )}
             {source === 'instance' && (
                 <>
                     <Controller

@@ -412,12 +412,6 @@ export function listWorkflowRuns(
 }
 
 /** Merges that wait for this pipeline or start it */
-export function listPipelineMerges(engine: CapsDataEngine, pipelineId: string) {
-    return capsFetchJson<PipelineMerge[]>(engine, '/merges', {
-        searchParams: { pipelineId },
-    })
-}
-
 export function createMerge(engine: CapsDataEngine, body: CreateMergeBody) {
     return capsPostJson<PipelineMerge>(engine, '/merges', { body })
 }
@@ -511,15 +505,6 @@ export function updateSchedule(
 
 export function deleteSchedule(engine: CapsDataEngine, scheduleId: string) {
     return capsDeleteJson<PipelineSchedule>(engine, `/schedules/${scheduleId}`)
-}
-
-export function listPipelineConnectors(
-    engine: CapsDataEngine,
-    pipelineId: string
-) {
-    return capsFetchJson<PipelineConnector[]>(engine, '/connectors', {
-        searchParams: { pipelineId },
-    })
 }
 
 export function createConnector(

@@ -46,16 +46,16 @@ export function WorkflowRunsTab({ workflowId }: Props): React.ReactElement {
     }
     if (isError) {
         return (
-            <NoticeBox error title={i18n.t('Could not load runs')}>
+            <NoticeBox error title={i18n.t('Could not load executions')}>
                 {error instanceof Error ? error.message : null}
             </NoticeBox>
         )
     }
     if (runs.length === 0) {
         return (
-            <NoticeBox title={i18n.t('No runs yet')}>
+            <NoticeBox title={i18n.t('No executions yet')}>
                 {i18n.t(
-                    'Each start of the workflow, by its schedule or the Run button, shows here.'
+                    'Each start of the workflow, by its schedule or the Trigger button, shows here.'
                 )}
             </NoticeBox>
         )
@@ -63,7 +63,7 @@ export function WorkflowRunsTab({ workflowId }: Props): React.ReactElement {
 
     return (
         <>
-            <TableScroll label={i18n.t('Workflow runs table')}>
+            <TableScroll label={i18n.t('Workflow executions table')}>
                 <DataTable>
                     <DataTableHead>
                         <DataTableRow>

@@ -49,8 +49,6 @@ export const capsKeys = {
     connectors: {
         /** Prefix match: invalidates every connectors query. */
         all: () => [...capsKeys.all, 'connectors'] as const,
-        byPipeline: (pipelineId: string | undefined) =>
-            [...capsKeys.connectors.all(), 'pipeline', pipelineId] as const,
         runs: (connectorId: string, page: number, pageSize: number) =>
             [
                 ...capsKeys.connectors.all(),
@@ -75,13 +73,6 @@ export const capsKeys = {
         templates: () => [...capsKeys.workflows.all(), 'templates'] as const,
         templatePreview: (template: string, params: unknown) =>
             [...capsKeys.workflows.all(), 'preview', template, params] as const,
-        pipelineMerges: (pipelineId: string | undefined) =>
-            [
-                ...capsKeys.workflows.all(),
-                'merges',
-                'pipeline',
-                pipelineId,
-            ] as const,
     },
 
     executions: {

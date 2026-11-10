@@ -135,3 +135,22 @@
     font-size: 14px;
     color: var(--colors-grey800, #404b5a);
 }
+
+.option {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.optionHelp {
+    margin: 0 0 0 24px;
+    font-size: 13px;
+    color: var(--colors-grey700);
+}
+
+.optionBody {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 8px 0 4px 24px;
+}

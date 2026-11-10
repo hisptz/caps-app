@@ -41,6 +41,6 @@ describe('describeWorkflowSchedule', () => {
 describe('formatWorkflowTrigger', () => {
     it('names what started a run', () => {
         expect(formatWorkflowTrigger('scheduler')).toBe('Schedule')
-        expect(formatWorkflowTrigger('api')).toBe('Run button')
+        expect(formatWorkflowTrigger('api')).toBe('Trigger button')
     })
 })

@@ -22,7 +22,14 @@ const NONE = 'none'
  * The CHAP prediction setup the workflow runs. Without one the workflow only gets the data
  * ready, so the modeller can evaluate a model and create the setup from it.
  */
-export function PredictionSection(): React.ReactElement {
+export function PredictionSection({
+    num = 2,
+    required = false,
+}: {
+    num?: number
+    /** The "Run a prediction" preset: no "none yet" choice */
+    required?: boolean
+}): React.ReactElement {
     const engine = useDataEngine()
     const { control } = useFormContext<TemplateFormValues>()
     const setupId = useWatch({ control, name: 'predictionSetupId' })
@@ -39,7 +46,7 @@ export function PredictionSection(): React.ReactElement {
 
     return (
         <FormSection
-            num={2}
+            num={num}
             title={i18n.t('Prediction')}
             description={i18n.t('from CHAP')}
         >
@@ -55,7 +62,8 @@ export function PredictionSection(): React.ReactElement {
                     <SingleSelectField
                         label={i18n.t('Prediction setup')}
                         loading={isLoading}
-                        selected={field.value || NONE}
+                        required={required}
+                        selected={field.value || (required ? undefined : NONE)}
                         onChange={({ selected }) =>
                             field.onChange(selected === NONE ? '' : selected)
                         }
@@ -66,15 +74,23 @@ export function PredictionSection(): React.ReactElement {
                                 ? i18n.t(
                                       'Its org units and inputs are used; you only say where each input comes from'
                                   )
-                                : i18n.t(
-                                      'Without one, the workflow gets the data ready so a model can be evaluated. Choose the setup here later.'
-                                  )
+                                : required
+                                  ? i18n.t(
+                                        'Promoted from an evaluation in the Modelling App'
+                                    )
+                                  : i18n.t(
+                                        'Without one, the workflow gets the data ready so a model can be evaluated. Choose the setup here later.'
+                                    )
                         }
                     >
-                        <SingleSelectOption
-                            value={NONE}
-                            label={i18n.t('None yet, only get the data ready')}
-                        />
+                        {!required && (
+                            <SingleSelectOption
+                                value={NONE}
+                                label={i18n.t(
+                                    'None yet, only get the data ready'
+                                )}
+                            />
+                        )}
                         {setups.map((e) => (
                             <SingleSelectOption
                                 key={e.predictionSetupId}
@@ -140,13 +156,17 @@ export function PredictionSection(): React.ReactElement {
 }
 
 /** Where to fetch data for; with a prediction setup, its own org units are used. */
-export function OrgUnitsSection(): React.ReactElement {
+export function OrgUnitsSection({
+    num = 3,
+}: {
+    num?: number
+}): React.ReactElement {
     const { control } = useFormContext<TemplateFormValues>()
     const setupId = useWatch({ control, name: 'predictionSetupId' })
     const ids = useWatch({ control, name: 'orgUnitIds' })
 
     return (
-        <FormSection num={3} title={i18n.t('Org units')}>
+        <FormSection num={num} title={i18n.t('Org units')}>
             {setupId ? (
                 <p className={classes.help}>
                     {i18n.t(

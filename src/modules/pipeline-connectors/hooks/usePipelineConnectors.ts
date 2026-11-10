@@ -5,36 +5,11 @@ import {
     createConnector,
     deleteConnector,
     listConnectorRuns,
-    listPipelineConnectors,
     listPipelines,
     updateConnector,
 } from '@/capsApi/endpoints'
 import { capsKeys } from '@/capsApi/queryKeys'
 import type { CreateConnectorBody, UpdateConnectorBody } from '@/capsApi/types'
-
-export function usePipelineConnectorsQuery(
-    engine: CapsDataEngine,
-    pipelineId: string | undefined,
-    enabled: boolean
-) {
-    return useQuery({
-        queryKey: capsKeys.connectors.byPipeline(pipelineId),
-        queryFn: () => listPipelineConnectors(engine, pipelineId!),
-        enabled: enabled && Boolean(pipelineId),
-        select: (connectors) => ({
-            outgoing: connectors.filter(
-                (l) => l.sourcePipelineId === pipelineId
-            ),
-            // Includes connectors that start this pipeline only when their rule is not met
-            incoming: connectors.filter(
-                (l) =>
-                    (l.targetPipelineId === pipelineId ||
-                        l.otherwisePipelineId === pipelineId) &&
-                    l.sourcePipelineId !== pipelineId
-            ),
-        }),
-    })
-}
 
 /** Pipelines a connector can target (same list the executions filter uses). */
 export function useConnectorTargetOptionsQuery(
@@ -64,7 +39,6 @@ export function useConnectorRunsQuery(
 
 export function useConnectorMutations(engine: CapsDataEngine) {
     const queryClient = useQueryClient()
-    // A connector shows on both its pipelines, so refresh every connectors query
     const invalidateConnectors = () =>
         queryClient.invalidateQueries({ queryKey: capsKeys.connectors.all() })
 

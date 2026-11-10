@@ -8,12 +8,16 @@ import { FixedPeriodSelector } from '@/shared/components/HandlerConfigForms/Fixe
 import { FormSection } from '@/shared/components/ui/FormPrimitives'
 
 /** Run once straight away over a range of history, so staging starts with data. */
-export function BackfillSection(): React.ReactElement {
+export function BackfillSection({
+    num = 6,
+}: {
+    num?: number
+}): React.ReactElement {
     const { control } = useFormContext<TemplateFormValues>()
     const backfill = useWatch({ control, name: 'backfill' })
 
     return (
-        <FormSection num={6} title={i18n.t('History')}>
+        <FormSection num={num} title={i18n.t('History')}>
             <Controller
                 name="backfill"
                 control={control}

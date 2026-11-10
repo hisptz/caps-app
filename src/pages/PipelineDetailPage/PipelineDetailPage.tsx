@@ -6,7 +6,6 @@ import { useNavigate, useParams } from 'react-router'
 import { DeletePipelineModal } from './components/DeletePipelineModal'
 import { DeleteScheduleModal } from './components/DeleteScheduleModal'
 import { DeleteStepModal } from './components/DeleteStepModal'
-import { PipelineConnectorsTab } from './components/PipelineConnectorsTab'
 import { PipelineDetailHeader } from './components/PipelineDetailHeader'
 import { PipelineExecutionsTab } from './components/PipelineExecutionsTab'
 import { PipelineOverviewTab } from './components/PipelineOverviewTab'
@@ -21,7 +20,6 @@ import {
     usePipelineDetailQuery,
     usePipelineExecutionsTabQuery,
 } from '@/modules/monitoring/hooks/capsMonitoringHooks'
-import { usePipelineConnectorsQuery } from '@/modules/pipeline-connectors/hooks/usePipelineConnectors'
 import { PipelineAddScheduleModal } from '@/modules/pipeline-detail/components/PipelineAddScheduleModal'
 import { PipelineAddStepModal } from '@/modules/pipeline-detail/components/PipelineAddStepModal'
 import { PipelineEditScheduleModal } from '@/modules/pipeline-detail/components/PipelineEditScheduleModal'
@@ -33,12 +31,11 @@ import { useStepMutations } from '@/modules/pipeline-detail/hooks/useStepMutatio
 import { useTriggerPipeline } from '@/modules/pipeline-detail/hooks/useTriggerPipeline'
 import { PipelineEditModal } from '@/modules/pipelines/components/PipelineEditModal'
 import { DuplicatePipelineModal } from '@/modules/workflows/components/DuplicatePipelineModal'
-import { usePipelineMergesQuery } from '@/modules/workflows/hooks/useWorkflows'
 import { PageLoader } from '@/shared/components/ui/PageLoader'
 import shellClasses from '@/shared/components/ui/PageShell/PageShell.module.css'
 import type { PipelineSchedule, PipelineStep } from '@/shared/types/caps'
 
-type TabKey = 'overview' | 'steps' | 'schedules' | 'connectors' | 'executions'
+type TabKey = 'overview' | 'steps' | 'schedules' | 'executions'
 
 const PipelineDetailPage: React.FC = () => {
     const engine = useDataEngine()
@@ -101,17 +98,6 @@ const PipelineDetailPage: React.FC = () => {
             execPage,
             execPageSize,
         })
-
-    // Shared with the Connectors tab (same query key), so the count stays in step
-    const { data: connectorsData } = usePipelineConnectorsQuery(
-        engine,
-        id,
-        idReady
-    )
-    const { data: mergesData } = usePipelineMergesQuery(
-        engine,
-        idReady ? id : undefined
-    )
 
     const { deletePipelineMutation } = usePipelinePageMutations({
         engine,
@@ -242,16 +228,6 @@ const PipelineDetailPage: React.FC = () => {
                     })}
                 </Tab>
                 <Tab
-                    selected={activeTab === 'connectors'}
-                    onClick={() => setActiveTab('connectors')}
-                >
-                    {i18n.t('Connectors ({{count}})', {
-                        count:
-                            (connectorsData?.outgoing.length ?? 0) +
-                            (mergesData?.waitedFor.length ?? 0),
-                    })}
-                </Tab>
-                <Tab
                     selected={activeTab === 'executions'}
                     onClick={() => setActiveTab('executions')}
                 >
@@ -316,10 +292,6 @@ const PipelineDetailPage: React.FC = () => {
                             setDeleteScheduleError(null)
                         }}
                     />
-                )}
-
-                {activeTab === 'connectors' && (
-                    <PipelineConnectorsTab pipeline={pipeline} steps={steps} />
                 )}
 
                 {activeTab === 'executions' && (

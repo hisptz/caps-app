@@ -15,6 +15,7 @@ import SettingsPage from '@/pages/SettingsPage'
 import WorkflowDetailPage from '@/pages/WorkflowDetailPage'
 import WorkflowsPage from '@/pages/WorkflowsPage'
 import WorkflowTemplatePage from '@/pages/WorkflowTemplatePage'
+import WorkflowTemplatesPage from '@/pages/WorkflowTemplatesPage'
 import { queryClient } from '@/queryClient'
 import AboutPage from '@/shared/components/About'
 import AppMenu from '@/shared/components/AppMenu'
@@ -51,6 +52,10 @@ const App = () => {
                                 <Route
                                     path="/workflows"
                                     element={<WorkflowsPage />}
+                                />
+                                <Route
+                                    path="/workflows/new"
+                                    element={<WorkflowTemplatesPage />}
                                 />
                                 <Route
                                     path="/workflows/new/:template"

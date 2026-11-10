@@ -13,7 +13,7 @@ function values(
 ): TemplateFormValues {
     return {
         ...defaultTemplateFormValues(),
-        name: ' Malawi ',
+        name: ' Weekly malaria ',
         orgUnitLevel: '3',
         climate: [
             {
@@ -51,6 +51,29 @@ describe('templateFormSchema', () => {
         }
     })
 
+    it('needs something to do: climate data, a pull or a prediction setup', () => {
+        const result = templateFormSchema.safeParse(values({ climate: [] }))
+        expect(result.success).toBe(false)
+        expect(
+            templateFormSchema.safeParse(
+                values({ climate: [], predictionSetupId: '7' })
+            ).success
+        ).toBe(true)
+    })
+
+    it('needs a setup for "Run a prediction" and someone to tell when notifying', () => {
+        const result = templateFormSchema.safeParse(
+            values({ setupRequired: true, notifyOnSuccess: true })
+        )
+        expect(result.success).toBe(false)
+        if (!result.success) {
+            expect(result.error.issues.map((i) => i.path.join('.'))).toEqual([
+                'predictionSetupId',
+                'successUsers',
+            ])
+        }
+    })
+
     it('needs both ends of a backfill', () => {
         const result = templateFormSchema.safeParse(
             values({ backfill: true, backfillStart: '2020W1' })
@@ -62,15 +85,43 @@ describe('templateFormSchema', () => {
 describe('templateFormValuesToParams', () => {
     it('builds the engine parameters, leaving out what is not chosen', () => {
         expect(templateFormValuesToParams(values())).toEqual({
-            name: 'Malawi',
+            name: 'Weekly malaria',
             description: undefined,
             cronExpr: '0 6 * * 1',
             periodType: 'WEEKLY',
             orgUnit: { level: 3, ids: [] },
             recentPeriods: 4,
-            climate: values().climate,
+            climate: [
+                {
+                    datasetId: 'era5land_precipitation_monthly',
+                    dataElement: 'RainDataEl1',
+                    aggregation: 'sum',
+                },
+            ],
             disease: { source: 'staging' },
             prediction: null,
+            runAnalytics: true,
+            notify: {
+                onSuccess: { users: [], userGroups: [] },
+                onFailure: { users: [], userGroups: [] },
+            },
+        })
+    })
+
+    it('passes the options, and only the chosen recipients', () => {
+        const params = templateFormValuesToParams(
+            values({
+                runAnalytics: false,
+                notifyOnSuccess: false,
+                successGroups: ['DataTeamGr1'],
+                notifyOnFailure: true,
+                failureGroups: ['DataTeamGr1'],
+            })
+        )
+        expect(params.runAnalytics).toBe(false)
+        expect(params.notify).toEqual({
+            onSuccess: { users: [], userGroups: [] },
+            onFailure: { users: [], userGroups: ['DataTeamGr1'] },
         })
     })
 
@@ -122,11 +173,13 @@ describe('templateFormValuesToParams', () => {
             diseaseMapped: ['CasesDataE1'],
             predictionSetupId: '7',
             scheduled: false,
+            notifyOnFailure: true,
+            failureUsers: ['DataUserAa1'],
         })
         const reopened = paramsToTemplateFormValues(
             templateFormValuesToParams(original)
         )
-        expect(reopened).toEqual({ ...original, name: 'Malawi' })
+        expect(reopened).toEqual({ ...original, name: 'Weekly malaria' })
     })
 
     it('backfills only when asked, in the workflow period type', () => {
