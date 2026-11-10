@@ -1,28 +1,22 @@
-import { useDataEngine } from '@dhis2/app-runtime'
+import { useAlert, useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import {
-    Button,
-    ButtonStrip,
-    IconAdd16,
-    Modal,
-    ModalActions,
-    ModalContent,
-    ModalTitle,
-    SingleSelectField,
-    SingleSelectOption,
-} from '@dhis2/ui'
+import { Button, IconAdd16 } from '@dhis2/ui'
 import { useQueryClient } from '@tanstack/react-query'
 import React, { useState } from 'react'
 import { capsKeys } from '@/capsApi/queryKeys'
 import { ConnectorModal } from '@/modules/pipeline-connectors/components/ConnectorModal'
 import { ConnectorRunsModal } from '@/modules/pipeline-connectors/components/ConnectorRunsModal'
 import { DeleteConnectorModal } from '@/modules/pipeline-connectors/components/DeleteConnectorModal'
-import { useConnectorMutations } from '@/modules/pipeline-connectors/hooks/usePipelineConnectors'
+import {
+    useConnectorMutations,
+    useConnectorTargetOptionsQuery,
+} from '@/modules/pipeline-connectors/hooks/usePipelineConnectors'
 import {
     connectorFormValuesToCreateBody,
     connectorFormValuesToUpdateBody,
     type ConnectorFormValues,
 } from '@/modules/pipeline-connectors/schemas/connectorFormSchema'
+import { NO_ESCAPE } from '@/modules/pipeline-connectors/utils/connectorLabels'
 import { AddPipelinesPanel } from '@/modules/workflows/components/AddPipelinesPanel'
 import pickerClasses from '@/modules/workflows/components/AddPipelinesPanel.module.css'
 import { DeleteMergeModal } from '@/modules/workflows/components/DeleteMergeModal'
@@ -32,6 +26,7 @@ import { WorkflowFlow } from '@/modules/workflows/components/flow/WorkflowFlow'
 import { MergeModal } from '@/modules/workflows/components/MergeModal'
 import {
     useMergeMutations,
+    useWorkflowMutations,
     useWorkflowRunQuery,
     useWorkflowRunsQuery,
 } from '@/modules/workflows/hooks/useWorkflows'
@@ -48,53 +43,7 @@ type Props = {
 
 type ConnectorEditor =
     | { step: 'closed' }
-    | { step: 'source' }
     | { step: 'form'; sourceId: string; connector: PipelineConnector | null }
-
-/** Ask which pipeline a new connector starts from. */
-function ChooseSourceModal({
-    workflow,
-    onClose,
-    onNext,
-}: {
-    workflow: WorkflowDetail
-    onClose: () => void
-    onNext: (pipelineId: string) => void
-}): React.ReactElement {
-    const [selected, setSelected] = useState<string | undefined>()
-    return (
-        <Modal onClose={onClose} position="middle">
-            <ModalTitle>{i18n.t('New connector')}</ModalTitle>
-            <ModalContent>
-                <SingleSelectField
-                    label={i18n.t('When this pipeline finishes')}
-                    selected={selected}
-                    onChange={({ selected: next }) => setSelected(next)}
-                >
-                    {workflow.pipelines.map((p) => (
-                        <SingleSelectOption
-                            key={p.id}
-                            value={p.id}
-                            label={p.name}
-                        />
-                    ))}
-                </SingleSelectField>
-            </ModalContent>
-            <ModalActions>
-                <ButtonStrip end>
-                    <Button onClick={onClose}>{i18n.t('Cancel')}</Button>
-                    <Button
-                        primary
-                        disabled={!selected}
-                        onClick={() => selected && onNext(selected)}
-                    >
-                        {i18n.t('Next')}
-                    </Button>
-                </ButtonStrip>
-            </ModalActions>
-        </Modal>
-    )
-}
 
 /** The workflow as a diagram, coloured by its latest run, with a panel for the selected box. */
 export function WorkflowFlowTab({ workflow }: Props): React.ReactElement {
@@ -147,6 +96,52 @@ export function WorkflowFlowTab({ workflow }: Props): React.ReactElement {
             ? workflow.pipelines.find((p) => p.id === connectorEditor.sourceId)
             : undefined
 
+    const { addPipelineMutation } = useWorkflowMutations(engine)
+    // Same list the connector form offers; says which pipelines are free to join
+    const { data: targetOptions } = useConnectorTargetOptionsQuery(
+        engine,
+        connectorEditor.step === 'form'
+    )
+    const { show: showAlert } = useAlert(
+        ({ message }) => message,
+        ({ type }) => ({ ...type, duration: 5000 })
+    )
+
+    /** Pull the pipelines a connector starts into this workflow, unless another workflow owns them. */
+    const adoptStartedPipelines = async (values: ConnectorFormValues) => {
+        const ids = [values.targetPipelineId, values.otherwisePipelineId]
+        const toAdd = (targetOptions?.pipelines ?? []).filter(
+            (p) =>
+                ids.includes(p.id) &&
+                !p.workflow &&
+                !workflow.pipelines.some((member) => member.id === p.id)
+        )
+        for (const pipeline of toAdd) {
+            try {
+                await addPipelineMutation.mutateAsync({
+                    id: workflow.id,
+                    pipelineId: pipeline.id,
+                })
+            } catch (err) {
+                // The connector is saved; only the membership failed
+                showAlert({
+                    message: i18n.t(
+                        'Connector saved, but “{{name}}” could not be added to this workflow: {{error}}',
+                        {
+                            name: pipeline.name,
+                            error:
+                                err instanceof Error
+                                    ? err.message
+                                    : String(err),
+                            interpolation: NO_ESCAPE,
+                        }
+                    ),
+                    type: { warning: true },
+                })
+            }
+        }
+    }
+
     const saveConnector = async (values: ConnectorFormValues) => {
         if (connectorEditor.step !== 'form') {
             return
@@ -162,6 +157,7 @@ export function WorkflowFlowTab({ workflow }: Props): React.ReactElement {
                       connectorEditor.sourceId
                   )
               )
+        await adoptStartedPipelines(values)
         // The workflow lists its connectors; refresh the diagram
         await queryClient.invalidateQueries({
             queryKey: capsKeys.workflows.all(),
@@ -212,7 +208,14 @@ export function WorkflowFlowTab({ workflow }: Props): React.ReactElement {
     }
 
     // A connector can start any other pipeline, even one outside the workflow
-    const canConnect = workflow.pipelines.length >= 1
+    const addConnectorFrom = (pipelineId: string) => {
+        setShowAddPipeline(false)
+        setConnectorEditor({
+            step: 'form',
+            sourceId: pipelineId,
+            connector: null,
+        })
+    }
 
     return (
         <>
@@ -221,6 +224,7 @@ export function WorkflowFlowTab({ workflow }: Props): React.ReactElement {
                 latestRun={latestRun}
                 selectedNodeId={selectedNode?.id ?? null}
                 onSelect={setSelected}
+                onAddNext={addConnectorFrom}
                 overlay={
                     showAddPipeline && (
                         <AddPipelinesPanel
@@ -289,40 +293,18 @@ export function WorkflowFlowTab({ workflow }: Props): React.ReactElement {
                     </div>
                 }
                 toolbar={
-                    <>
-                        <Button
-                            small
-                            icon={<IconAdd16 />}
-                            toggled={showAddPipeline}
-                            aria-expanded={showAddPipeline}
-                            onClick={() => {
-                                setSelected(null)
-                                setShowAddPipeline((open) => !open)
-                            }}
-                        >
-                            {i18n.t('Add pipeline')}
-                        </Button>
-                        <span
-                            title={
-                                canConnect
-                                    ? undefined
-                                    : i18n.t('Add a pipeline first')
-                            }
-                        >
-                            <Button
-                                small
-                                icon={<IconAdd16 />}
-                                disabled={!canConnect}
-                                onClick={() => {
-                                    setSelected(null)
-                                    setShowAddPipeline(false)
-                                    setConnectorEditor({ step: 'source' })
-                                }}
-                            >
-                                {i18n.t('Add connector')}
-                            </Button>
-                        </span>
-                    </>
+                    <Button
+                        small
+                        icon={<IconAdd16 />}
+                        toggled={showAddPipeline}
+                        aria-expanded={showAddPipeline}
+                        onClick={() => {
+                            setSelected(null)
+                            setShowAddPipeline((open) => !open)
+                        }}
+                    >
+                        {i18n.t('Add pipeline')}
+                    </Button>
                 }
                 panel={
                     selectedNode && (
@@ -350,13 +332,7 @@ export function WorkflowFlowTab({ workflow }: Props): React.ReactElement {
                                 setDeletingConnector(connector)
                             }}
                             onShowConnectorRuns={setConnectorRuns}
-                            onAddConnector={(pipelineId) =>
-                                setConnectorEditor({
-                                    step: 'form',
-                                    sourceId: pipelineId,
-                                    connector: null,
-                                })
-                            }
+                            onAddConnector={addConnectorFrom}
                         />
                     )
                 }
@@ -368,19 +344,6 @@ export function WorkflowFlowTab({ workflow }: Props): React.ReactElement {
                 merge={mergeModal.merge}
                 onClose={() => setMergeModal({ open: false, merge: null })}
             />
-            {connectorEditor.step === 'source' && (
-                <ChooseSourceModal
-                    workflow={workflow}
-                    onClose={() => setConnectorEditor({ step: 'closed' })}
-                    onNext={(sourceId) =>
-                        setConnectorEditor({
-                            step: 'form',
-                            sourceId,
-                            connector: null,
-                        })
-                    }
-                />
-            )}
             {editorSource && connectorEditor.step === 'form' && (
                 <ConnectorModal
                     open
@@ -394,6 +357,7 @@ export function WorkflowFlowTab({ workflow }: Props): React.ReactElement {
                         updateConnectorMutation.isPending
                     }
                     onSubmit={saveConnector}
+                    workflowId={workflow.id}
                 />
             )}
             {deletingConnector && (

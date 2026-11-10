@@ -10,6 +10,8 @@ export type FlowNodeData = {
     detail?: string
     status?: FlowStatus
     inactive?: boolean
+    /** Pipeline boxes: add a connector that starts another pipeline after this one */
+    onAddNext?: () => void
 }
 
 function className(...names: Array<string | false | undefined>): string {
@@ -80,10 +82,28 @@ function nodeClass(props: Props, kind: string | undefined): string {
 }
 
 export function PipelineFlowNode(props: Props): React.ReactElement {
+    const { onAddNext } = props.data
     return (
         <div className={nodeClass(props, undefined)}>
             <Handles />
             <Body data={props.data} />
+            {onAddNext && (
+                <button
+                    type="button"
+                    // nodrag/nopan: React Flow leaves the click to the button
+                    className={`${classes.addNext} nodrag nopan`}
+                    title={i18n.t('Run another pipeline after this one')}
+                    aria-label={i18n.t('Run another pipeline after {{name}}', {
+                        name: props.data.name,
+                    })}
+                    onClick={(event) => {
+                        event.stopPropagation()
+                        onAddNext()
+                    }}
+                >
+                    +
+                </button>
+            )}
         </div>
     )
 }

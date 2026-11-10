@@ -50,6 +50,8 @@ type Props = {
     overlay?: React.ReactNode
     /** Shown instead of the diagram while the workflow has no pipelines */
     emptyState?: React.ReactNode
+    /** Shows a "+" on each pipeline box to add what runs after it */
+    onAddNext?: (pipelineId: string) => void
 }
 
 const EDGE_COLOR: Record<WorkflowGraphEdgeKind, string> = {
@@ -222,6 +224,7 @@ export function WorkflowFlow({
     panel,
     overlay,
     emptyState,
+    onAddNext,
 }: Props): React.ReactElement {
     const canvasRef = useRef<HTMLDivElement>(null)
     const graph = useMemo(() => buildWorkflowGraph(workflow), [workflow])
@@ -239,11 +242,17 @@ export function WorkflowFlow({
                 // Known sizes, so the minimap and fitting work before React Flow measures
                 initialWidth: NODE_SIZE[node.kind].w,
                 initialHeight: NODE_SIZE[node.kind].h,
-                data: nodeData(node, workflow, latestRun),
+                data: {
+                    ...nodeData(node, workflow, latestRun),
+                    onAddNext:
+                        onAddNext && node.kind === 'pipeline' && node.refId
+                            ? () => onAddNext(node.refId!)
+                            : undefined,
+                },
                 selected: node.id === selectedNodeId,
                 draggable: false,
             })),
-        [graph, positions, workflow, latestRun, selectedNodeId]
+        [graph, positions, workflow, latestRun, selectedNodeId, onAddNext]
     )
 
     const runningNodes = useMemo(
