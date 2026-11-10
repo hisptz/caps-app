@@ -3,10 +3,7 @@ import i18n from '@dhis2/d2-i18n'
 import {
     Button,
     ButtonStrip,
-    DropdownButton,
-    FlyoutMenu,
     IconAdd16,
-    MenuItem,
     Modal,
     ModalActions,
     ModalContent,
@@ -214,7 +211,6 @@ export function WorkflowFlowTab({ workflow }: Props): React.ReactElement {
         })
     }
 
-    const canMerge = workflow.pipelines.length >= 3
     // A connector can start any other pipeline, even one outside the workflow
     const canConnect = workflow.pipelines.length >= 1
 
@@ -313,43 +309,18 @@ export function WorkflowFlowTab({ workflow }: Props): React.ReactElement {
                                     : i18n.t('Add a pipeline first')
                             }
                         >
-                            <DropdownButton
+                            <Button
                                 small
                                 icon={<IconAdd16 />}
                                 disabled={!canConnect}
-                                component={
-                                    <FlyoutMenu dense>
-                                        <MenuItem
-                                            label={i18n.t('From one pipeline…')}
-                                            onClick={() =>
-                                                setConnectorEditor({
-                                                    step: 'source',
-                                                })
-                                            }
-                                        />
-                                        <MenuItem
-                                            label={
-                                                canMerge
-                                                    ? i18n.t(
-                                                          'Waits for several pipelines…'
-                                                      )
-                                                    : i18n.t(
-                                                          'Waits for several pipelines (needs 3 in the workflow)'
-                                                      )
-                                            }
-                                            disabled={!canMerge}
-                                            onClick={() =>
-                                                setMergeModal({
-                                                    open: true,
-                                                    merge: null,
-                                                })
-                                            }
-                                        />
-                                    </FlyoutMenu>
-                                }
+                                onClick={() => {
+                                    setSelected(null)
+                                    setShowAddPipeline(false)
+                                    setConnectorEditor({ step: 'source' })
+                                }}
                             >
                                 {i18n.t('Add connector')}
-                            </DropdownButton>
+                            </Button>
                         </span>
                     </>
                 }
