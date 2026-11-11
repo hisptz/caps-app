@@ -3,13 +3,14 @@ import i18n from '@dhis2/d2-i18n'
 import {
     Button,
     ButtonStrip,
+    DropdownButton,
     IconArrowLeft16,
     IconDelete16,
     IconEdit16,
+    IconLaunch16,
     FlyoutMenu,
     MenuItem,
     NoticeBox,
-    SplitButton,
     Tab,
     TabBar,
 } from '@dhis2/ui'
@@ -122,16 +123,20 @@ const WorkflowDetailPage: React.FC = () => {
                                   : undefined
                         }
                     >
-                        <SplitButton
+                        <DropdownButton
                             primary
+                            icon={<IconLaunch16 />}
                             disabled={
                                 isRunning ||
                                 !workflow.isActive ||
                                 workflow.pipelines.length === 0
                             }
-                            onClick={() => run(workflow.id)}
                             component={
                                 <FlyoutMenu dense>
+                                    <MenuItem
+                                        label={i18n.t('Trigger')}
+                                        onClick={() => run(workflow.id)}
+                                    />
                                     <MenuItem
                                         label={i18n.t(
                                             'Trigger for a fixed range…'
@@ -142,7 +147,7 @@ const WorkflowDetailPage: React.FC = () => {
                             }
                         >
                             {i18n.t('Trigger')}
-                        </SplitButton>
+                        </DropdownButton>
                     </span>
                     {/* {workflow.template && (
                         <Button
