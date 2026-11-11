@@ -21,6 +21,8 @@ import {
     pipelineFlowStatus,
 } from './flowStatus'
 import { flowEdgeTypes } from './LabelledEdge'
+import { NO_ESCAPE } from '@/modules/pipeline-connectors/utils/connectorLabels'
+import { formatDate } from '@/modules/pipeline-detail/utils/formatLabels'
 import {
     buildWorkflowGraph,
     CONNECTOR_EDGE_KINDS,
@@ -96,7 +98,15 @@ function nodeData(
                 name: workflow.cronExpr
                     ? i18n.t('Schedule')
                     : i18n.t('Trigger button'),
-                detail: workflow.cronExpr ?? undefined,
+                // When it runs next reads better than the raw cron expression
+                detail: !workflow.cronExpr
+                    ? undefined
+                    : workflow.isActive && workflow.nextRunAt
+                      ? i18n.t('next {{date}}', {
+                            date: formatDate(workflow.nextRunAt),
+                            interpolation: NO_ESCAPE,
+                        })
+                      : workflow.cronExpr,
                 inactive: !workflow.isActive,
             }
         case 'pipeline': {
