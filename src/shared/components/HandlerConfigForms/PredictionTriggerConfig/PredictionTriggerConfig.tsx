@@ -26,6 +26,7 @@ export function PredictionTriggerConfig({
     const {
         evaluation,
         evaluations,
+        noSetups,
         setup,
         loading,
         error,
@@ -53,7 +54,7 @@ export function PredictionTriggerConfig({
         }
     }, [evaluation?.predictionSetupId])
 
-    const noEvaluations = !loading && evaluations.length === 0
+    const noEvaluations = !loading && evaluations.length === 0 && !noSetups
 
     return (
         <>
@@ -68,6 +69,16 @@ export function PredictionTriggerConfig({
                     title={i18n.t('No evaluations found')}
                     message={i18n.t(
                         'Evaluate a model in CHAP first, then create a prediction setup from that evaluation.'
+                    )}
+                    onRefresh={refresh}
+                />
+            )}
+
+            {noSetups && evaluations.length === 0 && (
+                <ChapSetupNotice
+                    title={i18n.t('No prediction setups found')}
+                    message={i18n.t(
+                        'Only evaluations with a prediction setup can be used. Create a prediction setup from an evaluation in CHAP, then refresh.'
                     )}
                     onRefresh={refresh}
                 />
