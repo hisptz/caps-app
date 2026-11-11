@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-11-10T11:55:16.816Z\n"
-"PO-Revision-Date: 2026-11-10T11:55:16.816Z\n"
+"POT-Creation-Date: 2026-11-11T11:41:42.112Z\n"
+"PO-Revision-Date: 2026-11-11T11:41:42.112Z\n"
 
 msgid "Enter a valid HTTP or HTTPS URL."
 msgstr "Enter a valid HTTP or HTTPS URL."
@@ -932,6 +932,9 @@ msgstr "Always start"
 
 msgid "Only if…"
 msgstr "Only if…"
+
+msgid "{{name}} (in workflow “{{workflow}}”)"
+msgstr "{{name}} (in workflow “{{workflow}}”)"
 
 msgid "{{name}} (inactive)"
 msgstr "{{name}} (inactive)"
@@ -2178,6 +2181,16 @@ msgstr "Trigger workflow"
 msgid "Delete workflow"
 msgstr "Delete workflow"
 
+msgid ""
+"Run another pipeline after this one. Click to choose it, or drag onto a "
+"pipeline."
+msgstr ""
+"Run another pipeline after this one. Click to choose it, or drag onto a "
+"pipeline."
+
+msgid "Run another pipeline after {{name}}"
+msgstr "Run another pipeline after {{name}}"
+
 msgid "Outside this workflow"
 msgstr "Outside this workflow"
 
@@ -2257,6 +2270,9 @@ msgstr "Remove from workflow"
 
 msgid "Trigger button"
 msgstr "Trigger button"
+
+msgid "next {{date}}"
+msgstr "next {{date}}"
 
 msgid "Starts the execution"
 msgstr "Starts the execution"
@@ -3000,12 +3016,6 @@ msgstr "Flow"
 msgid "Pipelines ({{pipelines}})"
 msgstr "Pipelines ({{pipelines}})"
 
-msgid "New connector"
-msgstr "New connector"
-
-msgid "When this pipeline finishes"
-msgstr "When this pipeline finishes"
-
 msgid "Could not delete the connector"
 msgstr "Could not delete the connector"
 
@@ -3018,18 +3028,6 @@ msgid ""
 msgstr ""
 "Add the pipelines this workflow should run, then draw a connector between "
 "them to set what waits for what."
-
-msgid "Add a pipeline first"
-msgstr "Add a pipeline first"
-
-msgid "From one pipeline…"
-msgstr "From one pipeline…"
-
-msgid "Waits for several pipelines…"
-msgstr "Waits for several pipelines…"
-
-msgid "Waits for several pipelines (needs 3 in the workflow)"
-msgstr "Waits for several pipelines (needs 3 in the workflow)"
 
 msgid ""
 "An execution starts the pipelines marked “Starts the execution” together; "
@@ -3344,6 +3342,9 @@ msgstr ""
 
 msgid "Could not load templates"
 msgstr "Could not load templates"
+
+msgid "Coming soon"
+msgstr "Coming soon"
 
 msgid "Not available yet"
 msgstr "Not available yet"
@@ -4591,8 +4592,8 @@ msgstr "Open Modeling app"
 msgid "Evaluations"
 msgstr "Evaluations"
 
-msgid "Choose the evaluation to use for this prediction."
-msgstr "Choose the evaluation to use for this prediction."
+msgid "Only evaluations with a prediction setup are listed."
+msgstr "Only evaluations with a prediction setup are listed."
 
 msgid "Data sources"
 msgstr "Data sources"
@@ -4615,6 +4616,16 @@ msgid ""
 msgstr ""
 "Evaluate a model in CHAP first, then create a prediction setup from that "
 "evaluation."
+
+msgid "No prediction setups found"
+msgstr "No prediction setups found"
+
+msgid ""
+"Only evaluations with a prediction setup can be used. Create a prediction "
+"setup from an evaluation in CHAP, then refresh."
+msgstr ""
+"Only evaluations with a prediction setup can be used. Create a prediction "
+"setup from an evaluation in CHAP, then refresh."
 
 msgid "This evaluation has no prediction setup"
 msgstr "This evaluation has no prediction setup"
