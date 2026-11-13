@@ -36,6 +36,21 @@ function climateUnavailableMessage(error: unknown): string {
     return i18n.t('The climate API is unavailable.')
 }
 
+/**
+ * `climate_*` codes come from CAPS itself, so CAPS is reachable and the fault lies between
+ * CAPS and the Open Climate Service. The CAPS settings page cannot fix that.
+ */
+function isClimateServiceError(error: unknown): boolean {
+    if (!(error instanceof CapsApiError)) {
+        return false
+    }
+    const code =
+        typeof error.body === 'object' && error.body !== null
+            ? (error.body as Record<string, unknown>).code
+            : undefined
+    return typeof code === 'string' && code.startsWith('climate_')
+}
+
 const ClimateDataPage: React.FC = () => {
     const engine = useDataEngine()
 
@@ -268,7 +283,15 @@ const ClimateDataPage: React.FC = () => {
                     title={i18n.t('Could not load climate datasets')}
                 >
                     {climateUnavailableMessage(datasetsQuery.error)}{' '}
-                    <Link to="/settings">{i18n.t('Check CAPS settings')}</Link>
+                    {isClimateServiceError(datasetsQuery.error) ? (
+                        i18n.t(
+                            'CAPS is connected, but Open Climate Service request failed. Check that the OCS service is running and compatible with this CAPS version.'
+                        )
+                    ) : (
+                        <Link to="/settings">
+                            {i18n.t('Check CAPS settings')}
+                        </Link>
+                    )}
                 </NoticeBox>
             )}
 
