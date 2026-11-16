@@ -1,3 +1,9 @@
+# [2.5.0](https://github.com/hisptz/caps-app/compare/v2.4.0...v2.5.0) (2026-11-16)
+
+### Features
+
+- add support for workflow implementation ([#21](https://github.com/hisptz/caps-app/issues/21)) ([9033a43](https://github.com/hisptz/caps-app/commit/9033a4377bc8be8de109215eadf9306bf7fab3b1)), closes [#20](https://github.com/hisptz/caps-app/issues/20)
+
 # [2.4.0](https://github.com/hisptz/caps-app/compare/v2.3.1...v2.4.0) (2026-11-04)
 
 ### Features
