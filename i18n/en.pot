@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-11-13T12:31:25.184Z\n"
-"PO-Revision-Date: 2026-11-13T12:31:25.184Z\n"
+"POT-Creation-Date: 2026-11-15T13:29:04.185Z\n"
+"PO-Revision-Date: 2026-11-15T13:29:04.185Z\n"
 
 msgid "Enter a valid HTTP or HTTPS URL."
 msgstr "Enter a valid HTTP or HTTPS URL."
@@ -1562,6 +1562,18 @@ msgstr ""
 msgid "On day {{day}} of every month at {{time}}"
 msgstr "On day {{day}} of every month at {{time}}"
 
+msgid "Custom schedule"
+msgstr "Custom schedule"
+
+msgid "Every weekday"
+msgstr "Every weekday"
+
+msgid "Every {{days}}"
+msgstr "Every {{days}}"
+
+msgid "On day {{day}} of every month"
+msgstr "On day {{day}} of every month"
+
 msgid "Step order {{order}} is already taken for this pipeline."
 msgstr "Step order {{order}} is already taken for this pipeline."
 
@@ -2443,8 +2455,8 @@ msgstr "if …"
 msgid "Started by hand only"
 msgstr "Started by hand only"
 
-msgid "{{cron}} · next {{next}}"
-msgstr "{{cron}} · next {{next}}"
+msgid "{{cadence}} · next {{next}}"
+msgstr "{{cadence}} · next {{next}}"
 
 msgid "All done"
 msgstr "All done"
@@ -2634,9 +2646,6 @@ msgstr "Context"
 
 msgid "Part of a workflow run"
 msgstr "Part of a workflow run"
-
-msgid "This run belongs to the run of “{{workflow}}” started {{time}}."
-msgstr "This run belongs to the run of “{{workflow}}” started {{time}}."
 
 msgid "Open the workflow"
 msgstr "Open the workflow"
@@ -3159,8 +3168,14 @@ msgstr ""
 msgid "Its pipelines are named after it, e.g. \"Weekly malaria · Climate data\""
 msgstr "Its pipelines are named after it, e.g. \"Weekly malaria · Climate data\""
 
-msgid "How the data is reported; with a prediction setup, it must match the setup"
-msgstr "How the data is reported; with a prediction setup, it must match the setup"
+msgid "Set by the prediction setup"
+msgstr "Set by the prediction setup"
+
+msgid "How the data is reported. Choosing a prediction setup sets it to match."
+msgstr "How the data is reported. Choosing a prediction setup sets it to match."
+
+msgid "How the data is reported"
+msgstr "How the data is reported"
 
 msgid "Months to fetch on each run"
 msgstr "Months to fetch on each run"
@@ -3169,30 +3184,30 @@ msgid "Weeks to fetch on each run"
 msgstr "Weeks to fetch on each run"
 
 msgid ""
-"Each run fetches the latest months again, so values reported late are "
-"picked up"
+"The last complete months; the current month is left out. Fetching them "
+"again picks up values reported late."
 msgstr ""
-"Each run fetches the latest months again, so values reported late are "
-"picked up"
+"The last complete months; the current month is left out. Fetching them "
+"again picks up values reported late."
 
 msgid ""
-"Each run fetches the latest weeks again, so values reported late are picked "
-"up"
+"The last complete weeks; the current week is left out. Fetching them again "
+"picks up values reported late."
 msgstr ""
-"Each run fetches the latest weeks again, so values reported late are picked "
-"up"
+"The last complete weeks; the current week is left out. Fetching them again "
+"picks up values reported late."
 
 msgid "Average"
 msgstr "Average"
 
-msgid "Total"
-msgstr "Total"
+msgid "Sum"
+msgstr "Sum"
 
-msgid "Lowest"
-msgstr "Lowest"
+msgid "Minimum"
+msgstr "Minimum"
 
-msgid "Highest"
-msgstr "Highest"
+msgid "Maximum"
+msgstr "Maximum"
 
 msgid "from Open Climate Service"
 msgstr "from Open Climate Service"
@@ -3206,11 +3221,17 @@ msgstr "\"{{id}}\" is not in Open Climate Service"
 msgid "Datasets ingested on the Climate data page"
 msgstr "Datasets ingested on the Climate data page"
 
-msgid "Into staging data element"
-msgstr "Into staging data element"
+msgid "Into data element"
+msgstr "Into data element"
 
-msgid "Over each org unit, take"
-msgstr "Over each org unit, take"
+msgid "Any data element on this instance"
+msgstr "Any data element on this instance"
+
+msgid "Aggregation method"
+msgstr "Aggregation method"
+
+msgid "How the values over each org unit are combined into one"
+msgstr "How the values over each org unit are combined into one"
 
 msgid "Add climate variable"
 msgstr "Add climate variable"
@@ -3245,8 +3266,8 @@ msgstr "User groups"
 msgid "Options"
 msgstr "Options"
 
-msgid "Run analytics after saving data"
-msgstr "Run analytics after saving data"
+msgid "Run analytics after uploading data"
+msgstr "Run analytics after uploading data"
 
 msgid "Notify when the workflow succeeds"
 msgstr "Notify when the workflow succeeds"
@@ -3313,6 +3334,9 @@ msgstr "Org unit level"
 msgid "Usually districts: climate is averaged over each one"
 msgstr "Usually districts: climate is averaged over each one"
 
+msgid "Filled in from the inputs of \"{{name}}\". Check the datasets before saving."
+msgstr "Filled in from the inputs of \"{{name}}\". Check the datasets before saving."
+
 msgid "Analytics and prediction"
 msgstr "Analytics and prediction"
 
@@ -3349,9 +3373,6 @@ msgstr ""
 
 msgid "Could not load templates"
 msgstr "Could not load templates"
-
-msgid "Coming soon"
-msgstr "Coming soon"
 
 msgid "Not available yet"
 msgstr "Not available yet"
@@ -3681,9 +3702,6 @@ msgstr "Skip validation results"
 msgid "Aggregation type"
 msgstr "Aggregation type"
 
-msgid "Sum"
-msgstr "Sum"
-
 msgid "Organisation units"
 msgstr "Organisation units"
 
@@ -3732,9 +3750,6 @@ msgstr "Data element"
 msgid "Aggregation"
 msgstr "Aggregation"
 
-msgid "Aggregation method"
-msgstr "Aggregation method"
-
 msgid "How values are aggregated across the period and org units."
 msgstr "How values are aggregated across the period and org units."
 
@@ -3746,6 +3761,9 @@ msgstr "At least one of levels / ids"
 
 msgid "Climate dataset"
 msgstr "Climate dataset"
+
+msgid "Daily"
+msgstr "Daily"
 
 msgid "Latest periods"
 msgstr "Latest periods"
@@ -3777,8 +3795,11 @@ msgstr "Each run covers recent {{unit}}, for scheduled pipelines."
 msgid "Every run covers the same periods."
 msgstr "Every run covers the same periods."
 
-msgid "Derived from the selected dataset"
-msgstr "Derived from the selected dataset"
+msgid "The dataset is {{periodType}}"
+msgstr "The dataset is {{periodType}}"
+
+msgid "The dataset is {{periodType}}; its values are combined into longer periods"
+msgstr "The dataset is {{periodType}}; its values are combined into longer periods"
 
 msgid "Prediction covariate"
 msgstr "Prediction covariate"
@@ -4799,9 +4820,6 @@ msgstr "Add period"
 
 msgid "Step’s period"
 msgstr "Step’s period"
-
-msgid "Daily"
-msgstr "Daily"
 
 msgid "Runs use the step’s organisation units unless you choose others here."
 msgstr "Runs use the step’s organisation units unless you choose others here."

@@ -227,7 +227,7 @@ const ExecutionDetailPage: React.FC = () => {
             {execution.workflowRun && (
                 <NoticeBox title={i18n.t('Part of a workflow run')}>
                     {i18n.t(
-                        'This run belongs to the run of “{{workflow}}” started {{time}}.',
+                        'This run belongs to the workflow: “{{workflow}}” started {{time}}.',
                         {
                             workflow: execution.workflowRun.workflow.name,
                             time: formatDate(execution.workflowRun.createdAt),

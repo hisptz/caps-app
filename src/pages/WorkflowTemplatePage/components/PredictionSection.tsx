@@ -18,6 +18,22 @@ import { useEvaluationsQuery } from '@/shared/hooks/useEvaluationsQuery'
 
 const NONE = 'none'
 
+/** CHAP stores "week"/"month"; null for a period type CAPS does not fetch. */
+function setupPeriodType(
+    periodType: string | null | undefined
+): TemplateFormValues['periodType'] | null {
+    switch (periodType?.toLowerCase()) {
+        case 'week':
+        case 'weekly':
+            return 'WEEKLY'
+        case 'month':
+        case 'monthly':
+            return 'MONTHLY'
+        default:
+            return null
+    }
+}
+
 /**
  * The CHAP prediction setup the workflow runs. Without one the workflow only gets the data
  * ready, so the modeller can evaluate a model and create the setup from it.
@@ -31,7 +47,8 @@ export function PredictionSection({
     required?: boolean
 }): React.ReactElement {
     const engine = useDataEngine()
-    const { control } = useFormContext<TemplateFormValues>()
+    const { control, getValues, setValue } =
+        useFormContext<TemplateFormValues>()
     const setupId = useWatch({ control, name: 'predictionSetupId' })
     const { data, isLoading } = useEvaluationsQuery(engine)
 
@@ -64,9 +81,24 @@ export function PredictionSection({
                         loading={isLoading}
                         required={required}
                         selected={field.value || (required ? undefined : NONE)}
-                        onChange={({ selected }) =>
-                            field.onChange(selected === NONE ? '' : selected)
-                        }
+                        onChange={({ selected }) => {
+                            const id = selected === NONE ? '' : selected
+                            field.onChange(id)
+                            // Fetch data at the period the model was evaluated on
+                            const periodType = setupPeriodType(
+                                setups.find(
+                                    (e) => String(e.predictionSetupId) === id
+                                )?.periodType
+                            )
+                            if (
+                                periodType &&
+                                periodType !== getValues('periodType')
+                            ) {
+                                setValue('periodType', periodType)
+                                setValue('backfillStart', '')
+                                setValue('backfillEnd', '')
+                            }
+                        }}
                         error={Boolean(fieldState.error)}
                         validationText={fieldState.error?.message}
                         helpText={
