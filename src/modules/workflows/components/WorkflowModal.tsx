@@ -157,7 +157,7 @@ export function WorkflowModal({
                                     label={i18n.t('Name')}
                                     required
                                     placeholder={i18n.t(
-                                        'e.g. Malawi monthly climate & health'
+                                        'e.g. Monthly climate & health'
                                     )}
                                     value={field.value}
                                     onChange={({ value }) =>
@@ -216,7 +216,7 @@ export function WorkflowModal({
                                         field.value
                                             ? undefined
                                             : i18n.t(
-                                                  'Off, start it with the Run button'
+                                                  'Off, start it with the Trigger button'
                                               )
                                     }
                                 />

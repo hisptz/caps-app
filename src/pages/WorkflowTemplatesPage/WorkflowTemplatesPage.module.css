@@ -1,0 +1,37 @@
+.page {
+    max-width: 1060px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.heading {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.heading h2 {
+    margin: 0;
+}
+
+.lead {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--colors-grey700, #4a5768);
+}
+
+.linkButton {
+    font: inherit;
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--colors-blue800, #0d47a1);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.linkButton:hover {
+    color: #093371;
+}

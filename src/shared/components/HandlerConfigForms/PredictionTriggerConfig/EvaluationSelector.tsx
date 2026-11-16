@@ -67,7 +67,7 @@ export function EvaluationSelector({
             label={i18n.t('Evaluations')}
             required
             helpText={i18n.t(
-                'Choose the evaluation to use for this prediction.'
+                'Only evaluations with a prediction setup are listed.'
             )}
             error={!!error || !!fieldState.error}
             validationText={error ?? fieldState.error?.message}

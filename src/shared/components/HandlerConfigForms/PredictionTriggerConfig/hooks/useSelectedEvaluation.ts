@@ -11,6 +11,7 @@ import type { Evaluation, PredictionSetup } from '@/shared/types/caps'
 
 export type SelectedEvaluation = {
     evaluations: Evaluation[]
+    noSetups: boolean
     evaluation: Evaluation | undefined
     setup: PredictionSetup | null | undefined
     loading: boolean
@@ -35,13 +36,22 @@ export function useSelectedEvaluation(): SelectedEvaluation {
         isLoading,
     } = useEvaluationsQuery(engine)
 
-    const evaluations = useMemo(
+    const allEvaluations = useMemo(
         () => evaluationsData?.evaluations ?? [],
         [evaluationsData]
     )
+    // Resolve against the full list so a saved config whose evaluation has
+    // lost its setup still surfaces the "missing setup" warning.
     const evaluation = useMemo(
-        () => evaluations.find(({ id }) => id === backtestId),
-        [evaluations, backtestId]
+        () => allEvaluations.find(({ id }) => id === backtestId),
+        [allEvaluations, backtestId]
+    )
+    const evaluations = useMemo(
+        () =>
+            allEvaluations.filter(
+                (e) => e.predictionSetupId !== null || e.id === backtestId
+            ),
+        [allEvaluations, backtestId]
     )
 
     const setupId = evaluation?.predictionSetupId ?? undefined
@@ -57,6 +67,9 @@ export function useSelectedEvaluation(): SelectedEvaluation {
 
     return {
         evaluations,
+        noSetups:
+            allEvaluations.length > 0 &&
+            !allEvaluations.some((e) => e.predictionSetupId !== null),
         evaluation,
         setup: setupData?.setup,
         loading: isLoading,

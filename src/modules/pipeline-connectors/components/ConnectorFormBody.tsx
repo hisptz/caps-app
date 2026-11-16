@@ -29,8 +29,11 @@ import {
 } from '@/shared/components/ui/FormPrimitives'
 import type { PipelineRef, PipelineStep } from '@/shared/types/caps'
 
+/** A pipeline the connector could start; `blockedBy` greys it out with the reason */
+export type ConnectorTargetOption = PipelineRef & { blockedBy?: string }
+
 type Props = {
-    targetOptions: PipelineRef[]
+    targetOptions: ConnectorTargetOption[]
     targetOptionsLoading: boolean
     /** This pipeline's steps in order; conditions check their results */
     sourceSteps: PipelineStep[]
@@ -49,7 +52,14 @@ const RULE_MODE_OPTIONS = [
     { value: 'conditions' as const, label: () => i18n.t('Only if…') },
 ]
 
-function pipelineOptionLabel(pipeline: PipelineRef): string {
+function pipelineOptionLabel(pipeline: ConnectorTargetOption): string {
+    if (pipeline.blockedBy) {
+        return i18n.t('{{name}} (in workflow “{{workflow}}”)', {
+            name: pipeline.name,
+            workflow: pipeline.blockedBy,
+            interpolation: NO_ESCAPE,
+        })
+    }
     return pipeline.isActive === false
         ? i18n.t('{{name}} (inactive)', {
               name: pipeline.name,
@@ -163,6 +173,7 @@ export function ConnectorFormBody({
                                     key={pipeline.id}
                                     value={pipeline.id}
                                     label={pipelineOptionLabel(pipeline)}
+                                    disabled={Boolean(pipeline.blockedBy)}
                                 />
                             ))}
                         </SingleSelectField>
@@ -387,6 +398,9 @@ export function ConnectorFormBody({
                                             value={pipeline.id}
                                             label={pipelineOptionLabel(
                                                 pipeline
+                                            )}
+                                            disabled={Boolean(
+                                                pipeline.blockedBy
                                             )}
                                         />
                                     ))}

@@ -7,8 +7,8 @@ import {
 } from './mappingsForm'
 import type { InstanceDetail, MappingWithInstance } from '@/capsApi/types'
 
-const ROUTE = 'caps-src-malawi'
-const OTHER = 'caps-src-tanzania'
+const ROUTE = 'caps-src-hmis'
+const OTHER = 'caps-src-lmis'
 const CASES = 'CasesAAAAAA'
 const RATE = 'RateAAAAAAA'
 const STAGING_RATE = 'StgRateAAAA'

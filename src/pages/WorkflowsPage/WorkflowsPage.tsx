@@ -2,30 +2,33 @@ import { useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import {
     Button,
+    ButtonStrip,
     DataTable,
     DataTableBody,
     DataTableCell,
     DataTableColumnHeader,
     DataTableHead,
     DataTableRow,
-    DropdownButton,
-    FlyoutMenu,
     IconAdd16,
-    MenuItem,
     NoticeBox,
     Tag,
 } from '@dhis2/ui'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { formatDate } from '@/modules/pipeline-detail/utils/formatLabels'
 import { WorkflowModal } from '@/modules/workflows/components/WorkflowModal'
-import { useRunWorkflow } from '@/modules/workflows/hooks/useRunWorkflow'
+import { WorkflowTableActions } from '@/modules/workflows/components/WorkflowTableActions'
+import { useWorkflowsQuery } from '@/modules/workflows/hooks/useWorkflows'
 import {
-    useWorkflowsQuery,
-    useWorkflowTemplatesQuery,
-} from '@/modules/workflows/hooks/useWorkflows'
+    filterWorkflows,
+    NO_WORKFLOW_FILTERS,
+    type WorkflowFilters,
+} from '@/modules/workflows/utils/workflowFilters'
 import { describeWorkflowSchedule } from '@/modules/workflows/utils/workflowLabels'
 import classes from '@/pages/PipelinesPage/PipelinesPage.module.css'
+import { CreateWorkflowChoices } from '@/pages/WorkflowsPage/components/CreateWorkflowChoices'
+import { WorkflowsFilters } from '@/pages/WorkflowsPage/components/WorkflowsFilters'
+import pageClasses from '@/pages/WorkflowsPage/WorkflowsPage.module.css'
 import { PageLoader } from '@/shared/components/ui/PageLoader'
 import shellClasses from '@/shared/components/ui/PageShell/PageShell.module.css'
 import { StatusTag } from '@/shared/components/ui/StatusTag'
@@ -42,41 +45,37 @@ const WorkflowsPage: React.FC = () => {
         isError,
         error,
     } = useWorkflowsQuery(engine)
-    const { run, isRunning, runningId } = useRunWorkflow()
-    const { data: templates = [] } = useWorkflowTemplatesQuery(engine)
+    const empty = !isLoading && !isError && workflows.length === 0
+    const [filters, setFilters] = useState<WorkflowFilters>(NO_WORKFLOW_FILTERS)
+    const shown = useMemo(
+        () => filterWorkflows(workflows, filters),
+        [workflows, filters]
+    )
 
     return (
         <div className={shellClasses.pageRoot}>
             <div className={classes.header}>
                 <h2>{i18n.t('Workflows')}</h2>
-                <DropdownButton
-                    primary
-                    icon={<IconAdd16 />}
-                    component={
-                        <FlyoutMenu dense>
-                            {templates.map((template) => (
-                                <MenuItem
-                                    key={template.id}
-                                    label={i18n.t('From template {{name}}', {
-                                        name: template.name,
-                                    })}
-                                    onClick={() =>
-                                        navigate(
-                                            `/workflows/new/${template.id}`
-                                        )
-                                    }
-                                />
-                            ))}
-                            <MenuItem
-                                label={i18n.t('Empty workflow')}
-                                onClick={() => setShowCreate(true)}
-                            />
-                        </FlyoutMenu>
-                    }
-                >
-                    {i18n.t('New workflow')}
-                </DropdownButton>
+                {!empty && (
+                    <ButtonStrip end>
+                        <Button onClick={() => setShowCreate(true)}>
+                            {i18n.t('Empty workflow')}
+                        </Button>
+                        <Button
+                            primary
+                            icon={<IconAdd16 />}
+                            onClick={() => navigate('/workflows/new')}
+                        >
+                            {i18n.t('New from template')}
+                        </Button>
+                    </ButtonStrip>
+                )}
             </div>
+            <p className={pageClasses.intro}>
+                {i18n.t(
+                    'A workflow runs several pipelines as one process, on a schedule or by hand.'
+                )}
+            </p>
 
             {isLoading && <PageLoader variant="content" />}
 
@@ -86,16 +85,34 @@ const WorkflowsPage: React.FC = () => {
                 </NoticeBox>
             )}
 
-            {!isLoading && !isError && workflows.length === 0 && (
-                <NoticeBox title={i18n.t('No workflows yet')}>
-                    {i18n.t(
-                        'A workflow runs several pipelines as one process: one start launches its first pipelines together, and connectors start the rest.',
-                        { nsSeparator: '~~' }
-                    )}
-                </NoticeBox>
+            {empty && (
+                <CreateWorkflowChoices
+                    onStartEmpty={() => setShowCreate(true)}
+                />
             )}
 
             {workflows.length > 0 && (
+                <WorkflowsFilters filters={filters} onChange={setFilters} />
+            )}
+
+            {workflows.length > 0 && shown.length === 0 && (
+                <NoticeBox title={i18n.t('No workflows match')}>
+                    <p className={pageClasses.noticeText}>
+                        {i18n.t(
+                            'None of the {{count}} workflows match the search and filters.',
+                            { count: workflows.length }
+                        )}
+                    </p>
+                    <Button
+                        small
+                        onClick={() => setFilters(NO_WORKFLOW_FILTERS)}
+                    >
+                        {i18n.t('Clear filters')}
+                    </Button>
+                </NoticeBox>
+            )}
+
+            {shown.length > 0 && (
                 <TableScroll label={i18n.t('Workflows table')}>
                     <DataTable>
                         <DataTableHead>
@@ -110,7 +127,7 @@ const WorkflowsPage: React.FC = () => {
                                     {i18n.t('Schedule')}
                                 </DataTableColumnHeader>
                                 <DataTableColumnHeader>
-                                    {i18n.t('Last run')}
+                                    {i18n.t('Last execution')}
                                 </DataTableColumnHeader>
                                 <DataTableColumnHeader>
                                     {i18n.t('Status')}
@@ -121,7 +138,7 @@ const WorkflowsPage: React.FC = () => {
                             </DataTableRow>
                         </DataTableHead>
                         <DataTableBody>
-                            {workflows.map((workflow) => (
+                            {shown.map((workflow) => (
                                 <DataTableRow key={workflow.id}>
                                     <DataTableCell>
                                         <Link
@@ -166,19 +183,9 @@ const WorkflowsPage: React.FC = () => {
                                         )}
                                     </DataTableCell>
                                     <DataTableCell>
-                                        <Button
-                                            small
-                                            disabled={
-                                                !workflow.isActive ||
-                                                workflow._count.pipelines ===
-                                                    0 ||
-                                                (isRunning &&
-                                                    runningId === workflow.id)
-                                            }
-                                            onClick={() => run(workflow.id)}
-                                        >
-                                            {i18n.t('Run')}
-                                        </Button>
+                                        <WorkflowTableActions
+                                            workflow={workflow}
+                                        />
                                     </DataTableCell>
                                 </DataTableRow>
                             ))}

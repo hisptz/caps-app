@@ -33,7 +33,7 @@ export function BasicsSection(): React.ReactElement {
                         error={Boolean(fieldState.error)}
                         validationText={fieldState.error?.message}
                         helpText={i18n.t(
-                            'Its pipelines are named after it, e.g. "Malawi · Climate data"'
+                            'Its pipelines are named after it, e.g. "Weekly malaria · Climate data"'
                         )}
                     />
                 )}
@@ -86,12 +86,18 @@ export function BasicsSection(): React.ReactElement {
                         min="1"
                         label={
                             periodType === 'MONTHLY'
-                                ? i18n.t('Months each run refreshes')
-                                : i18n.t('Weeks each run refreshes')
+                                ? i18n.t('Months to fetch on each run')
+                                : i18n.t('Weeks to fetch on each run')
                         }
-                        helpText={i18n.t(
-                            'Recent periods fetched again on every run, so late reports are picked up'
-                        )}
+                        helpText={
+                            periodType === 'MONTHLY'
+                                ? i18n.t(
+                                      'Each run fetches the latest months again, so values reported late are picked up'
+                                  )
+                                : i18n.t(
+                                      'Each run fetches the latest weeks again, so values reported late are picked up'
+                                  )
+                        }
                         value={String(field.value)}
                         onChange={({ value }) => field.onChange(Number(value))}
                         error={Boolean(fieldState.error)}
@@ -111,7 +117,9 @@ export function BasicsSection(): React.ReactElement {
                         helpText={
                             field.value
                                 ? undefined
-                                : i18n.t('Off, start it with the Run button')
+                                : i18n.t(
+                                      'Off, start it with the Trigger button'
+                                  )
                         }
                     />
                 )}

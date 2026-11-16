@@ -23,7 +23,8 @@ import {
 import { describeRule } from '@/modules/pipeline-connectors/utils/connectorRule'
 import { describeOutputPath } from '@/modules/pipeline-connectors/utils/stepOutputs'
 import { ActiveTag } from '@/modules/workflows/components/ActiveTag'
-import { AddWorkflowPipelineModal } from '@/modules/workflows/components/AddWorkflowPipelineModal'
+import { AddPipelinesPanel } from '@/modules/workflows/components/AddPipelinesPanel'
+import pickerClasses from '@/modules/workflows/components/AddPipelinesPanel.module.css'
 import {
     ruleLabel,
     whenLabel,
@@ -68,19 +69,30 @@ export function WorkflowPipelinesTab({ workflow }: Props): React.ReactElement {
 
     return (
         <>
-            <div className={workflowClasses.toolbar}>
+            <div
+                className={`${workflowClasses.toolbar} ${pickerClasses.anchor}`}
+            >
                 <p className={workflowClasses.help}>
                     {i18n.t(
-                        'A run starts the pipelines marked “Starts the run” together; connectors start the others.'
+                        'An execution starts the pipelines marked “Starts the execution” together; connectors start the others.'
                     )}
                 </p>
                 <Button
                     small
                     icon={<IconAdd16 />}
-                    onClick={() => setShowAdd(true)}
+                    toggled={showAdd}
+                    aria-expanded={showAdd}
+                    onClick={() => setShowAdd((open) => !open)}
                 >
                     {i18n.t('Add pipeline')}
                 </Button>
+                {showAdd && (
+                    <AddPipelinesPanel
+                        workflowId={workflow.id}
+                        className={pickerClasses.underButtonRight}
+                        onClose={() => setShowAdd(false)}
+                    />
+                )}
             </div>
 
             {removeError && (
@@ -95,7 +107,7 @@ export function WorkflowPipelinesTab({ workflow }: Props): React.ReactElement {
             {workflow.pipelines.length === 0 ? (
                 <NoticeBox title={i18n.t('No pipelines yet')}>
                     {i18n.t(
-                        'Add the pipelines this workflow runs. Link them with connectors on each pipeline’s Connectors tab.'
+                        'Add the pipelines this workflow runs, then link them with connectors on the Flow tab.'
                     )}
                 </NoticeBox>
             ) : (
@@ -107,7 +119,7 @@ export function WorkflowPipelinesTab({ workflow }: Props): React.ReactElement {
                                     {i18n.t('Pipeline')}
                                 </DataTableColumnHeader>
                                 <DataTableColumnHeader>
-                                    {i18n.t('In a run')}
+                                    {i18n.t('In an execution')}
                                 </DataTableColumnHeader>
                                 <DataTableColumnHeader>
                                     {i18n.t('Steps')}
@@ -134,7 +146,7 @@ export function WorkflowPipelinesTab({ workflow }: Props): React.ReactElement {
                                     <DataTableCell>
                                         {entries.has(pipeline.id) ? (
                                             <Tag positive>
-                                                {i18n.t('Starts the run')}
+                                                {i18n.t('Starts the execution')}
                                             </Tag>
                                         ) : (
                                             <Tag neutral>
@@ -175,9 +187,7 @@ export function WorkflowPipelinesTab({ workflow }: Props): React.ReactElement {
                         {i18n.t('How they connect')}
                     </h3>
                     <p className={workflowClasses.help}>
-                        {i18n.t(
-                            'Add or change connectors on the Flow tab, or on a pipeline’s Connectors tab.'
-                        )}
+                        {i18n.t('Add or change connectors on the Flow tab.')}
                     </p>
                     <TableScroll label={i18n.t('Workflow connectors table')}>
                         <DataTable>
@@ -313,12 +323,6 @@ export function WorkflowPipelinesTab({ workflow }: Props): React.ReactElement {
                     </TableScroll>
                 </>
             )}
-
-            <AddWorkflowPipelineModal
-                open={showAdd}
-                workflowId={workflow.id}
-                onClose={() => setShowAdd(false)}
-            />
         </>
     )
 }
