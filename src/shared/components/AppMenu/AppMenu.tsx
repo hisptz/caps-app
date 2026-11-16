@@ -1,5 +1,6 @@
 import i18n from '@dhis2/d2-i18n'
 import {
+    IconArrowRightMulti24,
     IconClockHistory24,
     IconDashboardWindow24,
     IconEditItems24,
@@ -41,12 +42,12 @@ const AppMenu = () => {
                         onClick={() => navigate('/pipelines')}
                         label={i18n.t('Pipelines')}
                     />
-                    {/* <MenuItem
+                    <MenuItem
                         active={isActive('/workflows')}
                         icon={<IconArrowRightMulti24 />}
                         onClick={() => navigate('/workflows')}
                         label={i18n.t('Workflows')}
-                    /> */}
+                    />
                     <MenuItem
                         active={isActive('/executions')}
                         icon={<IconClockHistory24 />}

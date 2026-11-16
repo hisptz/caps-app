@@ -14,7 +14,6 @@ import {
     duplicatePipeline,
     getWorkflow,
     getWorkflowRun,
-    listPipelineMerges,
     listWorkflowRuns,
     listWorkflows,
     removeWorkflowPipeline,
@@ -148,24 +147,6 @@ export function useWorkflowMutations(engine: CapsDataEngine) {
         removePipelineMutation,
         runWorkflowMutation,
     }
-}
-
-/** Merges a pipeline is part of: waited for in, or started by. */
-export function usePipelineMergesQuery(
-    engine: CapsDataEngine,
-    pipelineId: string | undefined
-) {
-    return useQuery({
-        queryKey: capsKeys.workflows.pipelineMerges(pipelineId),
-        queryFn: () => listPipelineMerges(engine, pipelineId!),
-        enabled: Boolean(pipelineId),
-        select: (merges) => ({
-            waitedFor: merges.filter((m) =>
-                m.sources.some((s) => s.pipelineId === pipelineId)
-            ),
-            startedBy: merges.filter((m) => m.targetPipelineId === pipelineId),
-        }),
-    })
 }
 
 export function useMergeMutations(engine: CapsDataEngine) {

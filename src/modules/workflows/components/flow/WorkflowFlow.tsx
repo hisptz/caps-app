@@ -8,6 +8,7 @@ import {
     MiniMap,
     ReactFlow,
     useReactFlow,
+    type Connection,
     type Edge,
     type Node,
 } from '@xyflow/react'
@@ -20,6 +21,8 @@ import {
     pipelineFlowStatus,
 } from './flowStatus'
 import { flowEdgeTypes } from './LabelledEdge'
+import { NO_ESCAPE } from '@/modules/pipeline-connectors/utils/connectorLabels'
+import { formatDate } from '@/modules/pipeline-detail/utils/formatLabels'
 import {
     buildWorkflowGraph,
     CONNECTOR_EDGE_KINDS,
@@ -39,13 +42,35 @@ import type { WorkflowDetail, WorkflowRunDetail } from '@/shared/types/caps'
 
 type Props = {
     workflow: WorkflowDetail
-    /** Colours the nodes; absent before the first run */
     latestRun?: WorkflowRunDetail
     selectedNodeId: string | null
     onSelect: (node: WorkflowGraphNode | null) => void
     toolbar?: React.ReactNode
-    /** Floats over the canvas on the right, e.g. the selected box's details */
     panel?: React.ReactNode
+    overlay?: React.ReactNode
+    emptyState?: React.ReactNode
+    onAddNext?: (pipelineId: string) => void
+    onConnectPipelines?: (sourceId: string, targetId: string) => void
+}
+
+const PIPELINE_PREFIX = 'pipeline:'
+
+/** The pipeline ids at both ends of a dragged line, when both are pipeline boxes. */
+function pipelineEnds(
+    connection: Pick<Connection, 'source' | 'target'>
+): { sourceId: string; targetId: string } | null {
+    const { source, target } = connection
+    if (
+        !source?.startsWith(PIPELINE_PREFIX) ||
+        !target?.startsWith(PIPELINE_PREFIX) ||
+        source === target
+    ) {
+        return null
+    }
+    return {
+        sourceId: source.slice(PIPELINE_PREFIX.length),
+        targetId: target.slice(PIPELINE_PREFIX.length),
+    }
 }
 
 const EDGE_COLOR: Record<WorkflowGraphEdgeKind, string> = {
@@ -72,15 +97,23 @@ function nodeData(
                 caption: i18n.t('Start'),
                 name: workflow.cronExpr
                     ? i18n.t('Schedule')
-                    : i18n.t('Run button'),
-                detail: workflow.cronExpr ?? undefined,
+                    : i18n.t('Trigger button'),
+                // When it runs next reads better than the raw cron expression
+                detail: !workflow.cronExpr
+                    ? undefined
+                    : workflow.isActive && workflow.nextRunAt
+                      ? i18n.t('next {{date}}', {
+                            date: formatDate(workflow.nextRunAt),
+                            interpolation: NO_ESCAPE,
+                        })
+                      : workflow.cronExpr,
                 inactive: !workflow.isActive,
             }
         case 'pipeline': {
             const pipeline = workflow.pipelines.find((p) => p.id === node.refId)
             return {
                 caption: workflow.entryPipelineIds.includes(node.refId!)
-                    ? i18n.t('Starts the run')
+                    ? i18n.t('Starts the execution')
                     : i18n.t('Pipeline'),
                 name: node.label,
                 detail: i18n.t('{{steps}} steps', {
@@ -216,6 +249,10 @@ export function WorkflowFlow({
     onSelect,
     toolbar,
     panel,
+    overlay,
+    emptyState,
+    onAddNext,
+    onConnectPipelines,
 }: Props): React.ReactElement {
     const canvasRef = useRef<HTMLDivElement>(null)
     const graph = useMemo(() => buildWorkflowGraph(workflow), [workflow])
@@ -233,11 +270,17 @@ export function WorkflowFlow({
                 // Known sizes, so the minimap and fitting work before React Flow measures
                 initialWidth: NODE_SIZE[node.kind].w,
                 initialHeight: NODE_SIZE[node.kind].h,
-                data: nodeData(node, workflow, latestRun),
+                data: {
+                    ...nodeData(node, workflow, latestRun),
+                    onAddNext:
+                        onAddNext && node.kind === 'pipeline' && node.refId
+                            ? () => onAddNext(node.refId!)
+                            : undefined,
+                },
                 selected: node.id === selectedNodeId,
                 draggable: false,
             })),
-        [graph, positions, workflow, latestRun, selectedNodeId]
+        [graph, positions, workflow, latestRun, selectedNodeId, onAddNext]
     )
 
     const runningNodes = useMemo(
@@ -265,10 +308,24 @@ export function WorkflowFlow({
         [graph, runningNodes]
     )
 
+    if (workflow.pipelines.length === 0 && emptyState) {
+        return (
+            <div className={`${classes.canvas} ${classes.emptyCanvas}`}>
+                {toolbar && <div className={classes.toolbar}>{toolbar}</div>}
+                {overlay}
+                <div className={classes.empty}>{emptyState}</div>
+                <div className={classes.legend} aria-hidden>
+                    <span>{describeWorkflowSchedule(workflow)}</span>
+                </div>
+            </div>
+        )
+    }
+
     return (
         <div className={classes.canvas} ref={canvasRef}>
             {toolbar && <div className={classes.toolbar}>{toolbar}</div>}
             {panel}
+            {overlay}
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
@@ -282,7 +339,23 @@ export function WorkflowFlow({
                 }}
                 minZoom={0.3}
                 maxZoom={1.6}
-                nodesConnectable={false}
+                nodesConnectable={Boolean(onConnectPipelines)}
+                // A click on the "+" opens the form; only a drag draws a line
+                connectOnClick={false}
+                isValidConnection={(connection) =>
+                    pipelineEnds(connection) !== null
+                }
+                onConnect={(connection) => {
+                    const ends = pipelineEnds(connection)
+                    if (ends && onConnectPipelines) {
+                        onConnectPipelines(ends.sourceId, ends.targetId)
+                    }
+                }}
+                connectionLineStyle={{
+                    stroke: '#147cd7',
+                    strokeWidth: 1.6,
+                    strokeDasharray: '6 4',
+                }}
                 elementsSelectable
                 proOptions={{ hideAttribution: true }}
                 onNodeClick={(_, node) =>

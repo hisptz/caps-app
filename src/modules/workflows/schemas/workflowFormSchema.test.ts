@@ -10,7 +10,7 @@ import {
 function values(overrides: Partial<WorkflowFormValues> = {}) {
     return {
         ...defaultWorkflowFormValues,
-        name: 'Malawi monthly',
+        name: 'Monthly climate',
         ...overrides,
     }
 }
@@ -45,7 +45,7 @@ describe('workflow <-> form values', () => {
                 values({ scheduled: true, cronExpression: ' 0 6 1 * * ' })
             )
         ).toEqual({
-            name: 'Malawi monthly',
+            name: 'Monthly climate',
             description: undefined,
             isActive: true,
             cronExpr: '0 6 1 * *',
@@ -56,7 +56,7 @@ describe('workflow <-> form values', () => {
     it('opens a scheduled workflow with its cron', () => {
         const form = workflowToFormValues({
             id: 'w',
-            name: 'Malawi monthly',
+            name: 'Monthly climate',
             description: null,
             isActive: true,
             cronExpr: '0 6 * * 1',

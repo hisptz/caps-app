@@ -596,6 +596,11 @@ export interface ClimatePredictionParams {
         periodsAhead: number
         notify: { users: string[]; userGroups: string[] }
     } | null
+    runAnalytics?: boolean
+    notify?: {
+        onSuccess: { users: string[]; userGroups: string[] }
+        onFailure: { users: string[]; userGroups: string[] }
+    }
 }
 
 export interface TemplateIssue {
@@ -617,21 +622,28 @@ export interface TemplatePlan {
         description: string
         steps: Array<{
             name: string
+            /** Missing from engines before step descriptions */
+            description?: string
             handlerKey: string
             handlerConfig: Record<string, unknown>
         }>
     }>
+    /** Null when the pipelines are not joined (one pipeline, or side by side) */
     join:
         | {
               kind: 'merge'
+              /** Missing from engines before join names */
+              name?: string
               sources: TemplatePipelineRole[]
               target: TemplatePipelineRole
           }
         | {
               kind: 'connector'
+              name?: string
               source: TemplatePipelineRole
               target: TemplatePipelineRole
           }
+        | null
 }
 
 export interface TemplatePreview {

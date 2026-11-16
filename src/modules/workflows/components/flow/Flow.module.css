@@ -47,6 +47,7 @@
 /* Nodes */
 
 .node {
+    position: relative;
     width: 220px;
     box-sizing: border-box;
     display: flex;
@@ -149,6 +150,78 @@
 .handle {
     opacity: 0;
     pointer-events: none;
+}
+
+/* "+" on a pipeline box's right edge: click to add what runs next, or drag to a box.
+   The node prefix outranks React Flow's own handle styles. */
+.node .addNextHandle {
+    width: 24px;
+    height: 24px;
+    min-width: 0;
+    min-height: 0;
+    border: none;
+    background: transparent;
+    cursor: grab;
+}
+
+.addNext {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid var(--colors-grey500, #8194a9);
+    border-radius: 50%;
+    background: var(--colors-white, #ffffff);
+    color: var(--colors-grey800, #404b5a);
+    font-size: 16px;
+    line-height: 1;
+    cursor: inherit;
+    opacity: 0;
+    transition: opacity 0.12s;
+}
+
+.node:hover .addNext,
+.selected .addNext,
+.addNext:focus-visible {
+    opacity: 1;
+}
+
+.addNext:hover {
+    border-color: var(--colors-blue600, #147cd7);
+    background: var(--colors-blue050, #f5fbff);
+    color: var(--colors-blue700, #0d5aa8);
+}
+
+.addNext:focus-visible {
+    outline: 2px solid var(--colors-blue600, #147cd7);
+    outline-offset: 1px;
+}
+
+/* Hidden until a line is being dragged; then the whole box takes the drop */
+.node .dropTarget {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.node .dropTarget:global(.connectionindicator) {
+    inset: 0;
+    width: auto;
+    height: auto;
+    transform: none;
+    opacity: 1;
+    pointer-events: all;
+    border: 2px dashed var(--colors-blue400, #48a9f6);
+    border-radius: 4px;
+    background: rgba(20, 124, 215, 0.04);
+    cursor: copy;
+}
+
+.node .dropTarget:global(.connectionindicator.valid) {
+    border-style: solid;
+    border-color: var(--colors-blue600, #147cd7);
+    background: rgba(20, 124, 215, 0.1);
 }
 
 @keyframes pulse {
@@ -333,4 +406,53 @@
 .minimap {
     border: 1px solid var(--colors-grey300, #d5dde5);
     border-radius: 4px;
+}
+
+/* A workflow with no pipelines yet */
+
+.emptyCanvas {
+    background-color: var(--colors-grey050, #fbfcfd);
+    background-image: radial-gradient(#c9d1da 1px, transparent 1px);
+    background-size: 18px 18px;
+}
+
+.empty {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 440px;
+    box-sizing: border-box;
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    text-align: center;
+}
+
+.emptyInner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.emptyTitle {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--colors-grey900, #212934);
+}
+
+.emptyText {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--colors-grey700, #4a5768);
+}
+
+.dimmed {
+    opacity: 0.5;
 }

@@ -3,14 +3,14 @@ import i18n from '@dhis2/d2-i18n'
 import {
     Button,
     ButtonStrip,
+    DropdownButton,
     IconArrowLeft16,
     IconDelete16,
     IconEdit16,
-    IconSettings16,
+    IconLaunch16,
     FlyoutMenu,
     MenuItem,
     NoticeBox,
-    SplitButton,
     Tab,
     TabBar,
 } from '@dhis2/ui'
@@ -110,26 +110,46 @@ const WorkflowDetailPage: React.FC = () => {
                     )}
                 </div>
                 <ButtonStrip>
-                    <SplitButton
-                        primary
-                        disabled={
-                            isRunning ||
-                            !workflow.isActive ||
+                    <span
+                        title={
                             workflow.pipelines.length === 0
-                        }
-                        onClick={() => run(workflow.id)}
-                        component={
-                            <FlyoutMenu dense>
-                                <MenuItem
-                                    label={i18n.t('Run for a fixed range…')}
-                                    onClick={() => setShowRange(true)}
-                                />
-                            </FlyoutMenu>
+                                ? i18n.t(
+                                      'Add a pipeline before triggering the workflow'
+                                  )
+                                : !workflow.isActive
+                                  ? i18n.t(
+                                        'Inactive workflows do not run; edit it to switch it on'
+                                    )
+                                  : undefined
                         }
                     >
-                        {i18n.t('Run')}
-                    </SplitButton>
-                    {workflow.template && (
+                        <DropdownButton
+                            primary
+                            icon={<IconLaunch16 />}
+                            disabled={
+                                isRunning ||
+                                !workflow.isActive ||
+                                workflow.pipelines.length === 0
+                            }
+                            component={
+                                <FlyoutMenu dense>
+                                    <MenuItem
+                                        label={i18n.t('Trigger')}
+                                        onClick={() => run(workflow.id)}
+                                    />
+                                    <MenuItem
+                                        label={i18n.t(
+                                            'Trigger for a fixed range…'
+                                        )}
+                                        onClick={() => setShowRange(true)}
+                                    />
+                                </FlyoutMenu>
+                            }
+                        >
+                            {i18n.t('Trigger')}
+                        </DropdownButton>
+                    </span>
+                    {/* {workflow.template && (
                         <Button
                             icon={<IconSettings16 />}
                             onClick={() =>
@@ -138,7 +158,7 @@ const WorkflowDetailPage: React.FC = () => {
                         >
                             {i18n.t('Edit setup')}
                         </Button>
-                    )}
+                    )} */}
                     <Button
                         icon={<IconEdit16 />}
                         onClick={() => setShowEdit(true)}
@@ -189,7 +209,7 @@ const WorkflowDetailPage: React.FC = () => {
                     selected={activeTab === 'runs'}
                     onClick={() => setActiveTab('runs')}
                 >
-                    {i18n.t('Runs')}
+                    {i18n.t('Executions')}
                 </Tab>
             </TabBar>
 

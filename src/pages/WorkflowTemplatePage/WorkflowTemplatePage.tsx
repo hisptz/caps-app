@@ -4,11 +4,12 @@ import { Button, ButtonStrip, IconArrowLeft16, NoticeBox } from '@dhis2/ui'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React, { useEffect, useMemo, useState } from 'react'
 import { FormProvider, useForm, useWatch } from 'react-hook-form'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate, useParams, useSearchParams } from 'react-router'
 import { useDebounceValue } from 'usehooks-ts'
 import { BackfillSection } from './components/BackfillSection'
 import { BasicsSection } from './components/BasicsSection'
 import { ClimateSection, DiseaseSection } from './components/DataSections'
+import { OptionsSection } from './components/OptionsSection'
 import {
     OrgUnitsSection,
     PredictionSection,
@@ -32,6 +33,11 @@ import {
     templateFormValuesToParams,
     type TemplateFormValues,
 } from '@/modules/workflows/schemas/templateFormSchema'
+import {
+    ALL_TEMPLATE_SECTIONS,
+    galleryEntryFor,
+    type TemplateFormSection,
+} from '@/modules/workflows/utils/templateGallery'
 import pageClasses from '@/pages/PipelineDetailPage/PipelineDetailPage.module.css'
 import { PageLoader } from '@/shared/components/ui/PageLoader'
 import shellClasses from '@/shared/components/ui/PageShell/PageShell.module.css'
@@ -59,6 +65,7 @@ const WorkflowTemplatePage: React.FC = () => {
         id?: string
     }>()
     const editing = Boolean(id)
+    const [searchParams] = useSearchParams()
     const engine = useDataEngine()
     const navigate = useNavigate()
     const { show } = useAlert(
@@ -71,6 +78,18 @@ const WorkflowTemplatePage: React.FC = () => {
     const templatesQuery = useWorkflowTemplatesQuery(engine)
     const template = templateParam ?? setupQuery.data?.template
     const templateInfo = templatesQuery.data?.find((t) => t.id === template)
+    // A new workflow shows the parts its gallery card needs; editing shows them all
+    const galleryEntry = editing
+        ? undefined
+        : galleryEntryFor(template, searchParams.get('preset'))
+    const sections: TemplateFormSection[] =
+        galleryEntry?.sections ?? ALL_TEMPLATE_SECTIONS
+    const preset = galleryEntry?.id
+    const numbered = sections.filter(
+        (section) => section !== 'backfill' || !editing
+    )
+    const numberOf = (section: TemplateFormSection) =>
+        numbered.indexOf(section) + 2
     const { createFromTemplateMutation, updateSetupMutation } =
         useTemplateMutations(engine)
     const [edited, setEdited] = useState<
@@ -81,6 +100,15 @@ const WorkflowTemplatePage: React.FC = () => {
         resolver: zodResolver(templateFormSchema),
         defaultValues: defaultTemplateFormValues(),
     })
+
+    // A new workflow starts from its gallery card's values
+    useEffect(() => {
+        if (!editing) {
+            const defaults = galleryEntryFor(template, preset ?? null)?.defaults
+            form.reset({ ...defaultTemplateFormValues(), ...defaults })
+            form.clearErrors()
+        }
+    }, [editing, template, preset, form])
 
     useEffect(() => {
         if (setupQuery.data) {
@@ -203,7 +231,7 @@ const WorkflowTemplatePage: React.FC = () => {
 
     const pending =
         createFromTemplateMutation.isPending || updateSetupMutation.isPending
-    const back = editing ? `/workflows/${id}` : '/workflows'
+    const back = editing ? `/workflows/${id}` : '/workflows/new'
     const rootError = form.formState.errors.root?.message
 
     return (
@@ -216,7 +244,7 @@ const WorkflowTemplatePage: React.FC = () => {
                 >
                     {editing
                         ? (workflowQuery.data?.name ?? i18n.t('Workflow'))
-                        : i18n.t('Workflows')}
+                        : i18n.t('Templates')}
                 </Button>
             </div>
             <div className={pageClasses.header}>
@@ -224,13 +252,18 @@ const WorkflowTemplatePage: React.FC = () => {
                     <h2>
                         {editing
                             ? i18n.t('Edit setup')
-                            : i18n.t('New workflow from {{template}}', {
-                                  template: templateInfo?.name ?? '',
+                            : i18n.t('New workflow: {{template}}', {
+                                  template:
+                                      galleryEntry?.title ??
+                                      templateInfo?.name ??
+                                      '',
+                                  nsSeparator: '~~',
                               })}
                     </h2>
-                    {templateInfo && (
+                    {(galleryEntry || templateInfo) && (
                         <p className={pageClasses.description}>
-                            {templateInfo.description}
+                            {galleryEntry?.description ??
+                                templateInfo?.description}
                         </p>
                     )}
                 </div>
@@ -257,11 +290,33 @@ const WorkflowTemplatePage: React.FC = () => {
                         onSubmit={submit(false)}
                     >
                         <BasicsSection />
-                        <PredictionSection />
-                        <OrgUnitsSection />
-                        <ClimateSection />
-                        <DiseaseSection />
-                        {!editing && <BackfillSection />}
+                        {sections.includes('prediction') && (
+                            <PredictionSection
+                                num={numberOf('prediction')}
+                                required={preset === 'prediction'}
+                            />
+                        )}
+                        {sections.includes('orgUnits') && (
+                            <OrgUnitsSection num={numberOf('orgUnits')} />
+                        )}
+                        {sections.includes('climate') && (
+                            <ClimateSection num={numberOf('climate')} />
+                        )}
+                        {sections.includes('disease') && (
+                            <DiseaseSection
+                                num={numberOf('disease')}
+                                pullOnly={preset === 'instance-pull'}
+                            />
+                        )}
+                        {sections.includes('options') && (
+                            <OptionsSection
+                                num={numberOf('options')}
+                                showAnalytics={preset !== 'prediction'}
+                            />
+                        )}
+                        {!editing && sections.includes('backfill') && (
+                            <BackfillSection num={numberOf('backfill')} />
+                        )}
 
                         {rootError && (
                             <NoticeBox error title={i18n.t('Not saved')}>

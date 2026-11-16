@@ -27,6 +27,8 @@ export const templateFormSchema = z
         recentPeriods: z.number().int().min(1).max(104),
         /** CHAP prediction setup id as text; '' = none yet */
         predictionSetupId: z.string(),
+        /** Set by the "Run a prediction" preset, which is nothing without one */
+        setupRequired: z.boolean(),
         periodsAhead: z.number().int().min(1).max(52),
         notifyUsers: z.array(z.string()),
         notifyGroups: z.array(z.string()),
@@ -34,18 +36,66 @@ export const templateFormSchema = z
         orgUnitLevel: z.string(),
         /** Kept from saved parameters; not edited here */
         orgUnitIds: z.array(z.string()),
-        climate: z
-            .array(climateRowSchema)
-            .min(1, i18n.t('Add at least one climate variable')),
+        /** Empty when the workflow only pulls data or only predicts */
+        climate: z.array(climateRowSchema),
         diseaseSource: z.enum(['staging', 'instance']),
         routeCode: z.string(),
         /** Staging data elements pulled, picked from the instance's pull mappings */
         diseaseMapped: z.array(z.string()),
+        runAnalytics: z.boolean(),
+        notifyOnSuccess: z.boolean(),
+        successUsers: z.array(z.string()),
+        successGroups: z.array(z.string()),
+        notifyOnFailure: z.boolean(),
+        failureUsers: z.array(z.string()),
+        failureGroups: z.array(z.string()),
         backfill: z.boolean(),
         backfillStart: z.string(),
         backfillEnd: z.string(),
     })
     .superRefine((values, ctx) => {
+        if (
+            values.climate.length === 0 &&
+            values.diseaseSource !== 'instance' &&
+            !values.predictionSetupId
+        ) {
+            ctx.addIssue({
+                code: 'custom',
+                path: ['climate'],
+                message: i18n.t(
+                    'Choose climate data, data to pull, or a prediction setup'
+                ),
+            })
+        }
+        if (values.setupRequired && !values.predictionSetupId) {
+            ctx.addIssue({
+                code: 'custom',
+                path: ['predictionSetupId'],
+                message: i18n.t('Choose the prediction setup to run'),
+            })
+        }
+        for (const [on, users, groups, key] of [
+            [
+                values.notifyOnSuccess,
+                values.successUsers,
+                values.successGroups,
+                'successUsers',
+            ],
+            [
+                values.notifyOnFailure,
+                values.failureUsers,
+                values.failureGroups,
+                'failureUsers',
+            ],
+        ] as const) {
+            if (on && users.length + groups.length === 0) {
+                ctx.addIssue({
+                    code: 'custom',
+                    path: [key],
+                    message: i18n.t('Choose who to tell'),
+                })
+            }
+        }
         if (
             values.scheduled &&
             !splitCronExpression(values.cronExpression).valid
@@ -116,6 +166,7 @@ export function defaultTemplateFormValues(): TemplateFormValues {
         periodType: 'WEEKLY',
         recentPeriods: 4,
         predictionSetupId: '',
+        setupRequired: false,
         periodsAhead: 3,
         notifyUsers: [],
         notifyGroups: [],
@@ -125,10 +176,21 @@ export function defaultTemplateFormValues(): TemplateFormValues {
         diseaseSource: 'staging',
         routeCode: '',
         diseaseMapped: [],
+        runAnalytics: true,
+        notifyOnSuccess: false,
+        successUsers: [],
+        successGroups: [],
+        notifyOnFailure: false,
+        failureUsers: [],
+        failureGroups: [],
         backfill: false,
         backfillStart: '',
         backfillEnd: '',
     }
+}
+
+function recipients(on: boolean, users: string[], userGroups: string[]) {
+    return on ? { users, userGroups } : { users: [], userGroups: [] }
 }
 
 export function templateFormValuesToParams(
@@ -152,6 +214,7 @@ export function templateFormValuesToParams(
                   }
                 : undefined,
         recentPeriods: values.recentPeriods,
+        // The engine names steps after the staging data elements
         climate: values.climate,
         disease:
             values.diseaseSource === 'instance'
@@ -161,6 +224,19 @@ export function templateFormValuesToParams(
                       mapped: values.diseaseMapped,
                   }
                 : { source: 'staging' },
+        runAnalytics: values.runAnalytics,
+        notify: {
+            onSuccess: recipients(
+                values.notifyOnSuccess,
+                values.successUsers,
+                values.successGroups
+            ),
+            onFailure: recipients(
+                values.notifyOnFailure,
+                values.failureUsers,
+                values.failureGroups
+            ),
+        },
         prediction:
             setupId !== null
                 ? {
@@ -205,6 +281,21 @@ export function paramsToTemplateFormValues(
                 ? (disease.mapped ??
                   (disease.items ?? []).map((item) => item.into ?? item.from))
                 : [],
+        runAnalytics: params.runAnalytics ?? true,
+        ...notifyFormValues(params.notify),
+    }
+}
+
+function notifyFormValues(notify: ClimatePredictionParams['notify']) {
+    const success = notify?.onSuccess ?? { users: [], userGroups: [] }
+    const failure = notify?.onFailure ?? { users: [], userGroups: [] }
+    return {
+        notifyOnSuccess: success.users.length + success.userGroups.length > 0,
+        successUsers: success.users,
+        successGroups: success.userGroups,
+        notifyOnFailure: failure.users.length + failure.userGroups.length > 0,
+        failureUsers: failure.users,
+        failureGroups: failure.userGroups,
     }
 }
 

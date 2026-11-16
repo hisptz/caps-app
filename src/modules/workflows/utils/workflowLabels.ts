@@ -28,7 +28,7 @@ export function formatWorkflowTrigger(triggeredBy: string): string {
         case 'scheduler':
             return i18n.t('Schedule')
         case 'api':
-            return i18n.t('Run button')
+            return i18n.t('Trigger button')
         default:
             return triggeredBy
     }
