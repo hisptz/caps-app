@@ -1,0 +1,42 @@
+.fields {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.group {
+    margin: 0;
+    padding: 12px 16px 16px;
+    border: 1px solid var(--colors-grey300);
+    border-radius: 4px;
+    min-width: 0;
+}
+
+.legend {
+    padding: 0 4px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--colors-grey900);
+}
+
+.row {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.rowMain {
+    flex: 1;
+    min-width: 0;
+}
+
+.groupActions {
+    margin-top: 12px;
+}
+
+.help {
+    margin: 0 0 12px;
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--colors-grey700);
+}

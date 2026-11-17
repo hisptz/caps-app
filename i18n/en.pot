@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-11-13T12:31:25.184Z\n"
-"PO-Revision-Date: 2026-11-13T12:31:25.184Z\n"
+"POT-Creation-Date: 2026-11-16T14:24:34.084Z\n"
+"PO-Revision-Date: 2026-11-16T14:24:34.085Z\n"
 
 msgid "Enter a valid HTTP or HTTPS URL."
 msgstr "Enter a valid HTTP or HTTPS URL."
@@ -4398,6 +4398,12 @@ msgstr "Use suggested text"
 msgid "Fail the run if the message cannot be sent"
 msgstr "Fail the run if the message cannot be sent"
 
+msgid "Nothing to set up"
+msgstr "Nothing to set up"
+
+msgid "This step runs without any settings."
+msgstr "This step runs without any settings."
+
 msgid "Datasets"
 msgstr "Datasets"
 
@@ -4706,11 +4712,32 @@ msgstr "Forecast"
 msgid "Written to"
 msgstr "Written to"
 
-msgid "No entries yet. Add one below."
-msgstr "No entries yet. Add one below."
+msgid "Enter the value as JSON."
+msgstr "Enter the value as JSON."
+
+msgid "This is not valid JSON yet."
+msgstr "This is not valid JSON yet."
+
+msgid "One per line."
+msgstr "One per line."
+
+msgid "Choose options"
+msgstr "Choose options"
+
+msgid "Add {{label}}"
+msgstr "Add {{label}}"
 
 msgid "Remove {{label}}"
 msgstr "Remove {{label}}"
+
+msgid "Connect an instance under Settings › Connected instances first."
+msgstr "Connect an instance under Settings › Connected instances first."
+
+msgid "Choose an option"
+msgstr "Choose an option"
+
+msgid "No entries yet. Add one below."
+msgstr "No entries yet. Add one below."
 
 msgid "Period type, history window, and explicit years"
 msgstr "Period type, history window, and explicit years"
