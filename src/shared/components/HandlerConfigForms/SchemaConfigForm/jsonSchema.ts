@@ -28,6 +28,8 @@ const CAPS_FIELDS = [
     'period',
     'connectedInstance',
     'userGroups',
+    'climatePeriod',
+    'ocsPipeline',
 ] as const
 
 export type CapsField = (typeof CAPS_FIELDS)[number]
@@ -38,6 +40,12 @@ const PICKER_DEFAULTS: Partial<Record<CapsField, () => unknown>> = {
     period: () => ({
         mode: 'relative',
         periodType: 'MONTHLY',
+        count: 3,
+        offset: 1,
+    }),
+    climatePeriod: () => ({
+        mode: 'rolling',
+        periodType: 'monthly',
         count: 3,
         offset: 1,
     }),

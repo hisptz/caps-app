@@ -5,9 +5,11 @@ import { DataElementSelector } from '../DataElementSelector'
 import { PullPeriodFields } from '../Dhis2InstancePullConfig/PullPeriodFields'
 import { OrganisationUnitConfigSection } from '../OrganisationUnitConfigSection'
 import type { CapsField } from './jsonSchema'
+import { SchemaClimatePeriodField } from './SchemaClimatePeriodField'
 import { SchemaDataElementListField } from './SchemaDataElementListField'
 import { SchemaGroup } from './SchemaGroup'
 import { SchemaUserGroupsField } from './SchemaUserGroupsField'
+import { OcsPipelineField } from '@/modules/ocs-pipelines/components/OcsPipelineField'
 
 export interface SchemaPickerFieldProps {
     name: string
@@ -61,5 +63,9 @@ export function SchemaPickerField({
             )
         case 'userGroups':
             return <SchemaUserGroupsField {...common} />
+        case 'climatePeriod':
+            return <SchemaClimatePeriodField {...common} />
+        case 'ocsPipeline':
+            return <OcsPipelineField {...common} />
     }
 }

@@ -584,3 +584,124 @@ export type ClimateSyncResponse = {
     message?: string | null
     sync_detail?: ClimateSyncDetail | null
 }
+
+// --- Open Climate Service pipelines (engine `/climate/pipelines`) ---
+
+export type OcsDeliveryMode = 'dry_run' | 'live' | 'paused'
+
+export type OcsPipelineSpec = {
+    id: string
+    name?: string | null
+    workflow: { id: string; arguments: Record<string, unknown> }
+    destination: { plugin: string; settings: Record<string, unknown> }
+    delivery: { mode: OcsDeliveryMode; policy: 'on_update' | 'manual' }
+}
+
+export type OcsValidationCheck = {
+    id: string
+    status: 'pass' | 'fail' | 'skip'
+    message: string
+}
+
+export type OcsDryRun = {
+    ran_at: string
+    start: string
+    end: string
+    values: number
+    periods: string[]
+    report?: Record<string, unknown> | null
+    rendered_only?: boolean
+    error?: string | null
+}
+
+export type OcsPipelineRunView = {
+    run_id: string
+    status: string
+    mode: 'dry_run' | 'live'
+    start: string
+    end: string
+    submitted_at?: string
+    failure?: { stage: string; message: string } | null
+    delivery_submitted?: number | null
+    delivery_conflicts?: number | null
+}
+
+export type OcsPipeline = {
+    spec: OcsPipelineSpec
+    revision: number
+    created_at: string
+    updated_at?: string | null
+    /** Whether the current bindings passed a dry run, which going live needs. */
+    approved: boolean
+    validation?: { valid: boolean; checks: OcsValidationCheck[] } | null
+    dry_run?: OcsDryRun | null
+    trigger: { policy: 'on_update' | 'manual'; datasets: string[] }
+    inputs: Array<{
+        kind: 'dataset' | 'features'
+        id: string
+        name: string
+        parameter: string
+    }>
+    workflow: { id: string; title: string; arguments: Record<string, unknown> }
+    destination: {
+        plugin: string
+        title: string
+        settings: Array<{
+            name: string
+            title: string
+            value?: unknown
+            label?: string | null
+            rows?: Array<
+                Array<{
+                    name: string
+                    title: string
+                    value?: unknown
+                    label?: string | null
+                }>
+            > | null
+        }>
+    }
+    latest_run?: OcsPipelineRunView | null
+}
+
+export type OcsWorkflowParameterOption = {
+    name: string
+    description?: string
+    schema: Record<string, unknown>
+    default?: unknown
+    required: boolean
+}
+
+export type OcsPipelineOptions = {
+    workflows: Array<{
+        id: string
+        summary: string
+        description?: string | null
+        parameters: OcsWorkflowParameterOption[]
+        intervalParameters: string[]
+    }>
+    datasets: Array<{
+        id: string
+        name: string
+        variable?: string
+        periodType?: string
+    }>
+    collections: Array<{
+        id: string
+        name: string
+        featureCount?: number | null
+    }>
+    connections: string[]
+}
+
+export type OcsPipelineCreateBody = {
+    id: string
+    name?: string | null
+    workflow: { id: string; arguments: Record<string, unknown> }
+    destination: { plugin: string; settings: Record<string, unknown> }
+    delivery?: { mode?: OcsDeliveryMode }
+}
+
+export type OcsPipelineChangeBody = Omit<OcsPipelineCreateBody, 'id'> & {
+    revision: number
+}
