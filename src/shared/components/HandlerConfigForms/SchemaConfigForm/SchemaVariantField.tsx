@@ -39,7 +39,7 @@ export function SchemaVariantField({
                 {required ? ' *' : ''}
             </legend>
             {helpText ? <p className={classes.help}>{helpText}</p> : null}
-            <div className={classes.fields}>
+            <div className={classes.list}>
                 <SingleSelectField
                     label={humanizeKey(node.discriminator)}
                     required={required}

@@ -690,6 +690,7 @@ export type OcsPipelineOptions = {
         id: string
         name: string
         featureCount?: number | null
+        geometryTypes: string[]
     }>
     connections: string[]
 }

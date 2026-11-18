@@ -1,0 +1,41 @@
+/* Mirrors the default SimpleSingleSelect option, with a second line for the UID. */
+.option {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 8px 12px;
+    cursor: pointer;
+    color: var(--colors-grey900, #212934);
+}
+
+.option:hover {
+    background-color: var(--colors-grey200, #f3f5f7);
+}
+
+.option.highlighted,
+.option:active {
+    background-color: var(--colors-teal700, #00796b);
+    color: var(--colors-white, #fff);
+}
+
+.option.disabled {
+    color: var(--colors-grey500, #a0adba);
+    cursor: not-allowed;
+}
+
+.name {
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.meta {
+    font-size: 12px;
+    line-height: 14px;
+    color: var(--colors-grey600, #6e7a8a);
+}
+
+.highlighted .meta,
+.option:active .meta {
+    color: inherit;
+    opacity: 0.85;
+}

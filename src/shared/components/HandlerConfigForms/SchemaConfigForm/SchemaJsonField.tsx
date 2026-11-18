@@ -26,13 +26,13 @@ export function SchemaJsonField({
     const [text, setText] = useState(() => toText(field.value))
     const [parseError, setParseError] = useState<string | null>(null)
     const message = parseError ?? firstErrorMessage(fieldState.error)
-    const hint = i18n.t('Enter the value as JSON.')
 
     return (
         <TextAreaField
             name={name}
             label={label}
-            helpText={helpText ? `${helpText} ${hint}` : hint}
+            helpText={helpText}
+            placeholder={i18n.t('JSON')}
             required={required}
             rows={4}
             autoGrow

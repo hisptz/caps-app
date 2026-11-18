@@ -32,7 +32,10 @@ export const ocsPipelineFormSchema = z.object({
     dataSet: z
         .string()
         .trim()
-        .regex(UID, i18n.t('A DHIS2 UID: 11 characters, a letter first'))
+        .regex(
+            UID,
+            i18n.t('Enter a DHIS2 UID (11 characters, starting with a letter)')
+        )
         .or(z.literal(''))
         .optional(),
     series: z
@@ -46,7 +49,9 @@ export const ocsPipelineFormSchema = z.object({
                     .trim()
                     .regex(
                         UID,
-                        i18n.t('A DHIS2 UID: 11 characters, a letter first')
+                        i18n.t(
+                            'Enter a DHIS2 UID (11 characters, starting with a letter)'
+                        )
                     )
                     .or(z.literal(''))
                     .optional(),

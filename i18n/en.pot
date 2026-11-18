@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-11-17T14:57:42.280Z\n"
-"PO-Revision-Date: 2026-11-17T14:57:42.280Z\n"
+"POT-Creation-Date: 2026-11-18T12:30:29.128Z\n"
+"PO-Revision-Date: 2026-11-18T12:30:29.128Z\n"
 
 msgid "Enter a valid HTTP or HTTPS URL."
 msgstr "Enter a valid HTTP or HTTPS URL."
@@ -885,6 +885,21 @@ msgstr "run update"
 msgid "Could not retry the step. Try again."
 msgstr "Could not retry the step. Try again."
 
+msgid "Default"
+msgstr "Default"
+
+msgid "Clear"
+msgstr "Clear"
+
+msgid "No matching disaggregations"
+msgstr "No matching disaggregations"
+
+msgid "Search by name or id"
+msgstr "Search by name or id"
+
+msgid "No matching data sets"
+msgstr "No matching data sets"
+
 msgid "Dry run"
 msgstr "Dry run"
 
@@ -894,91 +909,74 @@ msgstr "Live"
 msgid "Paused"
 msgstr "Paused"
 
-msgid "{{values}} values for {{periods}} periods ({{start}} – {{end}}){{conflicts}}"
-msgstr "{{values}} values for {{periods}} periods ({{start}} – {{end}}){{conflicts}}"
+msgid "{{values}} values, {{start}} – {{end}}"
+msgstr "{{values}} values, {{start}} – {{end}}"
 
-msgid "Dry run passed"
-msgstr "Dry run passed"
-
-msgid "No passed dry run"
-msgstr "No passed dry run"
-
-msgid "OCS also runs it on dataset updates"
-msgstr "OCS also runs it on dataset updates"
+msgid "Also runs on dataset updates"
+msgstr "Also runs on dataset updates"
 
 msgid "Workflow"
 msgstr "Workflow"
 
-msgid "Areas"
-msgstr "Areas"
+msgid "Org unit level"
+msgstr "Org unit level"
 
 msgid "Dataset"
 msgstr "Dataset"
 
-msgid "Series {{n}}"
-msgstr "Series {{n}}"
+msgid "DHIS2"
+msgstr "DHIS2"
 
-msgid "OCS checks failing"
-msgstr "OCS checks failing"
+msgid "Data elements"
+msgstr "Data elements"
 
-msgid "Last dry run passed"
-msgstr "Last dry run passed"
+msgid "Checks failing in OCS"
+msgstr "Checks failing in OCS"
 
-msgid "Last dry run did not pass"
-msgstr "Last dry run did not pass"
+msgid "OCS refused"
+msgstr "OCS refused"
 
-msgid "Open Climate Service refused"
-msgstr "Open Climate Service refused"
+msgid "From"
+msgstr "From"
 
-msgid "Dry run from"
-msgstr "Dry run from"
+msgid "To"
+msgstr "To"
 
-msgid "to"
-msgstr "to"
-
-msgid "Going live needs a passed dry run"
-msgstr "Going live needs a passed dry run"
-
-msgid "Go live"
-msgstr "Go live"
+msgid "Run dry run"
+msgstr "Run dry run"
 
 msgid "Back to dry run"
 msgstr "Back to dry run"
 
-msgid "Could not list OCS pipelines"
-msgstr "Could not list OCS pipelines"
+msgid "Needs a passed dry run"
+msgstr "Needs a passed dry run"
+
+msgid "Go live"
+msgstr "Go live"
+
+msgid "Dry run passed"
+msgstr "Dry run passed"
+
+msgid "Dry run failed"
+msgstr "Dry run failed"
+
+msgid "Not dry-run yet"
+msgstr "Not dry-run yet"
+
+msgid "\"{{id}}\" is no longer in OCS"
+msgstr "\"{{id}}\" is no longer in OCS"
 
 msgid "Choose an OCS pipeline"
 msgstr "Choose an OCS pipeline"
 
-msgid "New OCS pipeline"
-msgstr "New OCS pipeline"
+msgid "New"
+msgstr "New"
 
-msgid "Pipeline not found in OCS"
-msgstr "Pipeline not found in OCS"
+msgid "Could not reach OCS"
+msgstr "Could not reach OCS"
 
-msgid ""
-"\"{{id}}\" is not in Open Climate Service any more. Choose another or "
-"create it again."
-msgstr ""
-"\"{{id}}\" is not in Open Climate Service any more. Choose another or "
-"create it again."
-
-msgid "Edit OCS pipeline"
-msgstr "Edit OCS pipeline"
-
-msgid ""
-"Open Climate Service runs the workflow and delivers its results to the "
-"DHIS2 data elements you map here. CAPS starts each run."
-msgstr ""
-"Open Climate Service runs the workflow and delivers its results to the "
-"DHIS2 data elements you map here. CAPS starts each run."
-
-msgid "Could not reach Open Climate Service"
-msgstr "Could not reach Open Climate Service"
-
-msgid "Open Climate Service did not save it"
-msgstr "Open Climate Service did not save it"
+msgid "OCS did not save it"
+msgstr "OCS did not save it"
 
 msgid "Pipeline"
 msgstr "Pipeline"
@@ -986,67 +984,44 @@ msgstr "Pipeline"
 msgid "Id"
 msgstr "Id"
 
-msgid "The id cannot change."
-msgstr "The id cannot change."
-
-msgid ""
-"Also the id of the export OCS saves the results through, e.g. "
-"chirps-precip-district."
-msgstr ""
-"Also the id of the export OCS saves the results through, e.g. "
-"chirps-precip-district."
-
 msgid "Choose a workflow"
 msgstr "Choose a workflow"
 
-msgid "Each run fills {{parameter}} with the period of the step that runs it."
-msgstr "Each run fills {{parameter}} with the period of the step that runs it."
-
-msgid "Deliver to DHIS2"
-msgstr "Deliver to DHIS2"
-
-msgid "DHIS2 connection"
-msgstr "DHIS2 connection"
+msgid "Connection"
+msgstr "Connection"
 
 msgid "Choose a connection"
 msgstr "Choose a connection"
 
-msgid "A named DHIS2 connection in the OCS instance config."
-msgstr "A named DHIS2 connection in the OCS instance config."
+msgid "Name in the OCS config"
+msgstr "Name in the OCS config"
 
-msgid "Data set (optional)"
-msgstr "Data set (optional)"
-
-msgid "UID of a data set to check period type and org unit assignment against."
-msgstr "UID of a data set to check period type and org unit assignment against."
-
-msgid ""
-"Map each result series of the workflow, in order, to a data element. The "
-"pickers search this DHIS2, so the connection should point at it."
-msgstr ""
-"Map each result series of the workflow, in order, to a data element. The "
-"pickers search this DHIS2, so the connection should point at it."
+msgid "Data set"
+msgstr "Data set"
 
 msgid "Data element"
 msgstr "Data element"
 
-msgid "Category option combo (optional)"
-msgstr "Category option combo (optional)"
+msgid "Category option combo"
+msgstr "Category option combo"
 
-msgid "Remove series"
-msgstr "Remove series"
+msgid "Edit OCS pipeline"
+msgstr "Edit OCS pipeline"
 
-msgid "Add series"
-msgstr "Add series"
+msgid "New OCS pipeline"
+msgstr "New OCS pipeline"
 
 msgid "Save"
 msgstr "Save"
 
-msgid "Create in OCS"
-msgstr "Create in OCS"
+msgid "Create"
+msgstr "Create"
 
 msgid "Default: {{value}}"
 msgstr "Default: {{value}}"
+
+msgid "{{name}} (has {{types}}, not usable)"
+msgstr "{{name}} (has {{types}}, not usable)"
 
 msgid "Yes"
 msgstr "Yes"
@@ -1054,23 +1029,14 @@ msgstr "Yes"
 msgid "No"
 msgstr "No"
 
-msgid "Clear"
-msgstr "Clear"
-
-msgid "Choose a feature collection"
-msgstr "Choose a feature collection"
-
-msgid "Choose a dataset"
-msgstr "Choose a dataset"
-
-msgid "JSON"
-msgstr "JSON"
-
 msgid "Give the pipeline an id"
 msgstr "Give the pipeline an id"
 
 msgid "Choose a DHIS2 connection"
 msgstr "Choose a DHIS2 connection"
+
+msgid "Enter a DHIS2 UID (11 characters, starting with a letter)"
+msgstr "Enter a DHIS2 UID (11 characters, starting with a letter)"
 
 msgid "Choose a data element"
 msgstr "Choose a data element"
@@ -2265,12 +2231,6 @@ msgstr ""
 "The first pipelines fetch data for these periods instead of their usual "
 "recent window. Use it to backfill history into staging."
 
-msgid "From"
-msgstr "From"
-
-msgid "To"
-msgstr "To"
-
 msgid ""
 "Steps on another period type (e.g. daily climate data) keep their own "
 "window."
@@ -2533,6 +2493,9 @@ msgstr "Enter whole hours from 1 to {{max}} (7 days)"
 
 msgid "The pipeline to start cannot also be one it waits for"
 msgstr "The pipeline to start cannot also be one it waits for"
+
+msgid "Choose a dataset"
+msgstr "Choose a dataset"
 
 msgid "Choose climate data, data to pull, or a prediction setup"
 msgstr "Choose climate data, data to pull, or a prediction setup"
@@ -3482,9 +3445,6 @@ msgstr ""
 "Taken from the prediction setup, so the data matches what the model was "
 "evaluated on."
 
-msgid "Org unit level"
-msgstr "Org unit level"
-
 msgid "Usually districts: climate is averaged over each one"
 msgstr "Usually districts: climate is averaged over each one"
 
@@ -3691,9 +3651,6 @@ msgstr "CHAP"
 
 msgid "Climate & Health Analytics Platform"
 msgstr "Climate & Health Analytics Platform"
-
-msgid "DHIS2"
-msgstr "DHIS2"
 
 msgid "Host instance · platform API"
 msgstr "Host instance · platform API"
@@ -4035,9 +3992,6 @@ msgstr ""
 "The route {{code}} no longer exists on the destination. Pick another "
 "instance."
 
-msgid "Search by name or id"
-msgstr "Search by name or id"
-
 msgid "No matching data items found"
 msgstr "No matching data items found"
 
@@ -4247,9 +4201,6 @@ msgstr ""
 "Add mappings under Settings › Connected instances › Mappings, then pick "
 "them here."
 
-msgid "Data elements"
-msgstr "Data elements"
-
 msgid "No mapped data element matches"
 msgstr "No mapped data element matches"
 
@@ -4294,9 +4245,6 @@ msgstr "Mapped"
 
 msgid "Pick target"
 msgstr "Pick target"
-
-msgid "New"
-msgstr "New"
 
 msgid "Missing"
 msgstr "Missing"
@@ -4878,17 +4826,36 @@ msgstr "Forecast"
 msgid "Written to"
 msgstr "Written to"
 
-msgid "Covers"
-msgstr "Covers"
+msgid "Daily"
+msgstr "Daily"
 
-msgid "Enter the value as JSON."
-msgstr "Enter the value as JSON."
+msgid "From the pipeline dataset {{name}}"
+msgstr "From the pipeline dataset {{name}}"
+
+msgid ""
+"The pipeline dataset is {{periodType}}; this step runs daily, weekly and "
+"monthly datasets only"
+msgstr ""
+"The pipeline dataset is {{periodType}}; this step runs daily, weekly and "
+"monthly datasets only"
+
+msgid "Reading the pipeline dataset…"
+msgstr "Reading the pipeline dataset…"
+
+msgid "How many"
+msgstr "How many"
+
+msgid "Skip latest"
+msgstr "Skip latest"
+
+msgid "JSON"
+msgstr "JSON"
 
 msgid "This is not valid JSON yet."
 msgstr "This is not valid JSON yet."
 
-msgid "One per line."
-msgstr "One per line."
+msgid "One per line"
+msgstr "One per line"
 
 msgid "Choose options"
 msgstr "Choose options"
@@ -4995,9 +4962,6 @@ msgstr "Add period"
 
 msgid "Step’s period"
 msgstr "Step’s period"
-
-msgid "Daily"
-msgstr "Daily"
 
 msgid "Runs use the step’s organisation units unless you choose others here."
 msgstr "Runs use the step’s organisation units unless you choose others here."
@@ -5183,15 +5147,6 @@ msgstr "connector"
 
 msgid "workflow"
 msgstr "workflow"
-
-msgctxt "CONNECTIONS on the CAPS engine to choose from a list."
-msgid ""
-"The name of a DHIS2 connection in the OCS instance config "
-"(dhis2_connections). Set OCS_DHIS2"
-msgstr ""
-"The name of a DHIS2 connection in the OCS instance config "
-"(dhis2_connections). Set OCS_DHIS2_CONNECTIONS on the CAPS engine to choose "
-"from a list."
 
 msgctxt "' or '-'"
 msgid "Start with a letter or digit; use only letters, digits, '"

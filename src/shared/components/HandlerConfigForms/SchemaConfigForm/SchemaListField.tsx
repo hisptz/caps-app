@@ -45,13 +45,13 @@ export function SchemaListField({
     // The text is kept as typed: rebuilding it from the list would drop a new empty line.
     const [text, setText] = useState(() => toText(field.value))
     const message = firstErrorMessage(fieldState.error)
-    const hint = i18n.t('One per line.')
 
     return (
         <TextAreaField
             name={name}
             label={label}
-            helpText={helpText ? `${helpText} ${hint}` : hint}
+            helpText={helpText}
+            placeholder={i18n.t('One per line')}
             required={required}
             rows={3}
             autoGrow

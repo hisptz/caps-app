@@ -30,7 +30,7 @@ export function SchemaDataElementListField({
 
     return (
         <SchemaGroup label={label} helpText={helpText} required={required}>
-            <div className={classes.fields}>
+            <div className={classes.list}>
                 {rows.map((_, index) => (
                     <div key={index} className={classes.row}>
                         <div className={classes.rowMain}>

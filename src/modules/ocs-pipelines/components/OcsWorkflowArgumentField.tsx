@@ -1,14 +1,19 @@
 import i18n from '@dhis2/d2-i18n'
-import { InputField, TextAreaField } from '@dhis2/ui'
+import { Field, InputField, TextAreaField } from '@dhis2/ui'
 import React from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { parameterKind } from '../schemas/ocsPipelineFormSchema'
-import classes from './OcsPipeline.module.css'
 import type {
     OcsPipelineOptions,
     OcsWorkflowParameterOption,
 } from '@/capsApi/types'
 import { SingleSelectControl } from '@/shared/components/ui/FormPrimitives'
+
+const AREA_TYPES = new Set(['Polygon', 'MultiPolygon'])
+
+function hasOnlyAreas(geometryTypes: string[]): boolean {
+    return geometryTypes.every((type) => AREA_TYPES.has(type))
+}
 
 function humanize(name: string): string {
     const words = name.replace(/[_-]+/g, ' ').trim()
@@ -25,38 +30,42 @@ export function OcsWorkflowArgumentField({
 }): React.ReactElement {
     const { control } = useFormContext()
     const kind = parameterKind(parameter)
-    const name = `arguments.${parameter.name}`
-    const label = `${humanize(parameter.name)}${parameter.required ? ' *' : ''}`
-    const defaultHint =
+    const label =
+        kind === 'features'
+            ? i18n.t('Org unit level')
+            : kind === 'dataset'
+              ? i18n.t('Dataset')
+              : humanize(parameter.name)
+    const placeholder =
         parameter.default !== undefined
             ? i18n.t('Default: {{value}}', {
-                  value: JSON.stringify(parameter.default),
+                  value: String(parameter.default),
                   nsSeparator: '~~',
               })
             : undefined
-    const help =
-        [parameter.description, defaultHint].filter(Boolean).join(' ') ||
-        undefined
 
     const selectOptions =
         kind === 'dataset'
             ? options.datasets.map((item) => ({
                   value: item.id,
-                  label: item.periodType
-                      ? `${item.name} (${item.periodType})`
-                      : item.name,
+                  label: item.name,
               }))
             : kind === 'features'
-              ? options.collections.map((item) => ({
-                    value: item.id,
-                    label:
-                        typeof item.featureCount === 'number'
-                            ? i18n.t('{{name}} ({{count}} features)', {
+              ? options.collections.map((item) => {
+                    const ok = hasOnlyAreas(item.geometryTypes)
+                    return {
+                        value: item.id,
+                        label: ok
+                            ? item.name
+                            : i18n.t('{{name}} (has {{types}}, not usable)', {
                                   name: item.name,
-                                  count: item.featureCount,
-                              })
-                            : item.name,
-                }))
+                                  types: item.geometryTypes
+                                      .filter((type) => !AREA_TYPES.has(type))
+                                      .join(', '),
+                              }),
+                        disabled: !ok,
+                    }
+                })
               : kind === 'enum'
                 ? ((parameter.schema.enum as unknown[]) ?? []).map((value) => ({
                       value: String(value),
@@ -71,53 +80,41 @@ export function OcsWorkflowArgumentField({
 
     return (
         <Controller
-            name={name}
+            name={`arguments.${parameter.name}`}
             control={control}
             render={({ field, fieldState }) => {
                 const value = (field.value as string | undefined) ?? ''
                 if (selectOptions) {
                     return (
-                        <div>
-                            <label className={classes.label}>{label}</label>
+                        <Field
+                            label={label}
+                            required={parameter.required}
+                            error={Boolean(fieldState.error)}
+                            validationText={fieldState.error?.message}
+                        >
                             <SingleSelectControl
                                 name={field.name}
                                 value={value}
                                 options={selectOptions}
+                                placeholder={placeholder}
                                 error={Boolean(fieldState.error)}
                                 filterable={selectOptions.length > 8}
                                 clearable={!parameter.required}
                                 clearText={i18n.t('Clear')}
-                                placeholder={
-                                    kind === 'features'
-                                        ? i18n.t('Choose a feature collection')
-                                        : kind === 'dataset'
-                                          ? i18n.t('Choose a dataset')
-                                          : undefined
-                                }
                                 onChange={field.onChange}
                             />
-                            <p
-                                className={
-                                    fieldState.error
-                                        ? classes.error
-                                        : classes.help
-                                }
-                            >
-                                {fieldState.error?.message ?? help}
-                            </p>
-                        </div>
+                        </Field>
                     )
                 }
-                const Field = kind === 'json' ? TextAreaField : InputField
+                const Input = kind === 'json' ? TextAreaField : InputField
                 return (
-                    <Field
+                    <Input
                         label={label}
+                        required={parameter.required}
                         name={field.name}
                         value={value}
                         type={kind === 'number' ? 'number' : undefined}
-                        helpText={
-                            kind === 'json' ? (help ?? i18n.t('JSON')) : help
-                        }
+                        placeholder={placeholder}
                         onChange={({ value: next }: { value?: string }) =>
                             field.onChange(next ?? '')
                         }

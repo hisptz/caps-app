@@ -357,3 +357,21 @@ export function variantFields(
     delete properties[node.discriminator]
     return { ...option.schema, properties }
 }
+
+export function isWideField(schema: JsonSchema): boolean {
+    const node = describeSchema(schema)
+    switch (node.kind) {
+        case 'text':
+            return node.multiline
+        case 'select':
+        case 'number':
+            return false
+        case 'picker':
+            return (
+                node.list ||
+                !['dataElement', 'connectedInstance'].includes(node.picker)
+            )
+        default:
+            return true
+    }
+}

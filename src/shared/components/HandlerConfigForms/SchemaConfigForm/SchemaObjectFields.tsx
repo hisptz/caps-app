@@ -1,5 +1,10 @@
 import React from 'react'
-import { isRequired, schemaProperties, type JsonSchema } from './jsonSchema'
+import {
+    isRequired,
+    isWideField,
+    schemaProperties,
+    type JsonSchema,
+} from './jsonSchema'
 import classes from './SchemaConfigForm.module.css'
 import { SchemaField } from './SchemaField'
 
@@ -15,13 +20,17 @@ export function SchemaObjectFields({
     return (
         <div className={classes.fields}>
             {schemaProperties(schema).map(([key, property]) => (
-                <SchemaField
+                <div
                     key={key}
-                    name={`${name}.${key}`}
-                    fieldKey={key}
-                    schema={property}
-                    required={isRequired(schema, key)}
-                />
+                    className={isWideField(property) ? classes.wide : undefined}
+                >
+                    <SchemaField
+                        name={`${name}.${key}`}
+                        fieldKey={key}
+                        schema={property}
+                        required={isRequired(schema, key)}
+                    />
+                </div>
             ))}
         </div>
     )

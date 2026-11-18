@@ -1,0 +1,28 @@
+.stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.rolling,
+.fixed {
+    display: grid;
+    gap: 16px;
+    align-items: start;
+}
+
+.rolling {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* The start period carries a year select beside it, so it gets the widest column. */
+.fixed {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1.5fr);
+}
+
+@media (max-width: 640px) {
+    .rolling,
+    .fixed {
+        grid-template-columns: 1fr;
+    }
+}

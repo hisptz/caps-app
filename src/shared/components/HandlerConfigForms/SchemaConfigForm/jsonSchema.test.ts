@@ -3,6 +3,7 @@ import {
     describeSchema,
     fieldLabel,
     humanizeKey,
+    isWideField,
     schemaDefaults,
     unwrapNullable,
     variantDefaults,
@@ -403,5 +404,27 @@ describe('parseLines', () => {
     it('reads one item per line, keeping a line that is not a number as typed', () => {
         expect(parseLines('a\n\n b \n', 'string')).toEqual(['a', 'b'])
         expect(parseLines('1\n2.5\nx', 'number')).toEqual([1, 2.5, 'x'])
+    })
+})
+
+describe('isWideField', () => {
+    it('puts short inputs two to a row and gives groups and long text the row', () => {
+        expect(isWideField({ type: 'string', maxLength: 100 })).toBe(false)
+        expect(isWideField({ type: 'integer' })).toBe(false)
+        expect(isWideField({ type: 'string', enum: ['a', 'b'] })).toBe(false)
+        expect(
+            isWideField({ type: 'string', 'x-caps-field': 'dataElement' })
+        ).toBe(false)
+        expect(isWideField({ type: 'string' })).toBe(true)
+        expect(isWideField({ type: 'boolean' })).toBe(true)
+        expect(
+            isWideField({
+                type: 'object',
+                properties: { a: { type: 'string' } },
+            })
+        ).toBe(true)
+        expect(
+            isWideField({ type: 'object', 'x-caps-field': 'orgUnits' })
+        ).toBe(true)
     })
 })
