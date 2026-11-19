@@ -7,6 +7,12 @@ import {
 } from '@/capsApi/client'
 import {
     ActiveClimateJobsResponse,
+    type OcsDeliveryMode,
+    type OcsDryRun,
+    type OcsPipeline,
+    type OcsPipelineChangeBody,
+    type OcsPipelineCreateBody,
+    type OcsPipelineOptions,
     ClimateAsyncJobAcceptedResponse,
     ClimateDataSource,
     ClimateIngestionResponse,
@@ -41,8 +47,6 @@ import {
     InstanceSummary,
     PutInstanceBody,
     MappingWithInstance,
-} from '@/capsApi/types'
-import type {
     CreateConnectorBody,
     CreateScheduleBody,
     CreateMergeBody,
@@ -682,5 +686,62 @@ export function cancelClimateIngestionJob(
     return capsDeleteJson<ClimateJobRecord>(
         engine,
         `/climate/ingestions/jobs/${jobId}`
+    )
+}
+
+// --- Open Climate Service pipelines: CAPS creates and edits them, the ocs-pipeline-run step runs them ---
+
+const ocsPipelinePath = (id: string) =>
+    `/climate/pipelines/${encodeURIComponent(id)}`
+
+export function listOcsPipelines(engine: CapsDataEngine) {
+    return capsFetchJson<{ items: OcsPipeline[] }>(engine, '/climate/pipelines')
+}
+
+export function getOcsPipelineOptions(engine: CapsDataEngine) {
+    return capsFetchJson<OcsPipelineOptions>(
+        engine,
+        '/climate/pipelines/options'
+    )
+}
+
+export function getOcsPipeline(engine: CapsDataEngine, id: string) {
+    return capsFetchJson<OcsPipeline>(engine, ocsPipelinePath(id))
+}
+
+export function createOcsPipeline(
+    engine: CapsDataEngine,
+    body: OcsPipelineCreateBody
+) {
+    return capsPostJson<OcsPipeline>(engine, '/climate/pipelines', { body })
+}
+
+export function updateOcsPipeline(
+    engine: CapsDataEngine,
+    id: string,
+    body: OcsPipelineChangeBody
+) {
+    return capsPutJson<OcsPipeline>(engine, ocsPipelinePath(id), { body })
+}
+
+export function dryRunOcsPipeline(
+    engine: CapsDataEngine,
+    id: string,
+    body: { start: string; end: string }
+) {
+    return capsPostJson<OcsDryRun>(engine, `${ocsPipelinePath(id)}/dry-run`, {
+        body,
+    })
+}
+
+export function setOcsPipelineMode(
+    engine: CapsDataEngine,
+    id: string,
+    mode: OcsDeliveryMode
+) {
+    return capsPostJson<OcsPipeline>(
+        engine,
+        `${ocsPipelinePath(id)}/mode/${mode}`,
+        { body: {} }
     )
 }

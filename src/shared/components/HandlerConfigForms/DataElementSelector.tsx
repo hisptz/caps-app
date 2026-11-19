@@ -2,7 +2,7 @@ import { useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { SimpleSingleSelectField } from '@dhis2/ui'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useController } from 'react-hook-form'
 import { useDebounceValue } from 'usehooks-ts'
 import { dataItemOptionComponent } from './DataItemOption'
@@ -56,12 +56,15 @@ export function DataElementSelector({
     valueType,
     dense,
     allowIndicators = false,
+    dataSetId,
 }: {
     name: string
     label: string
     valueType?: string
     dense?: boolean
     allowIndicators?: boolean
+    /** Only the data elements of this data set. */
+    dataSetId?: string
 }) {
     const engine = useDataEngine()
     const [keyword, setKeyword] = useState('')
@@ -76,7 +79,12 @@ export function DataElementSelector({
 
     const { resource, fields, baseFilters, keywordFilter } =
         lookup(allowIndicators)
-    const valueFilters = valueType ? [`valueType:eq:${valueType}`] : []
+    const valueFilters = [
+        ...(valueType ? [`valueType:eq:${valueType}`] : []),
+        ...(dataSetId && !allowIndicators
+            ? [`dataSetElements.dataSet.id:eq:${dataSetId}`]
+            : []),
+    ]
 
     const search = useInfiniteQuery({
         queryKey: [
@@ -84,6 +92,7 @@ export function DataElementSelector({
             'data-element-selector',
             resource,
             valueType,
+            dataSetId,
             searchedKeyword,
         ],
         keepPreviousData: true,
@@ -120,6 +129,7 @@ export function DataElementSelector({
             'data-element-selector',
             resource,
             valueType,
+            dataSetId,
             'id',
             selectedId,
         ],
@@ -158,6 +168,18 @@ export function DataElementSelector({
             })),
         [search.data, selected.data, allowIndicators]
     )
+
+    // A data element outside the chosen data set is not one it accepts: let it go.
+    const notInDataSet =
+        Boolean(dataSetId && selectedId) &&
+        selected.isSuccess &&
+        !selected.isFetching &&
+        rowsOf(selected.data, allowIndicators).length === 0
+    useEffect(() => {
+        if (notInDataSet) {
+            field.onChange('')
+        }
+    }, [notInDataSet, field])
 
     const selectedOptionLoaded =
         !selectedId || options.some((option) => option.value === field.value)
