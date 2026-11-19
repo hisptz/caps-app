@@ -1,3 +1,9 @@
+# [2.6.0](https://github.com/hisptz/caps-app/compare/v2.5.0...v2.6.0) (2026-11-19)
+
+### Features
+
+- add support for generic form handlers and open climate service pipeline support ([#23](https://github.com/hisptz/caps-app/issues/23)) ([3fb3eb0](https://github.com/hisptz/caps-app/commit/3fb3eb02d95b16bb7cc3c83ff2e0b868127b09c9)), closes [#22](https://github.com/hisptz/caps-app/issues/22)
+
 # [2.5.0](https://github.com/hisptz/caps-app/compare/v2.4.0...v2.5.0) (2026-11-16)
 
 ### Features
