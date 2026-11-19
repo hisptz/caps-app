@@ -1,13 +1,18 @@
 import i18n from '@dhis2/d2-i18n'
 import {
     IconDimensionData16,
+    IconDimensionDataSet16,
     IconDimensionIndicator16,
     IconDimensionProgramIndicator16,
 } from '@dhis2/ui'
 import React from 'react'
 import classes from './DataItemOption.module.css'
 
-export type DataItemType = 'DATA_ELEMENT' | 'INDICATOR' | 'PROGRAM_INDICATOR'
+export type DataItemType =
+    | 'DATA_ELEMENT'
+    | 'INDICATOR'
+    | 'PROGRAM_INDICATOR'
+    | 'DATA_SET'
 
 type OptionComponentProps = {
     value: string
@@ -23,6 +28,7 @@ const ICONS: Record<DataItemType, React.FC<{ ariaLabel?: string }>> = {
     DATA_ELEMENT: IconDimensionData16,
     INDICATOR: IconDimensionIndicator16,
     PROGRAM_INDICATOR: IconDimensionProgramIndicator16,
+    DATA_SET: IconDimensionDataSet16,
 }
 
 function typeLabel(type: DataItemType): string {
@@ -33,6 +39,8 @@ function typeLabel(type: DataItemType): string {
             return i18n.t('Indicator')
         case 'PROGRAM_INDICATOR':
             return i18n.t('Program indicator')
+        case 'DATA_SET':
+            return i18n.t('Data set')
     }
 }
 
@@ -68,6 +76,7 @@ const OPTION_COMPONENTS: Record<DataItemType, OptionComponent> = {
     DATA_ELEMENT: makeOption('DATA_ELEMENT'),
     INDICATOR: makeOption('INDICATOR'),
     PROGRAM_INDICATOR: makeOption('PROGRAM_INDICATOR'),
+    DATA_SET: makeOption('DATA_SET'),
 }
 
 export function dataItemOptionComponent(

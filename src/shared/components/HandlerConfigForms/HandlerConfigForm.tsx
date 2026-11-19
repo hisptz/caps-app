@@ -13,6 +13,7 @@ import { Dhis2InstancePushConfig } from './Dhis2InstancePushConfig/Dhis2Instance
 import type { Dhis2InstancePushConfigProps } from './Dhis2InstancePushConfig/Dhis2InstancePushConfig'
 import type { Dhis2NotifyConfigProps } from './Dhis2NotifyConfig'
 import { Dhis2NotifyConfig } from './Dhis2NotifyConfig'
+import { GenericHandlerConfig } from './GenericHandlerConfig'
 import { PredictionDataDownloadConfig } from './PredictionDataDownloadConfig'
 import type { PredictionDataDownloadConfigProps } from './PredictionDataDownloadConfig'
 import { PredictionPollConfig } from './PredictionPollConfig'
@@ -130,6 +131,11 @@ export function HandlerConfigForm({
                 />
             )
         default:
-            return null
+            return handlerKey ? (
+                <GenericHandlerConfig
+                    handlerKey={handlerKey}
+                    onChange={onChange}
+                />
+            ) : null
     }
 }

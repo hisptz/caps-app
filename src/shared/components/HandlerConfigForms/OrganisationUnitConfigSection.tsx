@@ -4,11 +4,15 @@ import { Controller } from 'react-hook-form'
 import { OrgUnitTreeSelection } from './OrgUnitTreeSelection'
 import classes from './ThresholdOrgUnitSection.module.css'
 
-export function OrganisationUnitConfigSection(): React.ReactElement {
+export function OrganisationUnitConfigSection({
+    name = 'handlerConfig.orgUnit',
+}: {
+    name?: string
+}): React.ReactElement {
     return (
         <div className={classes.card}>
             <Controller
-                name="handlerConfig.orgUnit"
+                name={name}
                 render={({ field, fieldState }) => {
                     return (
                         <Field
