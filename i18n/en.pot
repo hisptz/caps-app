@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-11-15T13:29:04.185Z\n"
-"PO-Revision-Date: 2026-11-15T13:29:04.185Z\n"
+"POT-Creation-Date: 2026-11-19T11:15:21.990Z\n"
+"PO-Revision-Date: 2026-11-19T11:15:21.990Z\n"
 
 msgid "Enter a valid HTTP or HTTPS URL."
 msgstr "Enter a valid HTTP or HTTPS URL."
@@ -885,6 +885,174 @@ msgstr "run update"
 msgid "Could not retry the step. Try again."
 msgstr "Could not retry the step. Try again."
 
+msgid "Default"
+msgstr "Default"
+
+msgid "Clear"
+msgstr "Clear"
+
+msgid "No matching disaggregations"
+msgstr "No matching disaggregations"
+
+msgid "Search by name or id"
+msgstr "Search by name or id"
+
+msgid "No matching data sets"
+msgstr "No matching data sets"
+
+msgid "Dry run"
+msgstr "Dry run"
+
+msgid "Live"
+msgstr "Live"
+
+msgid "Paused"
+msgstr "Paused"
+
+msgid "{{values}} values, {{start}} – {{end}}"
+msgstr "{{values}} values, {{start}} – {{end}}"
+
+msgid "Also runs on dataset updates"
+msgstr "Also runs on dataset updates"
+
+msgid "Workflow"
+msgstr "Workflow"
+
+msgid "Org unit level"
+msgstr "Org unit level"
+
+msgid "Dataset"
+msgstr "Dataset"
+
+msgid "DHIS2"
+msgstr "DHIS2"
+
+msgid "Data elements"
+msgstr "Data elements"
+
+msgid "Checks failing in OCS"
+msgstr "Checks failing in OCS"
+
+msgid "OCS refused"
+msgstr "OCS refused"
+
+msgid "From"
+msgstr "From"
+
+msgid "To"
+msgstr "To"
+
+msgid "Run dry run"
+msgstr "Run dry run"
+
+msgid "Back to dry run"
+msgstr "Back to dry run"
+
+msgid "Needs a passed dry run"
+msgstr "Needs a passed dry run"
+
+msgid "Go live"
+msgstr "Go live"
+
+msgid "Dry run passed"
+msgstr "Dry run passed"
+
+msgid "Dry run failed"
+msgstr "Dry run failed"
+
+msgid "Not dry-run yet"
+msgstr "Not dry-run yet"
+
+msgid "\"{{id}}\" is no longer in OCS"
+msgstr "\"{{id}}\" is no longer in OCS"
+
+msgid "Choose an OCS pipeline"
+msgstr "Choose an OCS pipeline"
+
+msgid "New"
+msgstr "New"
+
+msgid "Could not reach OCS"
+msgstr "Could not reach OCS"
+
+msgid "OCS did not save it"
+msgstr "OCS did not save it"
+
+msgid "Pipeline"
+msgstr "Pipeline"
+
+msgid "Id"
+msgstr "Id"
+
+msgid "Choose a workflow"
+msgstr "Choose a workflow"
+
+msgid "Connection"
+msgstr "Connection"
+
+msgid "Choose a connection"
+msgstr "Choose a connection"
+
+msgid "Name in the OCS config"
+msgstr "Name in the OCS config"
+
+msgid "Data set"
+msgstr "Data set"
+
+msgid "Data element"
+msgstr "Data element"
+
+msgid "Category option combo"
+msgstr "Category option combo"
+
+msgid "Edit OCS pipeline"
+msgstr "Edit OCS pipeline"
+
+msgid "New OCS pipeline"
+msgstr "New OCS pipeline"
+
+msgid "Save"
+msgstr "Save"
+
+msgid "Create"
+msgstr "Create"
+
+msgid "Default: {{value}}"
+msgstr "Default: {{value}}"
+
+msgid "{{name}} (has {{types}}, not usable)"
+msgstr "{{name}} (has {{types}}, not usable)"
+
+msgid "Yes"
+msgstr "Yes"
+
+msgid "No"
+msgstr "No"
+
+msgid "Give the pipeline an id"
+msgstr "Give the pipeline an id"
+
+msgid "Choose a DHIS2 connection"
+msgstr "Choose a DHIS2 connection"
+
+msgid "Enter a DHIS2 UID (11 characters, starting with a letter)"
+msgstr "Enter a DHIS2 UID (11 characters, starting with a letter)"
+
+msgid "Choose a data element"
+msgstr "Choose a data element"
+
+msgid "Map at least one result series to a data element"
+msgstr "Map at least one result series to a data element"
+
+msgid "Required"
+msgstr "Required"
+
+msgid "Enter a number"
+msgstr "Enter a number"
+
+msgid "Enter valid JSON"
+msgstr "Enter valid JSON"
+
 msgid "Climate data may be stale"
 msgstr "Climate data may be stale"
 
@@ -1036,9 +1204,6 @@ msgstr "Otherwise start (optional)"
 msgid "Nothing"
 msgstr "Nothing"
 
-msgid "Clear"
-msgstr "Clear"
-
 msgid "Started instead when the condition is not met. Leave empty to start nothing."
 msgstr "Started instead when the condition is not met. Leave empty to start nothing."
 
@@ -1152,9 +1317,6 @@ msgstr "Choose what to check"
 
 msgid "Choose which result to check"
 msgstr "Choose which result to check"
-
-msgid "Enter a number"
-msgstr "Enter a number"
 
 msgid "Enter where the value goes"
 msgstr "Enter where the value goes"
@@ -1326,9 +1488,6 @@ msgstr "Could not add schedule."
 
 msgid "Add schedule"
 msgstr "Add schedule"
-
-msgid "Pipeline"
-msgstr "Pipeline"
 
 msgid "Could not add schedule"
 msgstr "Could not add schedule"
@@ -1801,9 +1960,6 @@ msgstr ""
 "Full URL of the CAPS service (scheme and host, no trailing slash). Example: "
 "https://caps.example.org"
 
-msgid "Save"
-msgstr "Save"
-
 msgid "First-time setup"
 msgstr "First-time setup"
 
@@ -2087,12 +2243,6 @@ msgstr ""
 "The first pipelines fetch data for these periods instead of their usual "
 "recent window. Use it to backfill history into staging."
 
-msgid "From"
-msgstr "From"
-
-msgid "To"
-msgstr "To"
-
 msgid ""
 "Steps on another period type (e.g. daily climate data) keep their own "
 "window."
@@ -2358,9 +2508,6 @@ msgstr "The pipeline to start cannot also be one it waits for"
 
 msgid "Choose a dataset"
 msgstr "Choose a dataset"
-
-msgid "Choose a data element"
-msgstr "Choose a data element"
 
 msgid "Choose climate data, data to pull, or a prediction setup"
 msgstr "Choose climate data, data to pull, or a prediction setup"
@@ -2831,9 +2978,6 @@ msgstr "Pending"
 msgid "Awaiting Step"
 msgstr "Awaiting Step"
 
-msgid "Paused"
-msgstr "Paused"
-
 msgid "Executions table"
 msgstr "Executions table"
 
@@ -3120,9 +3264,6 @@ msgstr "Could not load the setup"
 msgid "Template not found"
 msgstr "Template not found"
 
-msgid "Workflow"
-msgstr "Workflow"
-
 msgid "Templates"
 msgstr "Templates"
 
@@ -3211,9 +3352,6 @@ msgstr "Maximum"
 
 msgid "from Open Climate Service"
 msgstr "from Open Climate Service"
-
-msgid "Dataset"
-msgstr "Dataset"
 
 msgid "\"{{id}}\" is not in Open Climate Service"
 msgstr "\"{{id}}\" is not in Open Climate Service"
@@ -3327,9 +3465,6 @@ msgid ""
 msgstr ""
 "Taken from the prediction setup, so the data matches what the model was "
 "evaluated on."
-
-msgid "Org unit level"
-msgstr "Org unit level"
 
 msgid "Usually districts: climate is averaged over each one"
 msgstr "Usually districts: climate is averaged over each one"
@@ -3496,12 +3631,6 @@ msgstr "Time zone"
 msgid "Auth required"
 msgstr "Auth required"
 
-msgid "Yes"
-msgstr "Yes"
-
-msgid "No"
-msgstr "No"
-
 msgid "System name"
 msgstr "System name"
 
@@ -3543,9 +3672,6 @@ msgstr "CHAP"
 
 msgid "Climate & Health Analytics Platform"
 msgstr "Climate & Health Analytics Platform"
-
-msgid "DHIS2"
-msgstr "DHIS2"
 
 msgid "Host instance · platform API"
 msgstr "Host instance · platform API"
@@ -3744,9 +3870,6 @@ msgstr "Managed climate dataset from the Open Climate Service"
 msgid "Climate variable → DHIS2 data element"
 msgstr "Climate variable → DHIS2 data element"
 
-msgid "Data element"
-msgstr "Data element"
-
 msgid "Aggregation"
 msgstr "Aggregation"
 
@@ -3889,9 +4012,6 @@ msgid ""
 msgstr ""
 "The route {{code}} no longer exists on the destination. Pick another "
 "instance."
-
-msgid "Search by name or id"
-msgstr "Search by name or id"
 
 msgid "No matching data items found"
 msgstr "No matching data items found"
@@ -4102,9 +4222,6 @@ msgstr ""
 "Add mappings under Settings › Connected instances › Mappings, then pick "
 "them here."
 
-msgid "Data elements"
-msgstr "Data elements"
-
 msgid "No mapped data element matches"
 msgstr "No mapped data element matches"
 
@@ -4149,9 +4266,6 @@ msgstr "Mapped"
 
 msgid "Pick target"
 msgstr "Pick target"
-
-msgid "New"
-msgstr "New"
 
 msgid "Missing"
 msgstr "Missing"
@@ -4418,6 +4532,12 @@ msgstr "Use suggested text"
 
 msgid "Fail the run if the message cannot be sent"
 msgstr "Fail the run if the message cannot be sent"
+
+msgid "Nothing to set up"
+msgstr "Nothing to set up"
+
+msgid "This step runs without any settings."
+msgstr "This step runs without any settings."
 
 msgid "Datasets"
 msgstr "Datasets"
@@ -4727,11 +4847,51 @@ msgstr "Forecast"
 msgid "Written to"
 msgstr "Written to"
 
-msgid "No entries yet. Add one below."
-msgstr "No entries yet. Add one below."
+msgid "From the pipeline dataset {{name}}"
+msgstr "From the pipeline dataset {{name}}"
+
+msgid ""
+"The pipeline dataset is {{periodType}}; this step runs daily, weekly and "
+"monthly datasets only"
+msgstr ""
+"The pipeline dataset is {{periodType}}; this step runs daily, weekly and "
+"monthly datasets only"
+
+msgid "Reading the pipeline dataset…"
+msgstr "Reading the pipeline dataset…"
+
+msgid "How many"
+msgstr "How many"
+
+msgid "Skip latest"
+msgstr "Skip latest"
+
+msgid "JSON"
+msgstr "JSON"
+
+msgid "This is not valid JSON yet."
+msgstr "This is not valid JSON yet."
+
+msgid "One per line"
+msgstr "One per line"
+
+msgid "Choose options"
+msgstr "Choose options"
+
+msgid "Add {{label}}"
+msgstr "Add {{label}}"
 
 msgid "Remove {{label}}"
 msgstr "Remove {{label}}"
+
+msgid "Connect an instance under Settings › Connected instances first."
+msgstr "Connect an instance under Settings › Connected instances first."
+
+msgid "Choose an option"
+msgstr "Choose an option"
+
+msgid "No entries yet. Add one below."
+msgstr "No entries yet. Add one below."
 
 msgid "Period type, history window, and explicit years"
 msgstr "Period type, history window, and explicit years"
@@ -5006,14 +5166,10 @@ msgstr "connector"
 msgid "workflow"
 msgstr "workflow"
 
+msgctxt "' or '-'"
+msgid "Start with a letter or digit; use only letters, digits, '"
+msgstr "Start with a letter or digit; use only letters, digits, '_' or '-'"
+
 msgctxt "URL configuration."
 msgid "Check CLIMATE_API_BASE"
 msgstr "Check CLIMATE_API_BASE_URL configuration."
-
-msgctxt "Application title"
-msgid "__MANIFEST_APP_TITLE"
-msgstr "CAPS"
-
-msgctxt "Application description"
-msgid "__MANIFEST_APP_DESCRIPTION"
-msgstr ""

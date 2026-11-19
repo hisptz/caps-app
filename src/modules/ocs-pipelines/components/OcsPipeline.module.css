@@ -1,0 +1,120 @@
+/* One spacing scale: 16px between fields and blocks, 8px inside a group. */
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    padding: 24px;
+}
+
+.grid2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    align-items: start;
+}
+
+.hint {
+    margin: 0;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--colors-grey700, #4a5768);
+}
+
+.problems {
+    margin: 0;
+    padding-left: 16px;
+}
+
+/* Step form: picker row and the selected pipeline's card */
+
+.pickerRow {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.pickerSelect {
+    flex: 1;
+    min-width: 0;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 8px;
+    padding: 12px 16px;
+    border: 1px solid var(--colors-grey300, #d5dde5);
+    border-radius: 4px;
+}
+
+.cardHead {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.cardTitle {
+    margin-right: auto;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--colors-grey900, #212934);
+}
+
+.facts {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: 4px 16px;
+    margin: 0;
+    font-size: 13px;
+    line-height: 18px;
+}
+
+.facts dt {
+    color: var(--colors-grey600, #6e7a8a);
+}
+
+.facts dd {
+    margin: 0;
+    color: var(--colors-grey900, #212934);
+    overflow-wrap: anywhere;
+}
+
+.cardActions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: flex-end;
+    padding-top: 12px;
+    border-top: 1px solid var(--colors-grey200, #e8edf2);
+}
+
+.dateInput {
+    width: 150px;
+}
+
+.status {
+    margin: 0;
+    font-size: 13px;
+    line-height: 18px;
+}
+
+.statusOk {
+    color: var(--colors-green700, #1b5e20);
+}
+
+.statusBad {
+    color: var(--colors-red700, #b71c1c);
+}
+
+@media (max-width: 640px) {
+    .grid2 {
+        grid-template-columns: 1fr;
+    }
+}

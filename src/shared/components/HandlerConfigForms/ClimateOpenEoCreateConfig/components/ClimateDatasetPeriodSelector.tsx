@@ -52,13 +52,19 @@ const MODE_OPTIONS = [
     { value: 'rolling', label: i18n.t('Latest periods') },
 ] as const
 
-function FixedPeriodFields({
+/**
+ * Start and end period of a fixed climate period at `name`. `datasetId` resets both when the
+ * dataset changes; any value that changes with what the periods are drawn from works.
+ */
+export function FixedPeriodFields({
+    name = PERIOD_FIELD,
     datasetId,
     periodType,
     temporalExtent,
     minYear,
     maxYear,
 }: {
+    name?: string
     datasetId: string
     periodType: HandlerPeriodType
     temporalExtent: ClimateTemporalExtent | undefined
@@ -66,10 +72,10 @@ function FixedPeriodFields({
     maxYear: number
 }): React.ReactElement {
     const periodIdField = useController({
-        name: 'handlerConfig.period.id',
+        name: `${name}.id`,
     })
     const periodEndIdField = useController({
-        name: 'handlerConfig.period.endId',
+        name: `${name}.endId`,
     })
 
     const [year, setYear] = useState(maxYear)
@@ -211,7 +217,7 @@ function FixedPeriodFields({
                 <div style={{ display: 'flex', gap: '1rem' }}>
                     <div style={{ flex: 1 }}>
                         <SingleSelectControl
-                            name="handlerConfig.period.id"
+                            name={`${name}.id`}
                             value={
                                 periodOptions.length > 0
                                     ? periodIdField.field.value
@@ -254,7 +260,7 @@ function FixedPeriodFields({
                 validationText={periodEndIdField.fieldState.error?.message}
             >
                 <SingleSelectControl
-                    name="handlerConfig.period.endId"
+                    name={`${name}.endId`}
                     value={periodEndIdField.field.value ?? ''}
                     valueLabel={
                         periodEndIdField.field.value
