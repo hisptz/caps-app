@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-11-19T11:15:21.990Z\n"
-"PO-Revision-Date: 2026-11-19T11:15:21.990Z\n"
+"POT-Creation-Date: 2026-11-21T22:09:47.956Z\n"
+"PO-Revision-Date: 2026-11-21T22:09:47.960Z\n"
 
 msgid "Enter a valid HTTP or HTTPS URL."
 msgstr "Enter a valid HTTP or HTTPS URL."
@@ -700,6 +700,12 @@ msgstr "Some push mappings can’t work: {{problems}}"
 
 msgid "Add at least one data element to push"
 msgstr "Add at least one data element to push"
+
+msgid "Pick the org units whose values are pushed"
+msgstr "Pick the org units whose values are pushed"
+
+msgid "Pick which values to read from staging"
+msgstr "Pick which values to read from staging"
 
 msgid ""
 "The staging data element holds {{stagingType}} values, but the target’s "
@@ -4349,6 +4355,16 @@ msgstr "Values exactly as entered at the selected org units"
 msgid "Totals rolled up to the selected org units; run analytics first"
 msgstr "Totals rolled up to the selected org units; run analytics first"
 
+msgid "Previous step"
+msgstr "Previous step"
+
+msgid ""
+"Values the previous step pulled, e.g. DHIS2 Instance Pull; nothing is "
+"stored on staging"
+msgstr ""
+"Values the previous step pulled, e.g. DHIS2 Instance Pull; nothing is "
+"stored on staging"
+
 msgid ""
 "Raw data is read as stored at these org units; values at lower levels "
 "aren’t added up."
@@ -4446,8 +4462,15 @@ msgstr ""
 "Values are merged into the target by default, so sending a value again "
 "updates it."
 
-msgid "Data from staging"
-msgstr "Data from staging"
+msgid "Read values from"
+msgstr "Read values from"
+
+msgid ""
+"Put this step after one that pulls values, such as DHIS2 Instance Pull. Its "
+"periods are used, and staging is only used to map the values to the target."
+msgstr ""
+"Put this step after one that pulls values, such as DHIS2 Instance Pull. Its "
+"periods are used, and staging is only used to map the values to the target."
 
 msgid "How the target should treat values that already exist."
 msgstr "How the target should treat values that already exist."
@@ -5049,6 +5072,13 @@ msgstr "Choose for this schedule"
 
 msgid "Choose for this run"
 msgstr "Choose for this run"
+
+msgid ""
+"This step sends the values the previous step passes on. Choose their "
+"periods on that step."
+msgstr ""
+"This step sends the values the previous step passes on. Choose their "
+"periods on that step."
 
 msgid ""
 "Scheduled runs push what the step is set to, including later edits to the "

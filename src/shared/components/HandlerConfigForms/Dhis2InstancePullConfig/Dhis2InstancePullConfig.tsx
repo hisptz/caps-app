@@ -8,7 +8,6 @@ import {
     useFormContext,
     useWatch,
 } from 'react-hook-form'
-import { ConfigLabeledControl } from '../ConfigLabeledControl'
 import { ConnectedInstanceSection } from '../ConnectedInstanceSection'
 import { OrganisationUnitConfigSection } from '../OrganisationUnitConfigSection'
 import classes from './Dhis2InstancePullConfig.module.css'
@@ -31,7 +30,6 @@ import type { PipelineStepFormWithHandlerValues } from '@/modules/pipeline-detai
 import {
     FormSection,
     formSectionGrids,
-    SegmentedControl,
 } from '@/shared/components/ui/FormPrimitives'
 
 export interface Dhis2InstancePullConfigProps {
@@ -262,50 +260,23 @@ export function Dhis2InstancePullConfig({
                 }
                 tight
             >
-                {instance?.configured ? (
-                    <p className={classes.hint}>
-                        {orgUnitMatch === 'code'
+                <p className={classes.hint}>
+                    {instance?.configured
+                        ? orgUnitMatch === 'code'
                             ? i18n.t(
                                   'Matched on the source by code, as set for this instance under Settings › Connected instances.'
                               )
                             : i18n.t(
                                   'Matched on the source by ID, as set for this instance under Settings › Connected instances.'
-                              )}
-                    </p>
-                ) : (
-                    <Controller
-                        name="handlerConfig.orgUnitMatch"
-                        control={control}
-                        render={({ field }) => (
-                            <ConfigLabeledControl
-                                label={i18n.t(
-                                    'Match org units on the source by'
-                                )}
-                                helpText={i18n.t(
-                                    'Use code when the source and destination have different IDs for the same places.'
-                                )}
-                            >
-                                <SegmentedControl<OrgUnitMatch>
-                                    name="org-unit-match"
-                                    value={
-                                        (field.value as OrgUnitMatch) ?? 'id'
-                                    }
-                                    options={[
-                                        { value: 'id', label: i18n.t('ID') },
-                                        {
-                                            value: 'code',
-                                            label: i18n.t('Code'),
-                                        },
-                                    ]}
-                                    onChange={field.onChange}
-                                    aria-label={i18n.t(
-                                        'Match org units on the source by'
-                                    )}
-                                />
-                            </ConfigLabeledControl>
-                        )}
-                    />
-                )}
+                              )
+                        : orgUnitMatch === 'code'
+                          ? i18n.t(
+                                'Matched on the source by code. Set how org units are matched for this instance under Settings › Connected instances.'
+                            )
+                          : i18n.t(
+                                'Matched on the source by ID. Set how org units are matched for this instance under Settings › Connected instances.'
+                            )}
+                </p>
                 <OrganisationUnitConfigSection />
             </FormSection>
 

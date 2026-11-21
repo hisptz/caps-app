@@ -36,7 +36,6 @@ import {
     formSectionGrids,
     RadioCardGroup,
     type RadioCardOption,
-    SegmentedControl,
 } from '@/shared/components/ui/FormPrimitives'
 
 export interface Dhis2InstancePushConfigProps {
@@ -61,9 +60,21 @@ const SOURCE_OPTIONS: ReadonlyArray<RadioCardOption<PushSource>> = [
             'Totals rolled up to the selected org units; run analytics first'
         ),
     },
+    {
+        value: 'previous',
+        title: i18n.t('Previous step'),
+        description: i18n.t(
+            'Values the previous step pulled, e.g. DHIS2 Instance Pull; nothing is stored on staging'
+        ),
+    },
 ]
 
 function sourceOrgUnitNote(source: PushSource): string {
+    if (source === 'previous') {
+        return i18n.t(
+            'Optional: leave empty to send every org unit in the previous step’s values, or pick some to send only theirs.'
+        )
+    }
     return source === 'raw'
         ? i18n.t(
               'Raw data is read as stored at these org units; values at lower levels aren’t added up.'
@@ -112,11 +123,19 @@ export function Dhis2InstancePushConfig({
         'raw') as PushSource
 
     // Analytics can't be read by last update: move such a period to latest periods.
+    // Reading staging needs a period, which a step that sent the previous step's values may lack.
     function switchSource(next: PushSource) {
         setValue('handlerConfig.source', next, { shouldDirty: true })
         const period = getValues('handlerConfig.period') as
             | PushPeriod
             | undefined
+        if (next === 'raw' && !period) {
+            setValue(
+                'handlerConfig.period',
+                { mode: 'updated', days: 7 },
+                { shouldDirty: true, shouldValidate: true }
+            )
+        }
         if (next === 'analytics' && (!period || period.mode === 'updated')) {
             setValue(
                 'handlerConfig.period',
@@ -281,50 +300,23 @@ export function Dhis2InstancePushConfig({
                 }
                 tight
             >
-                {instance?.configured ? (
-                    <p className={classes.hint}>
-                        {orgUnitMatch === 'code'
+                <p className={classes.hint}>
+                    {instance?.configured
+                        ? orgUnitMatch === 'code'
                             ? i18n.t(
                                   'Matched on the target by code, as set for this instance under Settings › Connected instances.'
                               )
                             : i18n.t(
                                   'Matched on the target by ID, as set for this instance under Settings › Connected instances.'
-                              )}
-                    </p>
-                ) : (
-                    <Controller
-                        name="handlerConfig.orgUnitMatch"
-                        control={control}
-                        render={({ field }) => (
-                            <ConfigLabeledControl
-                                label={i18n.t(
-                                    'Match org units on the target by'
-                                )}
-                                helpText={i18n.t(
-                                    'Use code when staging and the target have different IDs for the same places.'
-                                )}
-                            >
-                                <SegmentedControl<OrgUnitMatch>
-                                    name="push-org-unit-match"
-                                    value={
-                                        (field.value as OrgUnitMatch) ?? 'id'
-                                    }
-                                    options={[
-                                        { value: 'id', label: i18n.t('ID') },
-                                        {
-                                            value: 'code',
-                                            label: i18n.t('Code'),
-                                        },
-                                    ]}
-                                    onChange={field.onChange}
-                                    aria-label={i18n.t(
-                                        'Match org units on the target by'
-                                    )}
-                                />
-                            </ConfigLabeledControl>
-                        )}
-                    />
-                )}
+                              )
+                        : orgUnitMatch === 'code'
+                          ? i18n.t(
+                                'Matched on the target by code. Set how org units are matched for this instance under Settings › Connected instances.'
+                            )
+                          : i18n.t(
+                                'Matched on the target by ID. Set how org units are matched for this instance under Settings › Connected instances.'
+                            )}
+                </p>
                 <OrganisationUnitConfigSection />
             </FormSection>
 
@@ -340,22 +332,30 @@ export function Dhis2InstancePushConfig({
                     control={control}
                     render={({ field }) => (
                         <ConfigLabeledControl
-                            label={i18n.t('Data from staging')}
+                            label={i18n.t('Read values from')}
                         >
                             <RadioCardGroup<PushSource>
                                 name="dhis2-instance-push-source"
                                 value={(field.value as PushSource) ?? 'raw'}
                                 onChange={switchSource}
                                 options={SOURCE_OPTIONS}
-                                columns={2}
+                                columns={3}
                             />
                         </ConfigLabeledControl>
                     )}
                 />
-                <PushPeriodFields
-                    name="handlerConfig.period"
-                    allowUpdated={source === 'raw'}
-                />
+                {source === 'previous' ? (
+                    <p className={classes.hint}>
+                        {i18n.t(
+                            'Put this step after one that pulls values, such as DHIS2 Instance Pull. Its periods are used, and staging is only used to map the values to the target.'
+                        )}
+                    </p>
+                ) : (
+                    <PushPeriodFields
+                        name="handlerConfig.period"
+                        allowUpdated={source === 'raw'}
+                    />
+                )}
             </FormSection>
 
             <FormSection
@@ -425,9 +425,12 @@ export function Dhis2InstancePushConfig({
                                 ],
                             ] as const
                         )
-                            .filter(
-                                ([key]) =>
-                                    key !== 'periods' || source === 'analytics'
+                            .filter(([key]) =>
+                                key === 'values'
+                                    ? true
+                                    : key === 'periods'
+                                      ? source === 'analytics'
+                                      : source !== 'previous'
                             )
                             .map(([key, label, min, max]) => (
                                 <Controller
