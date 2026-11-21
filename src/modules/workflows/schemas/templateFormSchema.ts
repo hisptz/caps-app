@@ -138,7 +138,7 @@ export const templateFormSchema = z
                 ctx.addIssue({
                     code: 'custom',
                     path: ['diseaseMapped'],
-                    message: i18n.t('Pick the disease data to pull'),
+                    message: i18n.t('Pick the data to pull'),
                 })
             }
         }

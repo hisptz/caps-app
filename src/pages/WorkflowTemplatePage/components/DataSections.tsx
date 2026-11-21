@@ -182,7 +182,7 @@ export function DiseaseSection({
     return (
         <FormSection
             num={num}
-            title={pullOnly ? i18n.t('Data to pull') : i18n.t('Disease data')}
+            title={pullOnly ? i18n.t('Data to pull') : i18n.t('Input data')}
         >
             {!pullOnly && (
                 <Controller

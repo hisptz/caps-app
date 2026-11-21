@@ -43,7 +43,7 @@ export function Dhis2InstancePullConfig({
     value,
     onChange,
 }: Dhis2InstancePullConfigProps): React.ReactElement {
-    const { control, getValues, setValue, formState } =
+    const { control, getValues, setValue } =
         useFormContext<PipelineStepFormWithHandlerValues>()
     const [showAdvanced, setShowAdvanced] = useState(false)
 
@@ -56,6 +56,18 @@ export function Dhis2InstancePullConfig({
         }
     }, [getValues, onChange, setValue, value])
 
+    // A step that picks from the instance's mappings has no `items`. Steps saved while an empty
+    // field array was written into the form may carry `items: []` next to `mapped`; drop it.
+    useEffect(() => {
+        const raw = getValues('handlerConfig') as Record<string, unknown> | null
+        if (raw && Array.isArray(raw.mapped) && Array.isArray(raw.items)) {
+            const rest = { ...raw }
+            delete rest.items
+            setValue('handlerConfig', rest, { shouldDirty: false })
+            onChange(rest)
+        }
+    }, [getValues, onChange, setValue, value])
+
     const routeCode = useWatch({ control, name: 'handlerConfig.routeCode' }) as
         | string
         | undefined
@@ -63,8 +75,9 @@ export function Dhis2InstancePullConfig({
         | PullItem[]
         | undefined
     const items = watchedItems ?? EMPTY_ITEMS
+    const watchedMapped = useWatch({ control, name: 'handlerConfig.mapped' })
     // Older steps list their own items; the rest pick from the instance's mappings.
-    const legacy = Array.isArray(watchedItems)
+    const legacy = Array.isArray(watchedItems) && !Array.isArray(watchedMapped)
     const engine = useDataEngine()
     const instanceQuery = useInstanceQuery(engine, routeCode || undefined)
     const instance = instanceQuery.data
@@ -85,40 +98,6 @@ export function Dhis2InstancePullConfig({
             { shouldDirty: true }
         )
     }
-
-    const itemsArray = useFieldArray({
-        control,
-        // Typed loosely: handlerConfig is a record in the step form schema.
-        name: 'handlerConfig.items' as never,
-    })
-
-    const sourceItems = useSourceDataItemsById(routeCode || undefined, items)
-    const stagingIds = items.flatMap((item) =>
-        item.into
-            ? [item.into]
-            : item.fromType === 'DATA_ELEMENT' && item.from
-              ? [item.from]
-              : []
-    )
-    const staging = useStagingDataElements(stagingIds)
-    const stagingNames =
-        stagingIds.length === 0
-            ? new Map<string, string>()
-            : staging.data &&
-              new Map([...staging.data].map(([id, de]) => [id, de.name]))
-    const sourceDataElementIds = items.flatMap((item) =>
-        item.fromType === 'DATA_ELEMENT' && item.from ? [item.from] : []
-    )
-    const sourceCombos = useSourceDataElementCombos(
-        routeCode || undefined,
-        sourceDataElementIds
-    )
-
-    const itemsError = (
-        formState.errors.handlerConfig as
-            | { items?: { message?: string } }
-            | undefined
-    )?.items?.message
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -156,95 +135,11 @@ export function Dhis2InstancePullConfig({
             )}
 
             {legacy && (
-                <FormSection
-                    title={i18n.t('Data items')}
-                    description={i18n.t(
-                        'Each item is written to the destination data element with the same ID.'
-                    )}
-                    tight
-                >
-                    <NoticeBox title={i18n.t('This step lists its own items')}>
-                        <p>
-                            {i18n.t(
-                                'Data items now belong to the connected instance. Map them under Settings › Connected instances › Mappings, then switch this step to pick from them.'
-                            )}
-                        </p>
-                        <Button small onClick={switchToMappings}>
-                            {i18n.t('Use instance mappings')}
-                        </Button>
-                    </NoticeBox>
-                    {staging.isError && (
-                        <NoticeBox
-                            warning
-                            title={i18n.t('Could not check the destination')}
-                        >
-                            {i18n.t(
-                                'Which items already exist on the destination is unknown; it’s checked again on save.'
-                            )}
-                        </NoticeBox>
-                    )}
-                    {items.length > 0 && (
-                        <ul className={classes.items}>
-                            {itemsArray.fields.map((row, index) => (
-                                <SourceItemRow
-                                    key={row.id}
-                                    index={index}
-                                    routeCode={routeCode || undefined}
-                                    selected={
-                                        items[index]?.from
-                                            ? sourceItems.data?.get(
-                                                  items[index].from
-                                              )
-                                            : undefined
-                                    }
-                                    staging={stagingNames}
-                                    stagingPending={
-                                        staging.isFetching &&
-                                        (staging.isPreviousData ||
-                                            !staging.data)
-                                    }
-                                    sourcePending={
-                                        sourceItems.isFetching ||
-                                        sourceCombos.isFetching
-                                    }
-                                    stagingCombo={
-                                        items[index]
-                                            ? staging.data?.get(
-                                                  items[index].into ??
-                                                      items[index].from
-                                              )?.combo
-                                            : undefined
-                                    }
-                                    sourceCombo={
-                                        items[index]?.from
-                                            ? sourceCombos.data?.get(
-                                                  items[index].from
-                                              )?.combo
-                                            : undefined
-                                    }
-                                    onRemove={() => itemsArray.remove(index)}
-                                />
-                            ))}
-                        </ul>
-                    )}
-                    {itemsError && <NoticeBox error>{itemsError}</NoticeBox>}
-                    <div>
-                        <Button
-                            small
-                            secondary
-                            icon={<IconAdd16 />}
-                            disabled={!routeCode}
-                            onClick={() =>
-                                itemsArray.append({
-                                    from: '',
-                                    fromType: 'DATA_ELEMENT',
-                                } as never)
-                            }
-                        >
-                            {i18n.t('Add item')}
-                        </Button>
-                    </div>
-                </FormSection>
+                <LegacyItemsSection
+                    routeCode={routeCode}
+                    items={items}
+                    onSwitchToMappings={switchToMappings}
+                />
             )}
 
             <FormSection
@@ -356,5 +251,143 @@ export function Dhis2InstancePullConfig({
                 </FormSection>
             )}
         </div>
+    )
+}
+
+/**
+ * Older steps list their own items. Kept in its own component so its field array only exists
+ * for those steps: mounting `useFieldArray` writes an empty `items` into a config that has
+ * none, which would turn a step that picks from the instance's mappings into one listing none.
+ */
+function LegacyItemsSection({
+    routeCode,
+    items,
+    onSwitchToMappings,
+}: {
+    routeCode: string | undefined
+    items: PullItem[]
+    onSwitchToMappings: () => void
+}): React.ReactElement {
+    const { control, formState } =
+        useFormContext<PipelineStepFormWithHandlerValues>()
+    const itemsArray = useFieldArray({
+        control,
+        // Typed loosely: handlerConfig is a record in the step form schema.
+        name: 'handlerConfig.items' as never,
+    })
+
+    const sourceItems = useSourceDataItemsById(routeCode || undefined, items)
+    const stagingIds = items.flatMap((item) =>
+        item.into
+            ? [item.into]
+            : item.fromType === 'DATA_ELEMENT' && item.from
+              ? [item.from]
+              : []
+    )
+    const staging = useStagingDataElements(stagingIds)
+    const stagingNames =
+        stagingIds.length === 0
+            ? new Map<string, string>()
+            : staging.data &&
+              new Map([...staging.data].map(([id, de]) => [id, de.name]))
+    const sourceDataElementIds = items.flatMap((item) =>
+        item.fromType === 'DATA_ELEMENT' && item.from ? [item.from] : []
+    )
+    const sourceCombos = useSourceDataElementCombos(
+        routeCode || undefined,
+        sourceDataElementIds
+    )
+
+    const itemsError = (
+        formState.errors.handlerConfig as
+            | { items?: { message?: string } }
+            | undefined
+    )?.items?.message
+
+    return (
+        <FormSection
+            title={i18n.t('Data items')}
+            description={i18n.t(
+                'Each item is written to the destination data element with the same ID.'
+            )}
+            tight
+        >
+            <NoticeBox title={i18n.t('This step lists its own items')}>
+                <p>
+                    {i18n.t(
+                        'Data items now belong to the connected instance. Map them under Settings › Connected instances › Mappings, then switch this step to pick from them.'
+                    )}
+                </p>
+                <Button small onClick={onSwitchToMappings}>
+                    {i18n.t('Use instance mappings')}
+                </Button>
+            </NoticeBox>
+            {staging.isError && (
+                <NoticeBox
+                    warning
+                    title={i18n.t('Could not check the destination')}
+                >
+                    {i18n.t(
+                        'Which items already exist on the destination is unknown; it’s checked again on save.'
+                    )}
+                </NoticeBox>
+            )}
+            {items.length > 0 && (
+                <ul className={classes.items}>
+                    {itemsArray.fields.map((row, index) => (
+                        <SourceItemRow
+                            key={row.id}
+                            index={index}
+                            routeCode={routeCode || undefined}
+                            selected={
+                                items[index]?.from
+                                    ? sourceItems.data?.get(items[index].from)
+                                    : undefined
+                            }
+                            staging={stagingNames}
+                            stagingPending={
+                                staging.isFetching &&
+                                (staging.isPreviousData || !staging.data)
+                            }
+                            sourcePending={
+                                sourceItems.isFetching ||
+                                sourceCombos.isFetching
+                            }
+                            stagingCombo={
+                                items[index]
+                                    ? staging.data?.get(
+                                          items[index].into ?? items[index].from
+                                      )?.combo
+                                    : undefined
+                            }
+                            sourceCombo={
+                                items[index]?.from
+                                    ? sourceCombos.data?.get(items[index].from)
+                                          ?.combo
+                                    : undefined
+                            }
+                            onRemove={() => itemsArray.remove(index)}
+                        />
+                    ))}
+                </ul>
+            )}
+            {itemsError && <NoticeBox error>{itemsError}</NoticeBox>}
+            <div>
+                <Button
+                    small
+                    secondary
+                    icon={<IconAdd16 />}
+                    disabled={!routeCode}
+                    onClick={() =>
+                        itemsArray.append({
+                            from: '',
+                            fromType: 'DATA_ELEMENT',
+                        } as never)
+                    }
+                >
+                    {i18n.t('Add item')}
+                </Button>
+            </div>
+        </FormSection>
     )
 }

@@ -26,7 +26,7 @@ function IssueList({ issues }: { issues: TemplateIssue[] }) {
 
 const SHORT_NAME: Record<TemplatePipelineRole, string> = {
     climate: i18n.t('Climate data'),
-    disease: i18n.t('Disease data'),
+    disease: i18n.t('Input data'),
     // The pipeline after the data: analytics, and the prediction when there is one
     prediction: i18n.t('Analytics and prediction'),
 }
