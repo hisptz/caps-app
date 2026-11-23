@@ -46,6 +46,8 @@ export function ConnectedInstanceField({
                 render={({ field, fieldState }) => (
                     <SingleSelectField
                         label={label}
+                        filterable
+                        noMatchText={i18n.t('No instances match')}
                         required={required}
                         loading={routesQuery.isLoading}
                         selected={field.value ? String(field.value) : undefined}

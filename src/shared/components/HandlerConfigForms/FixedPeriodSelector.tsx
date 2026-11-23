@@ -3,6 +3,7 @@ import { SimpleSingleSelectField } from '@dhis2/ui'
 import { isEmpty } from 'lodash-es'
 import React, { useMemo, useState } from 'react'
 import { useController, useWatch } from 'react-hook-form'
+import { SearchableSimpleSelectField } from '@/shared/components/ui/FormPrimitives'
 
 export function FixedPeriodSelector({
     periodTypeKey,
@@ -47,7 +48,7 @@ export function FixedPeriodSelector({
     return (
         <div style={{ display: 'flex', gap: '1rem' }}>
             <div style={{ flex: 1 }}>
-                <SimpleSingleSelectField
+                <SearchableSimpleSelectField
                     className="flex-1"
                     value={!isEmpty(options) ? field.value : undefined}
                     error={!!fieldState.error?.message}

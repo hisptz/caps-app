@@ -78,6 +78,8 @@ export function PredictionSection({
                 render={({ field, fieldState }) => (
                     <SingleSelectField
                         label={i18n.t('Prediction setup')}
+                        filterable
+                        noMatchText={i18n.t('No prediction setups match')}
                         loading={isLoading}
                         required={required}
                         selected={field.value || (required ? undefined : NONE)}

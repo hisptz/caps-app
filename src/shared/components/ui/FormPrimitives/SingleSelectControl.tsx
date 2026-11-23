@@ -1,5 +1,6 @@
 import { SimpleSingleSelect } from '@dhis2/ui'
-import React from 'react'
+import React, { useMemo, useState } from 'react'
+import { filterOptionsByLabel } from './SearchableSimpleSelectField'
 
 export type SingleSelectControlOption = {
     label: string
@@ -47,8 +48,14 @@ export function SingleSelectControl({
     onChange,
     valueLabel,
     clearable,
+    filterable,
     ...rest
 }: SingleSelectControlProps): React.ReactElement {
+    const [search, setSearch] = useState('')
+    const visible = useMemo(
+        () => (filterable ? filterOptionsByLabel(options, search) : options),
+        [filterable, options, search]
+    )
     const selectedOption = options.find((option) => option.value === value)
     const selected =
         value !== null && value !== undefined && value !== ''
@@ -62,8 +69,15 @@ export function SingleSelectControl({
         <RawSimpleSingleSelect
             {...rest}
             name={name}
-            options={options}
+            options={visible}
             selected={selected}
+            filterable={filterable}
+            filterValue={filterable ? search : undefined}
+            onFilterChange={
+                filterable
+                    ? (next: string | undefined) => setSearch(next ?? '')
+                    : undefined
+            }
             clearable={clearable}
             onChange={(option) => onChange(option?.value ?? '')}
             onClear={clearable ? () => onChange('') : undefined}

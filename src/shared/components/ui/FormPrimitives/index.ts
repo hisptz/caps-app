@@ -8,6 +8,12 @@ export type { RadioCardGroupProps, RadioCardOption } from './RadioCard'
 export { SegmentedControl } from './SegmentedControl'
 export type { SegmentedControlProps, SegmentedOption } from './SegmentedControl'
 
+export {
+    SearchableSimpleSelectField,
+    filterOptionsByLabel,
+} from './SearchableSimpleSelectField'
+export type { SearchableSimpleSelectFieldProps } from './SearchableSimpleSelectField'
+
 export { SingleSelectControl } from './SingleSelectControl'
 export type {
     SingleSelectControlOption,

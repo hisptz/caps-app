@@ -35,6 +35,7 @@ import {
     FormSection,
     formSectionGrids,
     SegmentedControl,
+    SearchableSimpleSelectField,
 } from '@/shared/components/ui/FormPrimitives'
 
 export interface ClimateOpenEoCreateContextFormProps {
@@ -225,7 +226,7 @@ function FixedRunPeriodFields({
                 }}
                 options={yearOptions}
             />
-            <SimpleSingleSelectField
+            <SearchableSimpleSelectField
                 name="climate-context-period-id"
                 label={i18n.t('Start period')}
                 helpText={coverageHint}
@@ -242,7 +243,7 @@ function FixedRunPeriodFields({
                 options={periodOptions}
                 disabled={periodOptions.length === 0}
             />
-            <SimpleSingleSelectField
+            <SearchableSimpleSelectField
                 name="climate-context-period-end-id"
                 label={i18n.t('End period')}
                 helpText={i18n.t(
@@ -259,7 +260,6 @@ function FixedRunPeriodFields({
                 }
                 clearable
                 clearText={i18n.t('Clear')}
-                filterable={endPeriodOptions.length > 20}
                 filterPlaceholder={i18n.t('Search periods')}
                 noMatchText={i18n.t('No periods match')}
                 onChange={(next) => setFixedPeriod('endId', next || undefined)}
