@@ -14,6 +14,7 @@ import {
     OrgUnitsSection,
     PredictionSection,
 } from './components/PredictionSection'
+import { SetupAutofill } from './components/SetupAutofill'
 import { TemplatePreviewPanel } from './components/TemplatePreviewPanel'
 import classes from './WorkflowTemplatePage.module.css'
 import { CapsApiError } from '@/capsApi/client'
@@ -289,7 +290,11 @@ const WorkflowTemplatePage: React.FC = () => {
                         className={classes.form}
                         onSubmit={submit(false)}
                     >
-                        <BasicsSection />
+                        <BasicsSection
+                            withPrediction={sections.includes('prediction')}
+                        />
+                        {sections.includes('prediction') &&
+                            sections.includes('climate') && <SetupAutofill />}
                         {sections.includes('prediction') && (
                             <PredictionSection
                                 num={numberOf('prediction')}

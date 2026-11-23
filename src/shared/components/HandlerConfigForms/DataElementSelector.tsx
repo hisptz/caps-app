@@ -56,10 +56,12 @@ export function DataElementSelector({
     valueType,
     dense,
     allowIndicators = false,
+    helpText,
     dataSetId,
 }: {
     name: string
     label: string
+    helpText?: string
     valueType?: string
     dense?: boolean
     allowIndicators?: boolean
@@ -190,6 +192,7 @@ export function DataElementSelector({
             name={name}
             dense={dense}
             label={label}
+            helpText={helpText}
             value={
                 selectedOptionLoaded ? (field.value ?? undefined) : undefined
             }

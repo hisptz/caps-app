@@ -13,6 +13,7 @@ import {
     NoticeBox,
     Tab,
     TabBar,
+    IconSettings16,
 } from '@dhis2/ui'
 import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
@@ -149,7 +150,7 @@ const WorkflowDetailPage: React.FC = () => {
                             {i18n.t('Trigger')}
                         </DropdownButton>
                     </span>
-                    {/* {workflow.template && (
+                    {workflow.template && (
                         <Button
                             icon={<IconSettings16 />}
                             onClick={() =>
@@ -158,7 +159,7 @@ const WorkflowDetailPage: React.FC = () => {
                         >
                             {i18n.t('Edit setup')}
                         </Button>
-                    )} */}
+                    )}
                     <Button
                         icon={<IconEdit16 />}
                         onClick={() => setShowEdit(true)}

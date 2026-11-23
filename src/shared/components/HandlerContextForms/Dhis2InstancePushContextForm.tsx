@@ -87,6 +87,18 @@ export function Dhis2InstancePushContextForm({
               ]
     const stepSummary = describePushPeriod(configPeriod)
 
+    if (handlerConfig?.source === 'previous') {
+        return (
+            <FormSection title={i18n.t('Values to push')} tight>
+                <p>
+                    {i18n.t(
+                        'This step sends the values the previous step passes on. Choose their periods on that step.'
+                    )}
+                </p>
+            </FormSection>
+        )
+    }
+
     return (
         <FormSection
             title={i18n.t('Values to push')}

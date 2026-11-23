@@ -296,9 +296,12 @@ export function ClimateOpenEoCreateContextForm({
     const stepPeriod = handlerConfig?.period as
         | Record<string, unknown>
         | undefined
+    // The step's period type, e.g. weekly from a daily dataset; the dataset's when it has none
     const periodType: HandlerPeriodType =
+        normalizeDatasetPeriodType(
+            stepPeriod?.periodType as string | undefined
+        ) ??
         normalizeDatasetPeriodType(dataset?.periodType) ??
-        (stepPeriod?.periodType as HandlerPeriodType | undefined) ??
         'monthly'
     const source: PeriodSource =
         value?.period === undefined

@@ -14,13 +14,14 @@ describe('describeWorkflowSchedule', () => {
         ).toBe('Started by hand only')
     })
 
-    it('shows the cron and the next run without HTML-escaping the date', () => {
+    it('says how often it runs and the next run, without the cron or HTML-escaping', () => {
         const label = describeWorkflowSchedule({
             cronExpr: '0 6 1 * *',
             nextRunAt: '2026-11-01T06:00:00Z',
             isActive: true,
         })
-        expect(label).toContain('0 6 1 * *')
+        expect(label).toContain('On day 1 of every month')
+        expect(label).not.toContain('0 6 1 * *')
         expect(label).toContain(
             new Date('2026-11-01T06:00:00Z').toLocaleString()
         )
@@ -34,7 +35,17 @@ describe('describeWorkflowSchedule', () => {
                 nextRunAt: '2026-11-01T06:00:00Z',
                 isActive: false,
             })
-        ).toBe('0 6 1 * *')
+        ).toBe('On day 1 of every month')
+    })
+
+    it('names the weekday of a weekly schedule', () => {
+        expect(
+            describeWorkflowSchedule({
+                cronExpr: '0 6 * * 1',
+                nextRunAt: null,
+                isActive: true,
+            })
+        ).toBe('Every Monday')
     })
 })
 

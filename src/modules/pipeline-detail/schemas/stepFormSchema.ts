@@ -24,6 +24,22 @@ export const pipelineStepFormSchema = z.object({
 
 export type PipelineStepFormValues = z.infer<typeof pipelineStepFormSchema>
 
+const DATA_ELEMENT_LISTS = new Set(['mapped', 'items'])
+
+export function readableConfigIssue(issue: z.core.$ZodIssue): string {
+    const field = issue.path[0]
+    if (
+        issue.code === 'too_small' &&
+        issue.origin === 'array' &&
+        issue.path.length === 1 &&
+        typeof field === 'string' &&
+        DATA_ELEMENT_LISTS.has(field)
+    ) {
+        return i18n.t('Pick at least one data element')
+    }
+    return issue.message
+}
+
 /**
  * Step form schema with handler config validation driven by GET /handlers catalog.
  * Pass an empty array before catalog loads; superRefine skips membership until handlers exist.
@@ -106,6 +122,7 @@ export function createPipelineStepFormSchema(handlers: HandlerDescriptor[]) {
                 for (const issue of result.error.issues) {
                     ctx.addIssue({
                         ...issue,
+                        message: readableConfigIssue(issue),
                         path: ['handlerConfig', ...issue.path],
                     })
                 }

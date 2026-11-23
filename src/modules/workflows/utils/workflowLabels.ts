@@ -1,5 +1,6 @@
 import i18n from '@dhis2/d2-i18n'
 import { NO_ESCAPE } from '@/modules/pipeline-connectors/utils/connectorLabels'
+import { describeCadence } from '@/modules/pipeline-detail/utils/cronHelpers'
 import { formatDate } from '@/modules/pipeline-detail/utils/formatLabels'
 import type {
     PipelineMerge,
@@ -7,17 +8,22 @@ import type {
     Workflow,
 } from '@/shared/types/caps'
 
+/**
+ * "Every Monday · next 16/11/2026, 07:00". The cron itself is left out: implementers do
+ * not read it, and its hour is the server's while the next run is shown in local time.
+ */
 export function describeWorkflowSchedule(
     workflow: Pick<Workflow, 'cronExpr' | 'nextRunAt' | 'isActive'>
 ): string {
     if (!workflow.cronExpr) {
         return i18n.t('Started by hand only')
     }
+    const cadence = describeCadence(workflow.cronExpr)
     if (!workflow.isActive || !workflow.nextRunAt) {
-        return workflow.cronExpr
+        return cadence
     }
-    return i18n.t('{{cron}} · next {{next}}', {
-        cron: workflow.cronExpr,
+    return i18n.t('{{cadence}} · next {{next}}', {
+        cadence,
         next: formatDate(workflow.nextRunAt),
         interpolation: NO_ESCAPE,
     })
