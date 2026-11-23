@@ -74,7 +74,7 @@ function NotifyOption({
     )
 }
 
-/** Steps every template can add: analytics after saving data, and messages. */
+/** Steps every template can add: analytics after uploading data, and messages. */
 export function OptionsSection({
     num,
     showAnalytics = true,
@@ -94,7 +94,7 @@ export function OptionsSection({
                         render={({ field }) => (
                             <Checkbox
                                 label={i18n.t(
-                                    'Run analytics after saving data'
+                                    'Run analytics after uploading data'
                                 )}
                                 checked={field.value}
                                 onChange={({ checked }) =>

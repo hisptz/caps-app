@@ -28,9 +28,9 @@ import {
 
 const AGGREGATIONS = [
     { value: 'mean', label: i18n.t('Average') },
-    { value: 'sum', label: i18n.t('Total') },
-    { value: 'min', label: i18n.t('Lowest') },
-    { value: 'max', label: i18n.t('Highest') },
+    { value: 'sum', label: i18n.t('Sum') },
+    { value: 'min', label: i18n.t('Minimum') },
+    { value: 'max', label: i18n.t('Maximum') },
 ] as const
 
 export function ClimateSection({
@@ -104,14 +104,20 @@ export function ClimateSection({
                         />
                         <DataElementSelector
                             name={`climate.${index}.dataElement`}
-                            label={i18n.t('Into staging data element')}
+                            label={i18n.t('Into data element')}
+                            helpText={i18n.t(
+                                'Any data element on this instance'
+                            )}
                         />
                         <Controller
                             name={`climate.${index}.aggregation`}
                             control={control}
                             render={({ field }) => (
                                 <SingleSelectField
-                                    label={i18n.t('Over each org unit, take')}
+                                    label={i18n.t('Aggregation method')}
+                                    helpText={i18n.t(
+                                        'How the values over each org unit are combined into one'
+                                    )}
                                     selected={field.value}
                                     onChange={({ selected }) =>
                                         field.onChange(selected)
@@ -176,7 +182,7 @@ export function DiseaseSection({
     return (
         <FormSection
             num={num}
-            title={pullOnly ? i18n.t('Data to pull') : i18n.t('Disease data')}
+            title={pullOnly ? i18n.t('Data to pull') : i18n.t('Input data')}
         >
             {!pullOnly && (
                 <Controller

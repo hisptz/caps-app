@@ -44,6 +44,29 @@ describe('dhis2InstancePushConfigSchema', () => {
         expect(parsed.success).toBe(true)
     })
 
+    it('needs org units and a period to read staging, but not for the previous step’s values', () => {
+        const base = { routeCode: 'caps-src-nnis', mapped: ['fbfJHSPpUQD'] }
+        const staging = dhis2InstancePushConfigSchema.safeParse({
+            ...base,
+            orgUnit: { levels: [] },
+        })
+        expect(staging.success).toBe(false)
+        expect(staging.error!.issues.map((issue) => issue.path[0])).toEqual([
+            'orgUnit',
+            'period',
+        ])
+        expect(
+            dhis2InstancePushConfigSchema.safeParse({
+                ...base,
+                source: 'previous',
+                orgUnit: { levels: [] },
+            }).success
+        ).toBe(true)
+        expect(
+            isDhis2InstancePushConfigShape({ ...base, source: 'previous' })
+        ).toBe(true)
+    })
+
     it('recognises a push config shape', () => {
         expect(
             isDhis2InstancePushConfigShape(defaultDhis2InstancePushConfig())

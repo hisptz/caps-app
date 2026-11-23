@@ -17,9 +17,6 @@ import pageClasses from '@/pages/PipelineDetailPage/PipelineDetailPage.module.cs
 import { PageLoader } from '@/shared/components/ui/PageLoader'
 import shellClasses from '@/shared/components/ui/PageShell/PageShell.module.css'
 
-/** Templates are shown but cannot be picked yet; flip to false to open them. */
-const TEMPLATES_COMING_SOON = true
-
 /** Pick a template to start a new workflow from. */
 const WorkflowTemplatesPage: React.FC = () => {
     const engine = useDataEngine()
@@ -68,11 +65,9 @@ const WorkflowTemplatesPage: React.FC = () => {
 
                 <div className={cardClasses.gridWide}>
                     {templateGallery().map((entry) => {
-                        const available =
-                            !TEMPLATES_COMING_SOON &&
-                            Boolean(
-                                entry.template && offered.has(entry.template)
-                            )
+                        const available = Boolean(
+                            entry.template && offered.has(entry.template)
+                        )
                         return (
                             <ChoiceCard
                                 key={entry.id}
@@ -83,11 +78,9 @@ const WorkflowTemplatesPage: React.FC = () => {
                                 }
                                 title={entry.title}
                                 badge={
-                                    TEMPLATES_COMING_SOON
-                                        ? i18n.t('Coming soon')
-                                        : available
-                                          ? entry.eyebrow
-                                          : i18n.t('Not available yet')
+                                    available
+                                        ? entry.eyebrow
+                                        : i18n.t('Not available yet')
                                 }
                                 featured={available && entry.id === 'full'}
                                 description={entry.description}

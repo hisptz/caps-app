@@ -4,8 +4,13 @@ import {
     createFixedPeriodFromPeriodId,
     generateFixedPeriods,
 } from '@dhis2/multi-calendar-dates'
-import { CircularLoader, Field, InputField, NoticeBox } from '@dhis2/ui'
-import { capitalize } from 'lodash-es'
+import {
+    CircularLoader,
+    Field,
+    NoticeBox,
+    SingleSelectField,
+    SingleSelectOption,
+} from '@dhis2/ui'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useController, useFormContext, useWatch } from 'react-hook-form'
 import { ConfigLabeledControl } from '../../ConfigLabeledControl'
@@ -32,6 +37,15 @@ import {
 } from '@/shared/components/ui/FormPrimitives'
 
 const PERIOD_FIELD = 'handlerConfig.period'
+
+/** Finest first: a dataset can give its own period type or any coarser one. */
+const PERIOD_TYPES: HandlerPeriodType[] = ['daily', 'weekly', 'monthly']
+
+const PERIOD_TYPE_LABEL: Record<HandlerPeriodType, string> = {
+    daily: i18n.t('Daily'),
+    weekly: i18n.t('Weekly'),
+    monthly: i18n.t('Monthly'),
+}
 
 const MODE_OPTIONS = [
     { value: 'fixed', label: i18n.t('Fixed range') },
@@ -291,18 +305,44 @@ export function ClimateDatasetPeriodSelector(): React.ReactElement | null {
     } = useClimateCollectionQuery(engine, datasetId)
 
     const temporalExtent = getDatasetTemporalExtent(dataset)
-    const normalizedPeriodType = normalizeDatasetPeriodType(dataset?.periodType)
+    const datasetPeriodType = normalizeDatasetPeriodType(dataset?.periodType)
+    // Open Climate Service adds daily values up to weeks or months, never the other way
+    const periodTypes = datasetPeriodType
+        ? PERIOD_TYPES.slice(PERIOD_TYPES.indexOf(datasetPeriodType))
+        : []
+    const stepPeriodType = normalizeDatasetPeriodType(
+        periodTypeField.field.value as string | undefined
+    )
+    const normalizedPeriodType =
+        stepPeriodType && periodTypes.includes(stepPeriodType)
+            ? stepPeriodType
+            : datasetPeriodType
     const { minYear, maxYear } = getCoverageYearRange(
         temporalExtent?.start,
         temporalExtent?.end
     )
     const mode = periodModeOf(period)
 
+    // Keep the step's period type (e.g. weekly from a daily dataset); fall back to the
+    // dataset's own when the step has none or one the dataset cannot give
     useEffect(() => {
-        if (normalizedPeriodType) {
+        if (
+            normalizedPeriodType &&
+            periodTypeField.field.value !== normalizedPeriodType
+        ) {
             periodTypeField.field.onChange(normalizedPeriodType)
         }
-    }, [normalizedPeriodType, periodTypeField.field.onChange])
+    }, [
+        normalizedPeriodType,
+        periodTypeField.field.value,
+        periodTypeField.field.onChange,
+    ])
+
+    function switchPeriodType(next: HandlerPeriodType): void {
+        setValue(PERIOD_FIELD, periodForMode(mode, next), {
+            shouldDirty: true,
+        })
+    }
 
     function switchMode(next: PeriodMode): void {
         setValue(PERIOD_FIELD, periodForMode(next, normalizedPeriodType), {
@@ -371,14 +411,40 @@ export function ClimateDatasetPeriodSelector(): React.ReactElement | null {
                 />
             </ConfigLabeledControl>
             <div className={formSectionGrids.grid2}>
-                <InputField
+                <SingleSelectField
                     label={i18n.t('Period type')}
-                    name="handlerConfig.period.periodType"
-                    value={capitalize(normalizedPeriodType)}
-                    disabled
-                    readOnly
-                    helpText={i18n.t('Derived from the selected dataset')}
-                />
+                    selected={normalizedPeriodType}
+                    disabled={periodTypes.length < 2}
+                    onChange={({ selected }) =>
+                        switchPeriodType(selected as HandlerPeriodType)
+                    }
+                    helpText={
+                        periodTypes.length < 2
+                            ? i18n.t('The dataset is {{periodType}}', {
+                                  periodType:
+                                      PERIOD_TYPE_LABEL[
+                                          datasetPeriodType!
+                                      ].toLowerCase(),
+                              })
+                            : i18n.t(
+                                  'The dataset is {{periodType}}; its values are combined into longer periods',
+                                  {
+                                      periodType:
+                                          PERIOD_TYPE_LABEL[
+                                              datasetPeriodType!
+                                          ].toLowerCase(),
+                                  }
+                              )
+                    }
+                >
+                    {periodTypes.map((type) => (
+                        <SingleSelectOption
+                            key={type}
+                            value={type}
+                            label={PERIOD_TYPE_LABEL[type]}
+                        />
+                    ))}
+                </SingleSelectField>
                 {mode === 'rolling' ? (
                     <RollingPeriodFields
                         name={PERIOD_FIELD}

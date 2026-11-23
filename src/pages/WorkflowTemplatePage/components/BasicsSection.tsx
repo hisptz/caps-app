@@ -13,10 +13,18 @@ import type { TemplateFormValues } from '@/modules/workflows/schemas/templateFor
 import { FormSection } from '@/shared/components/ui/FormPrimitives'
 
 /** Name, schedule and the periods each run works on. */
-export function BasicsSection(): React.ReactElement {
+export function BasicsSection({
+    withPrediction = false,
+}: {
+    /** The form has a prediction section, whose setup decides the period type */
+    withPrediction?: boolean
+}): React.ReactElement {
     const { control, setValue } = useFormContext<TemplateFormValues>()
     const scheduled = useWatch({ control, name: 'scheduled' })
     const periodType = useWatch({ control, name: 'periodType' })
+    const setupId = useWatch({ control, name: 'predictionSetupId' })
+    // The prediction setup was evaluated on one period type; the data must match it
+    const fromSetup = withPrediction && Boolean(setupId)
 
     return (
         <FormSection num={1} title={i18n.t('Workflow')}>
@@ -56,9 +64,16 @@ export function BasicsSection(): React.ReactElement {
                 render={({ field }) => (
                     <SingleSelectField
                         label={i18n.t('Period type')}
-                        helpText={i18n.t(
-                            'How the data is reported; with a prediction setup, it must match the setup'
-                        )}
+                        disabled={fromSetup}
+                        helpText={
+                            fromSetup
+                                ? i18n.t('Set by the prediction setup')
+                                : withPrediction
+                                  ? i18n.t(
+                                        'How the data is reported. Choosing a prediction setup sets it to match.'
+                                    )
+                                  : i18n.t('How the data is reported')
+                        }
                         selected={field.value}
                         onChange={({ selected }) => {
                             field.onChange(selected)
@@ -92,10 +107,10 @@ export function BasicsSection(): React.ReactElement {
                         helpText={
                             periodType === 'MONTHLY'
                                 ? i18n.t(
-                                      'Each run fetches the latest months again, so values reported late are picked up'
+                                      'The last complete months; the current month is left out. Fetching them again picks up values reported late.'
                                   )
                                 : i18n.t(
-                                      'Each run fetches the latest weeks again, so values reported late are picked up'
+                                      'The last complete weeks; the current week is left out. Fetching them again picks up values reported late.'
                                   )
                         }
                         value={String(field.value)}

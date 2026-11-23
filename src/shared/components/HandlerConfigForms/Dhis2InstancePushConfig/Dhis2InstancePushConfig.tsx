@@ -36,7 +36,6 @@ import {
     formSectionGrids,
     RadioCardGroup,
     type RadioCardOption,
-    SegmentedControl,
 } from '@/shared/components/ui/FormPrimitives'
 
 export interface Dhis2InstancePushConfigProps {
@@ -61,9 +60,21 @@ const SOURCE_OPTIONS: ReadonlyArray<RadioCardOption<PushSource>> = [
             'Totals rolled up to the selected org units; run analytics first'
         ),
     },
+    {
+        value: 'previous',
+        title: i18n.t('Previous step'),
+        description: i18n.t(
+            'Values the previous step pulled, e.g. DHIS2 Instance Pull; nothing is stored on staging'
+        ),
+    },
 ]
 
 function sourceOrgUnitNote(source: PushSource): string {
+    if (source === 'previous') {
+        return i18n.t(
+            'Optional: leave empty to send every org unit in the previous step’s values, or pick some to send only theirs.'
+        )
+    }
     return source === 'raw'
         ? i18n.t(
               'Raw data is read as stored at these org units; values at lower levels aren’t added up.'
@@ -75,7 +86,7 @@ export function Dhis2InstancePushConfig({
     value,
     onChange,
 }: Dhis2InstancePushConfigProps): React.ReactElement {
-    const { control, getValues, setValue, formState } =
+    const { control, getValues, setValue } =
         useFormContext<PipelineStepFormWithHandlerValues>()
     const [showAdvanced, setShowAdvanced] = useState(false)
 
@@ -88,6 +99,18 @@ export function Dhis2InstancePushConfig({
         }
     }, [getValues, onChange, setValue, value])
 
+    // A step that picks from the instance's mappings has no `items`. Steps saved while an empty
+    // field array was written into the form may carry `items: []` next to `mapped`; drop it.
+    useEffect(() => {
+        const raw = getValues('handlerConfig') as Record<string, unknown> | null
+        if (raw && Array.isArray(raw.mapped) && Array.isArray(raw.items)) {
+            const rest = { ...raw }
+            delete rest.items
+            setValue('handlerConfig', rest, { shouldDirty: false })
+            onChange(rest)
+        }
+    }, [getValues, onChange, setValue, value])
+
     const routeCode = useWatch({ control, name: 'handlerConfig.routeCode' }) as
         | string
         | undefined
@@ -95,8 +118,9 @@ export function Dhis2InstancePushConfig({
         | Partial<PushItem>[]
         | undefined
     const items = watchedItems ?? EMPTY_ITEMS
+    const watchedMapped = useWatch({ control, name: 'handlerConfig.mapped' })
     // Older steps list their own items; the rest pick from the instance's mappings.
-    const legacy = Array.isArray(watchedItems)
+    const legacy = Array.isArray(watchedItems) && !Array.isArray(watchedMapped)
     const stepOrgUnitMatch = (useWatch({
         control,
         name: 'handlerConfig.orgUnitMatch',
@@ -112,11 +136,19 @@ export function Dhis2InstancePushConfig({
         'raw') as PushSource
 
     // Analytics can't be read by last update: move such a period to latest periods.
+    // Reading staging needs a period, which a step that sent the previous step's values may lack.
     function switchSource(next: PushSource) {
         setValue('handlerConfig.source', next, { shouldDirty: true })
         const period = getValues('handlerConfig.period') as
             | PushPeriod
             | undefined
+        if (next === 'raw' && !period) {
+            setValue(
+                'handlerConfig.period',
+                { mode: 'updated', days: 7 },
+                { shouldDirty: true, shouldValidate: true }
+            )
+        }
         if (next === 'analytics' && (!period || period.mode === 'updated')) {
             setValue(
                 'handlerConfig.period',
@@ -141,32 +173,6 @@ export function Dhis2InstancePushConfig({
             { shouldDirty: true }
         )
     }
-
-    const itemsArray = useFieldArray({
-        control,
-        // Typed loosely: handlerConfig is a record in the step form schema.
-        name: 'handlerConfig.items' as never,
-    })
-
-    const staging = usePushDataElements(
-        null,
-        items.flatMap((item) => (item.from ? [item.from] : []))
-    )
-    // Same-ID candidates too, so a mapped row can offer "Use same ID".
-    const target = usePushDataElements(
-        routeCode || undefined,
-        items.flatMap((item) =>
-            [pushItemTarget(item), item.from].filter((id): id is string =>
-                Boolean(id)
-            )
-        )
-    )
-
-    const itemsError = (
-        formState.errors.handlerConfig as
-            | { items?: { message?: string } }
-            | undefined
-    )?.items?.message
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -204,64 +210,12 @@ export function Dhis2InstancePushConfig({
             )}
 
             {legacy && (
-                <FormSection
-                    title={i18n.t('Data elements')}
-                    description={i18n.t(
-                        'Values of these staging data elements are sent. Each goes into the target data element with the same ID unless you pick another.'
-                    )}
-                    tight
-                >
-                    <NoticeBox title={i18n.t('This step lists its own items')}>
-                        <p>
-                            {i18n.t(
-                                'Data elements now belong to the connected instance. Map them under Settings › Connected instances › Mappings, then switch this step to pick from them.'
-                            )}
-                        </p>
-                        <Button small onClick={switchToMappings}>
-                            {i18n.t('Use instance mappings')}
-                        </Button>
-                    </NoticeBox>
-                    {target.isError && (
-                        <NoticeBox
-                            warning
-                            title={i18n.t('Could not check the target')}
-                        >
-                            {i18n.t(
-                                'Which data elements exist on the target is unknown; the step checks again before sending anything.'
-                            )}
-                        </NoticeBox>
-                    )}
-                    {items.length > 0 && (
-                        <ul className={classes.items}>
-                            {itemsArray.fields.map((row, index) => (
-                                <PushItemRow
-                                    key={row.id}
-                                    index={index}
-                                    routeCode={routeCode || undefined}
-                                    staging={staging.data}
-                                    target={target.data}
-                                    targetPending={target.isFetching}
-                                    source={source}
-                                    onRemove={() => itemsArray.remove(index)}
-                                />
-                            ))}
-                        </ul>
-                    )}
-                    {itemsError && <NoticeBox error>{itemsError}</NoticeBox>}
-                    <div>
-                        <Button
-                            small
-                            secondary
-                            icon={<IconAdd16 />}
-                            disabled={!routeCode}
-                            onClick={() =>
-                                itemsArray.append({ from: '' } as never)
-                            }
-                        >
-                            {i18n.t('Add data element')}
-                        </Button>
-                    </div>
-                </FormSection>
+                <LegacyItemsSection
+                    routeCode={routeCode}
+                    items={items}
+                    onSwitchToMappings={switchToMappings}
+                    source={source}
+                />
             )}
 
             <FormSection
@@ -281,50 +235,23 @@ export function Dhis2InstancePushConfig({
                 }
                 tight
             >
-                {instance?.configured ? (
-                    <p className={classes.hint}>
-                        {orgUnitMatch === 'code'
+                <p className={classes.hint}>
+                    {instance?.configured
+                        ? orgUnitMatch === 'code'
                             ? i18n.t(
                                   'Matched on the target by code, as set for this instance under Settings › Connected instances.'
                               )
                             : i18n.t(
                                   'Matched on the target by ID, as set for this instance under Settings › Connected instances.'
-                              )}
-                    </p>
-                ) : (
-                    <Controller
-                        name="handlerConfig.orgUnitMatch"
-                        control={control}
-                        render={({ field }) => (
-                            <ConfigLabeledControl
-                                label={i18n.t(
-                                    'Match org units on the target by'
-                                )}
-                                helpText={i18n.t(
-                                    'Use code when staging and the target have different IDs for the same places.'
-                                )}
-                            >
-                                <SegmentedControl<OrgUnitMatch>
-                                    name="push-org-unit-match"
-                                    value={
-                                        (field.value as OrgUnitMatch) ?? 'id'
-                                    }
-                                    options={[
-                                        { value: 'id', label: i18n.t('ID') },
-                                        {
-                                            value: 'code',
-                                            label: i18n.t('Code'),
-                                        },
-                                    ]}
-                                    onChange={field.onChange}
-                                    aria-label={i18n.t(
-                                        'Match org units on the target by'
-                                    )}
-                                />
-                            </ConfigLabeledControl>
-                        )}
-                    />
-                )}
+                              )
+                        : orgUnitMatch === 'code'
+                          ? i18n.t(
+                                'Matched on the target by code. Set how org units are matched for this instance under Settings › Connected instances.'
+                            )
+                          : i18n.t(
+                                'Matched on the target by ID. Set how org units are matched for this instance under Settings › Connected instances.'
+                            )}
+                </p>
                 <OrganisationUnitConfigSection />
             </FormSection>
 
@@ -340,22 +267,30 @@ export function Dhis2InstancePushConfig({
                     control={control}
                     render={({ field }) => (
                         <ConfigLabeledControl
-                            label={i18n.t('Data from staging')}
+                            label={i18n.t('Read values from')}
                         >
                             <RadioCardGroup<PushSource>
                                 name="dhis2-instance-push-source"
                                 value={(field.value as PushSource) ?? 'raw'}
                                 onChange={switchSource}
                                 options={SOURCE_OPTIONS}
-                                columns={2}
+                                columns={3}
                             />
                         </ConfigLabeledControl>
                     )}
                 />
-                <PushPeriodFields
-                    name="handlerConfig.period"
-                    allowUpdated={source === 'raw'}
-                />
+                {source === 'previous' ? (
+                    <p className={classes.hint}>
+                        {i18n.t(
+                            'Put this step after one that pulls values, such as DHIS2 Instance Pull. Its periods are used, and staging is only used to map the values to the target.'
+                        )}
+                    </p>
+                ) : (
+                    <PushPeriodFields
+                        name="handlerConfig.period"
+                        allowUpdated={source === 'raw'}
+                    />
+                )}
             </FormSection>
 
             <FormSection
@@ -425,9 +360,12 @@ export function Dhis2InstancePushConfig({
                                 ],
                             ] as const
                         )
-                            .filter(
-                                ([key]) =>
-                                    key !== 'periods' || source === 'analytics'
+                            .filter(([key]) =>
+                                key === 'values'
+                                    ? true
+                                    : key === 'periods'
+                                      ? source === 'analytics'
+                                      : source !== 'previous'
                             )
                             .map(([key, label, min, max]) => (
                                 <Controller
@@ -466,5 +404,106 @@ export function Dhis2InstancePushConfig({
                 </FormSection>
             )}
         </div>
+    )
+}
+
+/**
+ * Older steps list their own items. Kept in its own component so its field array only exists
+ * for those steps: mounting `useFieldArray` writes an empty `items` into a config that has
+ * none, which would turn a step that picks from the instance's mappings into one listing none.
+ */
+function LegacyItemsSection({
+    routeCode,
+    items,
+    onSwitchToMappings,
+    source,
+}: {
+    routeCode: string | undefined
+    items: Partial<PushItem>[]
+    onSwitchToMappings: () => void
+    source: PushSource
+}): React.ReactElement {
+    const { control, formState } =
+        useFormContext<PipelineStepFormWithHandlerValues>()
+    const itemsArray = useFieldArray({
+        control,
+        // Typed loosely: handlerConfig is a record in the step form schema.
+        name: 'handlerConfig.items' as never,
+    })
+
+    const staging = usePushDataElements(
+        null,
+        items.flatMap((item) => (item.from ? [item.from] : []))
+    )
+    // Same-ID candidates too, so a mapped row can offer "Use same ID".
+    const target = usePushDataElements(
+        routeCode || undefined,
+        items.flatMap((item) =>
+            [pushItemTarget(item), item.from].filter((id): id is string =>
+                Boolean(id)
+            )
+        )
+    )
+
+    const itemsError = (
+        formState.errors.handlerConfig as
+            | { items?: { message?: string } }
+            | undefined
+    )?.items?.message
+
+    return (
+        <FormSection
+            title={i18n.t('Data elements')}
+            description={i18n.t(
+                'Values of these staging data elements are sent. Each goes into the target data element with the same ID unless you pick another.'
+            )}
+            tight
+        >
+            <NoticeBox title={i18n.t('This step lists its own items')}>
+                <p>
+                    {i18n.t(
+                        'Data elements now belong to the connected instance. Map them under Settings › Connected instances › Mappings, then switch this step to pick from them.'
+                    )}
+                </p>
+                <Button small onClick={onSwitchToMappings}>
+                    {i18n.t('Use instance mappings')}
+                </Button>
+            </NoticeBox>
+            {target.isError && (
+                <NoticeBox warning title={i18n.t('Could not check the target')}>
+                    {i18n.t(
+                        'Which data elements exist on the target is unknown; the step checks again before sending anything.'
+                    )}
+                </NoticeBox>
+            )}
+            {items.length > 0 && (
+                <ul className={classes.items}>
+                    {itemsArray.fields.map((row, index) => (
+                        <PushItemRow
+                            key={row.id}
+                            index={index}
+                            routeCode={routeCode || undefined}
+                            staging={staging.data}
+                            target={target.data}
+                            targetPending={target.isFetching}
+                            source={source}
+                            onRemove={() => itemsArray.remove(index)}
+                        />
+                    ))}
+                </ul>
+            )}
+            {itemsError && <NoticeBox error>{itemsError}</NoticeBox>}
+            <div>
+                <Button
+                    small
+                    secondary
+                    icon={<IconAdd16 />}
+                    disabled={!routeCode}
+                    onClick={() => itemsArray.append({ from: '' } as never)}
+                >
+                    {i18n.t('Add data element')}
+                </Button>
+            </div>
+        </FormSection>
     )
 }

@@ -22,6 +22,7 @@ import {
 } from './flowStatus'
 import { flowEdgeTypes } from './LabelledEdge'
 import { NO_ESCAPE } from '@/modules/pipeline-connectors/utils/connectorLabels'
+import { describeCadence } from '@/modules/pipeline-detail/utils/cronHelpers'
 import { formatDate } from '@/modules/pipeline-detail/utils/formatLabels'
 import {
     buildWorkflowGraph,
@@ -106,7 +107,7 @@ function nodeData(
                             date: formatDate(workflow.nextRunAt),
                             interpolation: NO_ESCAPE,
                         })
-                      : workflow.cronExpr,
+                      : describeCadence(workflow.cronExpr),
                 inactive: !workflow.isActive,
             }
         case 'pipeline': {

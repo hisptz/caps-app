@@ -401,3 +401,33 @@ export function describeScheduleInWords(expr: string): string {
         }
     }
 }
+
+/**
+ * How often a schedule repeats, without the time: "Every Monday", "On day 1 of every
+ * month". For lists where the next run, shown in the viewer's timezone, gives the time.
+ */
+export function describeCadence(expr: string): string {
+    const schedule = parseSimpleSchedule(expr)
+    if (!schedule) {
+        return i18n.t('Custom schedule')
+    }
+    switch (schedule.kind) {
+        case 'hourly':
+            return i18n.t('Every hour')
+        case 'daily':
+            return i18n.t('Every day')
+        case 'weekly': {
+            const key = schedule.days.join(',')
+            if (key === '1,2,3,4,5') {
+                return i18n.t('Every weekday')
+            }
+            return i18n.t('Every {{days}}', {
+                days: listWords(schedule.days.map(weekdayName)),
+            })
+        }
+        case 'monthly':
+            return i18n.t('On day {{day}} of every month', {
+                day: schedule.day,
+            })
+    }
+}

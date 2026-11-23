@@ -41,51 +41,82 @@ export const pushPeriodSchema = z.discriminatedUnion('mode', [
 
 export type PushPeriod = z.infer<typeof pushPeriodSchema>
 
-/** Raw data values as entered, or totals rolled up by staging's analytics. */
-export const pushSourceSchema = z.enum(['raw', 'analytics'])
+export const pushSourceSchema = z.enum(['raw', 'analytics', 'previous'])
 
 export type PushSource = z.infer<typeof pushSourceSchema>
 
 export const PUSH_CHUNK_MIN = 100
 export const PUSH_CHUNK_MAX = 10_000
 
-/** Mirrors caps-engine worker `dhis2InstancePushConfigSchema`. */
-export const dhis2InstancePushConfigSchema = z.object({
-    routeCode: z.string().regex(SOURCE_ROUTE_CODE_PATTERN, {
-        message: i18n.t('Pick a connected instance'),
-    }),
-    items: z
-        .array(pushItemSchema)
-        .min(1, { message: i18n.t('Add at least one data element to push') })
-        .optional(),
-    /** Staging data elements to push, as the instance's mappings say where each goes. */
-    mapped: z
-        .array(uidSchema)
-        .min(1, { message: i18n.t('Pick at least one data element') })
-        .optional(),
-    source: pushSourceSchema.default('raw'),
-    /** Staging org units whose values are sent. */
-    orgUnit: z.object({
-        ids: z.array(z.string()).optional(),
-        levels: z.array(z.number().int().positive()).optional(),
-        groups: z.array(z.string()).optional(),
-    }),
-    orgUnitMatch: orgUnitMatchSchema.default('id'),
-    period: pushPeriodSchema,
-    importStrategy: dataValueImportStrategySchema.default('CREATE_AND_UPDATE'),
-    chunk: z
-        .object({
-            orgUnits: z.number().int().min(1).max(500).default(50),
-            periods: z.number().int().min(1).max(60).default(12),
-            values: z
-                .number()
-                .int()
-                .min(PUSH_CHUNK_MIN)
-                .max(PUSH_CHUNK_MAX)
-                .default(2_000),
-        })
-        .default({ orgUnits: 50, periods: 12, values: 2_000 }),
+const orgUnitSelectionSchema = z.object({
+    ids: z.array(z.string()).optional(),
+    levels: z.array(z.number().int().positive()).optional(),
+    groups: z.array(z.string()).optional(),
 })
+
+type OrgUnitSelection = z.infer<typeof orgUnitSelectionSchema>
+
+export function hasOrgUnitSelection(ou: OrgUnitSelection | undefined): boolean {
+    return (
+        (ou?.ids?.length ?? 0) > 0 ||
+        (ou?.levels?.length ?? 0) > 0 ||
+        (ou?.groups?.length ?? 0) > 0
+    )
+}
+
+export const dhis2InstancePushConfigSchema = z
+    .object({
+        routeCode: z.string().regex(SOURCE_ROUTE_CODE_PATTERN, {
+            message: i18n.t('Pick a connected instance'),
+        }),
+        items: z
+            .array(pushItemSchema)
+            .min(1, {
+                message: i18n.t('Add at least one data element to push'),
+            })
+            .optional(),
+        mapped: z
+            .array(uidSchema)
+            .min(1, { message: i18n.t('Pick at least one data element') })
+            .optional(),
+        source: pushSourceSchema.default('raw'),
+        orgUnit: orgUnitSelectionSchema.optional(),
+        orgUnitMatch: orgUnitMatchSchema.default('id'),
+        period: pushPeriodSchema.optional(),
+        importStrategy:
+            dataValueImportStrategySchema.default('CREATE_AND_UPDATE'),
+        chunk: z
+            .object({
+                orgUnits: z.number().int().min(1).max(500).default(50),
+                periods: z.number().int().min(1).max(60).default(12),
+                values: z
+                    .number()
+                    .int()
+                    .min(PUSH_CHUNK_MIN)
+                    .max(PUSH_CHUNK_MAX)
+                    .default(2_000),
+            })
+            .default({ orgUnits: 50, periods: 12, values: 2_000 }),
+    })
+    .superRefine((config, ctx) => {
+        if (config.source === 'previous') {
+            return
+        }
+        if (!hasOrgUnitSelection(config.orgUnit)) {
+            ctx.addIssue({
+                code: 'custom',
+                path: ['orgUnit'],
+                message: i18n.t('Pick the org units whose values are pushed'),
+            })
+        }
+        if (!config.period) {
+            ctx.addIssue({
+                code: 'custom',
+                path: ['period'],
+                message: i18n.t('Pick which values to read from staging'),
+            })
+        }
+    })
 
 export type Dhis2InstancePushConfigValue = z.infer<
     typeof dhis2InstancePushConfigSchema
@@ -110,6 +141,7 @@ export function isDhis2InstancePushConfigShape(value: unknown): boolean {
         value !== null &&
         (Array.isArray((value as { items?: unknown }).items) ||
             Array.isArray((value as { mapped?: unknown }).mapped)) &&
-        typeof (value as { period?: unknown }).period === 'object'
+        (typeof (value as { period?: unknown }).period === 'object' ||
+            (value as { source?: unknown }).source === 'previous')
     )
 }
