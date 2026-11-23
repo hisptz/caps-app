@@ -46,6 +46,8 @@ const DeadLettersPage: React.FC = () => {
             <div className={classes.filters}>
                 <SingleSelectField
                     label={i18n.t('Pipeline')}
+                    filterable
+                    noMatchText={i18n.t('No pipelines match')}
                     selected={pipelineId}
                     onChange={({ selected }: { selected: string }) => {
                         setPipelineId(selected)
