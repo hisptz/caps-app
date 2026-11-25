@@ -1,3 +1,9 @@
+## [2.6.2](https://github.com/hisptz/caps-app/compare/v2.6.1...v2.6.2) (2026-11-25)
+
+### Bug Fixes
+
+- refactor chap prediction handler and rename ocs to geoservice - [#28](https://github.com/hisptz/caps-app/issues/28)⁠ ([6f07aab](https://github.com/hisptz/caps-app/commit/6f07aab3ebe0864ab26974bb0e79ac033423fe24))
+
 ## [2.6.1](https://github.com/hisptz/caps-app/compare/v2.6.0...v2.6.1) (2026-11-23)
 
 ### Bug Fixes
