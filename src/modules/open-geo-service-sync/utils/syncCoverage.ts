@@ -1,6 +1,6 @@
 import type { PipelineStep } from '@/shared/types/caps'
 
-export const OPEN_CLIMATE_SERVICE_SYNC_HANDLER = 'open-climate-service-sync'
+export const OPEN_GEO_SERVICE_SYNC_HANDLER = 'open-climate-service-sync'
 export const CLIMATE_OPENEO_CREATE_HANDLER = 'climate-openeo-create'
 
 function readDatasetId(step: PipelineStep): string | null {
@@ -49,7 +49,7 @@ export function findUnsyncedClimateSteps(
         }
         const earlierSyncSteps = ordered
             .slice(0, index)
-            .filter((s) => s.handlerKey === OPEN_CLIMATE_SERVICE_SYNC_HANDLER)
+            .filter((s) => s.handlerKey === OPEN_GEO_SERVICE_SYNC_HANDLER)
         const covered = earlierSyncSteps.some((s) =>
             readSyncedDatasetIds(s).includes(datasetId)
         )

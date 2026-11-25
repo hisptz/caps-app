@@ -9,7 +9,7 @@ import { SchemaClimatePeriodField } from './SchemaClimatePeriodField'
 import { SchemaDataElementListField } from './SchemaDataElementListField'
 import { SchemaGroup } from './SchemaGroup'
 import { SchemaUserGroupsField } from './SchemaUserGroupsField'
-import { OcsPipelineField } from '@/modules/ocs-pipelines/components/OcsPipelineField'
+import { GeoservicePipelineField } from '@/modules/geoservice-pipelines/components/GeoservicePipelineField'
 
 export interface SchemaPickerFieldProps {
     name: string
@@ -66,6 +66,6 @@ export function SchemaPickerField({
         case 'climatePeriod':
             return <SchemaClimatePeriodField {...common} />
         case 'ocsPipeline':
-            return <OcsPipelineField {...common} />
+            return <GeoservicePipelineField {...common} />
     }
 }

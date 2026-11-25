@@ -113,7 +113,7 @@ const contextSchema = {
 const handlers: HandlerDescriptor[] = [
     {
         key: 'climate-openeo-create',
-        displayName: 'Open Climate Service Create',
+        displayName: 'Open Geo Service Create',
         description: 'Test handler',
         tags: [],
         queueName: 'step.climate-openeo-create',

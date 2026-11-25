@@ -103,7 +103,7 @@ describe('createPipelineStepFormSchema', () => {
         const schema = createPipelineStepFormSchema([
             {
                 key: 'climate-openeo-create',
-                displayName: 'Open Climate Service Create',
+                displayName: 'Open Geo Service Create',
                 description: '',
                 tags: ['climate', 'openeo'],
                 queueName: 'step.climate-openeo-create',

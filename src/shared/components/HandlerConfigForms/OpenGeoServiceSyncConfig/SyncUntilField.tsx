@@ -7,7 +7,7 @@ import {
     monthEndDate,
     parseSyncEnd,
     type SyncEndGranularity,
-} from '@/modules/open-climate-service-sync/utils/syncEnd'
+} from '@/modules/open-geo-service-sync/utils/syncEnd'
 import type { PipelineStepFormWithHandlerValues } from '@/modules/pipeline-detail/schemas/stepFormSchema'
 import { SingleSelectControl } from '@/shared/components/ui/FormPrimitives'
 

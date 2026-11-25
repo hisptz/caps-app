@@ -7,7 +7,6 @@ import {
     ModalContent,
     ModalTitle,
     NoticeBox,
-    SimpleSingleSelectField,
     SwitchField,
 } from '@dhis2/ui'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -33,6 +32,7 @@ import {
 } from '@/modules/climate-data/schemas/ingestionFormSchema'
 import { resolvePeriodScope } from '@/modules/climate-data/utils/periodScope'
 import { isFutureTemplate } from '@/modules/climate-data/utils/template'
+import { SearchableSimpleSelectField } from '@/shared/components/ui/FormPrimitives'
 
 type Props = {
     open: boolean
@@ -135,7 +135,7 @@ export function CreateIngestionModal({
                             name="dataset_id"
                             control={form.control}
                             render={({ field, fieldState }) => (
-                                <SimpleSingleSelectField
+                                <SearchableSimpleSelectField
                                     name="dataset_id"
                                     label={i18n.t('Dataset template')}
                                     required

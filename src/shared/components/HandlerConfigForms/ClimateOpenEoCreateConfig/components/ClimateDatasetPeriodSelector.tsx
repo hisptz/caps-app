@@ -306,7 +306,7 @@ export function ClimateDatasetPeriodSelector(): React.ReactElement | null {
 
     const temporalExtent = getDatasetTemporalExtent(dataset)
     const datasetPeriodType = normalizeDatasetPeriodType(dataset?.periodType)
-    // Open Climate Service adds daily values up to weeks or months, never the other way
+    // Open Geo Service adds daily values up to weeks or months, never the other way
     const periodTypes = datasetPeriodType
         ? PERIOD_TYPES.slice(PERIOD_TYPES.indexOf(datasetPeriodType))
         : []

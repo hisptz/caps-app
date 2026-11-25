@@ -18,7 +18,7 @@ import {
     rollingWindow,
 } from '../ClimateOpenEoCreateConfig/utils/climatePeriod'
 import classes from './SchemaClimatePeriodField.module.css'
-import { useOcsPipelinePeriodType } from '@/modules/ocs-pipelines/hooks/useOcsPipelinePeriodType'
+import { useGeoservicePipelinePeriodType } from '@/modules/geoservice-pipelines/hooks/useGeoservicePipelinePeriodType'
 import {
     SegmentedControl,
     SingleSelectControl,
@@ -62,7 +62,7 @@ interface PeriodTypeLock {
     error?: string
 }
 
-/** The sibling field naming the OCS pipeline a step runs (`ocs-pipeline-run`). */
+/** The sibling field naming the geoservice pipeline a step runs (`ocs-pipeline-run`). */
 const PIPELINE_FIELD = 'pipelineId'
 
 function siblingName(name: string, sibling: string): string {
@@ -89,7 +89,7 @@ function PipelinePeriodField({
     pipelineId: string
 }): React.ReactElement {
     const { periodType, datasetName, isLoading } =
-        useOcsPipelinePeriodType(pipelineId)
+        useGeoservicePipelinePeriodType(pipelineId)
     const supported = normalizeDatasetPeriodType(periodType)
     let lock: PeriodTypeLock | undefined
     if (supported) {

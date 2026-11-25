@@ -206,7 +206,7 @@ export function useWorkflowTemplateSetupQuery(
 
 /**
  * Checks parameters on the engine as they are typed: CHAP setup, staging data elements,
- * OCS datasets and the source route. Pass null while the form itself is incomplete.
+ * geoservice datasets and the source route. Pass null while the form itself is incomplete.
  */
 export function useTemplatePreviewQuery(
     engine: CapsDataEngine,

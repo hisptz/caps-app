@@ -157,7 +157,7 @@ export const ConnectedSystemCards: React.FC<ConnectedSystemCardsProps> = ({
         },
         {
             id: 'climate-api',
-            title: i18n.t('Open Climate Service'),
+            title: i18n.t('Open Geo Service'),
             description: i18n.t('Climate data source · openEO API'),
             initial: 'O',
             accent: 'orange',

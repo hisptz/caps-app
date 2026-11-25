@@ -1,9 +1,10 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import { NoticeBox, SimpleSingleSelectField } from '@dhis2/ui'
+import { NoticeBox } from '@dhis2/ui'
 import React from 'react'
 import { useController } from 'react-hook-form'
 import { useClimateCollectionsQuery } from '@/modules/climate-data/hooks/useClimateCollectionsQuery'
+import { SearchableSimpleSelectField } from '@/shared/components/ui/FormPrimitives'
 
 export function ClimateDatasetBrowser(): React.ReactElement {
     const { field, fieldState } = useController({
@@ -23,7 +24,7 @@ export function ClimateDatasetBrowser(): React.ReactElement {
     const datasets = datasetsQuery.data ?? []
 
     return (
-        <SimpleSingleSelectField
+        <SearchableSimpleSelectField
             error={!!fieldState.error?.message}
             validationText={fieldState.error?.message}
             name="handlerConfig.datasetId"

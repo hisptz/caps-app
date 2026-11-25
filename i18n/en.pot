@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-11-21T23:27:36.011Z\n"
-"PO-Revision-Date: 2026-11-21T23:27:36.011Z\n"
+"POT-Creation-Date: 2026-11-23T14:51:44.733Z\n"
+"PO-Revision-Date: 2026-11-23T14:51:44.733Z\n"
 
 msgid "Enter a valid HTTP or HTTPS URL."
 msgstr "Enter a valid HTTP or HTTPS URL."
@@ -29,21 +29,21 @@ msgstr "Climate data"
 msgid "New dataset"
 msgstr "New dataset"
 
-msgid "Open Climate Service is read-only"
-msgstr "Open Climate Service is read-only"
+msgid "Open Geo Service is read-only"
+msgstr "Open Geo Service is read-only"
 
-msgid "This Open Climate Service instance does not accept ingestions or syncs."
-msgstr "This Open Climate Service instance does not accept ingestions or syncs."
+msgid "This Open Geo Service instance does not accept ingestions or syncs."
+msgstr "This Open Geo Service instance does not accept ingestions or syncs."
 
 msgid "Could not load climate datasets"
 msgstr "Could not load climate datasets"
 
 msgid ""
-"CAPS is connected, but Open Climate Service request failed. Check that the "
-"OCS service is running and compatible with this CAPS version."
+"CAPS is connected, but Open Geo Service request failed. Check that the "
+"geoservice is running and compatible with this CAPS version."
 msgstr ""
-"CAPS is connected, but Open Climate Service request failed. Check that the "
-"OCS service is running and compatible with this CAPS version."
+"CAPS is connected, but Open Geo Service request failed. Check that the "
+"geoservice is running and compatible with this CAPS version."
 
 msgid "Check CAPS settings"
 msgstr "Check CAPS settings"
@@ -179,6 +179,9 @@ msgstr "Present"
 
 msgid "Start period"
 msgstr "Start period"
+
+msgid "No periods match"
+msgstr "No periods match"
 
 msgid "End period"
 msgstr "End period"
@@ -888,9 +891,6 @@ msgstr "climate data ready"
 msgid "run update"
 msgstr "run update"
 
-msgid "Could not retry the step. Try again."
-msgstr "Could not retry the step. Try again."
-
 msgid "Default"
 msgstr "Default"
 
@@ -936,11 +936,11 @@ msgstr "DHIS2"
 msgid "Data elements"
 msgstr "Data elements"
 
-msgid "Checks failing in OCS"
-msgstr "Checks failing in OCS"
+msgid "Checks failing in geoservice"
+msgstr "Checks failing in geoservice"
 
-msgid "OCS refused"
-msgstr "OCS refused"
+msgid "Geoservice refused"
+msgstr "Geoservice refused"
 
 msgid "From"
 msgstr "From"
@@ -969,20 +969,20 @@ msgstr "Dry run failed"
 msgid "Not dry-run yet"
 msgstr "Not dry-run yet"
 
-msgid "\"{{id}}\" is no longer in OCS"
-msgstr "\"{{id}}\" is no longer in OCS"
+msgid "\"{{id}}\" is no longer in geoservice"
+msgstr "\"{{id}}\" is no longer in geoservice"
 
-msgid "Choose an OCS pipeline"
-msgstr "Choose an OCS pipeline"
+msgid "Choose an geoservice pipeline"
+msgstr "Choose an geoservice pipeline"
 
 msgid "New"
 msgstr "New"
 
-msgid "Could not reach OCS"
-msgstr "Could not reach OCS"
+msgid "Could not reach geoservice"
+msgstr "Could not reach geoservice"
 
-msgid "OCS did not save it"
-msgstr "OCS did not save it"
+msgid "Geoservice did not save it"
+msgstr "Geoservice did not save it"
 
 msgid "Pipeline"
 msgstr "Pipeline"
@@ -999,8 +999,8 @@ msgstr "Connection"
 msgid "Choose a connection"
 msgstr "Choose a connection"
 
-msgid "Name in the OCS config"
-msgstr "Name in the OCS config"
+msgid "Name in the geoservice config"
+msgstr "Name in the geoservice config"
 
 msgid "Data set"
 msgstr "Data set"
@@ -1011,11 +1011,11 @@ msgstr "Data element"
 msgid "Category option combo"
 msgstr "Category option combo"
 
-msgid "Edit OCS pipeline"
-msgstr "Edit OCS pipeline"
+msgid "Edit geoservice pipeline"
+msgstr "Edit geoservice pipeline"
 
-msgid "New OCS pipeline"
-msgstr "New OCS pipeline"
+msgid "New geoservice pipeline"
+msgstr "New geoservice pipeline"
 
 msgid "Save"
 msgstr "Save"
@@ -1059,21 +1059,24 @@ msgstr "Enter a number"
 msgid "Enter valid JSON"
 msgstr "Enter valid JSON"
 
+msgid "Could not retry the step. Try again."
+msgstr "Could not retry the step. Try again."
+
 msgid "Climate data may be stale"
 msgstr "Climate data may be stale"
 
 msgid ""
-"{{steps}} - Is not synced by an open climate service sync handler. "
-"Scheduled runs will use whatever was last synced by hand."
+"{{steps}} - Is not synced by an open geo service sync handler. Scheduled "
+"runs will use whatever was last synced by hand."
 msgstr ""
-"{{steps}} - Is not synced by an open climate service sync handler. "
-"Scheduled runs will use whatever was last synced by hand."
+"{{steps}} - Is not synced by an open geo service sync handler. Scheduled "
+"runs will use whatever was last synced by hand."
 
 msgid "Move \"{{name}}\" above these steps."
 msgstr "Move \"{{name}}\" above these steps."
 
-msgid "Add an Open Climate Service Sync step above these steps."
-msgstr "Add an Open Climate Service Sync step above these steps."
+msgid "Add an Open Geo Service Sync step above these steps."
+msgstr "Add an Open Geo Service Sync step above these steps."
 
 msgid "Add {{datasets}} to \"{{step}}\""
 msgstr "Add {{datasets}} to \"{{step}}\""
@@ -2560,10 +2563,10 @@ msgstr "Fetch climate data and run analytics"
 
 msgid ""
 "Fetches climate variables such as rainfall and temperature for your org "
-"units from Open Climate Service, saves them in staging and runs analytics."
+"units from Open Geo Service, saves them in staging and runs analytics."
 msgstr ""
 "Fetches climate variables such as rainfall and temperature for your org "
-"units from Open Climate Service, saves them in staging and runs analytics."
+"units from Open Geo Service, saves them in staging and runs analytics."
 
 msgid "Run a prediction"
 msgstr "Run a prediction"
@@ -3356,11 +3359,11 @@ msgstr "Minimum"
 msgid "Maximum"
 msgstr "Maximum"
 
-msgid "from Open Climate Service"
-msgstr "from Open Climate Service"
+msgid "from Open Geo Service"
+msgstr "from Open Geo Service"
 
-msgid "\"{{id}}\" is not in Open Climate Service"
-msgstr "\"{{id}}\" is not in Open Climate Service"
+msgid "\"{{id}}\" is not in Open Geo Service"
+msgstr "\"{{id}}\" is not in Open Geo Service"
 
 msgid "Datasets ingested on the Climate data page"
 msgstr "Datasets ingested on the Climate data page"
@@ -3397,6 +3400,9 @@ msgstr "Pull from another instance"
 
 msgid "e.g. the HMIS; pulled at the same time as the climate data"
 msgstr "e.g. the HMIS; pulled at the same time as the climate data"
+
+msgid "No instances match"
+msgstr "No instances match"
 
 msgid "Connected on the Settings page"
 msgstr "Connected on the Settings page"
@@ -3436,6 +3442,9 @@ msgstr "CHAP could not be reached"
 
 msgid "Prediction setup"
 msgstr "Prediction setup"
+
+msgid "No prediction setups match"
+msgstr "No prediction setups match"
 
 msgid "Its org units and inputs are used; you only say where each input comes from"
 msgstr "Its org units and inputs are used; you only say where each input comes from"
@@ -3682,8 +3691,8 @@ msgstr "Climate & Health Analytics Platform"
 msgid "Host instance · platform API"
 msgstr "Host instance · platform API"
 
-msgid "Open Climate Service"
-msgstr "Open Climate Service"
+msgid "Open Geo Service"
+msgstr "Open Geo Service"
 
 msgid "Climate data source · openEO API"
 msgstr "Climate data source · openEO API"
@@ -3870,8 +3879,8 @@ msgstr "Min"
 msgid "Max"
 msgstr "Max"
 
-msgid "Managed climate dataset from the Open Climate Service"
-msgstr "Managed climate dataset from the Open Climate Service"
+msgid "Managed climate dataset from the Open Geo Service"
+msgstr "Managed climate dataset from the Open Geo Service"
 
 msgid "Climate variable → DHIS2 data element"
 msgstr "Climate variable → DHIS2 data element"
@@ -3902,9 +3911,6 @@ msgstr "Optional. Leave empty to run just the start period."
 
 msgid "Search periods"
 msgstr "Search periods"
-
-msgid "No periods match"
-msgstr "No periods match"
 
 msgid "Could not load dataset coverage"
 msgstr "Could not load dataset coverage"
@@ -3973,10 +3979,10 @@ msgstr "A run today covers {{start}} – {{end}}"
 
 msgid ""
 "The dataset currently ends {{end}}. Later {{unit}} stay empty until it is "
-"synced; an Open Climate Service Sync step before this one keeps it current."
+"synced; an Open Geo Service Sync step before this one keeps it current."
 msgstr ""
 "The dataset currently ends {{end}}. Later {{unit}} stay empty until it is "
-"synced; an Open Climate Service Sync step before this one keeps it current."
+"synced; an Open Geo Service Sync step before this one keeps it current."
 
 msgid ""
 "Worked out when each run starts (UTC), so a scheduled pipeline moves "
@@ -4775,6 +4781,12 @@ msgstr "Open Modeling app"
 msgid "Evaluations"
 msgstr "Evaluations"
 
+msgid "Search by evaluation or model name"
+msgstr "Search by evaluation or model name"
+
+msgid "No evaluations match"
+msgstr "No evaluations match"
+
 msgid "Only evaluations with a prediction setup are listed."
 msgstr "Only evaluations with a prediction setup are listed."
 
@@ -4862,6 +4874,22 @@ msgstr "First period of the training data."
 
 msgid "Year"
 msgstr "Year"
+
+msgid "Weeks back from the current week"
+msgstr "Weeks back from the current week"
+
+msgid "Months back from the current month"
+msgstr "Months back from the current month"
+
+msgid "Enter a whole number of 1 or more."
+msgstr "Enter a whole number of 1 or more."
+
+msgid ""
+"1 ends on the last complete period. Use a higher number to leave out recent "
+"periods whose data is not fully imported yet."
+msgstr ""
+"1 ends on the last complete period. Use a higher number to leave out recent "
+"periods whose data is not fully imported yet."
 
 msgid "Number of periods to generate"
 msgstr "Number of periods to generate"
@@ -5156,6 +5184,12 @@ msgstr "Search users by name or username"
 
 msgid "No matching users found"
 msgstr "No matching users found"
+
+msgid "Type to search"
+msgstr "Type to search"
+
+msgid "No options match"
+msgstr "No options match"
 
 msgid "just now"
 msgstr "just now"

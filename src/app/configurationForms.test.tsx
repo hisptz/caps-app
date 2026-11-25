@@ -20,7 +20,7 @@ import type { PipelineStep } from '@/shared/types/caps'
 const testHandlers: HandlerDescriptor[] = [
     {
         key: 'climate-openeo-create',
-        displayName: 'Open Climate Service Create',
+        displayName: 'Open Geo Service Create',
         description: 'Test handler',
         tags: ['climate', 'openeo'],
         queueName: 'step.climate-openeo-create',

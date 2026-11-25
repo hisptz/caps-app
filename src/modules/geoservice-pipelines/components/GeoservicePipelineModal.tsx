@@ -16,45 +16,45 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import React, { useEffect, useMemo } from 'react'
 import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form'
 import {
-    useOcsPipelineMutations,
-    useOcsPipelineOptionsQuery,
-} from '../hooks/useOcsPipelines'
+    useGeoservicePipelineMutations,
+    useGeoservicePipelineOptionsQuery,
+} from '../hooks/useGeoservicePipelines'
 import {
     argumentProblems,
-    emptyOcsPipelineForm,
-    fromOcsPipeline,
-    ocsPipelineFormSchema,
-    type OcsPipelineFormValues,
-    toOcsPipelineBody,
-} from '../schemas/ocsPipelineFormSchema'
-import { ocsErrorMessages } from '../utils/ocsErrors'
+    emptyGeoservicePipelineForm,
+    fromGeoservicePipeline,
+    geoservicePipelineFormSchema,
+    type GeoservicePipelineFormValues,
+    toGeoservicePipelineBody,
+} from '../schemas/geoservicePipelineFormSchema'
+import { geoserviceErrorMessages } from '../utils/geoserviceErrors'
 import { CategoryOptionComboSelector } from './CategoryOptionComboSelector'
 import { DataSetSelector } from './DataSetSelector'
-import classes from './OcsPipeline.module.css'
-import { OcsWorkflowArgumentField } from './OcsWorkflowArgumentField'
-import type { OcsPipeline } from '@/capsApi/types'
+import classes from './GeoservicePipeline.module.css'
+import { GeoserviceWorkflowArgumentField } from './GeoserviceWorkflowArgumentField'
+import type { GeoservicePipeline } from '@/capsApi/types'
 import { DataElementSelector } from '@/shared/components/HandlerConfigForms/DataElementSelector'
 import {
     FormSection,
     SingleSelectControl,
 } from '@/shared/components/ui/FormPrimitives'
 
-const FORM_ID = 'ocs-pipeline-form'
+const FORM_ID = 'geoservice-pipeline-form'
 
 type Props = {
     open: boolean
     /** The pipeline to edit; a new one is created without it. */
-    pipeline?: OcsPipeline | null
+    pipeline?: GeoservicePipeline | null
     onClose: () => void
-    onSaved: (pipeline: OcsPipeline) => void
+    onSaved: (pipeline: GeoservicePipeline) => void
 }
 
 /**
- * Creates or edits an Open Climate Service pipeline: the workflow with its inputs, and the
- * DHIS2 data element its result goes to. OCS validates it on save and keeps it; the
+ * Creates or edits an Open Geo Service pipeline: the workflow with its inputs, and the
+ * DHIS2 data element its result goes to. geoservice validates it on save and keeps it; the
  * `ocs-pipeline-run` step decides when it runs, so it is saved with policy `manual`.
  */
-export function OcsPipelineModal({
+export function GeoservicePipelineModal({
     open,
     pipeline,
     onClose,
@@ -62,11 +62,12 @@ export function OcsPipelineModal({
 }: Props): React.ReactElement | null {
     const engine = useDataEngine()
     const editing = Boolean(pipeline)
-    const optionsQuery = useOcsPipelineOptionsQuery(engine, open)
-    const { createMutation, updateMutation } = useOcsPipelineMutations(engine)
-    const form = useForm<OcsPipelineFormValues>({
-        resolver: zodResolver(ocsPipelineFormSchema),
-        defaultValues: emptyOcsPipelineForm,
+    const optionsQuery = useGeoservicePipelineOptionsQuery(engine, open)
+    const { createMutation, updateMutation } =
+        useGeoservicePipelineMutations(engine)
+    const form = useForm<GeoservicePipelineFormValues>({
+        resolver: zodResolver(geoservicePipelineFormSchema),
+        defaultValues: emptyGeoservicePipelineForm,
         mode: 'onBlur',
     })
     const workflowId = useWatch({ control: form.control, name: 'workflowId' })
@@ -76,7 +77,9 @@ export function OcsPipelineModal({
     useEffect(() => {
         if (open) {
             form.reset(
-                pipeline ? fromOcsPipeline(pipeline) : emptyOcsPipelineForm
+                pipeline
+                    ? fromGeoservicePipeline(pipeline)
+                    : emptyGeoservicePipelineForm
             )
             form.clearErrors()
         }
@@ -109,7 +112,7 @@ export function OcsPipelineModal({
 
     const saving = createMutation.isPending || updateMutation.isPending
 
-    function onSubmit(values: OcsPipelineFormValues): void {
+    function onSubmit(values: GeoservicePipelineFormValues): void {
         const parameters = workflow?.parameters ?? []
         const problems = argumentProblems(parameters, values.arguments)
         if (Object.keys(problems).length > 0) {
@@ -118,16 +121,16 @@ export function OcsPipelineModal({
             }
             return
         }
-        const body = toOcsPipelineBody(values, parameters)
+        const body = toGeoservicePipelineBody(values, parameters)
         const handlers = {
-            onSuccess: (saved: OcsPipeline) => {
+            onSuccess: (saved: GeoservicePipeline) => {
                 onSaved(saved)
                 onClose()
             },
             onError: (error: unknown) => {
                 form.setError('root', {
                     type: 'server',
-                    message: ocsErrorMessages(error).join('\n'),
+                    message: geoserviceErrorMessages(error).join('\n'),
                 })
             },
         }
@@ -166,8 +169,8 @@ export function OcsPipelineModal({
         )
     } else if (optionsQuery.error || !options) {
         content = (
-            <NoticeBox error title={i18n.t('Could not reach OCS')}>
-                {ocsErrorMessages(optionsQuery.error).join(' ')}
+            <NoticeBox error title={i18n.t('Could not reach geoservice')}>
+                {geoserviceErrorMessages(optionsQuery.error).join(' ')}
             </NoticeBox>
         )
     } else {
@@ -186,7 +189,7 @@ export function OcsPipelineModal({
                         <div style={{ marginBottom: 16 }}>
                             <NoticeBox
                                 error
-                                title={i18n.t('OCS did not save it')}
+                                title={i18n.t('Geoservice did not save it')}
                             >
                                 <ul className={classes.problems}>
                                     {rootError.split('\n').map((line) => (
@@ -270,7 +273,7 @@ export function OcsPipelineModal({
                         {workflow && workflow.parameters.length > 0 ? (
                             <div className={classes.grid2}>
                                 {workflow.parameters.map((parameter) => (
-                                    <OcsWorkflowArgumentField
+                                    <GeoserviceWorkflowArgumentField
                                         key={`${workflow.id}-${parameter.name}`}
                                         parameter={parameter}
                                         options={options}
@@ -313,7 +316,7 @@ export function OcsPipelineModal({
                                             label={i18n.t('Connection')}
                                             required
                                             placeholder={i18n.t(
-                                                'Name in the OCS config'
+                                                'Name in the geoservice config'
                                             )}
                                             name={field.name}
                                             value={field.value ?? ''}
@@ -357,8 +360,8 @@ export function OcsPipelineModal({
         <Modal large onClose={onClose} position="middle">
             <ModalTitle>
                 {editing
-                    ? i18n.t('Edit OCS pipeline')
-                    : i18n.t('New OCS pipeline')}
+                    ? i18n.t('Edit geoservice pipeline')
+                    : i18n.t('New geoservice pipeline')}
             </ModalTitle>
             <ModalContent>{content}</ModalContent>
             <ModalActions>

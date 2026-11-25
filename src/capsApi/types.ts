@@ -585,25 +585,25 @@ export type ClimateSyncResponse = {
     sync_detail?: ClimateSyncDetail | null
 }
 
-// --- Open Climate Service pipelines (engine `/climate/pipelines`) ---
+// --- Open Geo Service pipelines (engine `/climate/pipelines`) ---
 
-export type OcsDeliveryMode = 'dry_run' | 'live' | 'paused'
+export type GeoserviceDeliveryMode = 'dry_run' | 'live' | 'paused'
 
-export type OcsPipelineSpec = {
+export type GeoservicePipelineSpec = {
     id: string
     name?: string | null
     workflow: { id: string; arguments: Record<string, unknown> }
     destination: { plugin: string; settings: Record<string, unknown> }
-    delivery: { mode: OcsDeliveryMode; policy: 'on_update' | 'manual' }
+    delivery: { mode: GeoserviceDeliveryMode; policy: 'on_update' | 'manual' }
 }
 
-export type OcsValidationCheck = {
+export type GeoserviceValidationCheck = {
     id: string
     status: 'pass' | 'fail' | 'skip'
     message: string
 }
 
-export type OcsDryRun = {
+export type GeoserviceDryRun = {
     ran_at: string
     start: string
     end: string
@@ -614,7 +614,7 @@ export type OcsDryRun = {
     error?: string | null
 }
 
-export type OcsPipelineRunView = {
+export type GeoservicePipelineRunView = {
     run_id: string
     status: string
     mode: 'dry_run' | 'live'
@@ -626,15 +626,15 @@ export type OcsPipelineRunView = {
     delivery_conflicts?: number | null
 }
 
-export type OcsPipeline = {
-    spec: OcsPipelineSpec
+export type GeoservicePipeline = {
+    spec: GeoservicePipelineSpec
     revision: number
     created_at: string
     updated_at?: string | null
     /** Whether the current bindings passed a dry run, which going live needs. */
     approved: boolean
-    validation?: { valid: boolean; checks: OcsValidationCheck[] } | null
-    dry_run?: OcsDryRun | null
+    validation?: { valid: boolean; checks: GeoserviceValidationCheck[] } | null
+    dry_run?: GeoserviceDryRun | null
     trigger: { policy: 'on_update' | 'manual'; datasets: string[] }
     inputs: Array<{
         kind: 'dataset' | 'features'
@@ -661,10 +661,10 @@ export type OcsPipeline = {
             > | null
         }>
     }
-    latest_run?: OcsPipelineRunView | null
+    latest_run?: GeoservicePipelineRunView | null
 }
 
-export type OcsWorkflowParameterOption = {
+export type GeoserviceWorkflowParameterOption = {
     name: string
     description?: string
     schema: Record<string, unknown>
@@ -672,12 +672,12 @@ export type OcsWorkflowParameterOption = {
     required: boolean
 }
 
-export type OcsPipelineOptions = {
+export type GeoservicePipelineOptions = {
     workflows: Array<{
         id: string
         summary: string
         description?: string | null
-        parameters: OcsWorkflowParameterOption[]
+        parameters: GeoserviceWorkflowParameterOption[]
         intervalParameters: string[]
     }>
     datasets: Array<{
@@ -695,14 +695,17 @@ export type OcsPipelineOptions = {
     connections: string[]
 }
 
-export type OcsPipelineCreateBody = {
+export type GeoservicePipelineCreateBody = {
     id: string
     name?: string | null
     workflow: { id: string; arguments: Record<string, unknown> }
     destination: { plugin: string; settings: Record<string, unknown> }
-    delivery?: { mode?: OcsDeliveryMode }
+    delivery?: { mode?: GeoserviceDeliveryMode }
 }
 
-export type OcsPipelineChangeBody = Omit<OcsPipelineCreateBody, 'id'> & {
+export type GeoservicePipelineChangeBody = Omit<
+    GeoservicePipelineCreateBody,
+    'id'
+> & {
     revision: number
 }

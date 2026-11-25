@@ -9,7 +9,7 @@ import type {
 
 /**
  * Form for the Climate → Prediction template. The form only checks what it can see; the
- * engine's preview checks the rest (CHAP setup, staging data elements, OCS datasets, route).
+ * engine's preview checks the rest (CHAP setup, staging data elements, geoservice datasets, route).
  */
 const climateRowSchema = z.object({
     datasetId: z.string().min(1, i18n.t('Choose a dataset')),

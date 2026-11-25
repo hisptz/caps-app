@@ -51,7 +51,7 @@ export function ClimateSection({
         <FormSection
             num={num}
             title={i18n.t('Climate data')}
-            description={i18n.t('from Open Climate Service')}
+            description={i18n.t('from Open Geo Service')}
         >
             {rows.fields.map((row, index) => (
                 <div key={row.id} className={classes.row}>
@@ -83,7 +83,7 @@ export function ClimateSection({
                                             (d) => d.id === field.value
                                         )
                                             ? i18n.t(
-                                                  '"{{id}}" is not in Open Climate Service',
+                                                  '"{{id}}" is not in Open Geo Service',
                                                   { id: field.value }
                                               )
                                             : undefined)
@@ -221,6 +221,8 @@ export function DiseaseSection({
                         render={({ field, fieldState }) => (
                             <SingleSelectField
                                 label={i18n.t('Instance')}
+                                filterable
+                                noMatchText={i18n.t('No instances match')}
                                 loading={routes.isLoading}
                                 selected={
                                     (routes.data ?? []).some(

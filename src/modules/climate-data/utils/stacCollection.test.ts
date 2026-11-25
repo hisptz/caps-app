@@ -38,7 +38,7 @@ const chirps: StacCollection = {
     providers: [{ name: 'UCSB Climate Hazards Center' }],
     assets: {
         zarr: {
-            href: 'http://ocs.example/zarr/chirps3_precipitation_daily',
+            href: 'http://geoservice.example/zarr/chirps3_precipitation_daily',
             title: 'Zarr store',
             type: 'application/vnd.zarr; version=3',
         },
@@ -46,7 +46,7 @@ const chirps: StacCollection = {
     renders: { default: { 'open_climate_service:variable': 'precip' } },
 }
 
-// A DHIS2 org-unit collection as OCS publishes it: a GeoParquet table, no datacube.
+// A DHIS2 org-unit collection as geoservice publishes it: a GeoParquet table, no datacube.
 const districts: StacCollection = {
     type: 'Collection',
     id: 'districts',
@@ -61,7 +61,7 @@ const districts: StacCollection = {
     },
     assets: {
         data: {
-            href: 'http://ocs.example/features/districts/data.parquet',
+            href: 'http://geoservice.example/features/districts/data.parquet',
             type: 'application/x-parquet',
         },
     },

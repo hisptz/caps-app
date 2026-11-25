@@ -57,7 +57,7 @@ export function ClimateOpenEoCreateConfig({
             <FormSection
                 title={i18n.t('Dataset')}
                 description={i18n.t(
-                    'Managed climate dataset from the Open Climate Service'
+                    'Managed climate dataset from the Open Geo Service'
                 )}
                 tight
             >

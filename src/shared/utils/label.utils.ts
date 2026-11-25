@@ -42,7 +42,7 @@ export function formatConcurrencyPolicy(policy: ConcurrencyPolicy): string {
 }
 
 /**
- * Sync plan actions come straight from the Open Climate Service planner
+ * Sync plan actions come straight from the Open Geo Service planner
  * (`no_op`, `append`, `rematerialize`, `not_syncable`). Raw, they read like
  */
 const climateSyncActionLabels: Record<string, () => string> = {

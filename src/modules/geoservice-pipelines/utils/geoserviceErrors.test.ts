@@ -1,12 +1,12 @@
-import { ocsErrorMessages } from './ocsErrors'
+import { geoserviceErrorMessages } from './geoserviceErrors'
 import { CapsApiError } from '@/capsApi/client'
 
 function refused(details: unknown, error = 'refused'): CapsApiError {
     return new CapsApiError(error, 422, { error, code: 'x', details })
 }
 
-describe('ocsErrorMessages', () => {
-    it('lists the failing checks of a pipeline OCS did not validate', () => {
+describe('geoserviceErrorMessages', () => {
+    it('lists the failing checks of a pipeline geoservice did not validate', () => {
         const error = refused({
             detail: {
                 message: 'Pipeline validation failed',
@@ -22,21 +22,23 @@ describe('ocsErrorMessages', () => {
                 },
             },
         })
-        expect(ocsErrorMessages(error)).toEqual(['Unknown data element'])
+        expect(geoserviceErrorMessages(error)).toEqual(['Unknown data element'])
     })
 
-    it('names the fields of a body OCS could not read', () => {
+    it('names the fields of a body geoservice could not read', () => {
         const error = refused({
             detail: [
                 { loc: ['body', 'workflow', 'id'], msg: 'Field required' },
             ],
         })
-        expect(ocsErrorMessages(error)).toEqual(['workflow.id: Field required'])
+        expect(geoserviceErrorMessages(error)).toEqual([
+            'workflow.id: Field required',
+        ])
     })
 
     it('passes on a one-line reason', () => {
         expect(
-            ocsErrorMessages(
+            geoserviceErrorMessages(
                 refused({
                     detail: 'Live delivery requires a successful dry run',
                 })

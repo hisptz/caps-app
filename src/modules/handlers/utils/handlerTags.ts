@@ -1,5 +1,7 @@
 const TAG_ALIASES: Record<string, string> = {
-    climate: 'ocs',
+    climate: 'geoservice',
+    // Engines before the geoservice rename tag these handlers `ocs`.
+    ocs: 'geoservice',
     prediction: 'chap',
 }
 
@@ -13,7 +15,7 @@ export type HandlerTagTone =
 
 const TAG_TONES: Record<string, HandlerTagTone> = {
     dhis2: 'blue',
-    ocs: 'green',
+    geoservice: 'green',
     chap: 'purple',
     threshold: 'red',
     alert: 'yellow',

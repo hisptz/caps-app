@@ -50,7 +50,7 @@ function StepWizardHarness({
                 handlers={[
                     {
                         key: 'climate-openeo-create',
-                        displayName: 'Open Climate Service Create',
+                        displayName: 'Open Geo Service Create',
                         description: 'Test',
                         tags: ['climate'],
                         queueName: 'step.climate-openeo-create',

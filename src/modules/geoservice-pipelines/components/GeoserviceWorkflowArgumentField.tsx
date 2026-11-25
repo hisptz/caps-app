@@ -2,10 +2,10 @@ import i18n from '@dhis2/d2-i18n'
 import { Field, InputField, TextAreaField } from '@dhis2/ui'
 import React from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
-import { parameterKind } from '../schemas/ocsPipelineFormSchema'
+import { parameterKind } from '../schemas/geoservicePipelineFormSchema'
 import type {
-    OcsPipelineOptions,
-    OcsWorkflowParameterOption,
+    GeoservicePipelineOptions,
+    GeoserviceWorkflowParameterOption,
 } from '@/capsApi/types'
 import { SingleSelectControl } from '@/shared/components/ui/FormPrimitives'
 
@@ -21,12 +21,12 @@ function humanize(name: string): string {
 }
 
 /** One workflow parameter: a dataset, a feature collection, a choice, or a typed value. */
-export function OcsWorkflowArgumentField({
+export function GeoserviceWorkflowArgumentField({
     parameter,
     options,
 }: {
-    parameter: OcsWorkflowParameterOption
-    options: OcsPipelineOptions
+    parameter: GeoserviceWorkflowParameterOption
+    options: GeoservicePipelineOptions
 }): React.ReactElement {
     const { control } = useFormContext()
     const kind = parameterKind(parameter)

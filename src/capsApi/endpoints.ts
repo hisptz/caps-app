@@ -7,12 +7,12 @@ import {
 } from '@/capsApi/client'
 import {
     ActiveClimateJobsResponse,
-    type OcsDeliveryMode,
-    type OcsDryRun,
-    type OcsPipeline,
-    type OcsPipelineChangeBody,
-    type OcsPipelineCreateBody,
-    type OcsPipelineOptions,
+    type GeoserviceDeliveryMode,
+    type GeoserviceDryRun,
+    type GeoservicePipeline,
+    type GeoservicePipelineChangeBody,
+    type GeoservicePipelineCreateBody,
+    type GeoservicePipelineOptions,
     ClimateAsyncJobAcceptedResponse,
     ClimateDataSource,
     ClimateIngestionResponse,
@@ -689,59 +689,70 @@ export function cancelClimateIngestionJob(
     )
 }
 
-// --- Open Climate Service pipelines: CAPS creates and edits them, the ocs-pipeline-run step runs them ---
+// --- Open Geo Service pipelines: CAPS creates and edits them, the ocs-pipeline-run step runs them ---
 
-const ocsPipelinePath = (id: string) =>
+const geoservicePipelinePath = (id: string) =>
     `/climate/pipelines/${encodeURIComponent(id)}`
 
-export function listOcsPipelines(engine: CapsDataEngine) {
-    return capsFetchJson<{ items: OcsPipeline[] }>(engine, '/climate/pipelines')
+export function listGeoservicePipelines(engine: CapsDataEngine) {
+    return capsFetchJson<{ items: GeoservicePipeline[] }>(
+        engine,
+        '/climate/pipelines'
+    )
 }
 
-export function getOcsPipelineOptions(engine: CapsDataEngine) {
-    return capsFetchJson<OcsPipelineOptions>(
+export function getGeoservicePipelineOptions(engine: CapsDataEngine) {
+    return capsFetchJson<GeoservicePipelineOptions>(
         engine,
         '/climate/pipelines/options'
     )
 }
 
-export function getOcsPipeline(engine: CapsDataEngine, id: string) {
-    return capsFetchJson<OcsPipeline>(engine, ocsPipelinePath(id))
+export function getGeoservicePipeline(engine: CapsDataEngine, id: string) {
+    return capsFetchJson<GeoservicePipeline>(engine, geoservicePipelinePath(id))
 }
 
-export function createOcsPipeline(
+export function createGeoservicePipeline(
     engine: CapsDataEngine,
-    body: OcsPipelineCreateBody
+    body: GeoservicePipelineCreateBody
 ) {
-    return capsPostJson<OcsPipeline>(engine, '/climate/pipelines', { body })
-}
-
-export function updateOcsPipeline(
-    engine: CapsDataEngine,
-    id: string,
-    body: OcsPipelineChangeBody
-) {
-    return capsPutJson<OcsPipeline>(engine, ocsPipelinePath(id), { body })
-}
-
-export function dryRunOcsPipeline(
-    engine: CapsDataEngine,
-    id: string,
-    body: { start: string; end: string }
-) {
-    return capsPostJson<OcsDryRun>(engine, `${ocsPipelinePath(id)}/dry-run`, {
+    return capsPostJson<GeoservicePipeline>(engine, '/climate/pipelines', {
         body,
     })
 }
 
-export function setOcsPipelineMode(
+export function updateGeoservicePipeline(
     engine: CapsDataEngine,
     id: string,
-    mode: OcsDeliveryMode
+    body: GeoservicePipelineChangeBody
 ) {
-    return capsPostJson<OcsPipeline>(
+    return capsPutJson<GeoservicePipeline>(engine, geoservicePipelinePath(id), {
+        body,
+    })
+}
+
+export function dryRunGeoservicePipeline(
+    engine: CapsDataEngine,
+    id: string,
+    body: { start: string; end: string }
+) {
+    return capsPostJson<GeoserviceDryRun>(
         engine,
-        `${ocsPipelinePath(id)}/mode/${mode}`,
+        `${geoservicePipelinePath(id)}/dry-run`,
+        {
+            body,
+        }
+    )
+}
+
+export function setGeoservicePipelineMode(
+    engine: CapsDataEngine,
+    id: string,
+    mode: GeoserviceDeliveryMode
+) {
+    return capsPostJson<GeoservicePipeline>(
+        engine,
+        `${geoservicePipelinePath(id)}/mode/${mode}`,
         { body: {} }
     )
 }
