@@ -20,7 +20,7 @@ import {
     getHandlerByKey,
     getHandlerDisplayName,
 } from '@/modules/handlers/utils/handlerLookup'
-import { OpenClimateServiceSyncCoverageNotice } from '@/modules/open-climate-service-sync/components/OpenClimateServiceSyncCoverageNotice'
+import { OpenGeoServiceSyncCoverageNotice } from '@/modules/open-geo-service-sync/components/OpenGeoServiceSyncCoverageNotice'
 import { PredictionCoverageNotice } from '@/modules/prediction-coverage/components/PredictionCoverageNotice'
 import { TableScroll } from '@/shared/components/ui/TableScroll'
 import type { PipelineStep } from '@/shared/types/caps'
@@ -117,7 +117,7 @@ export function PipelineStepsTab({
                     {reorderError}
                 </NoticeBox>
             )}
-            <OpenClimateServiceSyncCoverageNotice
+            <OpenGeoServiceSyncCoverageNotice
                 steps={steps}
                 onUpdateSyncStep={onUpdateSyncStep}
                 updating={syncStepUpdating}

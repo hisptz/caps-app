@@ -24,8 +24,8 @@ import { ThresholdGenerationConfig } from './ThresholdGenerationConfig'
 import type { ThresholdGenerationConfigProps } from './ThresholdGenerationConfig'
 import type { ClimateOpenEoCreateConfigProps } from '@/shared/components/HandlerConfigForms/ClimateOpenEoCreateConfig/ClimateOpenEoCreateConfig'
 import { ClimateOpenEoCreateConfig } from '@/shared/components/HandlerConfigForms/ClimateOpenEoCreateConfig/ClimateOpenEoCreateConfig'
-import { OpenClimateServiceSyncConfig } from '@/shared/components/HandlerConfigForms/OpenClimateServiceSyncConfig/OpenClimateServiceSyncConfig'
-import type { OpenClimateServiceSyncConfigProps } from '@/shared/components/HandlerConfigForms/OpenClimateServiceSyncConfig/OpenClimateServiceSyncConfig'
+import { OpenGeoServiceSyncConfig } from '@/shared/components/HandlerConfigForms/OpenGeoServiceSyncConfig/OpenGeoServiceSyncConfig'
+import type { OpenGeoServiceSyncConfigProps } from '@/shared/components/HandlerConfigForms/OpenGeoServiceSyncConfig/OpenGeoServiceSyncConfig'
 
 export interface HandlerConfigFormProps {
     handlerKey: string | null
@@ -69,8 +69,8 @@ export function HandlerConfigForm({
             )
         case 'open-climate-service-sync':
             return (
-                <OpenClimateServiceSyncConfig
-                    value={value as OpenClimateServiceSyncConfigProps['value']}
+                <OpenGeoServiceSyncConfig
+                    value={value as OpenGeoServiceSyncConfigProps['value']}
                     onChange={onChange}
                 />
             )

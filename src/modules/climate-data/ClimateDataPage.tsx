@@ -38,9 +38,9 @@ function climateUnavailableMessage(error: unknown): string {
 
 /**
  * `climate_*` codes come from CAPS itself, so CAPS is reachable and the fault lies between
- * CAPS and the Open Climate Service. The CAPS settings page cannot fix that.
+ * CAPS and the Open Geo Service. The CAPS settings page cannot fix that.
  */
-function isClimateServiceError(error: unknown): boolean {
+function isGeoserviceError(error: unknown): boolean {
     if (!(error instanceof CapsApiError)) {
         return false
     }
@@ -251,11 +251,9 @@ const ClimateDataPage: React.FC = () => {
 
             {climateReadOnly && (
                 <div className={classes.banner}>
-                    <NoticeBox
-                        title={i18n.t('Open Climate Service is read-only')}
-                    >
+                    <NoticeBox title={i18n.t('Open Geo Service is read-only')}>
                         {i18n.t(
-                            'This Open Climate Service instance does not accept ingestions or syncs.'
+                            'This Open Geo Service instance does not accept ingestions or syncs.'
                         )}
                     </NoticeBox>
                 </div>
@@ -283,9 +281,9 @@ const ClimateDataPage: React.FC = () => {
                     title={i18n.t('Could not load climate datasets')}
                 >
                     {climateUnavailableMessage(datasetsQuery.error)}{' '}
-                    {isClimateServiceError(datasetsQuery.error) ? (
+                    {isGeoserviceError(datasetsQuery.error) ? (
                         i18n.t(
-                            'CAPS is connected, but Open Climate Service request failed. Check that the OCS service is running and compatible with this CAPS version.'
+                            'CAPS is connected, but Open Geo Service request failed. Check that the geoservice is running and compatible with this CAPS version.'
                         )
                     ) : (
                         <Link to="/settings">

@@ -1,18 +1,18 @@
 import { CapsApiError } from '@/capsApi/client'
 
-type OcsDetail =
+type GeoserviceDetail =
     | string
-    | { message?: string; checks?: { checks?: OcsCheck[] } }
+    | { message?: string; checks?: { checks?: GeoserviceCheck[] } }
     | Array<{ loc?: Array<string | number>; msg?: string }>
 
-type OcsCheck = { id: string; status: string; message: string }
+type GeoserviceCheck = { id: string; status: string; message: string }
 
-export function ocsErrorMessages(error: unknown): string[] {
+export function geoserviceErrorMessages(error: unknown): string[] {
     if (!(error instanceof CapsApiError)) {
         return [error instanceof Error ? error.message : String(error)]
     }
     const body = error.body as
-        | { error?: string; details?: { detail?: OcsDetail } }
+        | { error?: string; details?: { detail?: GeoserviceDetail } }
         | undefined
     const detail = body?.details?.detail
     if (typeof detail === 'string') {

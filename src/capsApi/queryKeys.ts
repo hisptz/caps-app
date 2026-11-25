@@ -135,12 +135,13 @@ export const capsKeys = {
         detail: (jobId: string | undefined) =>
             [...capsKeys.all, 'climate-jobs', jobId] as const,
     },
-    ocsPipelines: {
-        all: () => [...capsKeys.all, 'ocs-pipelines'] as const,
-        list: () => [...capsKeys.ocsPipelines.all(), 'list'] as const,
-        options: () => [...capsKeys.ocsPipelines.all(), 'options'] as const,
+    geoservicePipelines: {
+        all: () => [...capsKeys.all, 'geoservice-pipelines'] as const,
+        list: () => [...capsKeys.geoservicePipelines.all(), 'list'] as const,
+        options: () =>
+            [...capsKeys.geoservicePipelines.all(), 'options'] as const,
         detail: (id: string | undefined) =>
-            [...capsKeys.ocsPipelines.all(), 'detail', id] as const,
+            [...capsKeys.geoservicePipelines.all(), 'detail', id] as const,
     },
     climateSyncPlans: {
         detail: (datasetId: string | undefined) =>

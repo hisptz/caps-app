@@ -12,13 +12,13 @@ import {
 import React, { useMemo, useState } from 'react'
 import { useController } from 'react-hook-form'
 import {
-    useOcsPipelineMutations,
-    useOcsPipelinesQuery,
-} from '../hooks/useOcsPipelines'
-import { ocsErrorMessages } from '../utils/ocsErrors'
-import classes from './OcsPipeline.module.css'
-import { OcsPipelineModal } from './OcsPipelineModal'
-import type { OcsDryRun, OcsPipeline } from '@/capsApi/types'
+    useGeoservicePipelineMutations,
+    useGeoservicePipelinesQuery,
+} from '../hooks/useGeoservicePipelines'
+import { geoserviceErrorMessages } from '../utils/geoserviceErrors'
+import classes from './GeoservicePipeline.module.css'
+import { GeoservicePipelineModal } from './GeoservicePipelineModal'
+import type { GeoserviceDryRun, GeoservicePipeline } from '@/capsApi/types'
 import { SingleSelectControl } from '@/shared/components/ui/FormPrimitives'
 
 const MODE_LABEL: Record<string, string> = {
@@ -52,7 +52,10 @@ function text(value: unknown, label?: string | null): string {
 }
 
 /** One line on the last dry run, and whether it passed. */
-function dryRunLine(dryRun: OcsDryRun): { passed: boolean; line: string } {
+function dryRunLine(dryRun: GeoserviceDryRun): {
+    passed: boolean
+    line: string
+} {
     if (dryRun.error) {
         return { passed: false, line: dryRun.error }
     }
@@ -79,10 +82,11 @@ function dryRunLine(dryRun: OcsDryRun): { passed: boolean; line: string } {
 function PipelineCard({
     pipeline,
 }: {
-    pipeline: OcsPipeline
+    pipeline: GeoservicePipeline
 }): React.ReactElement {
     const engine = useDataEngine()
-    const { dryRunMutation, modeMutation } = useOcsPipelineMutations(engine)
+    const { dryRunMutation, modeMutation } =
+        useGeoservicePipelineMutations(engine)
     const [interval, setDryRunInterval] = useState<{
         start: string
         end: string
@@ -149,7 +153,10 @@ function PipelineCard({
             </dl>
 
             {failing.length > 0 ? (
-                <NoticeBox warning title={i18n.t('Checks failing in OCS')}>
+                <NoticeBox
+                    warning
+                    title={i18n.t('Checks failing in geoservice')}
+                >
                     <ul className={classes.problems}>
                         {failing.map((check) => (
                             <li key={check.id}>{check.message}</li>
@@ -158,8 +165,8 @@ function PipelineCard({
                 </NoticeBox>
             ) : null}
             {actionError ? (
-                <NoticeBox error title={i18n.t('OCS refused')}>
-                    {ocsErrorMessages(actionError).join(' ')}
+                <NoticeBox error title={i18n.t('Geoservice refused')}>
+                    {geoserviceErrorMessages(actionError).join(' ')}
                 </NoticeBox>
             ) : null}
 
@@ -280,23 +287,23 @@ function PipelineCard({
     )
 }
 
-export interface OcsPipelineFieldProps {
+export interface GeoservicePipelineFieldProps {
     name: string
     label: string
     helpText?: string
     required: boolean
 }
 
-/** Picks the OCS pipeline a step runs, or creates or edits one in OCS. */
-export function OcsPipelineField({
+/** Picks the geoservice pipeline a step runs, or creates or edits one in geoservice. */
+export function GeoservicePipelineField({
     name,
     label,
     helpText,
     required,
-}: OcsPipelineFieldProps): React.ReactElement {
+}: GeoservicePipelineFieldProps): React.ReactElement {
     const engine = useDataEngine()
     const { field, fieldState } = useController({ name })
-    const pipelinesQuery = useOcsPipelinesQuery(engine)
+    const pipelinesQuery = useGeoservicePipelinesQuery(engine)
     const [modal, setModal] = useState<'create' | 'edit' | null>(null)
     const pipelines = useMemo(
         () => pipelinesQuery.data ?? [],
@@ -319,9 +326,9 @@ export function OcsPipelineField({
     )
 
     const validationText = pipelinesQuery.error
-        ? ocsErrorMessages(pipelinesQuery.error).join(' ')
+        ? geoserviceErrorMessages(pipelinesQuery.error).join(' ')
         : missing
-          ? i18n.t('"{{id}}" is no longer in OCS', { id: selectedId })
+          ? i18n.t('"{{id}}" is no longer in geoservice', { id: selectedId })
           : fieldState.error?.message
 
     return (
@@ -339,7 +346,7 @@ export function OcsPipelineField({
                         value={selectedId}
                         options={options}
                         loading={pipelinesQuery.isLoading}
-                        placeholder={i18n.t('Choose an OCS pipeline')}
+                        placeholder={i18n.t('Choose an geoservice pipeline')}
                         filterable={options.length > 8}
                         error={Boolean(validationText)}
                         onChange={(value) => field.onChange(value)}
@@ -362,7 +369,7 @@ export function OcsPipelineField({
                 </Button>
             </div>
             {selected ? <PipelineCard pipeline={selected} /> : null}
-            <OcsPipelineModal
+            <GeoservicePipelineModal
                 open={modal !== null}
                 pipeline={modal === 'edit' ? selected : null}
                 onClose={() => setModal(null)}

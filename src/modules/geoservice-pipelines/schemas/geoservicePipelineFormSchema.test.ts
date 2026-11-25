@@ -1,14 +1,17 @@
 import {
     argumentProblems,
-    fromOcsPipeline,
-    ocsPipelineFormSchema,
+    fromGeoservicePipeline,
+    geoservicePipelineFormSchema,
     parameterKind,
-    toOcsPipelineBody,
-} from './ocsPipelineFormSchema'
-import type { OcsPipeline, OcsWorkflowParameterOption } from '@/capsApi/types'
+    toGeoservicePipelineBody,
+} from './geoservicePipelineFormSchema'
+import type {
+    GeoservicePipeline,
+    GeoserviceWorkflowParameterOption,
+} from '@/capsApi/types'
 
-// aggregate_by_features as OCS declares it, without its interval parameter
-const parameters: OcsWorkflowParameterOption[] = [
+// aggregate_by_features as geoservice declares it, without its interval parameter
+const parameters: GeoserviceWorkflowParameterOption[] = [
     {
         name: 'dataset_id',
         schema: { type: 'string', subtype: 'collection-id' },
@@ -41,7 +44,7 @@ const values = {
     series: [{ dataElement: 'abcdefghijk', categoryOptionCombo: '' }],
 }
 
-describe('ocsPipelineFormSchema', () => {
+describe('geoservicePipelineFormSchema', () => {
     it('reads each parameter kind from its schema', () => {
         expect(parameters.map(parameterKind)).toEqual([
             'dataset',
@@ -57,8 +60,8 @@ describe('ocsPipelineFormSchema', () => {
         ).toBe('number')
     })
 
-    it('builds the OCS spec: a collection bound with from_features, empty optionals left out', () => {
-        expect(toOcsPipelineBody(values, parameters)).toEqual({
+    it('builds the geoservice spec: a collection bound with from_features, empty optionals left out', () => {
+        expect(toGeoservicePipelineBody(values, parameters)).toEqual({
             id: 'chirps-precip-district',
             name: 'CHIRPS by district',
             workflow: {
@@ -79,7 +82,7 @@ describe('ocsPipelineFormSchema', () => {
     })
 
     it('reads a stored pipeline back into the form', () => {
-        const body = toOcsPipelineBody(
+        const body = toGeoservicePipelineBody(
             {
                 ...values,
                 dataSet: 'BfMAe6Itzgt',
@@ -94,9 +97,9 @@ describe('ocsPipelineFormSchema', () => {
         )
         const pipeline = {
             spec: { ...body, delivery: { mode: 'dry_run', policy: 'manual' } },
-        } as unknown as OcsPipeline
+        } as unknown as GeoservicePipeline
 
-        expect(fromOcsPipeline(pipeline)).toEqual({
+        expect(fromGeoservicePipeline(pipeline)).toEqual({
             ...values,
             arguments: {
                 dataset_id: 'chirps3_precipitation_daily',
@@ -128,10 +131,13 @@ describe('ocsPipelineFormSchema', () => {
         ).toEqual({ dataset_id: 'Required', threshold: 'Enter a number' })
     })
 
-    it('refuses ids OCS would refuse', () => {
+    it('refuses ids geoservice would refuse', () => {
         expect(
-            ocsPipelineFormSchema.safeParse({ ...values, id: '-bad' }).success
+            geoservicePipelineFormSchema.safeParse({ ...values, id: '-bad' })
+                .success
         ).toBe(false)
-        expect(ocsPipelineFormSchema.safeParse(values).success).toBe(true)
+        expect(geoservicePipelineFormSchema.safeParse(values).success).toBe(
+            true
+        )
     })
 })

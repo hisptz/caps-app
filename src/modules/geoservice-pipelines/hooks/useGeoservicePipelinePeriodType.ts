@@ -1,20 +1,20 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 import {
-    useOcsPipelineOptionsQuery,
-    useOcsPipelinesQuery,
-} from './useOcsPipelines'
+    useGeoservicePipelineOptionsQuery,
+    useGeoservicePipelinesQuery,
+} from './useGeoservicePipelines'
 
-export interface OcsPipelinePeriodType {
+export interface GeoservicePipelinePeriodType {
     periodType?: string
     datasetName?: string
     isLoading: boolean
 }
 
-export function useOcsPipelinePeriodType(
+export function useGeoservicePipelinePeriodType(
     pipelineId: string | undefined
-): OcsPipelinePeriodType {
+): GeoservicePipelinePeriodType {
     const engine = useDataEngine()
-    const pipelinesQuery = useOcsPipelinesQuery(engine)
+    const pipelinesQuery = useGeoservicePipelinesQuery(engine)
     const pipeline = pipelineId
         ? pipelinesQuery.data?.find((item) => item.spec.id === pipelineId)
         : undefined
@@ -22,7 +22,10 @@ export function useOcsPipelinePeriodType(
         (input) => input.kind === 'dataset'
     )
     const datasetId = datasetInput?.id
-    const optionsQuery = useOcsPipelineOptionsQuery(engine, Boolean(datasetId))
+    const optionsQuery = useGeoservicePipelineOptionsQuery(
+        engine,
+        Boolean(datasetId)
+    )
     const dataset = datasetId
         ? optionsQuery.data?.datasets.find((item) => item.id === datasetId)
         : undefined
