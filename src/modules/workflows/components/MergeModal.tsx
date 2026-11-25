@@ -262,6 +262,8 @@ export function MergeModal({
                             render={({ field, fieldState }) => (
                                 <SingleSelectField
                                     label={i18n.t('Then start')}
+                                    filterable
+                                    noMatchText={i18n.t('No pipelines match')}
                                     required
                                     selected={
                                         members.some(

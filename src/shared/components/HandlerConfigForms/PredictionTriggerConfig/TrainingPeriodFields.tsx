@@ -8,7 +8,10 @@ import {
     lastCompletePeriodId,
     periodIdAtOffset,
 } from '@/shared/components/HandlerConfigForms/PredictionTriggerConfig/periodIds'
-import { formSectionGrids } from '@/shared/components/ui/FormPrimitives'
+import {
+    formSectionGrids,
+    SearchableSimpleSelectField,
+} from '@/shared/components/ui/FormPrimitives'
 import type { PredictionSetup } from '@/shared/types/caps'
 
 export interface TrainingPeriodFieldsProps {
@@ -83,6 +86,9 @@ export function TrainingPeriodFields({
     const endPeriod: string = isRelative
         ? periodIdAtOffset(setup.periodType, periodOffset)
         : get(field.value, 'endPeriod')
+    const [offsetDraft, setOffsetDraft] = useState(() =>
+        typeof periodOffset === 'number' ? String(periodOffset) : ''
+    )
     const [year, setYear] = useState(() => {
         const stored = Number(endPeriod.slice(0, 4))
         return stored > 0 ? Math.min(stored, latestYear) : latestYear
@@ -122,12 +128,37 @@ export function TrainingPeriodFields({
             return
         }
         const numberOfPeriodsToGenerate = period?.numberOfPeriodsToGenerate
+        if (selected === latestId) {
+            setOffsetDraft(String(LATEST_OFFSET))
+        }
         field.onChange(
             selected === latestId
                 ? { periodOffset: LATEST_OFFSET, numberOfPeriodsToGenerate }
                 : { endPeriod: selected, numberOfPeriodsToGenerate }
         )
     }
+
+    function handleOffsetChange(value: string): void {
+        setOffsetDraft(value)
+        const offset = Number(value)
+        if (!Number.isInteger(offset) || offset < LATEST_OFFSET) {
+            return
+        }
+        field.onChange({
+            periodOffset: offset,
+            numberOfPeriodsToGenerate: period?.numberOfPeriodsToGenerate,
+        })
+        const endYear = Number(
+            periodIdAtOffset(setup.periodType, offset).slice(0, 4)
+        )
+        if (endYear > 0) {
+            setYear(endYear)
+        }
+    }
+
+    const offsetIsValid =
+        Number.isInteger(Number(offsetDraft)) &&
+        Number(offsetDraft) >= LATEST_OFFSET
 
     let endHelpText = i18n.t('Last period of the training data.')
     if (rolling) {
@@ -171,7 +202,7 @@ export function TrainingPeriodFields({
                         />
                     </div>
                     <div style={{ flex: 1 }}>
-                        <SimpleSingleSelectField
+                        <SearchableSimpleSelectField
                             label={i18n.t('To')}
                             required
                             name="trainingPeriodEnd"
@@ -185,6 +216,30 @@ export function TrainingPeriodFields({
                 </div>
             </div>
             <div className={formSectionGrids.grid2}>
+                {isRelative && (
+                    <InputField
+                        label={
+                            setup.periodType === 'week'
+                                ? i18n.t('Weeks back from the current week')
+                                : i18n.t('Months back from the current month')
+                        }
+                        type="number"
+                        min={String(LATEST_OFFSET)}
+                        step="1"
+                        required
+                        value={offsetDraft}
+                        error={!offsetIsValid}
+                        validationText={
+                            offsetIsValid
+                                ? undefined
+                                : i18n.t('Enter a whole number of 1 or more.')
+                        }
+                        helpText={i18n.t(
+                            '1 ends on the last complete period. Use a higher number to leave out recent periods whose data is not fully imported yet.'
+                        )}
+                        onChange={({ value: v }) => handleOffsetChange(v ?? '')}
+                    />
+                )}
                 <InputField
                     label={i18n.t('Number of periods to generate')}
                     type="number"

@@ -221,6 +221,8 @@ export function DiseaseSection({
                         render={({ field, fieldState }) => (
                             <SingleSelectField
                                 label={i18n.t('Instance')}
+                                filterable
+                                noMatchText={i18n.t('No instances match')}
                                 loading={routes.isLoading}
                                 selected={
                                     (routes.data ?? []).some(

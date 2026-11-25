@@ -180,6 +180,9 @@ msgstr "Present"
 msgid "Start period"
 msgstr "Start period"
 
+msgid "No periods match"
+msgstr "No periods match"
+
 msgid "End period"
 msgstr "End period"
 
@@ -3398,6 +3401,9 @@ msgstr "Pull from another instance"
 msgid "e.g. the HMIS; pulled at the same time as the climate data"
 msgstr "e.g. the HMIS; pulled at the same time as the climate data"
 
+msgid "No instances match"
+msgstr "No instances match"
+
 msgid "Connected on the Settings page"
 msgstr "Connected on the Settings page"
 
@@ -3436,6 +3442,9 @@ msgstr "CHAP could not be reached"
 
 msgid "Prediction setup"
 msgstr "Prediction setup"
+
+msgid "No prediction setups match"
+msgstr "No prediction setups match"
 
 msgid "Its org units and inputs are used; you only say where each input comes from"
 msgstr "Its org units and inputs are used; you only say where each input comes from"
@@ -3902,9 +3911,6 @@ msgstr "Optional. Leave empty to run just the start period."
 
 msgid "Search periods"
 msgstr "Search periods"
-
-msgid "No periods match"
-msgstr "No periods match"
 
 msgid "Could not load dataset coverage"
 msgstr "Could not load dataset coverage"
@@ -4775,6 +4781,12 @@ msgstr "Open Modeling app"
 msgid "Evaluations"
 msgstr "Evaluations"
 
+msgid "Search by evaluation or model name"
+msgstr "Search by evaluation or model name"
+
+msgid "No evaluations match"
+msgstr "No evaluations match"
+
 msgid "Only evaluations with a prediction setup are listed."
 msgstr "Only evaluations with a prediction setup are listed."
 
@@ -4862,6 +4874,22 @@ msgstr "First period of the training data."
 
 msgid "Year"
 msgstr "Year"
+
+msgid "Weeks back from the current week"
+msgstr "Weeks back from the current week"
+
+msgid "Months back from the current month"
+msgstr "Months back from the current month"
+
+msgid "Enter a whole number of 1 or more."
+msgstr "Enter a whole number of 1 or more."
+
+msgid ""
+"1 ends on the last complete period. Use a higher number to leave out recent "
+"periods whose data is not fully imported yet."
+msgstr ""
+"1 ends on the last complete period. Use a higher number to leave out recent "
+"periods whose data is not fully imported yet."
 
 msgid "Number of periods to generate"
 msgstr "Number of periods to generate"
@@ -5156,6 +5184,12 @@ msgstr "Search users by name or username"
 
 msgid "No matching users found"
 msgstr "No matching users found"
+
+msgid "Type to search"
+msgstr "Type to search"
+
+msgid "No options match"
+msgstr "No options match"
 
 msgid "just now"
 msgstr "just now"

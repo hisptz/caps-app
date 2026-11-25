@@ -1,10 +1,10 @@
 import { useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
-import { SimpleSingleSelectField } from '@dhis2/ui'
 import { useQuery } from '@tanstack/react-query'
 import React, { useEffect, useMemo } from 'react'
 import { useController, useWatch } from 'react-hook-form'
 import { metadataOption } from './MetadataOption'
+import { SearchableSimpleSelectField } from '@/shared/components/ui/FormPrimitives'
 
 type DataElementCombo = {
     categoryCombo?: {
@@ -74,7 +74,7 @@ export function CategoryOptionComboSelector({
     }, [combo.isSuccess, combo.isFetching, value, loaded, field])
 
     return (
-        <SimpleSingleSelectField
+        <SearchableSimpleSelectField
             name={name}
             label={label}
             dense={dense}
@@ -84,7 +84,6 @@ export function CategoryOptionComboSelector({
             placeholder={i18n.t('Default')}
             clearable
             clearText={i18n.t('Clear')}
-            filterable={options.length > 8}
             noMatchText={i18n.t('No matching disaggregations')}
             disabled={
                 !dataElementId || (combo.isSuccess && options.length === 0)

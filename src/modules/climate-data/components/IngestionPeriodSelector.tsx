@@ -108,6 +108,8 @@ export function IngestionPeriodSelector() {
                         <div style={{ flex: 1 }}>
                             <SingleSelectField
                                 label={i18n.t('Start period')}
+                                filterable
+                                noMatchText={i18n.t('No periods match')}
                                 required
                                 helpText={coverageHint}
                                 selected={startId ?? ''}
@@ -142,6 +144,8 @@ export function IngestionPeriodSelector() {
                         <div style={{ flex: 1 }}>
                             <SingleSelectField
                                 label={i18n.t('End period')}
+                                filterable
+                                noMatchText={i18n.t('No periods match')}
                                 helpText={i18n.t(
                                     'Leave empty to ingest just the start period.'
                                 )}

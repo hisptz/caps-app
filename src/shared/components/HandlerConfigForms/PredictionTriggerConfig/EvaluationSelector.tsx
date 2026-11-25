@@ -66,6 +66,9 @@ export function EvaluationSelector({
         <SingleSelectField
             label={i18n.t('Evaluations')}
             required
+            filterable
+            filterPlaceholder={i18n.t('Search by evaluation or model name')}
+            noMatchText={i18n.t('No evaluations match')}
             helpText={i18n.t(
                 'Only evaluations with a prediction setup are listed.'
             )}
