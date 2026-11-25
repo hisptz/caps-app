@@ -4,7 +4,7 @@ import type { CovariateSource } from '@/shared/types/caps'
 
 type ClimateRow = TemplateFormValues['climate'][number]
 
-/** CHAP's name for the disease counts a model predicts; they come from DHIS2, not OCS. */
+/** CHAP's name for the disease counts a model predicts; they come from DHIS2, not geoservice. */
 export const DISEASE_COVARIATE = 'disease_cases'
 
 const PERIOD_LENGTH: Record<string, number> = {
@@ -24,7 +24,7 @@ const DATASET_HINTS: Array<[RegExp, RegExp]> = [
 const isEmptyRow = (row: ClimateRow) => !row.datasetId && !row.dataElement
 
 /**
- * The one Open Climate Service dataset a covariate's name points to, e.g. "rainfall" →
+ * The one Open Geo Service dataset a covariate's name points to, e.g. "rainfall" →
  * "CHIRPS Precipitation", among datasets that can give the workflow's period type. Empty
  * when none or several fit, so the user chooses.
  */

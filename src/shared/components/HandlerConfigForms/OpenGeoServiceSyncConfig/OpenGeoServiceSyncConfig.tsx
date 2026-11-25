@@ -10,7 +10,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
 import { useParams } from 'react-router'
 import { PollingFields } from '../PollingFields'
-import classes from './OpenClimateServiceSyncConfig.module.css'
+import classes from './OpenGeoServiceSyncConfig.module.css'
 import { SyncPlanPreview } from './SyncPlanPreview'
 import { SyncUntilField } from './SyncUntilField'
 import { isUuid } from '@/capsApi/isUuid'
@@ -18,28 +18,28 @@ import { useClimateCollectionsQuery } from '@/modules/climate-data/hooks/useClim
 import { usePipelineDetailQuery } from '@/modules/monitoring/hooks/capsMonitoringHooks'
 import {
     CLIMATE_SYNC_MIN_POLL_INTERVAL_MS,
-    defaultOpenClimateServiceSyncConfig,
-    isOpenClimateServiceSyncConfigShape,
-} from '@/modules/open-climate-service-sync/schemas/config'
-import { getPipelineClimateDatasetIds } from '@/modules/open-climate-service-sync/utils/syncCoverage'
-import { getSyncEndGranularity } from '@/modules/open-climate-service-sync/utils/syncEnd'
+    defaultOpenGeoServiceSyncConfig,
+    isOpenGeoServiceSyncConfigShape,
+} from '@/modules/open-geo-service-sync/schemas/config'
+import { getPipelineClimateDatasetIds } from '@/modules/open-geo-service-sync/utils/syncCoverage'
+import { getSyncEndGranularity } from '@/modules/open-geo-service-sync/utils/syncEnd'
 import type { PipelineStepFormWithHandlerValues } from '@/modules/pipeline-detail/schemas/stepFormSchema'
 import {
     FormSection,
     SegmentedControl,
 } from '@/shared/components/ui/FormPrimitives'
 
-export interface OpenClimateServiceSyncConfigProps {
+export interface OpenGeoServiceSyncConfigProps {
     value: Record<string, unknown> | null
     onChange: (v: Record<string, unknown>) => void
 }
 
 const EMPTY: string[] = []
 
-export function OpenClimateServiceSyncConfig({
+export function OpenGeoServiceSyncConfig({
     value,
     onChange,
-}: OpenClimateServiceSyncConfigProps): React.ReactElement {
+}: OpenGeoServiceSyncConfigProps): React.ReactElement {
     const engine = useDataEngine()
     const { control, getValues, setValue } =
         useFormContext<PipelineStepFormWithHandlerValues>()
@@ -66,9 +66,8 @@ export function OpenClimateServiceSyncConfig({
             return
         }
         const raw = getValues('handlerConfig') ?? value
-        if (!isOpenClimateServiceSyncConfigShape(raw)) {
-            const defaults =
-                defaultOpenClimateServiceSyncConfig(pipelineDatasetIds)
+        if (!isOpenGeoServiceSyncConfigShape(raw)) {
+            const defaults = defaultOpenGeoServiceSyncConfig(pipelineDatasetIds)
             setValue('handlerConfig', defaults, { shouldDirty: true })
             onChange(defaults)
         }

@@ -4,11 +4,11 @@ import { Button, NoticeBox } from '@dhis2/ui'
 import React, { useMemo } from 'react'
 import { useClimateCollectionsQuery } from '@/modules/climate-data/hooks/useClimateCollectionsQuery'
 import {
-    OPEN_CLIMATE_SERVICE_SYNC_HANDLER,
+    OPEN_GEO_SERVICE_SYNC_HANDLER,
     findUnsyncedClimateSteps,
     withSyncedDatasets,
     type UnsyncedClimateStep,
-} from '@/modules/open-climate-service-sync/utils/syncCoverage'
+} from '@/modules/open-geo-service-sync/utils/syncCoverage'
 import type { PipelineStep } from '@/shared/types/caps'
 
 type Props = {
@@ -21,7 +21,7 @@ type Props = {
     updateError: string | null
 }
 
-export function OpenClimateServiceSyncCoverageNotice({
+export function OpenGeoServiceSyncCoverageNotice({
     steps,
     onUpdateSyncStep,
     updating,
@@ -69,7 +69,7 @@ function CoverageWarning({
         : []
     const stranded = unsynced.filter((u) => !u.syncStep)
     const anySyncStep = steps.find(
-        (s) => s.handlerKey === OPEN_CLIMATE_SERVICE_SYNC_HANDLER
+        (s) => s.handlerKey === OPEN_GEO_SERVICE_SYNC_HANDLER
     )
 
     return (
@@ -77,7 +77,7 @@ function CoverageWarning({
             <NoticeBox warning title={i18n.t('Climate data may be stale')}>
                 <p style={{ marginTop: 0 }}>
                     {i18n.t(
-                        '{{steps}} - Is not synced by an open climate service sync handler. Scheduled runs will use whatever was last synced by hand.',
+                        '{{steps}} - Is not synced by an open geo service sync handler. Scheduled runs will use whatever was last synced by hand.',
                         {
                             steps: unsynced
                                 .map(
@@ -96,7 +96,7 @@ function CoverageWarning({
                                       interpolation: { escapeValue: false },
                                   })
                                 : i18n.t(
-                                      'Add an Open Climate Service Sync step above these steps.'
+                                      'Add an Open Geo Service Sync step above these steps.'
                                   ))}
                 </p>
                 {target && fixableIds.length > 0 && (

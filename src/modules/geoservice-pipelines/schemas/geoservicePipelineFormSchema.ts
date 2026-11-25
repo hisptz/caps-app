@@ -1,19 +1,19 @@
 import i18n from '@dhis2/d2-i18n'
 import { z } from 'zod'
 import type {
-    OcsPipeline,
-    OcsPipelineCreateBody,
-    OcsWorkflowParameterOption,
+    GeoservicePipeline,
+    GeoservicePipelineCreateBody,
+    GeoserviceWorkflowParameterOption,
 } from '@/capsApi/types'
 
-/** The destination plugin CAPS sets up; OCS may offer others, CAPS only delivers to DHIS2. */
+/** The destination plugin CAPS sets up; geoservice may offer others, CAPS only delivers to DHIS2. */
 export const OCS_DHIS2_DESTINATION = 'dhis2'
 
 const UID = /^[A-Za-z][A-Za-z0-9]{10}$/
 const OCS_ID = /^[A-Za-z0-9][A-Za-z0-9_-]*$/
 const FROM_FEATURES = 'from_features'
 
-export const ocsPipelineFormSchema = z.object({
+export const geoservicePipelineFormSchema = z.object({
     id: z
         .string()
         .trim()
@@ -60,9 +60,11 @@ export const ocsPipelineFormSchema = z.object({
         .min(1, i18n.t('Map at least one result series to a data element')),
 })
 
-export type OcsPipelineFormValues = z.infer<typeof ocsPipelineFormSchema>
+export type GeoservicePipelineFormValues = z.infer<
+    typeof geoservicePipelineFormSchema
+>
 
-export const emptyOcsPipelineForm: OcsPipelineFormValues = {
+export const emptyGeoservicePipelineForm: GeoservicePipelineFormValues = {
     id: '',
     name: '',
     workflowId: '',
@@ -81,9 +83,9 @@ export type ParameterKind =
     | 'text'
     | 'json'
 
-/** How a workflow parameter is filled in, from its declared schema (as OCS reads it). */
+/** How a workflow parameter is filled in, from its declared schema (as geoservice reads it). */
 export function parameterKind(
-    parameter: OcsWorkflowParameterOption
+    parameter: GeoserviceWorkflowParameterOption
 ): ParameterKind {
     const schema = parameter.schema ?? {}
     if (schema.subtype === 'geojson') {
@@ -124,9 +126,9 @@ function argumentToText(value: unknown): string {
     return typeof value === 'string' ? value : JSON.stringify(value)
 }
 
-/** The typed value OCS takes for a parameter, or undefined to leave it out. Throws on bad JSON. */
+/** The typed value geoservice takes for a parameter, or undefined to leave it out. Throws on bad JSON. */
 export function argumentFromText(
-    parameter: OcsWorkflowParameterOption,
+    parameter: GeoserviceWorkflowParameterOption,
     text: string | undefined
 ): unknown {
     const value = (text ?? '').trim()
@@ -149,7 +151,7 @@ export function argumentFromText(
 
 /** Checks the arguments against the workflow's parameters; problems by parameter name. */
 export function argumentProblems(
-    parameters: OcsWorkflowParameterOption[],
+    parameters: GeoserviceWorkflowParameterOption[],
     values: Record<string, string>
 ): Record<string, string> {
     const problems: Record<string, string> = {}
@@ -176,10 +178,10 @@ export function argumentProblems(
     return problems
 }
 
-export function toOcsPipelineBody(
-    values: OcsPipelineFormValues,
-    parameters: OcsWorkflowParameterOption[]
-): OcsPipelineCreateBody {
+export function toGeoservicePipelineBody(
+    values: GeoservicePipelineFormValues,
+    parameters: GeoserviceWorkflowParameterOption[]
+): GeoservicePipelineCreateBody {
     const args: Record<string, unknown> = {}
     for (const parameter of parameters) {
         const value = argumentFromText(
@@ -210,7 +212,9 @@ export function toOcsPipelineBody(
     }
 }
 
-export function fromOcsPipeline(pipeline: OcsPipeline): OcsPipelineFormValues {
+export function fromGeoservicePipeline(
+    pipeline: GeoservicePipeline
+): GeoservicePipelineFormValues {
     const settings = pipeline.spec.destination.settings
     const series = Array.isArray(settings.series)
         ? (settings.series as Array<Record<string, unknown>>)
@@ -236,6 +240,6 @@ export function fromOcsPipeline(pipeline: OcsPipeline): OcsPipelineFormValues {
                               ? row.category_option_combo
                               : '',
                   }))
-                : emptyOcsPipelineForm.series,
+                : emptyGeoservicePipelineForm.series,
     }
 }

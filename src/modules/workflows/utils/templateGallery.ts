@@ -55,7 +55,7 @@ export function templateGallery(): TemplateGalleryEntry[] {
             id: 'climate-analytics',
             title: i18n.t('Fetch climate data and run analytics'),
             description: i18n.t(
-                'Fetches climate variables such as rainfall and temperature for your org units from Open Climate Service, saves them in staging and runs analytics.'
+                'Fetches climate variables such as rainfall and temperature for your org units from Open Geo Service, saves them in staging and runs analytics.'
             ),
             shape: i18n.t('1 pipeline · scheduled'),
             template: CLIMATE_PREDICTION_TEMPLATE,

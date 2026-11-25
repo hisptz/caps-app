@@ -557,7 +557,7 @@ export interface WorkflowTemplate {
 }
 
 export interface ClimateVariableParams {
-    /** Open Climate Service dataset (an ingested collection) */
+    /** Open Geo Service dataset (an ingested collection) */
     datasetId: string
     /** Staging data element the values go into */
     dataElement: string

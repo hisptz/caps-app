@@ -1,6 +1,6 @@
 import type { ClimateCollection, StacCollection } from '@/capsApi/types'
 
-// Inverse of OCS's period_type → ISO step table (shared/time.py).
+// Inverse of geoservice's period_type → ISO step table (shared/time.py).
 const ISO_STEP_PERIOD_TYPE: Record<string, string> = {
     PT1H: 'hourly',
     P1D: 'daily',
@@ -30,12 +30,12 @@ function periodTypeOf(collection: StacCollection): string | undefined {
     if (typeof dimension.step === 'string') {
         return ISO_STEP_PERIOD_TYPE[dimension.step.toUpperCase()]
     }
-    // OCS publishes no step for a variable-length cadence such as dekads.
+    // Geoservice publishes no step for a variable-length cadence such as dekads.
     return 'irregular'
 }
 
 /**
- * True for a raster (Zarr datacube). OCS publishes vector feature collections
+ * True for a raster (Zarr datacube). Geoservice publishes vector feature collections
  * (GeoParquet, `table` extension) in the same catalogue and never marks them
  * as datacubes; those are boundaries, not climate data.
  */

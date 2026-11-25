@@ -2,7 +2,7 @@ import { useDataEngine } from '@dhis2/app-runtime'
 import i18n from '@dhis2/d2-i18n'
 import { CircularLoader, Tag } from '@dhis2/ui'
 import React from 'react'
-import classes from './OpenClimateServiceSyncConfig.module.css'
+import classes from './OpenGeoServiceSyncConfig.module.css'
 import { useClimateSyncPlanQuery } from '@/modules/climate-data/hooks/useClimateSyncPlanQuery'
 import {
     climateSyncActionDoesWork,

@@ -116,7 +116,7 @@ export function RollingPeriodFields({
                     >
                         {beyondCoverage
                             ? i18n.t(
-                                  'The dataset currently ends {{end}}. Later {{unit}} stay empty until it is synced; an Open Climate Service Sync step before this one keeps it current.',
+                                  'The dataset currently ends {{end}}. Later {{unit}} stay empty until it is synced; an Open Geo Service Sync step before this one keeps it current.',
                                   { end: coverageEnd, unit }
                               )
                             : i18n.t(
